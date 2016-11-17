@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Carbon\Carbon;
+use App\Page;
+use App\User;
+use App\House;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -17,12 +22,66 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the home page.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('home');
+        $db_values = House::all();
+        $len = count($db_values) - 1;
+        $randomHouses = array();
+        $todayString = Carbon::today();
+        $today = $todayString->toFormattedDateString();
+
+        for ($i=0; $i < 10; $i++) {
+            $rand = rand ( 0 , $len );
+            $value = $db_values[$rand];
+            $randomHouses []= $value;
+        }
+
+        return view('home', compact('randomHouses', 'today'));
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dashboard()
+    {
+        if(Auth::user()->role == "admin"){
+            $pages = Page::all();
+            $users = User::all();
+            
+            $db_values = House::all();
+            $len = count($db_values) - 1;
+            $randomHouses = array();
+            $todayString = Carbon::today();
+            $today = $todayString->toFormattedDateString();
+
+            for ($i=0; $i < 10; $i++) {
+                $rand = rand ( 0 , $len );
+                $value = $db_values[$rand];
+                $randomHouses []= $value;
+            }
+
+            return view('home.dashboard', compact('pages', 'users', 'randomHouses', 'today'));
+        }else{
+
+            $db_values = House::all();
+            $len = count($db_values) - 1;
+            $randomHouses = array();
+            $todayString = Carbon::today();
+            $today = $todayString->toFormattedDateString();
+
+            for ($i=0; $i < 10; $i++) {
+                $rand = rand ( 0 , $len );
+                $value = $db_values[$rand];
+                $randomHouses []= $value;
+            }
+
+            return view('home', compact('randomHouses', 'today'));
+        }
     }
 }

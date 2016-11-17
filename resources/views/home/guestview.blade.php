@@ -51,7 +51,7 @@
     <section id="albums" class="layout center-center" style="background-color: #382c4c;var(--primary-color)">
         <div class="container">
             <div class="layout center-center">
-                <div style="width: 100%" class="layout center-center">
+                <div style="width: 100%" class="layout center-center hidden-xs hidden-sm">
                     <div class="album">
                         <div class="content layout vertical center-center">
                             <span class="title stylish">
@@ -68,7 +68,7 @@
                     <p>
                         Drimhomz gives you an opportunity to create albums for sets of components say a kitchen from one house and a dining room from another house.
                     </p>
-                    <a href="#" class="round-btn dar">More albums</a>
+                    <a href="#" class="round-btn dar">View albums</a>
                 </div>
             </div>
         </div>

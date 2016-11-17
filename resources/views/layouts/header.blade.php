@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
@@ -21,7 +21,24 @@
 
             <!-- Right Side Of Navbar -->
             <ul id="mainNav" class="nav navbar-nav navbar-right">
-                <li><a href="home">Home</a></li>
+                <?php
+                    $isadmin = false;
+
+                    if(!Auth::guest()){
+                        if(Auth::user()->role == "admin")
+                            $isadmin = true;
+                    }
+                ?>
+                @if ($isadmin)
+                    <li><a href="/dashboard">Dashboard</a></li>
+                @endif
+                
+                @if (Auth::guest())
+                    <li><a href="/">Home</a></li>
+                @else
+                    <li><a href="/home">Home</a></li>
+                @endif
+                
                 <li><a href="about">About</a></li>
                 <li><a href="shop">Shop</a></li>
                 <li><a href="expert">Expert</a></li>

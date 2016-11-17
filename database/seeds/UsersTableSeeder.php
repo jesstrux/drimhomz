@@ -13,17 +13,17 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // $user1 = [
-        // 	'name' => 'James Wolpert',
-        // 	'email' => 'wolpertjamie@gmail.com',
-        // 	'password' => Hash::make('password'),
-        // ];
+        $user1 = [
+        	'name' => 'James Wolpert',
+        	'email' => 'wolpertjamie@gmail.com',
+        	'password' => Hash::make('password'),
+        ];
 
-        // $user2 = [
-        //     'name' => 'Brian West',
-        //     'email' => 'bwest@rocketmail.com',
-        //     'password' => Hash::make('password'),
-        // ];
+        $user2 = [
+            'name' => 'Brian West',
+            'email' => 'bwest@rocketmail.com',
+            'password' => Hash::make('password'),
+        ];
 
         $user3 = [
             'name' => 'Anabel Worsty',
@@ -31,7 +31,8 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('password'),
         ];
 
-        // User::create($user1);
+        User::create($user1);
+        User::create($user2);
         User::create($user3);
     }
 }

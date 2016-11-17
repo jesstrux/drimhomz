@@ -10,44 +10,24 @@ $(document).ready(function(){
             $(this).parents('li').removeClass('active');
     });
 
-    const post_data = {
-        grant_type: 'password',
-        client_id: 2,
-        client_secret: client_secret,
-        username: 'wolpertjamie@gmail.com',
-        password: 'password',
-        scope: ''
-    }
-
-    // $.post('oauth/token', post_data, function(data) {
-    //     console.log(data);
-    //     const token = data.access_token;
-    //     const token = "";
-
-    //     $.ajax({
-    //         url: 'oauth/clients',
-    //         type: 'GET',
-    //         dataType: 'json',
-    //         headers: {
-    //             "Authorization": "Bearer: " + token
-    //         }
-    //     })
-    //     .done(function(data) {
-    //         console.log(data);
-    //     })
-    //     .fail(function(error) {
-    //         console.log(error);
-    //     })
-    //     .always(function() {
-    //         console.log("complete");
-    //     });
-        
-    // });
-
-
     $('.image-grid').masonry({
         columnWidth: '.grid-sizer',
         itemSelector: '.grid-item',
         percentPosition: true
+    });
+
+
+    $(document).on("click", '#profilePage aside a', function(){
+        var curIdx = $('#profilePage aside li.active').index();
+        var nextIdx = $(this).parents("li").index();
+        var animDir = curIdx > nextIdx ? "down" : "up";
+        var target = $(this).data('target');
+
+        $('#profilePage aside li.active').removeClass('active');
+        $(this).parents("li").addClass('active');
+        $('#profilePage .subpage.current').removeClass('current');
+        $(target).addClass('current');
+
+        console.log(curIdx, nextIdx ,animDir);
     });
 });

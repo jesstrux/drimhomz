@@ -15,6 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', 'HomeController@index');
+
+Auth::routes();
+
+Route::get('/dashboard', 'HomeController@dashboard');
+
 Route::get('/about', function () {
     return view('home.about');
 });
@@ -36,7 +42,3 @@ Route::get('/profile', function () {
 });
 
 Route::get('/houses', 'HousesController@randomList');
-	
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');

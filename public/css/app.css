@@ -18,6 +18,7 @@ body{
 	background: white;
 	--primary-color: #00134b; /*0, 19, 75,*/
 	--accent-color: #94edfe;
+	padding-top: 90px;
 }
 #mainContent{
 	min-height: calc(100vh - 70px);
@@ -33,9 +34,27 @@ body{
 	border: none;
 }
 
+.empty-message{
+	text-align: center;padding: 20px; font-size: 20px;
+}
+
+.material-blue{
+	background-color: #2196f3;
+	color: #fff;
+}
+
+.theme-color{
+	background: #ff9800;
+	color: #fff;
+}
+
+.dark{
+	background: #363636;
+	color: #fff !important;
+}
 
 .dh-card {
-	margin-bottom: 16px;
+	margin-bottom: 24px;
 	background-color: white;
 	box-shadow: 0 1px 2px rgba(0,0,0,.3);
 }
@@ -44,7 +63,12 @@ body{
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
-	height: 220px;
+
+	height: 220px; overflow: hidden
+}
+.dh-card .image img{
+	width: 100%;
+	min-height: 220px;
 }
 .dh-card .content{
 	padding: 16px;
@@ -66,6 +90,46 @@ body{
 	font-size: 16px;
 	font-family: consolas;
 	font-weight: bolder;
+}
+.dh-card .content .social-stuff{
+	display: block; margin-top: 10px; color: #777
+}
+
+.main-aside{
+	min-width:250px;height: inherit; 
+	margin-top: -22px; border-right:1px solid #e1e1e1;
+	min-height: calc(100vh - 60px)
+}
+
+.main-aside .title-bar{
+	height: 200px; padding: 16px;
+	padding-bottom: 0;
+	color: #fff;
+	background: #555;
+
+	background: #edf3e1;
+
+	background-image: -webkit-linear-gradient(top left, #312 5%, #213, #112, #312);
+	background-image: -o-linear-gradient(top left, #312 5%, #213, #112, #312);
+	background-image: linear-gradient(to bottom right, #312 5%, #213, #112, #312);
+}
+
+.main-aside .title-bar h4{
+	font-size: 18px;
+	margin-bottom: 1px;
+}
+
+.main-aside .title-bar p{
+	font-size: 12px;
+	color: #fefefe;
+}
+
+.main-aside .title-bar p.u:first-letter{
+	text-transform: uppercase;
+}
+
+.main-aside .nav-pills{
+	padding: 8px; margin-top: 5px;
 }
 
 .navbar-brand{
@@ -97,6 +161,7 @@ body{
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
     color: #555;
     background-color: #f7f7f7;
+    background-color: #efefef;
 }
 
 .navbar-nav > li > a {
@@ -110,6 +175,21 @@ body{
 	    padding-top: 24px;
 	    padding-bottom: 24px;
 	}
+}
+
+.nav-pills li, .nav-pills li a{
+	border-radius: 0;
+	color: #000;
+}
+
+.nav-pills li.active a:focus, .nav-pills li.active a:hover, .nav-pills li.active a, .nav-pills li.active:hover a, .nav-pills li:hover a{
+	background-color: #f5f5f5;
+	background-color: #efefef;
+	color: #000;
+}
+
+.nav-pills li.active a{
+	font-weight: bold;
 }
 
 .section-header{
@@ -184,6 +264,7 @@ body{
 	min-width: 200px;
 	margin-top: 10px;
 	font-weight: bolder;
+	outline: none;
 }
 .round-btn.light{
 	background: #edf3e1;
@@ -197,19 +278,23 @@ section{
 	padding: 50px 0;
 	background: #fff;
 	/*background: #edf3e1;*/
-	background-color: #f9f9f9;
+	background-color: #efefef;
 	min-height: 350px;
 	/*margin-bottom: 30px;*/
 }
 section.short{
-	padding: 50px 0 !important;
-	min-height:0 !important; 
-	height: auto !important;
+	padding: 50px 0;
+	min-height:0; 
+	height: auto;
 	margin-top: -22px;
 }
 #albums{
 	background: #9acd32;
 	background: #edf3e1;
+
+	background-image: -webkit-linear-gradient(top left, #312 5%, #213, #112, #312);
+	background-image: -o-linear-gradient(top left, #312 5%, #213, #112, #312);
+	background-image: linear-gradient(to bottom right, #312 5%, #213, #112, #312);
 }
 #albums .section-header{
 	padding: 5px;
@@ -238,7 +323,7 @@ section.short{
 	width: 50%;
 	border-radius: 5px;
 	box-shadow: 5px 5px 20px rgba(0, 0, 0, .3);
-	background: #382c4c;
+	/*background: #213;*/
 
 	-webkit-transition: transform 5s ease-in-out;
 	-o-transition: transform 5s ease-in-out;
@@ -298,4 +383,46 @@ footer{
 	min-height: 70px;
 	background: #f9f9f9;
 	/*background-color: #f0f2fa;*/
+}
+
+
+table.page-table{
+    text-align: center;
+    width: 80%;
+    min-width: 400px;
+}
+table.page-table tr{
+    border: 1px solid #ddd;
+}
+table.page-table th, table.page-table td{
+    padding: 10px 5px;
+    text-align: center;
+    border-right: 1px solid #ddd;
+}
+
+/*PROFILE PAGE*/
+#profileSections section.short .round-btn{
+	/*margin-bottom: 40px;*/
+}
+
+#profileSections section + section{
+	background-color: white;
+}
+
+#profileSections .subpage{
+	display: none;
+}
+
+#profileSections .subpage.current{
+	display: block;
+}
+
+@media all and (max-width: 600px) {
+	.section-header, #banner, .dh-card, section, #albums, #logo, .navbar-brand img, footer{
+		/*display: none !important;*/
+	}
+
+	.section-header{
+		padding: 0 10px;
+	}
 }
