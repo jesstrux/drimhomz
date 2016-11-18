@@ -7,7 +7,7 @@
 
             <br>
             <div class="row">
-                <div class="col-md-4 s12">
+                <div class="col-md-4 col-sm-6">
                     <div class="dh-card">
                         <div class="image" style="background: url(../images/housedesign.jpg)"></div>
                         <div class="content">
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 s12">
+                <div class="col-md-4 col-sm-6">
                     <div class="dh-card">
                         <div class="image" style="background: url(../images/experts2.jpg)"></div>
                         <div class="content">
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 s12">
+                <div class="col-md-4 col-sm-6">
                     <div class="dh-card">
                         <div class="image" style="background: url(../images/materials.jpg)"></div>
                         <div class="content">
@@ -77,7 +77,7 @@
     <section id="pictures">
         <div class="container">
             <div class="section-header text-center">
-                <h3>Upload pictures</h3>
+                <h3>Show us what you like</h3>
                 <p>
                     See a nice house? take a picture or if it's online download its picture then upload it to Drimhomz then tell us and your friends/followers about it, and see the reactions.
                 </p>

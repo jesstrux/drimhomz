@@ -1,6 +1,6 @@
 <style>
     .grid-sizer, .grid-item{
-        background-color: green;
+        background-color: #aaa;
         width: 33.333%;
         margin: 0;
     }

@@ -19,6 +19,7 @@ body{
 	--primary-color: #00134b; /*0, 19, 75,*/
 	--accent-color: #94edfe;
 	padding-top: 90px;
+	/*background: #eee;*/
 }
 #mainContent{
 	min-height: calc(100vh - 70px);
@@ -34,6 +35,14 @@ body{
 	border: none;
 }
 
+.gradient{
+	background: #edf3e1;
+
+	background-image: -webkit-linear-gradient(top left, #312 5%, #213, #112, #312);
+	background-image: -o-linear-gradient(top left, #312 5%, #213, #112, #312);
+	background-image: linear-gradient(to bottom right, #312 5%, #213, #112, #312);
+}
+
 .empty-message{
 	text-align: center;padding: 20px; font-size: 20px;
 }
@@ -41,6 +50,10 @@ body{
 .material-blue{
 	background-color: #2196f3;
 	color: #fff;
+}
+
+.theme-text{
+	color: #ff9800;
 }
 
 .theme-color{
@@ -159,15 +172,21 @@ body{
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
-    color: #555;
+    color: #000;
     background-color: #f7f7f7;
     background-color: #efefef;
+}
+
+.navbar-nav li > a:hover {
+    color: #555;
+    background-color: #f7f7f7 !important;
 }
 
 .navbar-nav > li > a {
     padding-top: 10px;
     padding-bottom: 10px;
     line-height: 22px;
+    color: #555;
 }
 
 @media (min-width: 768px){
@@ -250,7 +269,11 @@ body{
 #banner #text p{
 	font-size: 25px;
 }
-
+button.nd{
+	background: transparent;
+	outline: none;
+	border: none;
+}
 .round-btn{
 	display: inline-block;
 	font-size: 18px;
@@ -265,6 +288,11 @@ body{
 	margin-top: 10px;
 	font-weight: bolder;
 	outline: none;
+}
+.round-btn.sm{
+	font-size: 15px;
+	padding: 5px 15px;
+	min-width: 130px;
 }
 .round-btn.light{
 	background: #edf3e1;
@@ -287,6 +315,23 @@ section.short{
 	min-height:0; 
 	height: auto;
 	margin-top: -22px;
+}
+section.gradient{
+	min-height: 300px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: center;
+}
+section.gradient .section-header h3{
+	color: #fff;
+}
+section.gradient .section-header p{
+	color: #e0e0e0;
 }
 #albums{
 	background: #9acd32;
