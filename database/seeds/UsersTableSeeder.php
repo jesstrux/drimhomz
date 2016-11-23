@@ -15,19 +15,19 @@ class UsersTableSeeder extends Seeder
     {
         $user1 = [
         	'name' => 'James Wolpert',
-        	'email' => 'wolpertjamie@gmail.com',
+        	'phone' => '0817138056',
         	'password' => Hash::make('password'),
         ];
 
         $user2 = [
             'name' => 'Brian West',
-            'email' => 'bwest@rocketmail.com',
+            'phone' => '0912785432',
             'password' => Hash::make('password'),
         ];
 
         $user3 = [
             'name' => 'Anabel Worsty',
-            'email' => 'anniety@yahoo.com',
+            'phone' => '0621906743',
             'password' => Hash::make('password'),
         ];
 
