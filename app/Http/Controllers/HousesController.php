@@ -11,22 +11,21 @@ class HousesController extends Controller
     	return view('houses.index');
     }
 
-    public function randomList(){
+    public function randomList($page){
+        $houses_per_page = 5;
     	$db_values = House::all();
 		$len = count($db_values) - 1;
 		$values = array();
 
-		for ($i=0; $i < 10; $i++) {
-			$rand = rand ( 0 , $len );
-			$value = $db_values[$rand];
+        if($page > count(House::all())/$houses_per_page)
+            return null;
 
-			// echo $rand . ": ". $value->title . ", ";
-			// echo '<img src="'.$value->image_url.'" alt="">';
-
+		for ($i = $page - 1; $i < $houses_per_page * $page; $i++) {
+			// $rand = rand ( 0 , $len );
+			$value = $db_values[$i];
 		  	$values []= $value;
 		}
-
-		// print_r($values);
+        
 		return $values;
     }
 

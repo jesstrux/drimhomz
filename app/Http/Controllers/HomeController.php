@@ -28,17 +28,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $db_values = House::all();
-        $len = count($db_values) - 1;
-        $randomHouses = array();
+        // $db_values = House::all();
+        $randomHouses = House::all();
+        // $len = count($db_values) - 1;
+        // $randomHouses = array();
         $todayString = Carbon::today();
         $today = $todayString->toFormattedDateString();
 
-        for ($i=0; $i < 10; $i++) {
-            $rand = rand ( 0 , $len );
-            $value = $db_values[$rand];
-            $randomHouses []= $value;
-        }
+        // for ($i=0; $i < 10; $i++) {
+        //     $rand = rand ( 0 , $len );
+        //     $value = $db_values[$rand];
+        //     $randomHouses []= $value;
+        // }
 
         return view('home', compact('randomHouses', 'today'));
     }

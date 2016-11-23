@@ -1,27 +1,35 @@
-@extends('layouts.app')
+@extends('auth.wrapper')
 
 @section('content')
 
-<div class="layout center" style="height: calc(100vh - 70px)">
 <div class="container" style="max-width: 800px">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Drimhomz Login</div>
+                <div class="panel-heading">
+                    Drimhomz Login
+                </div>
                 <br>
                 <div class="panel-body">
+                    <center>
+                        No account yet? <a href="/register">Register</a>
+                    </center>
+                    <br>
+
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            <label for="phone" class="col-md-4 control-label">Phone Number</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="phone" type="tel" class="form-control" name="phone" value="{{ old('phone') }}" required>
+                                <span id="valid-msg" class="hide">✓ Valid</span>
+                                <span id="error-msg" class="hide">Invalid number</span>
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('phone'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('phone') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -67,6 +75,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 @endsection

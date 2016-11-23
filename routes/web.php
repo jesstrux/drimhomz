@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index');
 
@@ -41,4 +39,6 @@ Route::get('/profile', function () {
     return view('home.profile');
 });
 
-Route::get('/houses', 'HousesController@randomList');
+Route::get('/randomHouses/{page}', 'HousesController@randomList');
+
+Route::post('/registerUser', 'HousesController@reg');

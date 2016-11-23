@@ -18,8 +18,18 @@ body{
 	background: white;
 	--primary-color: #00134b; /*0, 19, 75,*/
 	--accent-color: #94edfe;
-	padding-top: 90px;
+	padding-top: 75px;
 	/*background: #eee;*/
+}
+@media all and (min-width: 768px) and (max-width: 990px) {
+	body{
+		padding-top: 140px;
+	}
+}
+@media all and (max-width: 767px){
+	body{
+		padding-top: 70px;
+	}
 }
 #mainContent{
 	min-height: calc(100vh - 70px);
@@ -76,12 +86,15 @@ body{
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
-
-	height: 220px; overflow: hidden
+	/*height: 220px; overflow: hidden*/
+	overflow: hidden;
+	/*display: none;*/
 }
 .dh-card .image img{
-	width: 100%;
-	min-height: 220px;
+	/*width: 100%;*/
+	/*min-height: 220px;*/
+	height: auto;
+	max-width: 130%;
 }
 .dh-card .content{
 	padding: 16px;

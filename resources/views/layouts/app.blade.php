@@ -32,9 +32,12 @@
 
 
     <!-- Scripts -->
-    <script src="{{asset('js/jquery-3.1.0.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/jquery-3.1.0.min.js')}}"></script>
     <script src="{{asset('js/masonry.pkgd.min.js')}}"></script>
+    <script src="{{asset('js/wookmark.min.js')}}"></script>
+    <script src="{{asset('js/imagesLoaded.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
+    <script src="{{asset('js/houses-loader.js')}}"></script>
 </body>
 </html>

@@ -1,5 +1,3 @@
-const client_secret = "jeDMaCEbK8KlxyWPlHUq53jzzkz8TPLnCWSxBSP7";
-
 $(document).ready(function(){
     console.log("We are ready to rock and roll!");
 
@@ -10,11 +8,32 @@ $(document).ready(function(){
             $(this).parents('li').removeClass('active');
     });
 
-    $('.image-grid').masonry({
-        columnWidth: '.grid-sizer',
-        itemSelector: '.grid-item',
-        percentPosition: true
-    });
+  /**
+   * When scrolled all the way to the bottom, add more tiles
+   */
+  function onScroll() {
+    // Check if we're within 100 pixels of the bottom edge of the broser window.
+    var winHeight = window.innerHeight ? window.innerHeight : $window.height(), // iphone fix
+        closeToBottom = ($window.scrollTop() + winHeight > $document.height() - 100);
+
+    if (closeToBottom) {
+      // Get the first then items from the grid, clone them, and add them to the bottom of the grid
+      var $items = $('li', $container),
+          $firstTen = $items.slice(0, 10).clone().css('opacity', 0);
+      $container.append($firstTen);
+
+      wookmark.initItems();
+      wookmark.layout(true, function () {
+        // Fade in items after layout
+        setTimeout(function() {
+          $firstTen.css('opacity', 1);
+        }, 300);
+      });
+    }
+  };
+
+  // Capture scroll event.
+  // $window.bind('scroll.wookmark', onScroll);
 
 
     $(document).on("click", '#profilePage aside a', function(){

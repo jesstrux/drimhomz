@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
+    <div class="containe" style="padding-right: 20px;">
+        <div class="navbar-header" style="position: relative;">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                 <span class="sr-only">Toggle Navigation</span>
                 <span class="icon-bar"></span>
@@ -11,6 +11,10 @@
                 <img src="{{asset('images/drimhomzlogo.png')}}" alt="">
                 <span id="logo">{{ config('app.name', 'Drimhomz') }}</span>
             </a>
+
+            <!-- <div>
+                <input type="text" style="width: 100%; background: red">
+            </div> -->
         </div>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -39,7 +43,7 @@
                     <li><a href="/home">Home</a></li>
                 @endif
                 
-                <li><a href="about">About</a></li>
+                <!-- <li><a href="about">About</a></li> -->
                 <li><a href="shop">Shop</a></li>
                 <li><a href="expert">Expert</a></li>
                 <li><a href="advice">Advice</a></li>
