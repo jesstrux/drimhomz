@@ -10,7 +10,7 @@
                 <br>
                 <div class="panel-body">
                     <center>
-                        Already registered? <a href="/login">Login</a>
+                        Already registered? <a href="{{url('')}}/login">Login</a>
                     </center>
                     <br>
 
@@ -18,7 +18,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                            <label for="name" class="col-md-4 control-label">First Name</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
@@ -26,6 +26,19 @@
                                 @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('last_name') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Last Name</label>
+
+                            <div class="col-md-6">
+                                <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required autofocus>
+
+                                @if ($errors->has('last_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -42,6 +55,43 @@
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('town') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Town</label>
+
+                            <div class="col-md-6">
+                                <input id="town" type="text" class="form-control" name="town" value="{{ old('town') }}" required autofocus>
+
+                                @if ($errors->has('town'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('town') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Gender</label>
+
+                            <div class="col-md-6">
+                                <select id="gender" class="form-control" name="gender" value="{{ old('gender') }}" required autofocus>
+                                    <option>-Select gender-</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('dob') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Birth Date</label>
+
+                            <div class="col-md-6">
+                                <input id="dob" type="text" class="form-control" name="dob" value="{{ old('dob') }}" required autofocus>
+
+                                @if ($errors->has('dob'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('dob') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -82,6 +132,20 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('profile') ? ' has-error' : '' }}">
+                            <label for="profile" class="col-md-4 control-label">Profile Picture</label>
+
+                            <div class="col-md-6">
+                                <input id="profile" type="file" class="form-control" name="profile" required>
+
+                                @if ($errors->has('profile'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('profile') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

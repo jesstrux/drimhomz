@@ -12,7 +12,7 @@
                 <br>
                 <div class="panel-body">
                     <center>
-                        No account yet? <a href="/register">Register</a>
+                        No account yet? <a href="{{url('')}}/register">Register</a>
                     </center>
                     <br>
 
