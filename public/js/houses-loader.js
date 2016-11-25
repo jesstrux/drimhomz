@@ -2,7 +2,7 @@
   var wookmark = undefined,
       page = 1,
       isLoading = false,
-      apiURL = '/randomHouses',
+      apiURL = 'randomHouses',
       lastRequestTimestamp = 0,
       fadeInDelay = 2000,
       container = '#container',
