@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="containe" style="padding-right: 20px;">
+    <div class="container" style="padding-right: 20px;">
         <div class="navbar-header" style="position: relative;">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                 <span class="sr-only">Toggle Navigation</span>
@@ -54,12 +54,15 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
+                            {{ Auth::user()->full_name() }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="{{ url('/profile') }}">
+                                <?php
+                                    $profileUrl = "/user/".Auth::user()->id;
+                                ?>
+                                <a href="{{ url($profileUrl) }}">
                                     Profile
                                 </a>
                             </li>

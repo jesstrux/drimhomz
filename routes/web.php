@@ -35,10 +35,16 @@ Route::get('/advice', function () {
     return view('home.advice');
 });
 
-Route::get('/profile', function () {
-    return view('home.profile');
-});
+Route::get('/user/{id}', 'UserController@showprofile');
+Route::post('toggle-admin', ['as'=>'/toggleAdmin','uses'=>'UserController@toggle_admin']);
+
+Route::get('/profile', 'UserController@profile');
 
 Route::get('/randomHouses/{page}', 'HousesController@randomList');
 
 Route::post('/registerUser', 'HousesController@reg');
+
+Route::get('/setupAccount', 'UserController@setup');
+
+Route::post('setup-account-post', ['as'=>'/setupAccountPost','uses'=>'UserController@setupProfile']);
+Route::post('save-dp', ['as'=>'/saveDp','uses'=>'UserController@saveDp']);

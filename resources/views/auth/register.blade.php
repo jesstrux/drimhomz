@@ -1,7 +1,25 @@
 @extends('auth.wrapper')
 
 @section('content')
-<!-- <div class="layout center" style="height: calc(100vh - 70px)"> -->
+<script>
+    var isAdmin = false;
+
+    function setRoleAsAdmin(e){
+        var roleSetter = document.getElementById('roleSetter');
+        var roleField = document.getElementById('role');
+
+        if(!isAdmin){
+            roleField.value = "admin";
+            roleSetter.style.opacity = 1;
+        }else{
+            roleField.value = "";
+            roleSetter.style.opacity = 0;
+        }
+
+        isAdmin = !isAdmin;
+    }
+</script>
+<button onclick="setRoleAsAdmin()" id="roleSetter" class="btn btn-primary" style="position: absolute; top:0; left: 0;opacity: 0">AS ADMIN</button>
 <div class="container" style="max-width: 800px">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -16,16 +34,31 @@
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
+                        <input id="role" type="hidden" name="role" style="position: absolute;">
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                        <div class="form-group{{ $errors->has('fname') ? ' has-error' : '' }}">
+                            <label for="fname" class="col-md-4 control-label">First Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="fname" type="text" class="form-control" name="fname" value="{{ old('fname') }}" required autofocus>
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('fname'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('fname') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('lname') ? ' has-error' : '' }}">
+                            <label for="lname" class="col-md-4 control-label">Last Name</label>
+
+                            <div class="col-md-6">
+                                <input id="lname" type="text" class="form-control" name="lname" value="{{ old('lname') }}" required>
+
+                                @if ($errors->has('lname'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('lname') }}</strong>
                                     </span>
                                 @endif
                             </div>

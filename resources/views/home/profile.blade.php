@@ -32,6 +32,14 @@
 			/*box-shadow: 0 1px 2px rgba(0,0,0,0.07);*/
 		}
 
+        .main-layout{
+            -webkit-flex-direction: row-reverse;
+            -moz-flex-direction: row-reverse;
+            -ms-flex-direction: row-reverse;
+            -o-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+        }
+
     	.menu{
     		width: 400px;
     	}
@@ -270,18 +278,19 @@
     </style>
     <div id="profilePage">
 	    <div class="container">
-	    	<div id="profileContent" class="gradient shadow layout">
+	    	<div id="profileContent" class="gradient shadow layout main-layout">
 	    		<div id="slideshowFront" class="flex layout vertical center-center profile-card">
 	    			<button>
-	    				<i class="material-icons">play_circle_outline</i>
+	    				<!-- <i class="material-icons">play_circle_outline</i> -->
+                        <span class="material-icons">&nbsp;</span>
 	    			</button>
-	    			<h3 style="margin-top: 10px;">Play Slideshow</h3>
+	    			<h3 style="margin-top: 10px;">My dream home</h3>
 	    		</div>
 	    		<div id="menu" class="menu layout center-center profile-card">
 	    			<div class="section-header" style="padding: 0; text-align: center;">
-	    				<h3 style="margin-bottom: 0;">{{Auth::user()->name}}</h3>
-	    				<p>
-	    					{{Auth::user()->email}}
+	    				<h3 style="margin-bottom: 0;">{{Auth::user()->full_name()}}</h3>
+	    				<p style="margin-top: 2px;">
+	    					{{Auth::user()->town}}
 	    					<br>
 	    					<span class="numbers">5 Albums | 23 Houses</span>
 	    					<button class="nd edit-btn text-uppercase">Edit profile</button>
@@ -290,7 +299,7 @@
 	    		</div>
 	    	</div>
 
-	    	<div class="layout">
+	    	<div class="layout main-layout">
 		    	<div class="flex">
 		    		<div class="post-card shadow">
 		    			<h3 class="layout center justified">Albums <a href="#albums" class="secondary theme-text">View All</a></h3>

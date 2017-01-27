@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\House;
+use App\User;
 use Illuminate\Http\Request;
 
 class HousesController extends Controller
@@ -12,17 +13,21 @@ class HousesController extends Controller
     }
 
     public function randomList($page){
-        $houses_per_page = 5;
+        $houses_per_page = 15;
     	$db_values = House::all();
 		$len = count($db_values) - 1;
 		$values = array();
 
         if($page > count(House::all())/$houses_per_page)
-            return null;
+            return "No more";
 
 		for ($i = $page - 1; $i < $houses_per_page * $page; $i++) {
 			// $rand = rand ( 0 , $len );
 			$value = $db_values[$i];
+            $owner = User::find($value->user_id);
+            // $value->user_name = $owner->full_name();
+            $value->user_dp = $owner->dp;
+            $value->user_name = $owner->fname." ".$owner->lname;
 		  	$values []= $value;
 		}
         

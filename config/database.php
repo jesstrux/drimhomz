@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => 'pgsql',
+    'default' => 'mysql',
     // env('DB_CONNECTION', 'mysql'),
 
     /*
@@ -70,10 +70,10 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => 'localhost', //env('DB_HOST', 'localhost'),
-            'port' => '5432', //env('DB_PORT', '5432'),
+            'port' => '5436', //env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => 'postgres', //env('DB_USERNAME', 'forge'),
-            'password' => 'Stann3r5', //env('DB_PASSWORD', ''),
+            'password' => '1234', //env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',

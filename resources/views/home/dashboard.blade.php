@@ -3,11 +3,20 @@
 @section('content')
     @include('layouts.header')
 
+    <style>
+        .remove-admin-btn, .is-admin .add-admin-btn{
+            display: none;
+        }
+
+        .is-admin .remove-admin-btn{
+            display: inline-block;
+        }
+    </style>
     <div id="profilePage" class="layout">
         <aside class="main-aside">
             <div class="layout end title-bar">
                 <div>
-                    <h4>{{ Auth::user()->name }}</h4>
+                    <h4>{{ Auth::user()->full_name() }}</h4>
                     <p class="u">{{ Auth::user()->role }}</p>
                 </div>
             </div>
@@ -68,29 +77,40 @@
                         <thead>
                             <tr>
                                 <th>NAME</th>
-                                <th>EMAIL</th>
+                                <th>PHONE</th>
                                 <th>ROLE</th>
                                 <th>ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @if(count($users) < 2)
+                                <tr>
+                                    <td colspan="4">No users</td>
+                                </tr>
+                            @endif
+
                             @foreach($users as $user)
                                 <?php 
                                     $isMe = $user->id == Auth::user()->id;
-                                    $isAdmin = $user->role == "admin";
+                                    $isAdmin = $user->role == "admin" ? "is-admin" : "";
                                 ?>
                                 @if(!$isMe)
                                     <tr>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->email}}</td>
+                                        <td>{{$user->full_name()}}</td>
+                                        <td>{{$user->phone}}</td>
                                         <td>{{$user->role}}</td>
                                         <td>
-                                            <button type="submit" class="btn dark btn-sm">Remove</button>
-                                            @if($isAdmin)
-                                                <button type="submit" class="btn material-blue btn-sm">Remove Admin</button>
-                                            @else
-                                                <button type="submit" class="btn material-blue btn-sm">Make Admin</button>
-                                            @endif
+                                            <form id="addAdmin{{$user->id}}" role="form" method="POST" action="{{ url('make-admin') }}" class="{{$isAdmin}}">
+                                                {{ csrf_field() }}
+
+                                                <input type="hidden" name="id" value="{{$user->id}}">
+                                                
+                                                <button type="submit" class="btn dark btn-sm">Remove</button>
+
+                                                <button type="button" class="remove-admin-btn btn btn-default btn-sm" onclick="toggleAdmin('toggle-admin', {{$user->id}})">Remove Admin</button>
+
+                                                <button type="button" class="add-admin-btn btn material-blue btn-sm" onclick="toggleAdmin('toggle-admin', {{$user->id}})">Make Admin</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endif
@@ -144,4 +164,49 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $(document).on("click", '#profilePage aside a', function(){
+                var curIdx = $('#profilePage aside li.active').index();
+                var nextIdx = $(this).parents("li").index();
+                var animDir = curIdx > nextIdx ? "down" : "up";
+                var target = $(this).data('target');
+
+                $('#profilePage aside li.active').removeClass('active');
+                $(this).parents("li").addClass('active');
+                $('#profilePage .subpage.current').removeClass('current');
+                $(target).addClass('current');
+                // console.log(curIdx, nextIdx ,animDir);
+            });
+        });
+
+        function toggleAdmin(url, id){
+            var formdata = new FormData($("#addAdmin"+id)[0]);
+            formdata.append('id', id);
+
+            $.ajax({
+                  type:'POST',
+                  url: url,
+                  data: formdata,
+                  dataType:'json',
+                  async:false,
+                  processData: false,
+                  contentType: false
+            })
+            .done(function(response){
+                console.log("Response!, ", response);
+                if(response.success){
+                    console.log("Switching now!!!");
+                    $("#addAdmin"+id).toggleClass('is-admin');
+                }
+            })
+            .fail(function(response){
+                console.log("Response!, ", response);
+            })
+            .always(function(){
+                console.log("Action done");
+            });
+        }
+    </script>
 @endsection

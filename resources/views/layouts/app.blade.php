@@ -17,6 +17,7 @@
       rel="stylesheet">
 
     <!-- Scripts -->
+    <script src="{{asset('js/jquery-3.1.0.min.js')}}"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -32,12 +33,10 @@
 
 
     <!-- Scripts -->
-    <script src="{{asset('js/jquery-3.1.0.min.js')}}"></script>
-    <script src="{{asset('js/masonry.pkgd.min.js')}}"></script>
-    <script src="{{asset('js/wookmark.min.js')}}"></script>
-    <script src="{{asset('js/imagesLoaded.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
-    <script src="{{asset('js/houses-loader.js')}}"></script>
 </body>
+<!-- <script src="{{asset('js/masonry.pkgd.min.js')}}"></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/main.js')}}"></script> -->
 </html>
