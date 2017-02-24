@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'password', 'role', 'gender', 'last_name', 'dob','profile'
+        'fname', 'lname', 'phone', 'password', 'role', 'gender', 'town', 'dob'
     ];
 
     /**
@@ -26,4 +26,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function full_name(){
+        echo $this->fname ." ". $this->lname;
+    }
+
+    public function birth_date(){
+        if(!isset($this->dob))
+            echo false;
+
+        $time = strtotime($this->dob);
+        return date("F d, Y", $time);
+    }
+
+    public function houses(){
+        return $this->hasMany("App\House");
+    }
 }

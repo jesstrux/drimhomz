@@ -23,7 +23,7 @@ class HousesTableSeeder extends Seeder
 	        	'placeholder_color' => $faker->hexcolor,
 	        	'fav_count' => $faker->numberBetween(0, 90),
 	        	'comment_count' => $faker->numberBetween(0, 50),
-	        	'user_id' => $faker->numberBetween(1, 3),
+	        	'user_id' => $faker->numberBetween(1, 5),
 	        ];
 
 	        House::create($house);
