@@ -17,35 +17,35 @@ class UsersTableSeeder extends Seeder
         	'fname' => 'James',
             'lname' => 'Wolpert',
         	'phone' => '0817138056',
-        	'password' => Hash::make('password'),
+        	'password' => bcrypt('password'),
         ];
 
         $user2 = [
             'fname' => 'Brian',
             'lname' => 'West',
             'phone' => '0912785432',
-            'password' => Hash::make('password'),
+            'password' => bcrypt('password'),
         ];
 
         $user3 = [
             'fname' => 'Anabel',
             'lname' => 'Worsty',
             'phone' => '0621906743',
-            'password' => Hash::make('password'),
+            'password' => bcrypt('password'),
         ];
 
         $user4 = [
             'fname' => 'Grindewald',
             'lname' => 'Ristique',
             'phone' => '0521906443',
-            'password' => Hash::make('password'),
+            'password' => bcrypt('password'),
         ];
 
         $user5 = [
             'fname' => 'Albus',
             'lname' => 'Dumbledore',
             'phone' => '0921966743',
-            'password' => Hash::make('password'),
+            'password' => bcrypt('password'),
         ];
 
         User::create($user1);
