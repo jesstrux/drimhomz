@@ -2,12 +2,29 @@
 
 namespace App;
 
+use App\Favorite;
 use Illuminate\Database\Eloquent\Model;
 
 class House extends Model
 {
-    //
+    public function project(){
+        return $this->belongsTo('App\Project');
+    }
+
     public function owner(){
-        return $this->belongsTo("App\User");
+        return $this->project->user;
+    }
+
+    public function comments(){
+        return $this->hasMany("App\Comment");
+    }
+
+    public function favorites(){
+        return $this->hasMany("App\Favorite");
+    }
+
+    public function faved($uid){
+        return Favorite::where(
+            array('house_id' => $this->id, 'user_id' => $uid))->exists();
     }
 }

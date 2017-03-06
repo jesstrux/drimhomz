@@ -34,19 +34,19 @@
                     }
                 ?>
                 @if ($isadmin)
-                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                 @endif
                 
                 @if (Auth::guest())
-                    <li><a href="/">Home</a></li>
+                    <li><a href="{{ url('/') }}">Home</a></li>
                 @else
-                    <li><a href="/home">Home</a></li>
+                    <li><a href="{{ url('/home') }}">Home</a></li>
                 @endif
                 
                 <!-- <li><a href="about">About</a></li> -->
-                <li><a href="shop">Shop</a></li>
-                <li><a href="expert">Expert</a></li>
-                <li><a href="advice">Advice</a></li>
+                <li><a href="{{ url('/shop') }}">Shop</a></li>
+                <li><a href="{{ url('/expert') }}">Expert</a></li>
+                <li><a href="{{ url('/advice') }}">Advice</a></li>
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>

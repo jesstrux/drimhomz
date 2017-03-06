@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\House;
+use Auth;
 use App\User;
+use App\Project;
+use App\House;
+use App\Comment;
+use App\Favorite;
+use ColorThief\ColorThief;
+
 use Illuminate\Http\Request;
 
 class HousesController extends Controller
@@ -14,38 +20,161 @@ class HousesController extends Controller
 
     public function randomList($page){
         $houses_per_page = 15;
-    	$db_values = House::all();
+    	$db_values = House::with('project')->get();
 		$len = count($db_values) - 1;
 		$values = array();
 
-        if($page > count(House::all())/$houses_per_page)
+        if($page > $len/$houses_per_page)
             return "No more";
 
 		for ($i = $page - 1; $i < $houses_per_page * $page; $i++) {
-			// $rand = rand ( 0 , $len );
-			$value = $db_values[$i];
-            $owner = User::find($value->user_id);
-            // $value->user_name = $owner->full_name();
-            $value->user_dp = $owner->dp;
-            $value->user_name = $owner->fname." ".$owner->lname;
-		  	$values []= $value;
-		}
-        
+            $db_values[$i]->owner = $db_values[$i]->owner();
+            
+            $db_values[$i]->fav_count = $db_values[$i]->favorites()->count();
+            $db_values[$i]->comment_count = $db_values[$i]->comments()->count();
+
+            if(!Auth::guest())
+                $db_values[$i]->faved = $db_values[$i]->faved(Auth::user()->id);
+            else
+                $db_values[$i]->faved = false;
+
+            $values []= $db_values[$i];
+        }
+
 		return $values;
     }
 
     public function store(Request $request){
-    	// $house = [
-     //    	'image_url' => 'images/slideshow/slide'.$i.'.jpg',
-     //    	'title' => $faker->realText(10),
-     //    	'description' => $faker->realText(),
-     //    	'placeholder_color' => $faker->hexcolor,
-     //    	'fav_count' => $faker->numberBetween(0, 90),
-     //    	'comment_count' => $faker->numberBetween(0, 50),
-     //    	'user_id' => $faker->numberBetween(1, 3),
-     //    ];
+        function createProject($title, $user_id){
+            $project = [
+                'user_id' => $user_id,
+                'title' => $title
+            ];
 
-     //    House::create($house);
-    	return $request->all();
+            return Project::create($project)->id;
+        }
+
+        function getColor($image_url){
+            try{
+                $dominantColor = ColorThief::getColor("public/images/uploads/" . $image_url);
+            }
+            catch (Exception $e) {
+                $dominantColor = array(0,0,0);
+            }
+
+            return "rgb(".implode(", ", $dominantColor).")";
+        }
+
+        $project_id = $request->input('project_id') ?: createProject($request->input('project_title'));
+        $placeholder_color = getColor($request->input('image_url'));
+
+    	$house = [
+            'title' => $request->input('image_url'),
+            'description' => $request->input('description'),
+        	'image_url' => $request->input('image_url'),
+        	'placeholder_color' => $placeholder_color,
+        	'project_id' => $project_id
+        ];
+
+        if(House::create($house))
+            return response()->json(["success" => true]);
+        else
+            return response()->json(["success" => false]);
+    }
+
+    public function get_comments($house){
+        return Comment::with('user')->where('house_id', $house)->get();
+    }
+
+    public function submit_comment(Request $request){
+        if(Auth::guest())
+            return response()->json(["success" => false]);
+        else{
+            $comment = [
+                'user_id' => Auth::user()->id,
+                'house_id' => $request->input('house_id'),
+                'content' => $request->input('content')
+            ];
+            $new_comment = Comment::create($comment);
+            
+            if($new_comment->id){
+                return response()->json([
+                    'success' => true,
+                    'id' => $new_comment->id,
+                    'comment' => $new_comment
+                ]);
+            }else{
+                return response()->json([
+                    'success' => false
+                ]);
+            }
+        }
+    }
+
+    public function delete_comment(Request $request){
+        // return $request->all();
+
+        if(Auth::guest())
+            return response()->json(["success" => false]);
+        else{
+            $comment = Comment::find($request->input('id'));
+
+            if(!$comment->exists())
+                return response()->json([
+                    'success' => false
+                ]);
+
+            if($comment->delete()){
+                return response()->json([
+                    'success' => true
+                ]);
+            }else{
+                return response()->json([
+                    'success' => false
+                ]);
+            }
+        }
+    }
+
+    public function favorite_house(Request $request){
+        $authuser = Auth::user();
+        $house_id = $request->input('house_id');
+        $house = House::find($house_id);
+        $faved = $house->faved($authuser->id) ? true : false;
+        
+        $fav = [
+            'user_id' => $authuser->id,
+            'house_id' => $house_id
+        ];
+
+        if(!$faved){
+            if(Favorite::create($fav)){
+                return response()->json([
+                    'success' => 'true'
+                ]);
+            }else{
+                return response()->json([
+                    'success' => 'false'
+                ]);
+            }
+        }else{
+            $to_unfav = Favorite::where($fav);
+            if(!$to_unfav->exists()){
+                return response()->json([
+                    'success' => 'false',
+                    'reason' => 'non existent'
+                ]);
+            }
+
+            if($to_unfav->delete()){
+                return response()->json([
+                    'success' => 'true'
+                ]);
+            }else{
+                return response()->json([
+                    'success' => 'false'
+                ]);
+            }
+        }
     }
 }

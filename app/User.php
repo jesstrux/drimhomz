@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Follows;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -39,7 +40,37 @@ class User extends Authenticatable
         return date("F d, Y", $time);
     }
 
+    public function followed($uid){
+        return Follows::where(
+            array('user_id' => $uid, 'followed_id' => $this->id))->exists();
+    }
+
+    public function follow($uid){
+        // $uid
+    }
+
+    public function unfollow($uid){
+        // $uid
+         return Follows::where(
+            array('user_id' => $uid, 'followed_id' => $this->id)
+            )->delete();
+    }
+
+
+    //RELATIONS
     public function houses(){
-        return $this->hasMany("App\House");
+        return $this->hasManyThrough('App\House', 'App\Project');
+    }
+
+    public function projects(){
+        return $this->hasMany("App\Project");
+    }
+
+    public function followers(){
+        return $this->hasMany('App\Follows', 'followed_id');
+    }
+
+    public function following(){
+        return $this->hasMany('App\Follows');
     }
 }

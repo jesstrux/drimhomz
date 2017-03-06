@@ -1,5 +1,7 @@
+var house_details, cur_house;
+var featured_houses = [];
+
 (function ($) {
-  var featured_houses = [];
   var wookmark = undefined,
       page = 1,
       isLoading = false,
@@ -118,7 +120,7 @@
       var ctrailingS = house.comment_count == 1 ? "" : "s";
       var comments_text = house.comment_count + " comment" + ctrailingS;
 
-      html += '<li class="dh-card grid-item" data-postid="'+house.id+'">';
+      html += '<li id="house'+house.id+'"  class="dh-card grid-item" data-postid="'+house.id+'">';
       html +=   '<div class="image">';
       html +=     '<img src="'+house.image_url+'" alt="'+house.title+'">';
       html +=   '</div>';
@@ -142,14 +144,17 @@
   // Load first data from the API.
   loadData();
 
-  $(document).on("click", '.--js-house-preview .bg', function(e){
+  $(document).on("click", '.--js-house-preview .closer', function(e){
     $preview = $(".--js-house-preview");
 
-    if($preview.hasClass('open'))
-      $preview.removeClass('open')
+    if($preview.hasClass('open')){
+      $preview.removeClass('open');
+      $('body').removeClass('locked');
+    }
   });
   $(document).on("click", '.dh-card.grid-item', function(e){
-    var house_details = featured_houses[$(this).index()];
+    cur_house = $(this).index();
+    house_details = featured_houses[cur_house];
     var preview = document.querySelector(".--js-house-preview");
     var previewCard = document.querySelector(".--js-house-preview-card");
     var previewBox = previewCard.getBoundingClientRect();
@@ -161,8 +166,24 @@
     $('#previewCommentCount').text(house_details.comment_count);
     $('#previewFavCount').text(house_details.fav_count);
     $('#previewImage').attr("src", house_details.image_url);
-    $('#previewUsername').text(house_details.user_name);
-    $('#previewUserdp').attr("src", "images/uploads/" + house_details.user_dp || "images/dp.png");
+    $('#previewUsername').text(house_details.owner.fname + " " + house_details.owner.lname);
+    $('#previewUserdp').attr("src", "images/uploads/" + house_details.owner.dp || "images/dp.png");
+    $('.previewHouseId').val(house_details.id);
+    
+    if(house_details.faved)
+      $('#previewReactions').addClass("faved");
+    else
+      $('#previewReactions').removeClass("faved");
+
+    $('#commentsList').find(".a-comment").remove();
+
+    if(house_details.comment_count < 1){
+      $('#commentsList').addClass('no-comments');
+    }else{
+      $('#commentsList').removeClass('no-comments');
+      $('#previewComments').addClass('loading');
+    }
+      
     $('.--js-house-preview .dh-card').scrollTop(0);
 
     var translateX = (elBox.left + (elBox.width / 2)) - (previewBox.left + (previewBox.width / 2));
@@ -186,8 +207,40 @@
     setTimeout(function(){
       previewCard.style.transform = previewCard.style.webkitTransform = "none";
       preview.classList.add("open");
-    }, 100);
+      $('body').addClass('locked');
 
-    console.log(house_details);
+      setTimeout(function(){
+        loadComments(house_details.id);
+      },150);
+    }, 100);
   });
+
+
+  function loadComments(house) {
+    $.ajax({
+      url: "/comments/" + house,
+      type: 'GET',
+      dataType: 'json'
+    })
+    .done(function(data) {
+      onLoadComments(data);
+    })
+    .fail(function(error) {
+      console.log(error);
+    })
+    .always(function() {
+      console.log("Comments loaded!");
+    });
+  };
+
+  function onLoadComments(data) {
+    var i = 0, length = data.length;
+    $('#previewComments').removeClass('loading');
+
+    for (; i < length; i++) {
+      var comment = $(comment_template(data[i]));
+      comment.find("form").prepend(_token);
+      $('#commentsList').append(comment);
+    }
+  };
 })(jQuery);

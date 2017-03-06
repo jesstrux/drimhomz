@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Carbon\Carbon;
+
 use App\User;
 use App\House;
+use App\Follows;
+// use App\Project;
+// use App\Follower;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,16 +40,44 @@ class UserController extends Controller
 
     function showprofile($id){
         $authuser = Auth::user();
-        $user = User::with('houses')->find($id);
+        $user = User::with('projects', 'following', 'houses', 'followers')->find($id);
         $myProfile = $authuser->id == $user->id;
 
         return view('user.userview', compact('user', 'myProfile'));
-        // $houses = $user->houses;
+    }
 
-        // foreach ($houses as $house) {
-            // echo $house->title.",<br>";
-        // }
-        // return $user->houses->count();
+    function follow_user(Request $request){
+        $authuser = Auth::user();
+        $id = $request->input('id');
+        $user = User::find($id);
+        $followed = $user->followed($authuser->id) ? true : false;
+        
+        if(!$followed){
+            $follow = [
+                'user_id' => $authuser->id,
+                'followed_id' => $id
+            ];
+
+            if(Follows::create($follow)){
+                return response()->json([
+                    'success' => 'true'
+                ]);
+            }else{
+                return response()->json([
+                    'success' => 'true'
+                ]);
+            }
+        }else{
+            if(User::find($id)->unfollow($authuser->id)){
+                return response()->json([
+                    'success' => 'true'
+                ]);
+            }else{
+                return response()->json([
+                    'success' => 'false'
+                ]);
+            }
+        }
     }
 
     function toggle_admin(Request $request){

@@ -56,15 +56,18 @@ class HomeController extends Controller
             $users = User::all();
             
             $db_values = House::all();
-            $len = count($db_values) - 1;
+            $len = count($db_values);
             $randomHouses = array();
+            
             $todayString = Carbon::today();
             $today = $todayString->toFormattedDateString();
 
-            for ($i=0; $i < 10; $i++) {
-                $rand = rand ( 0 , $len );
-                $value = $db_values[$rand];
-                $randomHouses []= $value;
+            if($len > 0){
+                for ($i=0; $i < 10; $i++) {
+                    $rand = rand ( 0 , $len - 1 );
+                    $value = $db_values[$rand];
+                    $randomHouses[]= $value;
+                }
             }
 
             return view('home.dashboard', compact('pages', 'users', 'randomHouses', 'today'));

@@ -1,7 +1,41 @@
+<script>
+    function comment_template(commentObj) {
+        if(!commentObj.id)
+            commentObj.id = "";
+
+        comment = '';
+        comment += '<div id="comment'+commentObj.id+'" class="a-comment item flex">';
+        comment += '    <div class="avatar">';
+        comment += '        <img src="images/uploads/'+commentObj.user.dp+'" alt="'+commentObj.user.fname+'s dp">';
+        comment += '    </div>';
+        comment += '    <div class="item-text">';
+        comment += '        <div class="title">'+commentObj.user.fname+ ' ' + commentObj.user.lname+'</div>';
+        comment += '        <p>'+commentObj.content+'</p>';
+        comment += '    </div>';
+        comment += '    <form id="deleteComment'+commentObj.id+'" action="deleteComment" method="POST">';
+        comment += '        <input id="commentId" type="hidden" value="'+commentObj.id+'" name="id">';
+        comment += '        <button type="button" onclick="deleteComment('+commentObj.id+')">'
+        comment += '            delete';
+        comment += '        </button>';
+        comment += '    </form>';
+        comment += '</div>';
+
+        return comment;
+    }
+
+    var _token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';
+</script>
 <div class="image-grid">
     <style>
         body{
             background-color: #eee;
+            /*overflow: hidden;*/
+        }
+        body.locked{
+            overflow: hidden;
+        }
+        .image{
+            pointer-events: none;
         }
         #container{
             list-style: none;
@@ -72,32 +106,52 @@
         #preview{
             width: 100vw;
             height: 100vh;
+            max-height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            background: transparent;
             z-index: 9999;
+            overflow: hidden;
+            pointer-events: none;
+            background-color: transparent;
+        }
+        #preview.open{
+            pointer-events: auto;
+            overflow-y: auto;
+            background-color: #333;
+            background-image: -webkit-linear-gradient(#222, #333);
+            background-image: -o-linear-gradient(#222, #333);
+            background-image: linear-gradient(#222, #333);
+        }
+        #preview .closer{
+            position: fixed;
+            top: 20px;
+            right: 50px;
+            width: 30px;
+            height: 30px;
+            background-color: green;
+        }
 
-            display: -webkit-flex;
-            display: -moz-flex;
-            display: -ms-flex;
-            display: -o-flex;
-            display: flex;
-
-            -ms-align-items: center;
-            align-items: center;
-            justify-content: center;
-
+        #preview .dh-card, #preview .closer{
+            opacity: 0;
             pointer-events: none;
         }
 
         #preview .dh-card{
-            max-height: calc(96vh - 30px);
+            /*max-height: calc(96vh - 30px);*/
             padding: 16px 20px;
-            width: 700px;
-            overflow: auto;
+            width: 680px;
             border-radius: 10px;
             z-index: 1;
+            position: relative;
+            margin: 35px auto;
+            padding-bottom: 40px;
+            /*overflow: auto;*/
+        }
+
+        #preview.open .dh-card, #preview.open .closer{
+            opacity: 1;
+            pointer-events: auto;
         }
 
         #preview .dh-card p{
@@ -147,8 +201,12 @@
             font-weight: bold;
         }
 
+        .item:not(.single-line) .item-text .title{
+            margin: 6px 0;
+        }
+
         .avatar + .item-text{
-            margin-left: 8px;
+            margin-left: 18px;
         }
 
         .avatar, .avatar img{
@@ -170,12 +228,71 @@
         }
 
         .reactions svg{
-            margin-left: 10px;
-            margin-right: 5px;
+            margin-left: 20px;
+            margin-right: 10px;
+        }
+
+        .fav-icon svg{
+            margin-left: 3px;
+            margin-right: 3px;
+            margin-top: 4px;
+        }
+
+        .fav-icon{
+            background-color: transparent;
+            border: none;
+            padding-right: 6px;
+            padding-left: 6px;
+        }
+
+        .reactions.faved form .fav-icon.unfaved{
+            display: none;
+        }
+
+        .reactions:not(.faved) form .fav-icon.faved{
+            display: none;
+        }
+
+        .comments{
+            -webkit-transition: all 0.35s ease-out;
+            -o-transition: all 0.35s ease-out;
+            transition: all 0.35s ease-out;
         }
 
         .comments .item{
             margin-bottom: 32px;
+        }
+
+        .a-comment{
+            position: relative;
+            -webkit-transition: opacity 0.35s ease-out;
+            -o-transition: opacity 0.35s ease-out;
+            transition: opacity 0.35s ease-out;
+        }
+
+        .a-comment.waiting{
+            opacity: 0.5;
+        }
+
+        .a-comment form{
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .a-comment.waiting form{
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .a-comment form button{
+            background-color: transparent;
+            border: none;
+            padding: 6px;
+            color: #000;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
         }
 
         .comments textarea{
@@ -184,91 +301,25 @@
             padding: 8px;
         }
 
-        #preview .bg{
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.5);
+        #commentsList .empty-message{
+            margin-bottom: 18px;
         }
 
-        #preview .dh-card, #preview .bg{
-            opacity: 0;
+        #commentsList:not(.no-comments) .empty-message{
+            display: none;
+        }
+
+        .comments:not(.loading) #loadingComments{
+            display: none;
+        }
+
+        #submitComment.adding-comment > textarea,
+        #submitComment.adding-comment > button{
             pointer-events: none;
-        }
-
-        #preview.open .dh-card, #preview.open .bg{
-            opacity: 1;
-            pointer-events: auto;
+            opacity: 0.5;
         }
     </style>
-
-        <div id="preview" class="--js-house-preview">
-            <div class="bg --js-house-preview-bg"></div>
-            <div class="dh-card --js-house-preview-card">
-                <div class="content">
-                    <h3 id="previewTitle">Some header of title</h3>
-                    <p id="previewCaption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quisquam nemo laboriosam inventore. Dicta ea et aspernatur quibusdam expedita pariatur, dolores assumenda quis nulla architecto. Ullam voluptas, nobis rem eaque.</p>
-                    
-                    <div class="image"><img id="previewImage" src="{{asset('images/somehouse.jpg')}}" alt=""></div>
-
-                    <div class="layout">
-                        <div class="item single-line flex">
-                            <div class="avatar">
-                                <img id="previewUserdp" src="{{asset('images/users/ludoya.jpg')}}" alt="">
-                            </div>
-
-                            <div class="item-text">
-                                <div id="previewUsername" class="title">Ludoya Francis</div>
-                            </div>
-                        </div>
-
-                        <span class="layout center-center reactions">
-                            <svg fill="#E91E63" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> <span id="previewFavCount">45</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg> <span id="previewCommentCount">3</span>
-                        </span>
-                    </div>
-
-                    <hr>
-
-                    <div class="comments">
-                        <!-- <div class="item flex">
-                            <div class="avatar">
-                                <img src="{{asset('images/users/imelda.jpg')}}" alt="">
-                            </div>
-
-                            <div class="item-text">
-                                <div class="title">Sauda Miango</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos delectus velit atque, possimus. Autem esse, cupiditate nam magnam. Quis officia eius, voluptatem dolorum rem enim exercitationem eum distinctio, illum aliquam?</p>
-                            </div>
-                        </div> -->
-
-                        <div class="empty-message">No comments</div>
-
-                        @if (Auth::user())
-                            <div class="item flex">
-                                <div class="avatar">
-                                    <?php 
-                                        $user = Auth::user();
-                                    ?>
-                                    <img src='{{asset("images/uploads/$user->dp")}}' 
-                                    alt="{{$user->fname}}'s dp">
-                                </div>
-
-                                <textarea class="item-text flex" placeholder="Your comment" name="" rows="5"></textarea>
-                            </div>
-
-                            <button style="float: right; margin-top: -10px; display: inline-block;" class="btn btn-primary">Submit</button>
-                        @else
-                            <div class="empty-message"><a href="/login">Login</a> to comment</div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+        @include('home.house-preview')
         <ul id="container"></ul>
 
         <!-- <div class="empty-message">There are no featured houses.</div> -->
