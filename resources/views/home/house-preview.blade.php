@@ -1,20 +1,26 @@
 <div id="preview" class="--js-house-preview">
-    <div class="closer --js-house-preview-closer"></div>
+    <button class="closer --js-house-preview-closer">
+        <svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
     <div class="dh-card --js-house-preview-card">
         <div class="content">
-            <h3 id="previewTitle">Some header of title</h3>
-            <p id="previewCaption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quisquam nemo laboriosam inventore. Dicta ea et aspernatur quibusdam expedita pariatur, dolores assumenda quis nulla architecto. Ullam voluptas, nobis rem eaque.</p>
+            <h3 id="previewTitle">Some title</h3>
+            <p id="previewCaption">Lorem.</p>
             
-            <div class="image"><img id="previewImage" src="{{asset('images/somehouse.jpg')}}" alt=""></div>
+            <div id="previewImageHolder" class="image"><img style="min-height: 300px;" id="previewImage" src="{{asset('/')}}" alt=""></div>
 
             <div class="layout">
                 <div class="item single-line flex">
                     <div class="avatar">
-                        <img id="previewUserdp" src="{{asset('images/users/ludoya.jpg')}}" alt="">
+                        <img id="previewUserdp" src="{{asset('/')}}" alt="">
                     </div>
 
                     <div class="item-text">
-                        <div id="previewUsername" class="title">Ludoya Francis</div>
+                        <div class="title">
+                            <a id="previewUsername">
+                                Ludoya Francis
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -31,8 +37,8 @@
                             <svg fill="#E91E63" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                         </button>
                     </form>
-                    <span id="previewFavCount">45</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg> <span id="previewCommentCount">3</span>
+                    <span id="previewFavCount"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg> <span id="previewCommentCount"></span>
                 </span>
             </div>
 
@@ -55,7 +61,7 @@
                                 <?php 
                                     $user = Auth::user();
                                 ?>
-                                <img src='{{asset("images/uploads/$user->dp")}}' 
+                                <img src='{{asset($user_url . $user->dp)}}' 
                                 alt="{{$user->fname}}'s dp">
                             </div>
 
@@ -96,7 +102,7 @@
         commentObj.user = cur_user;
         commentObj.content = $("#submitComment textarea").val();
         var new_comment = $(comment_template(commentObj));
-        new_comment.addClass("waiting");
+        new_comment.addClass("waiting my-comment");
         new_comment.find("form").prepend(_prev_token);
 
         if($('#commentsList').hasClass("no-comments"))

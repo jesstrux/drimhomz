@@ -24,7 +24,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="javascript:void(0);" data-target="#pages">Pages</a></li>
                 <li><a href="javascript:void(0);" data-target="#users">Manage Users</a></li>
-                <li><a href="javascript:void(0);" data-target="#featuredhouses">Featured Houses</a></li>
+                <li><a href="javascript:void(0);" data-target="#featuredAds">Featured Ads</a></li>
             </ul>
         </aside>
 
@@ -37,8 +37,8 @@
                 @include('dashboard.users')
             </div>
 
-            <div id="featuredhouses" class="subpage">
-                @include('dashboard.houses')
+            <div id="featuredAds" class="subpage">
+                @include('dashboard.ads')
             </div>
         </div>
     </div>

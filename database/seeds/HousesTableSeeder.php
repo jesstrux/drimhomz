@@ -18,10 +18,10 @@ class HousesTableSeeder extends Seeder
 
     	for ($i=1; $i < 50; $i++) {
             $ext = $i%18;
-            $image_url = "images/slideshow/slide$ext.jpg";
+            $image_url = "slide$ext.jpg";
 
             try{
-                $dominantColor = ColorThief::getColor("public/" . $image_url);
+                $dominantColor = ColorThief::getColor("public/images/uploads/houses/" . $image_url);
             }
             catch (Exception $e) {
                 $dominantColor = array(0,0,0);

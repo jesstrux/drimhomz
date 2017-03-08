@@ -24,7 +24,7 @@
 <div id="profileSummaryLg" class="col-sm-12 col-md-5 col-lg-4">
 	<div id="userDetails" class="text-center">
 		<div id="profilePic">
-			<img src='{{asset("images/uploads/$user->dp")}}' 
+			<img src='{{asset($user_url . $user->dp)}}' 
 			alt="{{$user->fname}}'s dp">
 		</div>
 		<h3>{{$user->full_name()}}</h3>
@@ -62,7 +62,7 @@
 
 <div id="profileSummary" class="col-sm-12 col-md-4">
 	<div id="lgDp">
-		<img src='{{asset("images/uploads/$user->dp")}}' 
+		<img src='{{asset($user->dp)}}' 
 			alt="{{$user->fname}}'s dp">
 		<div id="user">
 			<span id="name">{{$user->full_name()}}</span>
@@ -120,7 +120,7 @@
 
 
 <script>
-	var is_followed = <?php echo $followed ?>;
+	var is_followed = <?php echo $is_followed ?: 0 ?>;
 	var followers_count = <?php echo $followers_count ?>;
 
 	function followUser(url){

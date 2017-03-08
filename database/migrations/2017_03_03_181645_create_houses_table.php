@@ -16,7 +16,7 @@ class CreateHousesTable extends Migration
         Schema::create('houses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('image_url');
             $table->string('placeholder_color');
             $table->integer('project_id')->unsigned();

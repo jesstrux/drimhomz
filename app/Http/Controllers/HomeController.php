@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Page;
 use App\User;
 use App\House;
+use App\Advertisement;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -29,7 +30,7 @@ class HomeController extends Controller
     public function index()
     {
         // $db_values = House::all();
-        $randomHouses = House::all();
+        $random_ads = Advertisement::all();
         // $len = count($db_values) - 1;
         // $randomHouses = array();
         $todayString = Carbon::today();
@@ -41,7 +42,7 @@ class HomeController extends Controller
         //     $randomHouses []= $value;
         // }
 
-        return view('home', compact('randomHouses', 'today'));
+        return view('home', compact('random_ads', 'today'));
     }
 
     /**
@@ -55,9 +56,9 @@ class HomeController extends Controller
             $pages = Page::all();
             $users = User::all();
             
-            $db_values = House::all();
+            $db_values = Advertisement::all();
             $len = count($db_values);
-            $randomHouses = array();
+            $randomAds = array();
             
             $todayString = Carbon::today();
             $today = $todayString->toFormattedDateString();
@@ -66,26 +67,26 @@ class HomeController extends Controller
                 for ($i=0; $i < 10; $i++) {
                     $rand = rand ( 0 , $len - 1 );
                     $value = $db_values[$rand];
-                    $randomHouses[]= $value;
+                    $randomAds[]= $value;
                 }
             }
 
-            return view('home.dashboard', compact('pages', 'users', 'randomHouses', 'today'));
+            return view('home.dashboard', compact('pages', 'users', 'randomAds', 'today'));
         }else{
 
-            $db_values = House::all();
+            $db_values = Advertisement::all();
             $len = count($db_values) - 1;
-            $randomHouses = array();
+            $randomAds = array();
             $todayString = Carbon::today();
             $today = $todayString->toFormattedDateString();
 
             for ($i=0; $i < 10; $i++) {
                 $rand = rand ( 0 , $len );
                 $value = $db_values[$rand];
-                $randomHouses []= $value;
+                $randomAds []= $value;
             }
 
-            return view('home', compact('randomHouses', 'today'));
+            return view('home', compact('randomAds', 'today'));
         }
     }
 }

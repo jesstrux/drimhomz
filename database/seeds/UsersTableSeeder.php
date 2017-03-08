@@ -16,36 +16,42 @@ class UsersTableSeeder extends Seeder
         $user1 = [
         	'fname' => 'James',
             'lname' => 'Wolpert',
-        	'phone' => '0817138056',
+        	'phone' => '0717138051',
         	'password' => Hash::make('password'),
+            'dp' => "james.jpeg",
         ];
 
         $user2 = [
-            'fname' => 'Brian',
-            'lname' => 'West',
-            'phone' => '0912785432',
+            'fname' => 'Dean',
+            'lname' => 'Thomas',
+            'phone' => '0717138052',
             'password' => Hash::make('password'),
+            'dp' => "dean.jpg",
         ];
 
         $user3 = [
             'fname' => 'Anabel',
             'lname' => 'Worsty',
-            'phone' => '0621906743',
+            'phone' => '0717138053',
             'password' => Hash::make('password'),
+            'dp' => "anna.jpg",
         ];
 
         $user4 = [
-            'fname' => 'Grindewald',
-            'lname' => 'Ristique',
-            'phone' => '0521906443',
+            'fname' => 'Kingsley',
+            'lname' => 'ShackleBolt',
+            'phone' => '0717138054',
             'password' => Hash::make('password'),
+            'dp' => "kingsley.jpg",
         ];
 
         $user5 = [
-            'fname' => 'Albus',
-            'lname' => 'Dumbledore',
-            'phone' => '0921966743',
+            'fname' => 'Walter',
+            'lname' => 'Kimaro',
+            'phone' => '0717138056',
             'password' => Hash::make('password'),
+            'dp' => "wallie.jpg",
+            'role' => 'admin',
         ];
 
         User::create($user1);

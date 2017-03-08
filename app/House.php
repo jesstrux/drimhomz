@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class House extends Model
 {
+    protected $fillable = [
+        'title', 'image_url', 'placeholder_color', 'description', 'user_id', 'project_id'
+    ];
+
     public function project(){
         return $this->belongsTo('App\Project');
     }

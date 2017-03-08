@@ -56,7 +56,7 @@ class HousesController extends Controller
 
         function getColor($image_url){
             try{
-                $dominantColor = ColorThief::getColor("public/images/uploads/" . $image_url);
+                $dominantColor = ColorThief::getColor($image_url);
             }
             catch (Exception $e) {
                 $dominantColor = array(0,0,0);
@@ -65,13 +65,17 @@ class HousesController extends Controller
             return "rgb(".implode(", ", $dominantColor).")";
         }
 
+        $photoName = $request->file('image_url')->getClientOriginalName();
+        $destination = base_path()."/public/images/uploads/houses/";
+        $request->file('image_url')->move($destination, $photoName);
+
         $project_id = $request->input('project_id') ?: createProject($request->input('project_title'));
-        $placeholder_color = getColor($request->input('image_url'));
+        $placeholder_color = getColor($destination.$photoName);
 
     	$house = [
-            'title' => $request->input('image_url'),
-            'description' => $request->input('description'),
-        	'image_url' => $request->input('image_url'),
+            'title' => $request->input('title'),
+            // 'description' => $request->input('description'),
+        	'image_url' => $photoName,
         	'placeholder_color' => $placeholder_color,
         	'project_id' => $project_id
         ];

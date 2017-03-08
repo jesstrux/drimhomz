@@ -2,6 +2,7 @@
 
 @section('content')
     @include('layouts.header')
+
     <style>
     	body{
 			background-color: #f8f8f8;
@@ -237,7 +238,7 @@
 			}
 		}
 
-		#userHouses{
+		#userHouses .tab-pane{
             list-style: none;
             display: block;
             display: -webkit-flex;
@@ -255,7 +256,7 @@
             margin: 0;
         }
         
-        #userHouses .house-card, .new-button{
+        #userHouses .tab-pane .house-card, .new-button{
             width: calc(50% - 10px);
             display: inline-block;
             margin: 0 5px;
@@ -266,38 +267,38 @@
             padding: 8px;
         }
 
-        #userHouses .house-card .content h3{
+        #userHouses .tab-pane .house-card .content h3{
         	font-size: 1.2em;
         	margin-bottom: 5px;
         	margin-top: 15px;
         }
 
-        #userHouses .house-card .content .social-stuff{
+        #userHouses .tab-pane .house-card .content .social-stuff{
         	font-size: 0.9em;
         }
 
-        #userHouses .house-card .content .social-stuff span{
+        #userHouses .tab-pane .house-card .content .social-stuff span{
         	font-size: 0.8em;
         }
 
-        #userHouses .house-card .image, .new-button .image{
+        #userHouses .tab-pane .house-card .image, .new-button .image{
         	height: 150px; overflow: hidden;
             border-radius: 5px;
             background-color: #f4f4f4;
         }
 
-        #userHouses .house-card .image img{
+        #userHouses .tab-pane .house-card .image img{
             height: 100%;
             min-width: 100%;
         }
 
         @media all and (min-width: 900px) {
-            #userHouses .new-button, #userHouses .house-card{
+            #userHouses .tab-pane .new-button, #userHouses .tab-pane .house-card{
                 width: calc(33.333% - 10px);
                 padding: 16px;
             }
 
-            #userHouses .house-card .image, .new-button .image{
+            #userHouses .tab-pane .house-card .image, .new-button .image{
 	        	height: 200px; overflow: hidden;
 	            border-radius: 5px;
 	            background-color: #f4f4f4;
@@ -313,11 +314,17 @@
         }
     </style>
 
+    @include('home.house-preview')
+
+    <script>
+    	var _token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';
+	    var cur_user = <?php echo $user; ?>;
+    </script>
+
     <?php
 		$followed = false;
 		if(!Auth::guest() && !$myProfile)
 			$followed = $user->followed(Auth::user()->id);
-
 		$followed_str = $followed ? "followed" : "follow";
 
 	    $projects = $user->projects;
@@ -331,30 +338,40 @@
 
 	    $followers = $user->followers;
 	    $followers_count = count($followers);
+
+	    if(!isset($page))
+	    	$page = "houses";
+
+	    $curpage = 'user.' . $page;
+
+	    function is_curpage($page, $my_page){
+	    	return $page == $my_page ? "active" : "";
+	    }
 	?>
 
     <main class="container-fluid">
 		<div class="row">
+			<?php $is_followed = $followed; ?>
 			@include('user.profile_summary')
 
 			<div id="tabsContent" class="col-sm-12 col-md-7 col-lg-8">
-				<div class="tabheads hidden-sm hidden-xs">
-					<a href="#" class="tabhead active"><span>{{$project_count}}</span><span>PROJECTS</span></a>
-					<a href="#" class="tabhead"><span>{{$house_count}}</span><span>HOUSES</span></a>
-					<a href="#" class="tabhead"><span>{{$following_count}}</span><span>FOLLOWING</span></a>
-					<a href="#" class="tabhead"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
+				<div class="tabheads hidden-xs">
+					<a href="/user/{{$user->id}}/projects" data-target="projects" class="tabhead {{is_curpage($page, 'projects')}}"><span>{{$project_count}}</span><span>PROJECTS</span></a>
+
+					<a href="/user/{{$user->id}}/houses" data-target="houses" class="tabhead {{is_curpage($page, 'houses')}}"><span>{{$house_count}}</span><span>HOUSES</span></a>
+
+					<a href="/user/{{$user->id}}/following" data-target="following" class="tabhead {{is_curpage($page, 'following')}}"><span>{{$following_count}}</span><span>FOLLOWING</span></a>
+
+					<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
 				</div>
 
-				<div id="userHousesWrapper" class="tab-content" style="margin-top: 20px;">
-					@include('user.houses')
-				  <div role="tabpanel" class="tab-pane fade in active" id="home">
-				  	
+				<div id="userHouses" style="margin-top: 20px;">
+					<!-- @include('user.houses') -->
+
+
+				  <div role="tabpanel" class="tab-pane fade in active" id="projects">
+				  	@include($curpage)
 				  </div>
-				  <div role="tabpanel" class="tab-pane fade" id="profile">
-				  	
-				  </div>
-				  <div role="tabpanel" class="tab-pane fade" id="messages">...</div>
-				  <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
 				</div>
 			</div>
 		</div>

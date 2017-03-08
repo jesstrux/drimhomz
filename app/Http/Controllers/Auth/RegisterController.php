@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Location;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -67,13 +68,22 @@ class RegisterController extends Controller
         if(!isset($role) || strlen($role) < 1)
             $role = "user";
 
-        return User::create([
+        $new_user = User::create([
             'fname' => $data['fname'],
             'lname' => $data['lname'],
             'phone' => $data['phone'],
             'role' => $role,
-            'dp' => "/public/images/uploads/dp.png",
+            'dp' => "/public/images/uploads/user_dps/drimhomzDefaultDp.png",
             'password' => bcrypt($data['password']),
         ]);
+
+        $location = [
+            'user_id' => $new_user->id,
+            'long' => null,
+            'lat' => null
+        ];
+        Location::create($location);
+
+        return $new_user;
     }
 }

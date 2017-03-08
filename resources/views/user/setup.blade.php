@@ -160,15 +160,15 @@
 
 						<div id="dp">
 							<?php 
-								$dp = "storage/app/";
-								$dp.=isset($user->dp) ? $user->dp : 'images/dp.png' ;
+								$dp = "images/uploads/user_dps/";
+								$dp = isset($user->dp) ? $user->dp : 'drimhomzDefaultDp.png' ;
 							?>
 
 							<div id="loadingDp" class="layout center-center">
 								<img src="{{asset('images/loading.gif')}}" alt="">
 							</div>
 
-							<img src='{{asset("images/uploads/$user->dp")}}' id="curDp" alt="">
+							<img src='{{asset("images/uploads/user_dps/$user->dp")}}' id="curDp" alt="">
 						</div>
 
 						<h3 style="margin-top: 0; margin-bottom: 15px;">Profile picture</h3>
@@ -272,7 +272,7 @@
 		                </div>
 
 		                <div class="setup-field form-group{{ $errors->has('town') ? ' has-error' : '' }}">
-		                    <label for="gender" class="col-md-4 control-label">Town</label>
+		                    <label for="town" class="col-md-4 control-label">Town</label>
 
 		                    <div class="col-md-8">
 		                        <input id="town" placeholder="Town" type="text" class="form-control" name="town" value="{{$user->town}}" required>
@@ -285,12 +285,27 @@
 		                    </div>
 		                </div>
 
+		                <div class="setup-field form-group{{ $errors->has('location') ? ' has-error' : '' }}">
+		                    <label for="location" class="col-md-4 control-label">location</label>
+
+		                    <div class="col-md-8">
+		                        <input id="location" readonly placeholder="location" type="text" class="form-control" name="location" value="{{$user->location_str()}}" required>
+
+		                        @if ($errors->has('location'))
+		                            <span class="help-block">
+		                                <strong>{{ $errors->first('location') }}</strong>
+		                            </span>
+		                        @endif
+		                    </div>
+		                </div>
+
 		                <div class="setup-field form-group{{ $errors->has('dob') ? ' has-error' : '' }}">
 		                    <label for="gender" class="col-md-4 control-label">Date of birth</label>
 
 		                    <div class="col-md-8">
 		                        <input id="dob" type="date" class="form-control" value="{{date('Y-m-d',strtotime($user->dob))}}" required>
-		                        <input id="realDob" type="hidden" name="dob">
+		                        
+		                        <input id="realDob" type="hidden" name="dob" value="{{date('Y-m-d',strtotime($user->dob))}}">
 
 		                        @if ($errors->has('dob'))
 		                            <span class="help-block">
@@ -310,8 +325,11 @@
 		</div>
     </div>
 
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&amp;key=AIzaSyBgc2zYiUzXGjZ277annFVhIXkrpXdOoXw"></script>
+    <script src="{{asset('js/jquery.geocomplete.min.js')}}"></script>
 
     <script>
+    	// const API_KEY = "AIzaSyAQcqitQMDb4pWTudvPoZt6golxzFXrvmI";
     	var tempImage;
     	var image = $("#curDp");
 
@@ -420,5 +438,29 @@
     			$("#titleText").hide();
     		});
     	}
+
+  //   	window.onload = function() {
+  //   		var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=178.294721, -2.358263&amp;key=AIzaSyAQcqitQMDb4pWTudvPoZt6golxzFXrvmI";
+
+		// 	$.get(url, function (response) {
+		// 	    console.log(JSON.stringify(response, null, 4));
+		// 	});
+		// };
+
+		$("#town").geocomplete()
+          .bind("geocode:result", function(event, result){
+          	var loc = result.geometry.location;
+          	$("#location").val(loc.lng() + ", " + loc.lat());
+          })
+          .bind("geocode:error", function(event, status){
+            console.log("ERROR: " + status);
+          })
+          .bind("geocode:multiple", function(event, results){
+            console.log("Multiple: " + results.length + " results found");
+          });
+        
+        // $("#find").click(function(){
+        //   $("#location").trigger("geocode");
+        // });
     </script>
 @endsection
