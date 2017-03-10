@@ -34,7 +34,7 @@
                     }
                 ?>
                 @if ($isadmin)
-                    <li><a href="{{ url('/') }}dashboard">Dashboard</a></li>
+                    <li><a href="{{ url('/') }}/dashboard">Dashboard</a></li>
                 @endif
                 
                 @if (Auth::guest())
