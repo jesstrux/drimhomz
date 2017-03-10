@@ -58,6 +58,14 @@ first_load = true;
           $self.css('opacity', 1);
         }, Math.random() * fadeInDelay);
       });
+
+      $(".user-link").each(function(){
+        $(this).webuiPopover({
+            type:'async',
+            trigger:'hover',
+            url:'/userProfilePopup/'+$(this).data('user-id')
+        });
+      })
     });
   };
 
@@ -153,4 +161,6 @@ first_load = true;
   }
   // Load first data from the API.
   loadData();
+
+  // $(".user-link").css({opacity: 0});
 })(jQuery);

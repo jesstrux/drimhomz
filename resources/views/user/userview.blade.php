@@ -14,19 +14,35 @@
 		#profileSummary{
 			padding: 0;
 			background-color: #ccc;
-			box-shadow: 0 2px 1px rgba(0,0,0,0.15);
+			background-image: -webkit-linear-gradient(top left, #eee, #fefefe);
+			background-image: -o-linear-gradient(top left, #eee, #fefefe);
+			background-image: linear-gradient(to bottom right, #eee, #fefefe);
 			/*margin-bottom: 5px;*/
 			z-index: 1;
 			/*position: relative;*/
 		}
 		#lgDp{
 			position: relative;
-			max-height: 350px;
+			/*max-height: 350px;*/
 			overflow: hidden;
 		}
-		#lgDp img{
+		#lgDp #cover{
+			height: 230px;
+			margin: 30px 0;
+		}
+		
+		#lgDp #cover #theDp{
+			width: 150px;
+			height: 150px;
+			overflow: hidden;
+			border-radius: 50%;
+			margin: auto;
+		}
+
+		#lgDp #theDp img{
 			width: 100%;
 		}
+
 		#lgDp #user{
 			padding: 20px 20px;
 			padding-bottom: 25px;
@@ -90,9 +106,7 @@
 			fill: #000;
 		}
 		.tabheads{
-			background-color: #ddd;
 			height: 75px;
-			/*padding: 10px 0;*/
 			display: -webkit-flex;
 			display: -moz-flex;
 			display: -ms-flex;
@@ -271,10 +285,20 @@
         	font-size: 1.2em;
         	margin-bottom: 5px;
         	margin-top: 15px;
+        	white-space: nowrap;
+        	overflow: hidden;
+        	-ms-text-overflow: ellipsis;
+        	text-overflow: ellipsis;
         }
 
         #userHouses .tab-pane .house-card .content .social-stuff{
         	font-size: 0.9em;
+        	display: inline-block;
+        	width: 100%;
+        	white-space: nowrap;
+        	overflow: hidden;
+        	-ms-text-overflow: ellipsis;
+        	text-overflow: ellipsis;
         }
 
         #userHouses .tab-pane .house-card .content .social-stuff span{
@@ -368,6 +392,17 @@
 				<div id="userHouses" style="margin-top: 20px;">
 					<!-- @include('user.houses') -->
 
+					@if($errors->any())
+						<div class="alert alert-error">
+							{{$errors->first()}}
+						</div>
+					@endif
+
+					@if (\Session::has('success'))
+					    <div class="alert alert-success">
+					        {!! \Session::get('success') !!}
+					    </div>
+					@endif
 
 				  <div role="tabpanel" class="tab-pane fade in active" id="projects">
 				  	@include($curpage)

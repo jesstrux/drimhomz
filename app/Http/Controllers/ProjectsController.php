@@ -17,11 +17,11 @@ class ProjectsController extends Controller
             'title' => $request->input('title')
         ];
         $new_project = Project::create($project);
-        
-        if($new_project){
-        	return response()->json(["success" => true, "project" => Project::find($new_project->id)]);
-        }else{
-        	return response()->json(["success" => false]);
-        }
+
+        if($new_project)
+            return back()->with('success','Project successfully create')
+            ->with('house', Project::find($new_house->id));
+        else
+            return back()->withErrors(['msg','Failed to create project']);
     }
 }

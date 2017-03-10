@@ -15,6 +15,9 @@ Route::get('/testUrl/{user_id}/{follower}', function ($user_id, $follower) {
      echo "Hello guest";
 });
 
+Route::get('resizeImage', 'ImageController@resizeImage');
+Route::post('resizeImagePost',['as'=>'resizeImagePost','uses'=>'ImageController@resizeImagePost']);
+
 
 Route::get('/about', function () {
     return view('home.about');

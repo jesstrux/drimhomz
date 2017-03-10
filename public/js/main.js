@@ -1,8 +1,9 @@
-var house_details, cur_house;
+var house_details = {}, cur_house;
 var hovering = false;
 var cur_popup;
 var cur_popup_area;
 var loc = window.location.host + "/";
+var is_cur_house;
 
 $(document).ready(function(){
     console.log("We are ready to rock and roll!");
@@ -14,15 +15,21 @@ $(document).ready(function(){
             $(this).parents('li').removeClass('active');
     });
 
-    $(document).on("click", '.house-card', function(e){
+    $(document).on("click", '.a-house-item', function(e){
         if(!$(this).data("house"))
             return;
 
-        house_details = $(this).data("house");
-        house_details.owner = $(this).data("user");
-        house_details.fav_count = $(this).data("favs");
-        house_details.comment_count = $(this).data("comments");
-        setPreview(e);
+        var house = $(this).data("house");
+        is_cur_house = house_details.id == house.id;
+        
+        if(!is_cur_house){
+            house_details = house;
+            house_details.owner = $(this).data("user");
+            house_details.fav_count = $(this).data("favs");
+            house_details.comment_count = $(this).data("comments");
+            setPreview();
+        }
+        showHouse(e);
         // console.log(house_details);
     });
 
@@ -36,12 +43,16 @@ $(document).ready(function(){
         }
 
         var index_moi = $(this).index();
-        cur_house = index_moi;
-        cur_house -= index_moi < 4 ? 1 : 2;
-        console.log(index_moi);
+        index_moi -= index_moi < 4 ? 1 : 2;
+        is_cur_house = cur_house == index_moi;
 
-        house_details = featured_houses[cur_house];
-        setPreview(e);
+        if(!is_cur_house){
+            cur_house = index_moi;
+            house_details = featured_houses[cur_house];
+            setPreview(e);
+        }
+
+        showHouse(e);
     });
 
     function loadComments(house) {
@@ -59,9 +70,9 @@ $(document).ready(function(){
         .always(function() {
           console.log("Comments loaded!");
         });
-        };
+    };
 
-        function onLoadComments(data) {
+    function onLoadComments(data) {
         var i = 0, length = data.length;
         $('#previewComments').removeClass('loading');
 
@@ -76,23 +87,6 @@ $(document).ready(function(){
           comment.find("form").prepend(_token);
           $('#commentsList').append(comment);
         }
-    }
-
-    function getPopup(e){
-        var el = e.target;
-        cur_popup_area = el;
-
-        id = $(el).data("user-id");
-        console.log("Foun it: " + id);
-        if(!id)
-          return;
-
-        $.get("/userProfilePopup/"+id, function (response) {
-            cur_popup = $(response);
-            // console.log(el);
-            cur_popup.css({left: e.clientX - 140, top: e.clientY - 200});
-            $('body').append(cur_popup);
-        });
     }
 
     $(document).on("click", '.--js-house-preview .closer', function(e){
@@ -128,14 +122,7 @@ $(document).ready(function(){
         }, 1500)
     });
 
-    function setPreview(e){
-        cur_house = $(this).index();
-        var preview = document.querySelector(".--js-house-preview");
-        var previewCard = document.querySelector(".--js-house-preview-card");
-        var previewBox = previewCard.getBoundingClientRect();
-        var el = e.currentTarget;
-        var elBox = el.getBoundingClientRect();
-
+    function setPreview(){
         $('#previewTitle').text(house_details.title);
         $('#previewCaption').text(house_details.description);
         $('#previewCommentCount').text(house_details.comment_count);
@@ -153,16 +140,16 @@ $(document).ready(function(){
           $('#previewReactions').removeClass("faved");
 
         $('#commentsList').find(".a-comment").remove();
+        // $('.--js-house-preview .dh-card').scrollTop(0);
+    }
 
-        if(house_details.comment_count < 1){
-          $('#commentsList').addClass('no-comments');
-        }else{
-          $('#commentsList').removeClass('no-comments');
-          $('#previewComments').addClass('loading');
-        }
-          
-        $('.--js-house-preview .dh-card').scrollTop(0);
-
+    function showHouse(e){
+        var preview = document.querySelector(".--js-house-preview");
+        var previewCard = document.querySelector(".--js-house-preview-card");
+        var previewBox = previewCard.getBoundingClientRect();
+        var el = e.currentTarget;
+        var elBox = el.getBoundingClientRect();
+        
         var translateX = (elBox.left + (elBox.width / 2)) - (previewBox.left + (previewBox.width / 2));
         var translateY = (elBox.top + (elBox.height / 2)) - (previewBox.top + (previewBox.height / 2));
         var translate = 'translate(' + translateX + 'px,' + translateY + 'px)';
@@ -173,7 +160,7 @@ $(document).ready(function(){
         var scale = 'scale(' + scaleX + ',' + scaleY + ')';
         var transform = scale + " " + translate;
         previewCard.style.transformOrigin = previewCard.style.webkitTransformOrigin = "50% 50%";
-
+        
         var animation = previewCard.animate([
             {opacity: 0, transform: translate + "scale(0)"},
             {opacity: 1.0, transform: "none"}
@@ -181,14 +168,26 @@ $(document).ready(function(){
             duration: 200
         });
 
+        if(!is_cur_house){
+            
+        }
+
         setTimeout(function(){
           previewCard.style.transform = previewCard.style.webkitTransform = "none";
           preview.classList.add("open");
           $('body').addClass('locked');
 
-          setTimeout(function(){
-            loadComments(house_details.id);
-          },150);
+            if (!is_cur_house) {
+                setTimeout(function(){
+                    if(house_details.comment_count < 1){
+                      $('#commentsList').addClass('no-comments');
+                    }else{
+                      $('#commentsList').removeClass('no-comments');
+                      $('#previewComments').addClass('loading');
+                      loadComments(house_details.id);
+                    }
+                },150);
+            }
         }, 100);
     }
 });

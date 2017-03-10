@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\House;
+use App\Advertisement;
 use Illuminate\Http\Request;
 
 class GuestController extends Controller
@@ -25,17 +26,9 @@ class GuestController extends Controller
      */
     public function index()
     {
-        // $db_values = House::all();
-        $randomHouses = House::all();
+        $random_ads = Advertisement::all();
         $todayString = Carbon::today();
         $today = $todayString->toFormattedDateString();
-
-        // for ($i=0; $i < 10; $i++) {
-        //     $rand = rand ( 0 , $len );
-        //     $value = $db_values[$rand];
-        //     $randomHouses []= $value;
-        // }
-
-        return view('home', compact('randomHouses', 'today'));
+        return view('home', compact('random_ads', 'today'));
     }
 }
