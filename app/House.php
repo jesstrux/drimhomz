@@ -20,6 +20,10 @@ class House extends Model
     }
 
     public function comments(){
+        return $this->hasMany("App\Category");
+    }
+
+    public function comments(){
         return $this->hasMany("App\Comment");
     }
 
