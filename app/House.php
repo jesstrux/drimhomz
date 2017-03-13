@@ -19,7 +19,7 @@ class House extends Model
         return $this->project->user;
     }
 
-    public function comments(){
+    public function categories(){
         return $this->hasMany("App\Category");
     }
 
