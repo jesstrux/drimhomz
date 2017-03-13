@@ -80,10 +80,12 @@ class HousesController extends Controller
         	'project_id' => $project_id
         ];
 
-        if(House::create($house))
-            return response()->json(["success" => true]);
+        $new_house = House::create($house);
+        if($new_house)
+            return back()->with('success','House successfully create')
+            ->with('house', House::find($new_house->id));
         else
-            return response()->json(["success" => false]);
+            return back()->withErrors(['msg','Failed to create house']);
     }
 
     public function get_comments($house){

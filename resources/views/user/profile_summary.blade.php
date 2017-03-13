@@ -62,28 +62,24 @@
 
 <div id="profileSummary" class="col-sm-12 col-md-4">
 	<div id="lgDp">
-		<img src='{{asset($user->dp)}}' 
-			alt="{{$user->fname}}'s dp">
+		<div id="cover">
+			<div id="theDp">
+				<img src="{{asset($user_url . $user->dp)}}" alt="{{$user->fname}}'s dp">
+			</div>
+		</div>
 		<div id="user">
 			<span id="name">{{$user->full_name()}}</span>
 			<span id="profession">{{$user->town}}</span>
 
 			@if(!Auth::guest())
 				@if($myProfile)
-					<form id="editProfile" role="form" 
-						method="POST" action="{{ url('edit-profile') }}">
-	                
-		                {{ csrf_field() }}
-		                <input type="hidden" name="id" value="{{$user->id}}">
-
-						<button id="followBtn"
-							onclick="editProfile('edit-profile')">
-							<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-								<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-								<path d="M0 0h24v24H0z" fill="none"/>
-							</svg>
-						</button>
-					</form>
+					<a id="followBtn" href="{{url('/setupAccount')}}"
+						onclick="editProfile('edit-profile')">
+						<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+							<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+							<path d="M0 0h24v24H0z" fill="none"/>
+						</svg>
+					</a>
 				@else
 					<button id="followBtn"
 						class="{{$followed_str}}"
@@ -98,23 +94,12 @@
 		</div>
 	</div>
 	<div class="tabheads">
-		<div class="tabhead">
-			<span>{{$project_count}}</span>
-			<span>PROJECTS</span>
-		</div>
-		<div class="tabhead active">
-			<span>{{$house_count}}</span>
-			<span>HOUSES</span>
-		</div>
-		<!-- <div class="tabhead">
-			<span>{{$following_count}}</span>
-			<span>FOLLOWING</span>
-		</div> -->
+		<a href="/user/{{$user->id}}/projects" data-target="projects" class="tabhead {{is_curpage($page, 'projects')}}"><span>{{$project_count}}</span><span>PROJECTS</span></a>
+		<a href="/user/{{$user->id}}/houses" data-target="houses" class="tabhead {{is_curpage($page, 'houses')}}"><span>{{$house_count}}</span><span>HOUSES</span></a>
 
-		<div class="tabhead">
-			<span class="follower_count">{{$followers_count}}</span>
-			<span>FOLLOWERS</span>
-		</div>
+		<!-- <a href="/user/{{$user->id}}/following" data-target="following" class="tabhead {{is_curpage($page, 'following')}}"><span>{{$following_count}}</span><span>FOLLOWING</span></a> -->
+
+		<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
 	</div>
 </div>
 

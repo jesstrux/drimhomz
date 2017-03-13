@@ -26,7 +26,7 @@
         $trailingS = $comment_count == 1 ? "" : "s";
         $comments_text = $comment_count. " comment".$trailingS;
     ?>
-    <div style="cursor: pointer;" class="house-card" data-house="{{$house}}" data-user="{{$user}}" data-comments="{{$comment_count}}" data-favs="{{$fav_count}}">
+    <div style="cursor: pointer;" class="house-card a-house-item" data-house="{{$house}}" data-user="{{$user}}" data-comments="{{$comment_count}}" data-favs="{{$fav_count}}">
         <div class="image" style="background-color: {{$house->placeholder_color}}">
             <img src="{{asset($house_url . $house->image_url)}}" alt="{{$house->title}}">
         </div>

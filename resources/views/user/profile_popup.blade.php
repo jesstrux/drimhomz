@@ -1,16 +1,17 @@
-<a href="user/{{$user->id}}" style="display: block; position:absolute;z-index: 999999;top: -150px;left: calc(50% - 140px); background-color: #ddd; color: inherit; width: 280px;">
+<a id="profilePopup" href="user/{{$user->id}}">
 <?php
 	$followed_str = $followed ? "followed" : "follow";
 	$is_followed = $followed;
 ?>
+
 <style>
 	#profilePopup{
+		display: block; 
+		background-color: #fff; 
+		color: inherit; 
+		padding: 9px;
 		position: relative;
-		background-color: #ddd;
-		background-image: -webkit-linear-gradient(#ddd, #fefefe);
-		background-image: -o-linear-gradient(#ddd, #fefefe);
-		background-image: linear-gradient(#ddd, #fefefe);
-		border-radius: 4px;
+		/*border-radius: 4px;*/
 		text-align: center;
 		padding-top: 120px;
 	}
@@ -20,39 +21,23 @@
 		padding-bottom: 10px;
 		padding-top: 25px;
 		z-index: 3;
-		background-color: #ddd;/* white;*/
+		background-color: #eee;
 		/*border: 2px solid #ddd;*/
 	}
 	#profilePopup:before{
 		content: "";
-		width: 100%;
-		height: 120px;
 		position: absolute;
-		top: 0;
-		left:0;
+		top: 9px; left: 9px;
+		height: 120px;
+		width: calc(100% - 18px);
 		background-color: rgba(0,0,0,0.7);
 		z-index: 2;
 	}
-	#profilePopup:after{
-		content: "";
-		width: 80px;
-		height: 80px;
-		position: absolute;
-		bottom: -8px;
-		left:calc(50% - 42.5px);
-		border-radius: 3px;
-		background-color: #ddd;/* white;*/
-		/*border: 2px solid #ddd;*/
-		-webkit-transform: rotate(45deg);
-		-ms-transform: rotate(45deg);
-		-o-transform: rotate(45deg);
-		transform: rotate(45deg);
-	}
 	#profilePopup > #cover{
 		position: absolute;
-		top: 0; left: 0;
+		top: 9px; left: 9px;
 		height: 120px;
-		width: 100%;
+		width: calc(100% - 18px);
 		background-position: center;
 		background-size: cover;
 	}
@@ -78,7 +63,7 @@
 		border: none;
 		font-weight: bold;
 		/*margin-top: -20px;*/
-		display: none;
+		/*display: none;*/
 	}
 	.lg-followed, {background-color: #ffa500;}
 	.lg-followed:hover, .lg-followed:focus{background-color: rgba(0,0,0,0.4);}
@@ -96,17 +81,18 @@
 	
 	#profilePopup ul{
 		list-style: none;
-		height: 75px;
+		height: 65px;
 		padding: 0 12px;
 		margin: 0;
 		margin-top: -0.15em;
 		/*padding-bottom: 30px;*/
 	}
 	#profilePopup ul li{
+		display: inline-block;
 		text-align: center;
-		float: left;
+		/*float: left;*/
 		padding: 3px;
-		width: calc(33.333% - 10px);
+		/*width: calc(33.333% - 10px);*/
 	}
 	#profilePopup ul li span{
 		display: block;
@@ -121,7 +107,7 @@
 	}
 </style>
 
-<div id="profilePopup">
+<!-- <div id="profilePopup"> -->
 	<div id="cover" style="background-image: url({{asset($user->cover($house_url, $user_url))}});"></div>
 
 	<div id="userDetails" class="text-center">
@@ -193,4 +179,4 @@
         });
     }
 </script>
-</div>
+<!-- </div> -->

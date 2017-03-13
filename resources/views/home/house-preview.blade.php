@@ -106,7 +106,7 @@
         new_comment.find("form").prepend(_prev_token);
 
         if($('#commentsList').hasClass("no-comments"))
-            $('#commentsList').removeClass('no-comments').html(new_comment);
+            $('#commentsList').removeClass('no-comments');
 
         $('#commentsList').append(new_comment);
 
@@ -248,6 +248,7 @@
         else
           $('#previewReactions').removeClass("faved");
 
+        console.log(new_details.comment_count);
         if(new_details.comment_count < 1){
           $('#commentsList').addClass('no-comments');
         }

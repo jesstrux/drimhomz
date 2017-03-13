@@ -18,6 +18,7 @@
 
     <!-- Scripts -->
     <script src="{{asset('js/jquery-3.1.0.min.js')}}"></script>
+    <script src="{{asset('js/jquery.webui-popover.min.js')}}"></script>
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -26,6 +27,27 @@
         var house_base_url = "<?php echo $house_url?>";
         var user_base_url = "<?php echo $user_url?>";
         var ad_base_url = "<?php echo $banner_url?>";
+
+        function getPopup(el){
+            console.log("El is: " + el);
+            return "A popover is showing here";
+
+            // var el = e.target;
+            cur_popup_area = el;
+
+            id = $(el).data("user-id");
+            console.log("Foun it: " + id);
+            if(!id)
+              return;
+          // +id
+            return $.get("/userProfilePopup/1", function (response) {
+                // cur_popup = $(response);
+                // console.log(el);
+                // cur_popup.css({left: e.clientX - 140, top: e.clientY - 200});
+                // $('body').append(cur_popup);
+                return response;
+            });
+        }
     </script>
     <script src="{{asset('js/main.js')}}"></script>
 </head>

@@ -42,7 +42,7 @@
 
     var _token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';
 
-    var cur_user = <?php echo Auth::user(); ?>;
+    var cur_user = <?php echo Auth::guest() ?: Auth::user(); ?>;
     // var cur_user = JSON.parse(cur_user_obj);
     var random_ads = <?php echo $random_ads; ?>;
 </script>
