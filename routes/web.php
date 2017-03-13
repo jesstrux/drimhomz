@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', 'GuestController@index');
 
 Route::get('/home', 'HomeController@index');
@@ -18,6 +7,14 @@ Route::get('/home', 'HomeController@index');
 Auth::routes();
 
 Route::get('/dashboard', 'HomeController@dashboard');
+
+Route::get('/testUrl/{user_id}/{follower}', function ($user_id, $follower) {
+    if(!Auth::guest())
+        echo Auth::user()->full_name();
+    else
+     echo "Hello guest";
+});
+
 
 Route::get('/about', function () {
     return view('home.about');
@@ -37,7 +34,14 @@ Route::get('/advice', function () {
 });
 
 Route::get('/user/{id}', 'UserController@showprofile');
+Route::get('/user/{id}/{page}', 'UserController@showprofile');
+
+Route::get('/userProfilePopup/{user_id}', 'UserController@get_profile_popup');
+
 Route::post('toggle-admin', ['as'=>'/toggleAdmin','uses'=>'UserController@toggle_admin']);
+
+Route::post('/followUser', 'UserController@follow_user');
+
 
 Route::get('/profile', 'UserController@profile');
 
@@ -51,5 +55,17 @@ Route::post('/registerUser', 'HousesController@reg');
 
 Route::get('/setupAccount', 'UserController@setup');
 
+Route::post('/createProject', 'ProjectsController@store');
+Route::post('/createHouse', 'HousesController@store');
+
 Route::post('setup-account-post', ['as'=>'/setupAccountPost','uses'=>'UserController@setupProfile']);
+
 Route::post('save-dp', ['as'=>'/saveDp','uses'=>'UserController@saveDp']);
+
+Route::get('/comments/{house}', 'HousesController@get_comments');
+
+Route::post('/submitComment', 'HousesController@submit_comment');
+
+Route::post('/favoriteHouse', 'HousesController@favorite_house');
+
+Route::post('/deleteComment', 'HousesController@delete_comment');

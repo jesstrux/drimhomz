@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -30,9 +31,10 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(Exception $e)
     {
-        parent::report($exception);
+//        parent::report($exception);
+        Log::error( '['.$e->getCode().'] '.$e->getMessage().' on line '.@$e->getTrace()[0]['line'].' of file '.@$e->getTrace()[0]['file']);
     }
 
     /**
@@ -45,6 +47,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
+
     }
 
     /**

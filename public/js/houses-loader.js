@@ -1,5 +1,7 @@
+var featured_houses = [];
+first_load = true;
+
 (function ($) {
-  var featured_houses = [];
   var wookmark = undefined,
       page = 1,
       isLoading = false,
@@ -118,17 +120,24 @@
       var ctrailingS = house.comment_count == 1 ? "" : "s";
       var comments_text = house.comment_count + " comment" + ctrailingS;
 
-      html += '<li class="dh-card grid-item" data-postid="'+house.id+'">';
+      if(first_load && (i == 0 || i == 3)){
+        var ad_idx = i == 0 ? i : 2;
+        html += getAd(ad_idx);
+      }
+
+      html += '<li style="cursor: pointer;" id="house'+house.id+'"  class="dh-card grid-item a-house" data-postid="'+house.id+'">';
       html +=   '<div class="image">';
-      html +=     '<img src="'+house.image_url+'" alt="'+house.title+'">';
+      html +=     '<img src="' + house_base_url + house.image_url+'" alt="'+house.title+'">';
       html +=   '</div>';
       html +=   '<div class="content">';
       html +=     '<h3>'+house.title+'</h3>';
-      html +=     '<p>'+house.description+'</p>'
+      html +=     '<a class="user-link" href="/user/'+house.owner.id+'" data-user-id="'+house.owner.id+'">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
       html +=     '<span class="social-stuff">'+likes_text+' | '+comments_text+'</span>'
       html +=   '</div>';
       html +=  '</li>';
     }
+
+    first_load = false;
 
     $newHouses = $(html);
 
@@ -138,56 +147,10 @@
 
   // Capture scroll event.
   $document.on('scroll', onScroll);
-
+  
+  function getAd(i){
+    return tangazo_tpl(random_ads[i]);
+  }
   // Load first data from the API.
   loadData();
-
-  $(document).on("click", '.--js-house-preview .bg', function(e){
-    $preview = $(".--js-house-preview");
-
-    if($preview.hasClass('open'))
-      $preview.removeClass('open')
-  });
-  $(document).on("click", '.dh-card.grid-item', function(e){
-    var house_details = featured_houses[$(this).index()];
-    var preview = document.querySelector(".--js-house-preview");
-    var previewCard = document.querySelector(".--js-house-preview-card");
-    var previewBox = previewCard.getBoundingClientRect();
-    var el = e.currentTarget;
-    var elBox = el.getBoundingClientRect();
-
-    $('#previewTitle').text(house_details.title);
-    $('#previewCaption').text(house_details.description);
-    $('#previewCommentCount').text(house_details.comment_count);
-    $('#previewFavCount').text(house_details.fav_count);
-    $('#previewImage').attr("src", house_details.image_url);
-    $('#previewUsername').text(house_details.user_name);
-    $('#previewUserdp').attr("src", "images/uploads/" + house_details.user_dp || "images/dp.png");
-    $('.--js-house-preview .dh-card').scrollTop(0);
-
-    var translateX = (elBox.left + (elBox.width / 2)) - (previewBox.left + (previewBox.width / 2));
-    var translateY = (elBox.top + (elBox.height / 2)) - (previewBox.top + (previewBox.height / 2));
-    var translate = 'translate(' + translateX + 'px,' + translateY + 'px)';
-    var size = Math.max(previewBox.width + Math.abs(translateX) * 2, previewBox.height + Math.abs(translateY) * 2);
-    var diameter = Math.sqrt(2 * size * size);
-    var scaleX = diameter / previewBox.width;
-    var scaleY = diameter / previewBox.height;
-    var scale = 'scale(' + scaleX + ',' + scaleY + ')';
-    var transform = scale + " " + translate;
-    previewCard.style.transformOrigin = previewCard.style.webkitTransformOrigin = "50% 50%";
-
-    var animation = previewCard.animate([
-        {opacity: 0, transform: translate + "scale(0)"},
-        {opacity: 1.0, transform: "none"}
-    ], {
-        duration: 200
-    });
-
-    setTimeout(function(){
-      previewCard.style.transform = previewCard.style.webkitTransform = "none";
-      preview.classList.add("open");
-    }, 100);
-
-    console.log(house_details);
-  });
 })(jQuery);

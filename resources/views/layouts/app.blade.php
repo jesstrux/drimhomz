@@ -22,7 +22,12 @@
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
+
+        var house_base_url = "<?php echo $house_url?>";
+        var user_base_url = "<?php echo $user_url?>";
+        var ad_base_url = "<?php echo $banner_url?>";
     </script>
+    <script src="{{asset('js/main.js')}}"></script>
 </head>
 <body>
     <div id="mainContent">
@@ -30,8 +35,6 @@
     </div>
 
     @include('layouts.footer')
-
-
     <!-- Scripts -->
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
@@ -39,7 +42,4 @@
 
 @yield('page_footer')
 </body>
-<!-- <script src="{{asset('js/masonry.pkgd.min.js')}}"></script>
-<script src="{{asset('js/bootstrap.min.js')}}"></script>
-<script src="{{asset('js/main.js')}}"></script> -->
 </html>
