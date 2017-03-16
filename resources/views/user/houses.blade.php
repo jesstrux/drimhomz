@@ -16,6 +16,7 @@
 	</div>
 @endif
 
+
 @foreach($houses as $house)
     <?php
         $fav_count = $house->favorites->count();
@@ -49,7 +50,7 @@
         <h3>New House</h3>
         {{ csrf_field() }}
         <input type="hidden" name="user_id" value="{{$user->id}}">
-        
+
         <label style="margin-bottom: 8px;">Pick an image</label>
         <input style="margin-bottom: 10px;" name="image_url" type="file" required><br>
 

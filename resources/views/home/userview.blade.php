@@ -49,7 +49,7 @@
 <div class="image-grid">
         @include('home.house-preview')
         <ul id="container">
-            
+
         </ul>
 
         <!-- <div class="empty-message">There are no featured houses.</div> -->
