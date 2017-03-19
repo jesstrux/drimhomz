@@ -32,6 +32,7 @@ class HomeController extends Controller
         $random_ads = Advertisement::all();
         $todayString = Carbon::today();
         $today = $todayString->toFormattedDateString();
+
         return view('home', compact('random_ads', 'today'));
     }
 

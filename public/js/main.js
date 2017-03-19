@@ -15,6 +15,14 @@ $(document).ready(function(){
             $(this).parents('li').removeClass('active');
     });
 
+    $(".user-link").each(function(){
+        $(this).webuiPopover({
+            type:'async',
+            trigger:'hover',
+            url:'/userProfilePopup/'+$(this).data('user-id')
+        });
+    });
+
     $(document).on("click", '.a-house-item', function(e){
         if(!$(this).data("house"))
             return;
@@ -33,9 +41,20 @@ $(document).ready(function(){
         // console.log(house_details);
     });
 
+    $(document).on("click", '.drim-btn', function(){
+        $parent = $(this).closest('.dh-card');
+
+        if(($parent).hasClass('--js-house-preview-card'))
+            return;
+
+        openNewPin($parent);
+    });
+
     $(document).on("click", '.dh-card.grid-item.a-house', function(e){
-        if(e.target.localName == "a")
+        var localName = e.target.localName;
+        if(localName == "a" || localName == "button" || e.target.classList.contains("drimmer"))
           return;
+        console.log(localName);
 
         if(cur_popup){
           cur_popup.remove();

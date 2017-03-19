@@ -16,7 +16,6 @@ class UsersTableSeeder extends Seeder
         $user1 = [
         	'fname' => 'James',
             'lname' => 'Wolpert',
-
         	'phone' => '0717138051',
         	'password' => Hash::make('password'),
             'dp' => "james.jpeg",
@@ -33,7 +32,6 @@ class UsersTableSeeder extends Seeder
         $user3 = [
             'fname' => 'Anabel',
             'lname' => 'Worsty',
-
             'phone' => '0717138053',
             'password' => Hash::make('password'),
             'dp' => "anna.jpg",

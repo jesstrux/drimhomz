@@ -36,7 +36,7 @@
 		@endif
 
 		@if($myProfile)
-			<a href="{{url('setupAccount')}}" class="btn btn-default">
+			<a href="/setupAccount" class="btn btn-default">
 				Edit profile
 			</a>
 		@else

@@ -88,6 +88,17 @@ body.locked{
 	background-color: white;
 	box-shadow: 0 1px 2px rgba(0,0,0,.3);
 }
+
+.dh-card .post-actions{
+	opacity: 0;
+	pointer-events: none;
+}
+
+.dh-card:hover .post-actions{
+	opacity: 1;
+	pointer-events: auto;
+}
+
 .dh-card .image{
 	background-color: #ddd;
 	background-position: center;
@@ -1017,7 +1028,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     margin-bottom: 30px;
 }
 
-.cust-modal-content button{
+.cust-modal-content button:not(.btn){
     float: right;
     text-align: center;
     padding: 5px 0;
@@ -1028,11 +1039,11 @@ body.moving-stuff #manageImage #resizeCanvas{
     border: none;
     box-shadow: 0 1px 6px rgba(0,0,0,0.3);
 }
-.cust-modal-content button:hover{
+.cust-modal-content button:not(.btn):hover{
     background-color: #1e88e5;
     box-shadow: 0 3px 9px rgba(0,0,0,0.3);
 }
-.cust-modal-content button:active, .cust-modal-content button:focus{
+.cust-modal-content button:not(.btn):active, .cust-modal-content button:not(.btn):focus{
     background-color: #1565c0;/*background-color: #0d47a1;*/
     box-shadow: 0 5px 12px rgba(0,0,0,0.3);
 }

@@ -19,9 +19,12 @@ class ProjectsController extends Controller
         $new_project = Project::create($project);
 
         if($new_project)
-            return back()->with('success','Project successfully create')
-            ->with('house', Project::find($new_house->id));
+            return back()->with('success','Project successfully created')
+            ->with('project', Project::find($new_project->id));
         else
             return back()->withErrors(['msg','Failed to create project']);
+            // return response()->json([
+            //     'success' => 'false'
+            // ]);
     }
 }

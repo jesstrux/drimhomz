@@ -70,5 +70,8 @@ Route::get('/comments/{house}', 'HousesController@get_comments');
 Route::post('/submitComment', 'HousesController@submit_comment');
 
 Route::post('/favoriteHouse', 'HousesController@favorite_house');
+Route::post('/deleteHouse', 'HousesController@delete_house');
 
+Route::post('/favoriteProject', 'ProjectsController@favorite_project');
+Route::post('/deleteProject', 'ProjectsController@delete_project')->name('deleteProject');
 Route::post('/deleteComment', 'HousesController@delete_comment');

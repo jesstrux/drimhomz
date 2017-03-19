@@ -5,7 +5,7 @@ first_load = true;
   var wookmark = undefined,
       page = 1,
       isLoading = false,
-      apiURL = 'randomHouses',
+      apiURL = '/randomHouses',
       lastRequestTimestamp = 0,
       fadeInDelay = 2000,
       container = '#container',
@@ -133,9 +133,22 @@ first_load = true;
         html += getAd(ad_idx);
       }
 
+      var post_actions = '<div class="post-actions" style="position: absolute; right: 0; top: 0; padding: 8px; padding-right:10px; z-index: 3;">';
+      post_actions += '<button class="btn drim-btn" style="background:#8bc34a; border-radius: 50%; overflow: hidden; padding: 6px; padding-bottom: 6px"><img class="drimmer" src="images/drim.png" height="20px"/></button>';
+      post_actions += '<form action="" method="POST" style="display: inline-block; margin-left: 10px"><input type="hidden" name="token" value="'+Laravel.csrfToken+'"/><button class="btn" style="background:red; color: #fff; font-size: 12px; padding: 3px; height: 25px">FOLLOW</button></form>';
+      post_actions += '</div>';
+
+      var actions_html = "";
+      if(cur_user){
+        actions_html = post_actions;
+      }
+
+      // console.log(cur_user.id.length);
+
       html += '<li style="cursor: pointer;" id="house'+house.id+'"  class="dh-card grid-item a-house" data-postid="'+house.id+'">';
+      html +=   actions_html;
       html +=   '<div class="image">';
-      html +=     '<img src="' + house_base_url + house.image_url+'" alt="'+house.title+'">';
+      html +=     '<img src="' + house_base_url + 'thumbs/' + house.image_url+'" alt="'+house.title+'">';
       html +=   '</div>';
       html +=   '<div class="content">';
       html +=     '<h3>'+house.title+'</h3>';

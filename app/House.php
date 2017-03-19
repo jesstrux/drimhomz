@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\FollowPost;
 use App\Favorite;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,6 +34,15 @@ class House extends Model
 
     public function faved($uid){
         return Favorite::where(
+            array('house_id' => $this->id, 'user_id' => $uid))->exists();
+    }
+
+    public function followers(){
+        return $this->hasMany('App\FollowPost');
+    }
+
+    public function followed($uid){
+        return FollowPost::where(
             array('house_id' => $this->id, 'user_id' => $uid))->exists();
     }
 }

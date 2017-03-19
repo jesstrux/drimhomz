@@ -9,7 +9,7 @@
             </button>
             <a class="navbar-brand" href="{{ url('/') }}">
                 <img src="{{asset('images/drimhomzlogo.png')}}" alt="">
-                <span id="logo">{{ config('app.name', 'Drimhomz.com') }}</span>
+                <span id="logo">{{ config('app.name', 'Drimhomz') }}</span>
             </a>
 
             <!-- <div>
@@ -34,14 +34,12 @@
                     }
                 ?>
                 @if ($isadmin)
-
                     <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                 @endif
                 
                 @if (Auth::guest())
                     <li><a href="{{ url('/') }}">Home</a></li>
                 @else
-
                     <li><a href="{{ url('/home') }}">Home</a></li>
                 @endif
                 

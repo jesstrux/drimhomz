@@ -12,11 +12,11 @@
                 <br>
                 <div class="panel-body">
                     <center>
-                        No account yet? <a href="{{url('')}}/register">Register</a>
+                        No account yet? <a href="/register">Register</a>
                     </center>
                     <br>
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('') }}/login">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">

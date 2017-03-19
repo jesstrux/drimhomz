@@ -21,24 +21,15 @@
 
 @foreach($projects as $project)
     <?php
-        $house_count = count($project->houses);
+        $house_count = $project->houses()->count();
         $trailingS = $house_count == 1 ? "" : "s";
-        $houses_text = $house_count > 0 ?: "No";
+        $houses_text = $house_count > 0 ? $project->houses()->count() : "No";
         $houses_text .= " house" . $trailingS;
-
-        if($house_count > 1){
-            $house = $project->houses->first();
-            $bg = $house->placeholder_color;
-            $img = $house->image_url;
-        }else{
-            $bg = "#eee";
-            $img = "nohouses.jpg";
-        }
     ?>
 
     <div class="house-card">
-        <div class="image" style="background-color: {{$bg}}">
-            <img src="{{asset($house_url . $img)}}" alt="{{$project->title}}">
+        <div class="image" style="pointer-events: auto;">
+            @include('user.project-cover')
         </div>
         <div class="content">
             <h3>{{$project->title}}</h3>
@@ -54,14 +45,14 @@
         <svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
     </button>
 
-    <form class="cust-modal-content" method="POST" action="/createProject">
+    <form id="newProject" class="cust-modal-content" method="POST" action="/createProject">
         <h3>New project</h3>
         {{ csrf_field() }}
         <input type="hidden" name="user_id" value="{{$user->id}}">
 
         <label>Project title</label>
         <input name="title" type="text" placeholder="enter project title here" required>
-        <button type="submit">CREATE</button>
+        <button type="submit" onclic="addNewProject('/createProject')">CREATE</button>
     </form>
 </div>
 
@@ -74,5 +65,32 @@
     function openNewProject() {
         $("#newProject").addClass("open");
         $("body").addClass("locked");
+    }
+
+    function addNewProject(url){
+        var formdata = new FormData($("#newProject")[0]);
+        $.ajax({
+              type:'POST',
+              url: url,
+              data: formdata,
+              dataType:'json',
+              async:false,
+              processData: false,
+              contentType: false
+        })
+        .done(function(response){
+            console.log("Response!, ", response);
+            if(response.success){
+                closeNewProject();
+                infoSaved("Project created!");
+            }
+        })
+        .fail(function(response){
+            console.log("Error!, ", response);
+            document.write(response.responseText);
+        })
+        .always(function(){
+            console.log("Action done");
+        });
     }
 </script>

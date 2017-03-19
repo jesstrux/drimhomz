@@ -6,7 +6,7 @@
         <div class="content">
             <h3 id="previewTitle">Some title</h3>
             <p id="previewCaption">Lorem.</p>
-
+            
             <div id="previewImageHolder" class="image"><img style="min-height: 300px;" id="previewImage" src="{{asset('/')}}" alt=""></div>
 
             <div class="layout">
@@ -50,7 +50,7 @@
                 </div>
                 <div id="loadingComments" class="empty-message">
                 Loading comments</div>
-
+                
                 @if (Auth::user())
                     <form id="submitComment" action="{{ url('/submitComment') }}" method="POST">
                         {{ csrf_field() }}
@@ -58,10 +58,10 @@
 
                         <div class="item flex">
                             <div class="avatar">
-                                <?php
+                                <?php 
                                     $user = Auth::user();
                                 ?>
-                                <img src='{{asset($user_url . $user->dp)}}'
+                                <img src='{{asset($user_url . $user->dp)}}' 
                                 alt="{{$user->fname}}'s dp">
                             </div>
 

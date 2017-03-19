@@ -9,6 +9,7 @@ use App\House;
 use App\Comment;
 use App\Favorite;
 use ColorThief\ColorThief;
+use Image;
 
 use Illuminate\Http\Request;
 
@@ -54,6 +55,33 @@ class HousesController extends Controller
             return Project::create($project)->id;
         }
 
+        function saveImage($request){
+            // $this->validate($request, [
+            //     'title' => 'required',
+            //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3072',
+            // ]);
+
+            $image = $request->file('image_url');
+            $input['imagename'] = time().'.'.$image->getClientOriginalExtension();
+         
+       
+            $destinationPath = public_path('images/uploads/houses/');
+            $thumbPath = $destinationPath.'thumbs';
+
+            $img = Image::make($image->getRealPath());
+            $img->resize(800, 800, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($thumbPath.'/'.$input['imagename']);
+
+            $res['placeholder_color'] = getColor($thumbPath.'/'.$input['imagename']);
+
+            $image->move($destinationPath, $input['imagename']);
+
+            $res['image_url'] = $input['imagename'];
+
+            return $res;
+        }
+
         function getColor($image_url){
             try{
                 $dominantColor = ColorThief::getColor($image_url);
@@ -65,27 +93,26 @@ class HousesController extends Controller
             return "rgb(".implode(", ", $dominantColor).")";
         }
 
-        $photoName = $request->file('image_url')->getClientOriginalName();
-        $destination = base_path()."/public/images/uploads/houses/";
-        $request->file('image_url')->move($destination, $photoName);
-
         $project_id = $request->input('project_id') ?: createProject($request->input('project_title'));
-        $placeholder_color = getColor($destination.$photoName);
+        $image_info = saveImage($request);
 
-    	$house = [
+        $house = [
             'title' => $request->input('title'),
             // 'description' => $request->input('description'),
-        	'image_url' => $photoName,
-        	'placeholder_color' => $placeholder_color,
-        	'project_id' => $project_id
+            'image_url' => $image_info['image_url'],
+            'placeholder_color' => $image_info['placeholder_color'],
+            'project_id' => $project_id
         ];
 
         $new_house = House::create($house);
         if($new_house)
-            return back()->with('success','House successfully create')
+            return back()->with('success','House successfully created')
             ->with('house', House::find($new_house->id));
         else
             return back()->withErrors(['msg','Failed to create house']);
+            // return response()->json([
+            //     'success' => 'false'
+            // ]);
     }
 
     public function get_comments($house){

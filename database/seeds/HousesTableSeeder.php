@@ -16,19 +16,35 @@ class HousesTableSeeder extends Seeder
     	$faker = Faker\Factory::create();
     	$projects = App\Project::all()->modelKeys();
 
-    	for ($i=1; $i < 50; $i++) {
-            $ext = $i%18;
-            $image_url = "slide$ext.jpg";
+        function saveThumb($ext){
+            $destinationPath = public_path('images/uploads/houses/');
+            $thumbPath = $destinationPath.'thumbs/';
+            $real_path = $thumbPath . $ext;
 
+            $img = Image::make($destinationPath . $ext);
+            $img->resize(600, 600, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($real_path);
+
+            return getColor($real_path);
+        }
+
+        function getColor($image_url){
             try{
-                $dominantColor = ColorThief::getColor("public/images/uploads/houses/" . $image_url);
+                $dominantColor = ColorThief::getColor($image_url);
             }
             catch (Exception $e) {
                 $dominantColor = array(0,0,0);
             }
 
-            // $hsl = RGBToHSL($dominantColor);
-            $dominantColor = "rgb(".implode(", ", $dominantColor).")";
+            return "rgb(".implode(", ", $dominantColor).")";
+        }
+
+    	for ($i=0; $i < 32; $i++) {
+            // $ext = $i%31;
+            $image_url = "slide$i.jpg";
+
+            $dominantColor = saveThumb($image_url);
 
 			$house = [
 	        	'image_url' => $image_url,
