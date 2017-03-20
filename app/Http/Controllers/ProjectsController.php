@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use Auth;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -26,5 +27,18 @@ class ProjectsController extends Controller
             // return response()->json([
             //     'success' => 'false'
             // ]);
+    }
+
+    function showprofile($id){
+        $project = Project::with('houses')->find($id);
+
+        if(!Auth::guest()){
+            $authuser = Auth::user();
+            $myProject = $authuser->id == $project->user->id;
+        }else{
+            $myProject = false;
+        }
+
+        return view('project.index', compact('project', 'myProject'));
     }
 }

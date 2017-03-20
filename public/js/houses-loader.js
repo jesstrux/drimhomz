@@ -135,11 +135,11 @@ first_load = true;
 
       var post_actions = '<div class="post-actions" style="position: absolute; right: 0; top: 0; padding: 8px; padding-right:10px; z-index: 3;">';
       post_actions += '<button class="btn drim-btn" style="background:#8bc34a; border-radius: 50%; overflow: hidden; padding: 6px; padding-bottom: 6px"><img class="drimmer" src="images/drim.png" height="20px"/></button>';
-      post_actions += '<form action="" method="POST" style="display: inline-block; margin-left: 10px"><input type="hidden" name="token" value="'+Laravel.csrfToken+'"/><button class="btn" style="background:red; color: #fff; font-size: 12px; padding: 3px; height: 25px">FOLLOW</button></form>';
+      post_actions += '<form action="" id="followHouse'+house.id+'" method="POST" style="display: inline-block; margin-left: 10px"><input type="hidden" name="_token" value="'+Laravel.csrfToken+'"/><button class="btn follow-house-btn" type="button" onclick="followHouse('+house.id+')">FOLLOW</button></form>';
       post_actions += '</div>';
 
       var actions_html = "";
-      if(cur_user){
+      if(user_exists){
         actions_html = post_actions;
       }
 

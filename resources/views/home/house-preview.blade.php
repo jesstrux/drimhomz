@@ -80,7 +80,7 @@
 
 <script>
     var _prev_token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';
-    var cur_user = <?php echo (Auth::user()) ?: ""; ?>;
+    var cur_user = <?php echo Auth::guest() ?: Auth::user(); ?>;
 
     $("#submitComment textarea")
         .on("focus", function(){

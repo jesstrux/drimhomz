@@ -28,6 +28,8 @@
         var user_base_url = "<?php echo $user_url?>";
         var ad_base_url = "<?php echo $banner_url?>";
 
+        var user_exists = <?php echo Auth::guest() ? "false" : "true" ?>;
+
         function getPopup(el){
             console.log("El is: " + el);
             return "A popover is showing here";
@@ -99,9 +101,14 @@
                         <div style="padding: 20px;">
                             <div>
                                 <h5 style="display: inline-block; font-size: 23px; margin-top: 1px;">Choose project</h5>
-                                <button type="submit" onclic="addnewPin('/createProject')">Create project</button>
+                                <button class="cust-modal-button" type="submit" onclic="addnewPin('/createProject')">Create project</button>
                             </div>
                             <hr>
+                            
+                            <div id="pinAlert" class="alert alert-success alert-dismissible collapse" role="alert">
+                              <strong>Success!</strong> <em>Picture saved.</em>
+                            </div>
+
                             <div id="projectOptions">
                                 @if($user_projects != null)
                                     @foreach($user_projects as $proj)
@@ -113,7 +120,7 @@
                                                     {{$proj->title}}
                                                 </div>
                                                     
-                                                <button class="btn" type="submit" onclic="addnewPin('/createProject')">
+                                                <button class="btn btn-success" type="button" onclick="addnewPin({{$loop->iteration}})">
                                                     SAVE
                                                 </button>
                                             </form>
@@ -128,18 +135,17 @@
         </div>
     @endif    
     <script>
-        function closeNewPin() {
-            $("#newPinModal").removeClass("open");
-            $("body").removeClass("locked");
-        }
+        var pin_id;
 
         function openNewPin($jqel) {
             $("#newPinModal").addClass("open");
             $("body").addClass("locked");
             el = $jqel.get(0);
-            var src = $jqel.find(".image img").attr("src");
+            pin_id = $jqel.attr('data-postid');
 
-            var previewCard = document.querySelector("#newPinCard");
+            var src = $jqel.find(".image img").attr("src");
+            var previewC = $("#newPinCard");
+            var previewCard = previewC.get(0);
             var previewBox = previewCard.getBoundingClientRect();
             var elBox = el.getBoundingClientRect();
             
@@ -166,11 +172,14 @@
             });
         }
 
-        function addnewPin(url){
-            var formdata = new FormData($("#newPin")[0]);
+        function addnewPin(id){
+            var formdata = new FormData($("#newPin"+id)[0]);
+            formdata.append("house_id", pin_id);
+            formdata.append("user_id", cur_user.id);
+
             $.ajax({
                   type:'POST',
-                  url: url,
+                  url: "/pinHouse",
                   data: formdata,
                   dataType:'json',
                   async:false,
@@ -180,13 +189,92 @@
             .done(function(response){
                 console.log("Response!, ", response);
                 if(response.success){
-                    closenewPin();
-                    infoSaved("Project created!");
+                    closeNewPin();
+                    iziToast.success({
+                        title: 'Success',
+                        message: response.msg,
+                        position: 'topRight'
+                    });
+                }else{
+                    respond("Error", response.msg);
+                }
+            })
+            .fail(function(response){
+                console.log("Error!, ", response);
+                // document.write(response.responseText);
+                iziToast.error({
+                    title: 'Error',
+                    message: 'An unknown error Occured',
+                    position: 'topRight'
+                });
+            })
+            .always(function(){
+                console.log("Action done");
+            });
+        }
+
+        function closeNewPin() {
+            $("#newPinModal").removeClass("open");
+            $("body").removeClass("locked");
+        }
+
+        function respond(type, msg){
+            $el = $("#pinAlert");
+            $el.removeClass("alert-danger alert-success alert-info");
+            $el.find("strong").text(type);
+            if(type == "Error"){
+                type = "danger";
+            }
+
+            $el.addClass("alert-"+type.toLowerCase());
+            $el.find("em").text(msg);
+
+            $el.removeClass("collapse");
+
+            setTimeout(function(){
+                $el.addClass("collapse");
+            }, 3000);
+        }
+
+        function followHouse(id){
+            var formdata = new FormData($("#followHouse"+id)[0]);
+            formdata.append("house_id", id);
+            formdata.append("_token", Laravel.csrfToken);
+
+            $.ajax({
+                  type:'POST',
+                  url: "/followHouse",
+                  data: formdata,
+                  dataType:'json',
+                  async:false,
+                  processData: false,
+                  contentType: false
+            })
+            .done(function(response){
+                console.log("Response!, ", response);
+                if(response.success){
+                    closeNewPin();
+                    iziToast.success({
+                        title: 'Success',
+                        message: response.msg,
+                        position: 'topRight'
+                    });
+                }else{
+                    iziToast.error({
+                        title: 'Error',
+                        message: response.msg,
+                        position: 'topRight'
+                    });
                 }
             })
             .fail(function(response){
                 console.log("Error!, ", response);
                 document.write(response.responseText);
+                // iziToast.error({
+                //     title: 'Error',
+                //     message: 'An unknown error Occured',
+                //     position: 'topRight'
+                // });
             })
             .always(function(){
                 console.log("Action done");
@@ -194,5 +282,6 @@
         }
     </script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/iziToast.min.js')}}"></script>
 </body>
 </html>

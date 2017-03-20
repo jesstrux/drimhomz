@@ -8,6 +8,7 @@ use App\Project;
 use App\House;
 use App\Comment;
 use App\Favorite;
+use App\FollowPost;
 use ColorThief\ColorThief;
 use Image;
 
@@ -43,6 +44,83 @@ class HousesController extends Controller
         }
 
 		return $values;
+    }
+
+    public function follow_house(Request $request){
+        if(Auth::guest()){
+            return response()->json([
+                'success' => false,
+                'msg' => "You must be logged in to follow a house"
+            ]);
+        }
+
+        $user_id = Auth::user()->id;
+        $house_id = $request->input('house_id');
+        $house = House::find($house_id);
+
+        if($house->followed($user_id)){
+            return response()->json([
+                'success' => false,
+                'msg' => "You already followed this house"
+            ]);
+        }
+        else if($house->owner()->id == $user_id){
+            return response()->json([
+                'success' => false,
+                'msg' => "You can't follow your own house!"
+            ]);
+        }
+        else{
+            $follow = [
+                'user_id' => $user_id,
+                'house_id' => $house_id
+            ];
+
+            if(FollowPost::create($follow)){
+                return response()->json([
+                    'success' => true,
+                    'msg' => "Successfully followed house"
+                ]);
+            }else{
+                return response()->json([
+                    'success' => true,
+                    'msg' => "Couldn't follow house"
+                ]);
+            }
+        }
+    }
+
+    public function pin_house(Request $request){
+        $project = Project::find($request->input('project_id'));
+        $houses = $project->houses;
+        $cur_house = House::find($request->input('house_id'));
+        $image_url = $cur_house -> image_url;
+        
+        $count = $houses->where("image_url", $image_url)->count();
+
+        if($count > 0){
+            return response()->json([
+                'success' => false,
+                'msg' => "This house was already drimmed to $project->title",
+                'request' => $request->all()
+            ]);
+        }else{
+            $house = House::find($request->input('house_id'));
+            $house->id = null;
+            $house->project_id = $request->input('project_id');
+
+            if(House::create($house->toArray())){
+                return response()->json([
+                    'success' => true,
+                    'msg' => "Successfully drimmed to $project->title"
+                ]);
+            }else{
+                return response()->json([
+                    'success' => true,
+                    'msg' => "Couldn't drim to $project->title"
+                ]);
+            }
+        }
     }
 
     public function store(Request $request){

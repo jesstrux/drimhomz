@@ -9,10 +9,15 @@ Auth::routes();
 Route::get('/dashboard', 'HomeController@dashboard');
 
 Route::get('/testUrl/{user_id}/{follower}', function ($user_id, $follower) {
-    if(!Auth::guest())
-        echo Auth::user()->full_name();
-    else
-     echo "Hello guest";
+    // if(!Auth::guest())
+    //     echo Auth::user()->full_name();
+    // else
+    //  echo "Hello guest";
+
+ 	$project = App\Project::find($user_id);
+    $houses = $project->houses;
+    $exists = $houses->where("id", $follower)->count();
+    print_r($exists > 0 ? "true" : "false");
 });
 
 Route::get('resizeImage', 'ImageController@resizeImage');
@@ -39,6 +44,8 @@ Route::get('/advice', function () {
 Route::get('/user/{id}', 'UserController@showprofile');
 Route::get('/user/{id}/{page}', 'UserController@showprofile');
 
+Route::get('/project/{id}', 'ProjectsController@showprofile');
+
 Route::get('/userProfilePopup/{user_id}', 'UserController@get_profile_popup');
 
 Route::post('toggle-admin', ['as'=>'/toggleAdmin','uses'=>'UserController@toggle_admin']);
@@ -60,6 +67,8 @@ Route::get('/setupAccount', 'UserController@setup');
 
 Route::post('/createProject', 'ProjectsController@store');
 Route::post('/createHouse', 'HousesController@store');
+Route::post('/pinHouse', 'HousesController@pin_house');
+Route::post('/followHouse', 'HousesController@follow_house');
 
 Route::post('setup-account-post', ['as'=>'/setupAccountPost','uses'=>'UserController@setupProfile']);
 

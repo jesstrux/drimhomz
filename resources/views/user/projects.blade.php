@@ -27,7 +27,7 @@
         $houses_text .= " house" . $trailingS;
     ?>
 
-    <div class="house-card">
+    <a href="{{url('/project/').'/'.$project->id}}" class="house-card">
         <div class="image" style="pointer-events: auto;">
             @include('user.project-cover')
         </div>
@@ -37,7 +37,7 @@
             	{{$houses_text}}
             </span>
         </div>
-    </div>
+    </a>
 @endforeach
 
 <div id="newProject" class="cust-modal">

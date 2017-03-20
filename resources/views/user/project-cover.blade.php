@@ -28,11 +28,7 @@
 ?>
 <div id="projHouses" class="layout wrap">
 	@foreach ($houses as $key => $house)
-		<div class="column-inner a-house-item"
-			data-house="{{$house}}"
-			data-user="{{$user}}" 
-			data-comments="{{$house->comments->count()}}" 
-			data-favs="{{$house->favorites->count()}}"
+		<div class="column-inner"
 			style="background-image: url({{$house_url.'/thumbs/'.$house->image_url}})"></div>
 	@endforeach
 
