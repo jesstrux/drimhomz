@@ -37,9 +37,7 @@ Route::get('/expert', function () {
     return view('home.expert');
 });
 
-Route::get('/advice', function () {
-    return view('home.advice');
-});
+Route::get('/advice', 'AdviceController@index');
 
 Route::get('/user/{id}', 'UserController@showprofile');
 Route::get('/user/{id}/{page}', 'UserController@showprofile');
