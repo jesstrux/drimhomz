@@ -20,7 +20,7 @@ class AnswersSeeder extends Seeder
             $comment = [
                 'user_id' => $users[$faker->numberBetween(0, count($users) - 1)],
                 'question_id' => $questions[$faker->numberBetween(0, count($questions) - 1)],
-                'content' => $faker->realText($faker->numberBetween(10, 40))
+                'content' => $faker->realText($faker->numberBetween(10, 70))
             ];
             Answer::create($comment);
         }

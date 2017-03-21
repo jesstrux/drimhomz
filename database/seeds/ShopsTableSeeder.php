@@ -1,9 +1,9 @@
 <?php
 
-use App\Question;
+use App\Shop;
 use Illuminate\Database\Seeder;
 
-class QuestionsSeeder extends Seeder
+class ShopsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,13 +16,14 @@ class QuestionsSeeder extends Seeder
         $users = App\User::all();
 
         for ($i=0; $i < 30; $i++) { 
-        	$project = [
+        	$shop = [
 	        	'user_id' => $faker->numberBetween(1, $users->count()),
-	            'title' => $faker->sentence($faker->numberBetween(2, 4)),
-	            'content' => $faker->realText($faker->numberBetween(40, 270))
+	            'name' => $faker->sentence($faker->numberBetween(2, 4)),
+                'coords' => $faker->longitude() . ", " . $faker->latitude(),
+                'location' => $faker->streetName()
 	        ];
 
-	        Question::create($project);
+	        Shop::create($shop);
         }
     }
 }

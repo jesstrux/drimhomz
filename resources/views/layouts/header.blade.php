@@ -11,10 +11,6 @@
                 <img src="{{asset('images/drimhomzlogo.png')}}" alt="">
                 <span id="logo">{{ config('app.name', 'Drimhomz') }}</span>
             </a>
-
-            <!-- <div>
-                <input type="text" style="width: 100%; background: red">
-            </div> -->
         </div>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -33,6 +29,12 @@
                             $isadmin = true;
                     }
                 ?>
+
+                <li>
+                    <form action="{{url('search/')}}">
+                        <input name="q" type="text" placeholder="Search" style="width: 250px; background: transparent; border-radius: 5px; border: 2px solid #bbb; font-size: 20px; margin-top: 16px; padding: 0 8px;">
+                    </form>
+                </li>
                 @if ($isadmin)
                     <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                 @endif

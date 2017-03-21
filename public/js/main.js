@@ -9,7 +9,7 @@ $(document).ready(function(){
     console.log("We are ready to rock and roll!");
 
     $('#mainNav li a').each(function(){
-        if($(this).prop("href") == window.location.href)
+        if(window.location.href.indexOf($(this).prop("href")) != -1)
             $(this).parents('li').addClass('active');
         else
             $(this).parents('li').removeClass('active');

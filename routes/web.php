@@ -28,16 +28,17 @@ Route::get('/about', function () {
     return view('home.about');
 });
 
+Route::get('/search', 'SearchController@search');
 
-Route::get('/shop', function () {
-    return view('home.shop');
-});
+Route::get('/shop', 'ShopController@index');
+Route::get('/shop/{id}', 'ShopController@show_profile');
 
 Route::get('/expert', function () {
     return view('home.expert');
 });
 
 Route::get('/advice', 'AdviceController@index');
+Route::get('/advice/{page}', 'AdviceController@index');
 
 Route::get('/user/{id}', 'UserController@showprofile');
 Route::get('/user/{id}/{page}', 'UserController@showprofile');

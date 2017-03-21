@@ -4,7 +4,7 @@
 		line-height: 1.5em !important;
 	}
 </style>
-@foreach($questions as $question)
+@foreach($articles as $question)
 	<div class="row full-question" id="question_{{$question->id}}">
 		<div class="col-lg-12 card no-pad question">
 		    <div class="item">
@@ -31,7 +31,7 @@
 	        </div>
 		</div><!--end .col, .card -->
 
-		<?php $answers = $question -> answers ?>
-		@include('advice.answers')
+		<?php $comments = $question -> comments ?>
+		@include('advice.comments')
 	</div><!--end .row -->
 @endforeach

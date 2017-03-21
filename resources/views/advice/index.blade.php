@@ -13,6 +13,17 @@
 			/*ECECEC;*/
 			/*background-color: #ccc;*/
 		}
+		.tab-links{
+			font-size: 1.6em;
+		}
+		.tab-links a{
+			color: inherit;
+			font-family: inherit;
+		}
+		.tab-links a.active{
+			font-weight: bold;
+			color: #444;
+		}
 		.card {
 		  position: relative;
 		  margin-bottom: 24px;
@@ -238,20 +249,27 @@
 	<section class="short" style="background-color: #fff;margin-bottom: 50px">
 	    <div class="container">
 	        <div class="section-header text-center">
-	            <h3>Advice</h3>
-	            <p>
+	            <h3 style="font-size: 3.5em">Advice</h3>
+	            <!-- <p style="font-size: 2em; margin-top: 25px;color: #777">
 	                Looking for advice about the kind of house you want to build, we've got you covered.
-	            </p>
+	            </p> -->
 	            <br>
-	            <h4>
-	            	<a href="">QUESTIONS</a> &emsp;|&emsp; <a href="">ARTICLES</a>
+	            <?php
+	            	$questions_active = $page == "questions" ? "active" : "";
+	            	$articles_active = $page == "articles" ? "active" : "";
+	            ?>
+	            <h4 class="tab-links">
+	            	<a href="{{url('advice/questions')}}" class="{{$questions_active}}">
+	            		QUESTIONS
+	            	</a> &emsp;|&emsp; 
+	            	<a href="{{url('advice/articles')}}" class="{{$articles_active}}">ARTICLES</a>
 	            </h4>
 	        </div>
 	    </div>
 	</section>
 
 	<div class="container" style="max-width: 800px; margin-top: 10px;">
-		@include('advice.questions')
+		@include('advice.'.$page)
 	</div>
 
 	<script>

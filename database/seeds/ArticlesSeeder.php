@@ -18,7 +18,7 @@ class ArticlesSeeder extends Seeder
         	$project = [
 	        	'user_id' => $faker->numberBetween(1, $users->count()),
 	            'title' => $faker->sentence($faker->numberBetween(2, 4)),
-	            'content' => $faker->sentence($faker->numberBetween(4, 10))
+	            'content' => $faker->realText($faker->numberBetween(240, 570))
 	        ];
 
 	        Article::create($project);

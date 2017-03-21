@@ -20,7 +20,7 @@ class CommentsTableSeeder extends Seeder
             $comment = [
                 'user_id' => $users[$faker->numberBetween(0, count($users) - 1)],
                 'house_id' => $houses[$faker->numberBetween(0, count($houses) - 1)],
-                'content' => $faker->realText($faker->numberBetween(10, 40))
+                'content' => $faker->realText($faker->numberBetween(10, 70))
             ];
             Comment::create($comment);
         }

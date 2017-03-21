@@ -17,8 +17,9 @@ class CreateShopTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('name');
+            $table->string('image_url')->nullable();
             $table->string('location');
-            $table->string('coords');
+            $table->string('coords')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
