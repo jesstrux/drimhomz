@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container" style="padding-right: 20px;">
+    <div class="container" style="padding-right: 20px; position: relative;">
         <div class="navbar-header" style="position: relative;">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                 <span class="sr-only">Toggle Navigation</span>
@@ -29,12 +29,6 @@
                             $isadmin = true;
                     }
                 ?>
-
-                <li>
-                    <form action="{{url('search/')}}">
-                        <input name="q" type="text" placeholder="Search" style="width: 250px; background: transparent; border-radius: 5px; border: 2px solid #bbb; font-size: 20px; margin-top: 16px; padding: 0 8px;">
-                    </form>
-                </li>
                 @if ($isadmin)
                     <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                 @endif
@@ -83,6 +77,12 @@
                     </li>
                 @endif
             </ul>
+        </div>
+
+        <div style="background-color: #fff; position: absolute; top: 0; width: 100%; height: 100%;">
+            <form action="{{url('search/')}}" style=" width: 100%; height: 100%;" class="layout center">
+                <input name="q" type="search" placeholder="Search" style="width: 250px; background: transparent; border: none; font-size: 25px; height: 100%;width: 100%; padding: 0 18px; outline: none; color: #000">
+            </form>
         </div>
     </div>
 </nav>
