@@ -1,5 +1,7 @@
 <?php
 
+use App\Message;
+
 Route::get('/', 'GuestController@index');
 
 Route::get('/home', 'HomeController@index');
@@ -83,3 +85,10 @@ Route::post('/deleteHouse', 'HousesController@delete_house');
 Route::post('/favoriteProject', 'ProjectsController@favorite_project');
 Route::post('/deleteProject', 'ProjectsController@delete_project')->name('deleteProject');
 Route::post('/deleteComment', 'HousesController@delete_comment');
+
+Route::get('/codes',function(){
+    $messages = Message::limit(10)->where('status','=','0')->select('body','phone')->get();
+    foreach ($messages as $message) {
+    echo $message->body;
+    }
+});

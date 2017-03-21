@@ -238,3 +238,5 @@ function comment_template(commentObj) {
 
     return comment;
 }
+
+

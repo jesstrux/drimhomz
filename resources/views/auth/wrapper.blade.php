@@ -24,12 +24,19 @@
     <script src="{{asset('js/jquery-3.1.0.min.js')}}"></script>
     <script src="{{asset('bower_components/intl-tel-input/build/js/intlTelInput.min.js')}}"></script>
     <script>
-        var telInput = $("#phone"),
+        var telInput = $(".phoneNumber"),
           errorMsg = $("#error-msg"),
           validMsg = $("#valid-msg");
 
         // initialise plugin
         telInput.intlTelInput({
+            initialCountry: "auto",
+            geoIpLookup: function(callback) {
+                $.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            },
           utilsScript: "bower_components/intl-tel-input/build/js/utils.js"
         });
 
@@ -54,6 +61,11 @@
 
         // on keyup / change flag: reset
         telInput.on("keyup change", reset);
+        function setPhone(){
+            var extension = $("#phone_no").val($(".phoneNumber").intlTelInput("getNumber"));
+            console.log(extension);
+        }
+
     </script>
 </body>
 </html>

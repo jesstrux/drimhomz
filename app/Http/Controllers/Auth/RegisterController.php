@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Message;
 use App\User;
 use App\Location;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Libraries\Karibusms;
 
 class RegisterController extends Controller
 {
@@ -43,7 +45,8 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -59,31 +62,55 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return User
      */
     protected function create(array $data)
     {
         $role = $data['role'];
-        if(!isset($role) || strlen($role) < 1)
+        if (!isset($role) || strlen($role) < 1)
             $role = "user";
+        $karibuSMS = new Karibusms();
 
-        $new_user = User::create([
-            'fname' => $data['fname'],
-            'lname' => $data['lname'],
-            'phone' => $data['phone'],
-            'role' => $role,
-            'dp' => "/public/images/uploads/user_dps/drimhomzDefaultDp.png",
-            'password' => bcrypt($data['password']),
-        ]);
+        //set a custom name to be used in sending SMS
+        $karibuSMS->set_name("DREAMHOMZ");
 
-        $location = [
-            'user_id' => $new_user->id,
-            'long' => null,
-            'lat' => null
-        ];
-        Location::create($location);
+        $verification_code = generateVerificationCode(4);
 
-        return $new_user;
+        $body = 'Your Dreamhomz verification code is: ' . $verification_code;
+        $phone = $data['phone'];
+        $message = new Message();
+
+        //Save message in the database
+        $status = $message->saveMessage(['body' => $body, 'phone' => $phone, 'verification_code' => $verification_code]);
+        if ($status) {
+            try {
+                $new_user = User::create([
+                    'fname' => $data['fname'],
+                    'lname' => $data['lname'],
+                    'phone' => $data['phone'],
+                    'role' => $role,
+                    'dp' => "/public/images/uploads/user_dps/drimhomzDefaultDp.png",
+                    'password' => bcrypt($data['password']),
+                ]);
+
+
+                $location = [
+                    'user_id' => $new_user->id,
+                    'long' => null,
+                    'lat' => null
+                ];
+                Location::create($location);
+                //$karibuSMS->send_sms($phone,$body);
+                return $new_user;
+            } catch (\SQLiteException $e) {
+                return back()->with('error', $e);
+            }
+
+
+        }
+
+
     }
 }

@@ -68,10 +68,10 @@
                             <label for="phone" class="col-md-4 control-label">Phone Number</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="tel" class="form-control" name="phone" value="{{ old('phone') }}" required>
+                                <input id="phone" type="tel" class="form-control phoneNumber" onchange="setPhone()" value="{{ old('phone') }}" required>
                                 <span id="valid-msg" class="hide">✓ Valid</span>
                                 <span id="error-msg" class="hide">Invalid number</span>
-
+                                <input type="hidden" name="phone" id="phone_no" value="{{ old('phone_number') }}">
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('phone') }}</strong>
@@ -129,5 +129,6 @@
         </div>
     </div>
 </div>
+
 <!-- </div> -->
 @endsection
