@@ -162,6 +162,7 @@
 							<?php 
 								$dp = "images/uploads/user_dps/";
 								$dp = isset($user->dp) ? $user->dp : 'drimhomzDefaultDp.png' ;
+
 							?>
 
 							<div id="loadingDp" class="layout center-center">
@@ -192,7 +193,12 @@
 		    	</div>
 		    	<div id="editorForm">
 		    		<h3>Edit your profile</h3>
-
+					@if (session('status'))
+						<div id="infoSavedAlert" class="alert alert-success alert-dismissible collapse" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							{{session('status')}}
+						</div>
+					@endif
 		    		<div id="infoSavedAlert" class="alert alert-success alert-dismissible collapse" role="alert">
 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					  <strong>Success!</strong> Changes saved.
@@ -233,7 +239,7 @@
                             <label for="phone" class="col-md-4 control-label">Phone Number</label>
 
                             <div class="col-md-8">
-                                <input id="phone" type="tel" class="form-control" name="phone" value="{{ $user->phone }}" required>
+                                <input id="phone" type="tel" class="form-control" readonly name="phone" value="{{ $user->phone }}" required>
                                 <span id="valid-msg" class="hide">✓ Valid</span>
                                 <span id="error-msg" class="hide">Invalid number</span>
 

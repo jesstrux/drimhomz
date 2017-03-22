@@ -19,6 +19,7 @@ class ProductsTableSeeder extends Seeder
         for ($i=0; $i < 32; $i++) {
             $product = [
 	        	'name' => $faker->sentence($faker->numberBetween(2,5)),
+                'image_url' => 'def.png',
 	        	'shop_id' => $shops[$faker->numberBetween(0, count($shops) - 1)]
 	        ];
 

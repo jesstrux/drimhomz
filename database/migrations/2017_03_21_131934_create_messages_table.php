@@ -17,8 +17,11 @@ class CreateMessagesTable extends Migration
             $table->increments('id');
             $table->string('body')->nullable();
             $table->string('verification_code')->unique();
+            $table->integer('user_id')->unsigned();
             $table->char('sent')->default('0');
+            $table->char('verified')->default('0');
             $table->string('phone');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

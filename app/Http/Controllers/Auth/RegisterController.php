@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/setupAccount';
+    protected $redirectTo = '/verifyPhoneNumber';
 
     /**
      * Create a new controller instance.
@@ -83,8 +83,7 @@ class RegisterController extends Controller
         $message = new Message();
 
         //Save message in the database
-        $status = $message->saveMessage(['body' => $body, 'phone' => $phone, 'verification_code' => $verification_code]);
-        if ($status) {
+
             try {
                 $new_user = User::create([
                     'fname' => $data['fname'],
@@ -95,22 +94,24 @@ class RegisterController extends Controller
                     'password' => bcrypt($data['password']),
                 ]);
 
-
                 $location = [
                     'user_id' => $new_user->id,
                     'long' => null,
                     'lat' => null
                 ];
                 Location::create($location);
+                $message->saveMessage(['body' => $body, 'phone' => $phone, 'verification_code' => $verification_code,'user_id'=>$new_user->id]);
                 //$karibuSMS->send_sms($phone,$body);
+
                 return $new_user;
             } catch (\SQLiteException $e) {
                 return back()->with('error', $e);
             }
 
 
-        }
+
 
 
     }
+
 }

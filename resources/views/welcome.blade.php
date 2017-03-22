@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.header')
-
     @if (Auth::guest())
         <div id="banner" style="margin-top: -22px;">
             <div id="text">

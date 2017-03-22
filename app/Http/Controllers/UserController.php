@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Message;
 use Auth;
 use Carbon\Carbon;
 
@@ -32,6 +33,29 @@ class UserController extends Controller
     	
     	$my_houses = House::get();
     	return view('home.profile');
+    }
+
+    public function verify_phone_number(){
+
+        $user = Auth::user();
+        return view('auth.verification',['user'=>$user]);
+    }
+
+    public function verify_code()
+    {
+        $this->validate(request(), [
+            'verification_code' => 'required|max:4'
+        ]);
+        $verification_code = request('verification_code');
+        $phone = Auth::user()->phone;
+        $status =  Message::where('phone','=',$phone)->where('verification_code','=',$verification_code)->where('user_id','=',Auth::user()->id)->exists();
+       if($status){
+           Message::where('verification_code','=',$verification_code)->where('verified','=','0')->update(['verified'=>'1']);
+           $user = Auth::user();
+           return view('user.setup', compact('user'))->with('status','Phone Number verified!');
+       }else{
+           return back()->withErrors(['verification_code'=>'The Verification Code does not exist']);
+       }
     }
 
     public function setup(){

@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.header')
-
+    
     <style>
         .remove-admin-btn, .is-admin .add-admin-btn{
             display: none;

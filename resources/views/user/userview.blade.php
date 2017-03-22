@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.header')
-
     <style>
     	body{
 			background-color: #f8f8f8;

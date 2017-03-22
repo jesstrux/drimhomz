@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.header')
-
     <div id="profilePage" class="layout" style="margin-top: -20px; paddin: 70px 100px; padding-top: 22px; background: #f9f9f9">
         <!-- <aside class="main-aside" style="displa: none;width:300px;background: #fff; box-shadow: 0 0 2px rgba(0,0,0,0.07); margin-right: 10px; border-right: 0;">
             <div class="layout end title-bar">

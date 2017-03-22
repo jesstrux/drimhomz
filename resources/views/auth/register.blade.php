@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Drimhomz Register</div>
+                <div class="panel-heading">Drimhomz Register <a class="pull-right" href="{{url('')}}">Home</a> </div>
                 <br>
                 <div class="panel-body">
                     <center>

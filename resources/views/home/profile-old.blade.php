@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.header')
-
     <div id="profilePage" class="layout">
         <aside class="main-aside">
             <div class="layout end title-bar">

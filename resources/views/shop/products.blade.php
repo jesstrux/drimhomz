@@ -19,6 +19,7 @@
 @foreach($houses as $house)
     <div style="cursor: pointer;" class="house-card">
         <div class="image" style="background-color: #eee">
+            <img src="{{asset($res_url . '/shops/'. $shop->image_url)}}" alt="{{$house->title}}">
         </div>
         <div class="content">
             <h3>{{$house->name}}</h3>

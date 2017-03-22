@@ -21,7 +21,9 @@
 	    @endforeach
 	</div>
     <div class="my-answer item answer">
-        @if($user)
+
+
+        @if(Auth::check() && $user)
         	<div class="avatar">
             	<img src="{{$user_url . $user->dp}}" width="40" alt="" />
           	</div>
@@ -32,7 +34,7 @@
         @else
         	<p>
         		<center>
-        			<a href="URL('/login')">
+        			<a href="{{url('/login')}}">
         				LOGIN
         			</a> TO COMMENT
         		</center>

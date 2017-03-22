@@ -8,6 +8,41 @@ var is_cur_house;
 $(document).ready(function(){
     console.log("We are ready to rock and roll!");
 
+    if ("onhashchange" in window) {
+        // alert("The browser supports the hashchange event!");
+        window.onhashchange = locationHashChanged;
+    }
+
+    function locationHashChanged() {
+        var hash = location.hash;
+        if (hash.indexOf("house") != -1) {
+            var hash = window.location.hash;
+            var house_id = hash.substr(6, hash.length);
+            console.log("new house " + house_id);
+
+            getHouse(house_id);
+        }
+    }
+
+    locationHashChanged();
+
+    $(document).on("keyup", "#searchBar input", function(e){
+        console.log(e.keyCode);
+
+        if(e.keyCode == 27 || e.keyCode == 13){
+            closeSearchBar();
+            return;
+        }else{
+            var val = $(this).val();
+            if(val.length){
+                search(val);
+                $("#searchBar").addClass('search-started');
+            }else{
+                $("#searchBar").removeClass('search-started');
+            }
+        }
+    });
+
     $('#mainNav li a').each(function(){
         if(window.location.href.indexOf($(this).prop("href")) != -1)
             $(this).parents('li').addClass('active');
@@ -239,4 +274,34 @@ function comment_template(commentObj) {
     return comment;
 }
 
+function openSearchBar(){
+    $("body").addClass("open-search");
+    $("#searchBar input").focus();
+}
 
+function closeSearchBar(){
+    $("body").removeClass("open-search");
+}
+
+function emptySearchBar(){
+    $("#searchBar input").val("").focus();
+    $("#searchBar").removeClass('search-started');
+}
+
+function search(q){
+    var form = $("#searchBar form");
+    var url = form.attr('action') + '/' + q;
+    $("#searchResults").addClass("searching");
+
+    $.get(url, function(data){
+        $("#searchResults").removeClass("searching");
+        $("#searchResults #results").html(data);
+    });
+}
+
+
+function getHouse(id){
+    $.get("/getHouse/"+id, function(house){
+        console.log(house);
+    });
+}
