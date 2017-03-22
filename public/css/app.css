@@ -46,6 +46,12 @@ body.locked{
 #mainContent{
 	min-height: calc(100vh - 70px);
 }
+
+#mainContent .image-grid{
+	-webkit-transition: transform 0.2s ease-out;
+	-o-transition: transform 0.2s ease-out;
+	transition: transform 0.2s ease-out;
+}
 .btn.flat, .btn.flat:hover{
 	text-transform: none;
 	padding-left: 5px;
@@ -957,6 +963,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     background-color: #333;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
+    overflow-y: auto;
     z-index: 9999;
     display: -webkit-flex;
     display: -moz-flex;
@@ -1399,4 +1406,178 @@ body.moving-stuff #manageImage #resizeCanvas{
 
 .follow-house-btn.followed{
 	background:red; color: #fff; 
+}
+
+#searchBar{
+	background-color: #fff;
+	position: absolute; top: 0;
+	width: 100%; height: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+
+#searchResults{
+	position: absolute;
+	width: 100%; 
+	min-height: 60px;
+	max-height: 320px;
+	overflow-y: auto;
+	left: 0; 
+	top: 100%; 
+	background-color: #f3f3f3; 
+	padding: 10px 16px;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+	z-index: -1;
+
+	opacity: 0;
+	-webkit-transform: translateY(-100%);
+	-ms-transform: translateY(-100%);
+	-o-transform: translateY(-100%);
+	transform: translateY(-100%);
+
+	-webkit-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+}
+
+#searchResults:not(.searching) #loader{
+	display: none;
+}
+
+#searchResults.searching #results{
+	display: none;
+}
+
+#searchBar.search-started #searchResults{
+	opacity: 1;
+	-webkit-transform: none;
+	-ms-transform: none;
+	-o-transform: none;
+	transform: none;
+}
+
+body.open-search #mainContent .image-grid{
+	-webkit-transform: translateY(10px);
+	-ms-transform: translateY(10px);
+	-o-transform: translateY(10px);
+	transform: translateY(10px);
+}
+
+body.open-search #searchBar{
+	opacity: 1;
+	pointer-events: auto;
+}
+
+body.open-search #mainestNav{
+	border-bottom: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+#searchBar.inset form{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	top: 16px;
+	left: 0; right: 0;
+	max-width: 1000px;
+	background: #fff;
+	box-shadow: 0 0 5px 2px rgba(0,0,0,0.15);
+	padding: 0 16px;
+	margin: auto;
+	border-radius: 3px;
+}
+
+#searchBar form{
+	width: 100%;
+	height: 100%;
+
+	-webkit-transform: translateX(10px);
+	-ms-transform: translateX(10px);
+	-o-transform: translateX(10px);
+	transform: translateX(10px);
+
+	-webkit-transition: transform 0.2s ease-out;
+    -o-transition: transform 0.2s ease-out;
+    transition: transform 0.2s ease-out;
+}
+
+body.open-search #searchBar form{
+	-webkit-transform: none;
+	-ms-transform: none;
+	-o-transform: none;
+	transform: none;
+}
+
+#searchBar input{
+	background: transparent;
+	border: none;
+	font-size: 1.6em;
+	padding: 0 18px;
+	outline: none;
+	color: #000;
+	height: 100%;
+}
+
+#searchBar input:not(:valid) + span,
+#searchBar input:not(:valid) ~ button{
+	display: none;
+}
+
+#searchBar button, .search-opener{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	background-color: transparent;
+	outline: none;
+	border-radius: 50%;
+	height: 35px;
+	width: 35px;
+}
+
+#searchBar button:hover, .search-opener:hover,
+#searchBar button:focus, .search-opener:focus{
+	background-color: rgba(0,0,0,0.1);
+}
+
+#searchBar button:active, .search-opener:active{
+	background-color: rgba(0,0,0,0.2);
+}
+
+.search-opener{
+	position: relative;
+	top: 15px;
+	left: 5px;
+}
+
+#searchBar.open .search-opener{
+	display: none;
+}
+
+/*#searchBar:not(.search-started) .search-clearer{
+	display: none;
+}*/
+
+#projHouses{
+	position: relative;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #f3f3f3;
+}
+#projHouses .column-inner{
+	position: relative;
+	height: inherit;
+	margin: 1px;
+	max-width: calc(50% - 2px);
+	min-width: calc(50% - 2px);
+	height: calc(50% - 2px);
+	background: #ddd;
+	background-position: center;
+	background-size: cover;
 }

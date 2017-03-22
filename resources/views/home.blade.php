@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@section('content')
-    @include('layouts.header')
-    
+@section('content')    
     @include('home.userview')
 @endsection

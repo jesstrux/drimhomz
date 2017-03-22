@@ -29,7 +29,7 @@
 
     <a href="{{url('/project/').'/'.$project->id}}" class="house-card">
         <div class="image" style="pointer-events: auto;">
-            @include('user.project-cover')
+            {!! $project->cover() !!}
         </div>
         <div class="content">
             <h3>{{$project->title}}</h3>

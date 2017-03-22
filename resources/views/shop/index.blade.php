@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.header')
-
     <?php
     	if(!Auth::guest())
     		$user = Auth::user();

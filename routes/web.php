@@ -14,10 +14,24 @@ Route::get('/testUrl/{user_id}/{follower}', function ($user_id, $follower) {
     // else
     //  echo "Hello guest";
 
- 	$project = App\Project::find($user_id);
-    $houses = $project->houses;
-    $exists = $houses->where("id", $follower)->count();
-    print_r($exists > 0 ? "true" : "false");
+ 	$project = App\House::find($user_id);
+    print_r($project->owner()->fname);
+});
+
+Route::get('/house/{id}', function ($id) {
+    $house = App\House::find($id);
+
+    return view('houses.single', compact('house'));
+});
+
+Route::get('/getHouse/{id}', function ($id) {
+    return App\House::find($id);
+});
+
+Route::get('/product/{id}', function ($id) {
+    $product = App\Product::find($id);
+
+    return view('products.single', compact('product'));
 });
 
 Route::get('resizeImage', 'ImageController@resizeImage');
@@ -29,6 +43,8 @@ Route::get('/about', function () {
 });
 
 Route::get('/search', 'SearchController@search');
+Route::get('/search/{q}', 'SearchController@search');
+Route::get('/search/{q}/{category}', 'SearchController@search_category');
 
 Route::get('/shop', 'ShopController@index');
 Route::get('/shop/{id}', 'ShopController@show_profile');

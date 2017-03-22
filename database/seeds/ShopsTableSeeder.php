@@ -19,6 +19,7 @@ class ShopsTableSeeder extends Seeder
         	$shop = [
 	        	'user_id' => $faker->numberBetween(1, $users->count()),
 	            'name' => $faker->sentence($faker->numberBetween(2, 4)),
+                'image_url' => 'def.png',
                 'coords' => $faker->longitude() . ", " . $faker->latitude(),
                 'location' => $faker->streetName()
 	        ];
