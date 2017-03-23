@@ -58,6 +58,14 @@ class User extends Authenticatable
 
 
     //RELATIONS
+    public function articles(){
+        return $this->hasMany("App\Article");
+    }
+
+    public function answers(){
+        return $this->hasMany("App\Answer");
+    }
+
     public function houses(){
         return $this->hasManyThrough('App\House', 'App\Project');
     }
