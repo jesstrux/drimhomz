@@ -46,14 +46,15 @@
     </button>
 
     <form enctype="multipart/form-data" class="cust-modal-content" method="POST" action="/createHouse" style="width: 380px; padding-top: 15px;">
-        <h3>New House</h3>
+        <h3>New Dream</h3>
         {{ csrf_field() }}
         <input type="hidden" name="user_id" value="{{$project->user->id}}">
         
         <label style="margin-bottom: 8px;">Pick an image</label>
         <input style="margin-bottom: 10px;" name="image_url" type="file" required><br>
         <input type="hidden" name="project_id" value="{{$project->id}}">
-
+        <label>Title</label>
+        <input name="title" type="text" placeholder="enter dream title here" required>
         <button type="submit">CREATE</button>
     </form>
 </div>
