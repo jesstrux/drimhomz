@@ -155,6 +155,13 @@
     	<div id="outer" class="container">
 			<div id="wrapper" class="layout">
 		    	<div id="dpEditor" class="flex">
+					@if (session('verification_status'))
+
+						<div id="phoneVerifiedAlert" class="alert alert-success alert-dismissible collapse" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							{{session('verification_status')}}
+						</div>
+					@endif
 					<form id="dpForm" enctype="multipart/form-data" role="form" method="POST" action="{{ url('save-dp') }}" class="layout vertical center">
 	                	{{ csrf_field() }}
 
@@ -190,15 +197,11 @@
 					<div id="dpSavedAlert" class="alert alert-success alert-dismissible collapse" role="alert">
 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Picture saved.
 					</div>
+
 		    	</div>
 		    	<div id="editorForm">
 		    		<h3>Edit your profile</h3>
-					@if (session('status'))
-						<div id="infoSavedAlert" class="alert alert-success alert-dismissible collapse" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							{{session('status')}}
-						</div>
-					@endif
+
 		    		<div id="infoSavedAlert" class="alert alert-success alert-dismissible collapse" role="alert">
 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					  <strong>Success!</strong> Changes saved.
@@ -401,6 +404,10 @@
 						case 3:
 							dpSavedMob()
 							break;
+						default:
+							phoneVerified()
+							break;
+
 					}
 				}
 				else{
@@ -436,6 +443,15 @@
 	    		}, 2000);
     		}, 200);
     	}
+		function phoneVerified(){
+			setTimeout(function(){
+				$("#phoneVerifiedAlert").show();
+
+				setTimeout(function(){
+					$("#phoneVerifiedAlert").hide();
+				}, 2000);
+			}, 200);
+		}
 
     	function dpSavedMob(){
     		$("#form").fadeOut('slow', function() {

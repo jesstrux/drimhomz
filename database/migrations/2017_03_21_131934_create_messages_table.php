@@ -16,11 +16,9 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('body')->nullable();
-            $table->string('verification_code')->unique();
             $table->integer('user_id')->unsigned();
-            $table->char('sent')->default('0');
-            $table->char('verified')->default('0');
-            $table->string('phone');
+            $table->char('status')->default('0')->comment = "status=0 when message is not yet sent, status=1 for a sent message";
+            $table->char('type')->default('0')->comment = "Registration message=0";
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
