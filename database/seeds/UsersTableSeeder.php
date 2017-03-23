@@ -19,6 +19,7 @@ class UsersTableSeeder extends Seeder
         	'phone' => '0717138051',
         	'password' => Hash::make('password'),
             'dp' => "james.jpeg",
+
         ];
 
         $user2 = [
@@ -27,6 +28,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '0717138052',
             'password' => Hash::make('password'),
             'dp' => "dean.jpg",
+
         ];
 
         $user3 = [
@@ -35,6 +37,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '0717138053',
             'password' => Hash::make('password'),
             'dp' => "anna.jpg",
+
         ];
 
         $user4 = [
@@ -43,6 +46,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '0717138054',
             'password' => Hash::make('password'),
             'dp' => "kingsley.jpg",
+
         ];
 
         $user5 = [
@@ -52,6 +56,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('password'),
             'dp' => "wallie.jpg",
             'role' => 'admin',
+
         ];
 
         User::create($user1);

@@ -51,12 +51,13 @@ class UserController extends Controller
             'verification_code' => 'required|max:4'
         ]);
         $verification_code = request('verification_code');
-        $phone = Auth::user()->phone;
-        $status =  Message::where('phone','=',$phone)->where('verification_code','=',$verification_code)->where('user_id','=',Auth::user()->id)->exists();
+        $status =  User::where('verified','=','0')->where('verification_code','=',$verification_code)->where('id','=',Auth::user()->id)->exists();
+
        if($status){
-           Message::where('verification_code','=',$verification_code)->where('verified','=','0')->update(['verified'=>'1']);
+           User::where('verification_code','=',$verification_code)->where('verified','=','0')->where('id','=',Auth::user()->id)->update(['verified'=>'1']);
            $user = Auth::user();
-           return view('user.setup', compact('user'))->with('status','Phone Number verified!');
+           request()->session()->flash('verification_status', 'Phone Number Verified');
+           return view('user.setup', compact('user'));
        }else{
            return back()->withErrors(['verification_code'=>'The Verification Code does not exist']);
        }
@@ -191,6 +192,7 @@ class UserController extends Controller
         $user->dob = strftime("%Y-%m-%d %H:%M:%S", $time);
 
         $location_str = $request->input('location');
+
         preg_match('/(\S{1,20}).\s(\S{1,20})/', $location_str, $location_array, PREG_OFFSET_CAPTURE);
         $long = $location_array[1];
         $lat = $location_array[2];

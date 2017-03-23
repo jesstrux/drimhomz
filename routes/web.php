@@ -1,5 +1,6 @@
 <?php
 
+use App\Libraries\Karibusms;
 use App\Message;
 
 Route::get('/', 'GuestController@index');
@@ -103,8 +104,19 @@ Route::get('/verifyPhoneNumber', 'UserController@verify_phone_number');
 Route::post('/verifyCode', 'UserController@verify_code');
 
 Route::get('/codes',function(){
-    $messages = Message::limit(10)->where('status','=','0')->select('body','phone')->get();
+//    $messages = Message::limit(10)->where('sent','=','0')->select('body','phone')->get();
+    $messages = Message::limit(10)->where('messages.status', '=', '0')->select('messages.id','messages.body','users.phone','messages.type','users.verification_code','users.id as user_id')
+        ->join('users', 'messages.user_id', '=', 'users.id')
+        ->get();
+   // dd($messages);
+    $karibuSMS = new Karibusms();
     foreach ($messages as $message) {
-    echo $message->body;
+    echo ('Message: '.count($message->id).'-->'. $message->body.' <br>');
+
+        Message::where('user_id', '=', $message->user_id)->where('status', '=', '0')->where('type', '=',$message->type)->where('id', '=', $message->id)->update(['status' => '1']);
+        //set a custom name to be used in sending SMS
+       // $karibuSMS->set_name("DREAMHOMZ");
+        $status = $karibuSMS->send_sms($message->phone,$message->body);
+
     }
 });

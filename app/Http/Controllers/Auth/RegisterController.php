@@ -6,9 +6,9 @@ use App\Message;
 use App\User;
 use App\Location;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Libraries\Karibusms;
 
 class RegisterController extends Controller
 {
@@ -71,15 +71,11 @@ class RegisterController extends Controller
         $role = $data['role'];
         if (!isset($role) || strlen($role) < 1)
             $role = "user";
-        $karibuSMS = new Karibusms();
 
-        //set a custom name to be used in sending SMS
-        $karibuSMS->set_name("DREAMHOMZ");
 
         $verification_code = generateVerificationCode(4);
 
         $body = 'Your Dreamhomz verification code is: ' . $verification_code;
-        $phone = $data['phone'];
         $message = new Message();
 
         //Save message in the database
@@ -89,6 +85,7 @@ class RegisterController extends Controller
                     'fname' => $data['fname'],
                     'lname' => $data['lname'],
                     'phone' => $data['phone'],
+                    'verification_code' => $verification_code,
                     'role' => $role,
                     'dp' => "/public/images/uploads/user_dps/drimhomzDefaultDp.png",
                     'password' => bcrypt($data['password']),
@@ -100,12 +97,12 @@ class RegisterController extends Controller
                     'lat' => null
                 ];
                 Location::create($location);
-                $message->saveMessage(['body' => $body, 'phone' => $phone, 'verification_code' => $verification_code,'user_id'=>$new_user->id]);
-                //$karibuSMS->send_sms($phone,$body);
+                $message->saveMessage(['body' => $body,'user_id'=>$new_user->id]);
+                Artisan::call("schedule:run");
 
                 return $new_user;
             } catch (\SQLiteException $e) {
-                return back()->with('error', $e);
+                return back()->withErrors(['error'=> $e]);
             }
 
 

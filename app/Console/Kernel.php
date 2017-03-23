@@ -31,10 +31,16 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
 
-            $messages = Message::limit(10)->where('status', '=', '0')->select('body', 'phone', 'verification_code')->get();
+            $messages = Message::limit(10)->where('messages.status', '=', '0')->select('messages.id','messages.body','users.phone','messages.type','users.verification_code','users.id as users_id')
+                ->join('users', 'messages.user_id', '=', 'users.id')
+                ->get();
             sendMessages($messages);
 
-        })->everyMinute();
+        })->everyMinute()
+            ->name("SendUnsentMessages")
+         // ->withoutOverlapping()
+          ->appendOutputTo(base_path('storage/schedule/background.txt'));
+
     }
 
     /**
