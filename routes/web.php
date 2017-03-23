@@ -49,9 +49,7 @@ Route::get('/search/{q}/{category}', 'SearchController@search_category');
 Route::get('/shop', 'ShopController@index');
 Route::get('/shop/{id}', 'ShopController@show_profile');
 
-Route::get('/expert', function () {
-    return view('home.expert');
-});
+Route::get('/expert', 'ExpertController@index');
 
 Route::get('/advice', 'AdviceController@index');
 Route::get('/advice/{page}', 'AdviceController@index');

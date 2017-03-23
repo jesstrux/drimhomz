@@ -27,7 +27,7 @@ class Project extends Model
 		foreach ($houses as $house){
 			if($count < 4){
 				$img_url = "$house_url/thumbs/$house->image_url";
-				$html .= '<div class="column-inner"style="background-image: url('.$img_url.')"></div>';
+				$html .= '<div class="column-inner"style="background-color:'.$house->placeholder_color.';background-image: url('.$img_url.')"></div>';
 
 				$count++;
 			}else{

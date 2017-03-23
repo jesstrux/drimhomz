@@ -110,6 +110,12 @@ body.locked{
 	pointer-events: auto;
 }
 
+@media only screen and (max-width: 760px) {
+	.dh-card .post-actions{
+		display: none;
+	}
+}
+
 .dh-card .image{
 	background-color: #ddd;
 	background-position: center;
@@ -123,7 +129,7 @@ body.locked{
 	/*width: 100%;*/
 	/*min-height: 220px;*/
 	height: auto;
-	max-width: 130%;
+	max-width: 140%;
 }
 .dh-card .content{
 	padding: 16px;
@@ -133,8 +139,9 @@ body.locked{
 .dh-card .content h3{
 	color: #000;
 	text-align: left;
-	margin-top: 5px;
-	margin-bottom: 8px;
+	margin-top: 1px;
+	margin-bottom: 3px;
+	font-size: 1.2em;
 	/*padding-bottom: 8px;
 	border-bottom: 1px solid #ddd;*/
 }
@@ -142,12 +149,13 @@ body.locked{
 	display: inline-block;
 	color: inherit; /*#9acd32;*/
 	/*padding: 5px 0;*/
-	font-size: 16px;
+	/*font-size: 16px;*/
 	/*font-family: consolas;*/
+	font-size: 0.9em;
 	font-weight: bolder;
 }
 .dh-card .content .social-stuff{
-	display: block; margin-top: 10px; color: #777
+	display: block; margin-top: 3px; color: #777
 }
 
 .main-aside{
@@ -205,6 +213,17 @@ body.locked{
 	display: block;
 	margin-right: 20px;
 	/*margin-top: 5px;*/
+}
+
+@media all and (max-width: 406px) {
+    .navbar-brand{
+        margin-top: 6px;
+    }
+
+    .navbar-brand img{
+    	position: relative;
+        top: -1px;
+    }
 }
 
 .navbar-brand #logo{
@@ -1087,8 +1106,19 @@ body.moving-stuff #manageImage #resizeCanvas{
 }
 
 .tangazo{
+	position: relative;
     overflow: hidden;
     border-radius: 0
+}
+
+.tangazo:before{
+	content: "FEATURED AD";
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%;
+	padding: 16px;
+	background-color: rgba(0,0,0,0.3);
+	color: #fff;
 }
 
 .tangazo .content{
@@ -1097,6 +1127,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     width: 100%;
     background-color: #eee;
     box-shadow: 0 -3px 6px rgba(0,0,0,0.3);
+    display: none;
 
     -webkit-transform: translateY(120%);
     -ms-transform: translateY(120%);
@@ -1138,7 +1169,7 @@ body.moving-stuff #manageImage #resizeCanvas{
 
 @media all and (max-width: 406px) {
     #container .grid-sizer, #container .dh-card{
-        width: calc(100% - 10px);
+        width: calc(50% - 10px);
     }
 }
 
@@ -1175,6 +1206,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     pointer-events: none;
     background-color: transparent;
 }
+
 #preview.open{
     pointer-events: auto;
     overflow-y: auto;
@@ -1183,6 +1215,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     background-image: -o-linear-gradient(#222, #333);
     background-image: linear-gradient(#222, #333);
 }
+
 .closer{
     position: fixed;
     top: 20px;
@@ -1211,6 +1244,52 @@ body.moving-stuff #manageImage #resizeCanvas{
     margin: 35px auto;
     padding-bottom: 40px;
     /*overflow: auto;*/
+}
+
+#preview .preview-comment-toolbar{
+	-webkit-transform: translateY(100%);
+	-ms-transform: translateY(100%);
+	-o-transform: translateY(100%);
+	transform: translateY(100%);
+	pointer-events: none;
+	opacity: 0;
+	z-index: 1;
+
+	-webkit-transition: 0.35s transform 0.35s ease-out;
+	-o-transition: 0.35s transform 0.35s ease-out;
+	transition: 0.35s transform 0.35s ease-out;
+}
+
+#preview.open .preview-comment-toolbar{
+	-webkit-transform: none;
+	-ms-transform: none;
+	-o-transform: none;
+	transform: none;
+	pointer-events: auto;
+	opacity: 1;
+}
+
+@media only screen and (max-width: 600px){ /*760px*/
+    #preview, #preview.open{
+    	padding-top: 63px;
+    	padding-bottom: 30px;
+    }
+    #preview.open{
+    	background-color: #fff !important;
+    	background-color: #333;
+	    background-image: none !important;
+    }
+    #preview .dh-card{
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+        padding: 8px;
+        box-shadow: none;
+    }
+
+    #preview .closer:not(.for-mob){
+	    display: none;
+	}
 }
 
 #preview.open .dh-card, #preview.open .closer{
@@ -1284,6 +1363,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     width: 40px;
     min-width: 40px;
     overflow: hidden;
+    background-color: #ddd;
 }
 
 #preview .dh-card hr {
@@ -1580,4 +1660,21 @@ body.open-search #searchBar form{
 	background: #ddd;
 	background-position: center;
 	background-size: cover;
+}
+
+#mobAuthLinks{
+	position: relative;
+	/*background-color: green;*/
+	float: right; 
+	margin-right: 3px;
+}
+
+#mobAuthLinks a{
+	color: inherit;
+	font-size: 1.2em;
+	font-family: inherit;
+	text-transform: uppercase;
+	height: 60px;
+	line-height: 60px;
+	padding: 0 12px;
 }

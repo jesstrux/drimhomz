@@ -24,10 +24,14 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     public function profile(){
+        if(Auth::guest()){
+            return back()->withErrors(['msg','Please login first']);
+        }
+
     	$user_id = Auth::user()->id;
     	
     	$my_houses = House::get();
@@ -35,14 +39,23 @@ class UserController extends Controller
     }
 
     public function setup(){
+        if(Auth::guest()){
+            return back()->withErrors(['msg','Please login first']);
+        }
+
         $user = Auth::user();
         return view('user.setup', compact('user'));
     }
 
     function showprofile($id, $page = "projects"){
-        $authuser = Auth::user();
         $user = User::with('projects', 'following', 'houses', 'followers')->find($id);
-        $myProfile = $authuser->id == $user->id;
+
+        if(!Auth::guest()){
+            $authuser = Auth::user();
+            $myProfile = $authuser->id == $user->id;
+        }
+        else
+            $myProfile = false;
 
         return view('user.userview', compact('page', 'user', 'myProfile'));
     }
@@ -68,6 +81,10 @@ class UserController extends Controller
     }
 
     function follow_user(Request $request){
+        if(Auth::guest()){
+            return back()->withErrors(['msg','Please login first']);
+        }
+
         $authuser = Auth::user();
         $id = $request->input('id');
         $user = User::find($id);
@@ -102,6 +119,10 @@ class UserController extends Controller
     }
 
     function toggle_admin(Request $request){
+        if(Auth::guest()){
+            return back()->withErrors(['msg','Please login first']);
+        }
+
         $authuser = Auth::user();
         $amiAdmin = $authuser->role == 'admin';
         $id = $request->input('id');
@@ -128,6 +149,10 @@ class UserController extends Controller
     }
 
     function setupProfile(Request $request){
+        if(Auth::guest()){
+            return back()->withErrors(['msg','Please login first']);
+        }
+
         $user = User::find(Auth::user()->id);
         // $user->gender = $request->gender;
         // $user->town = $request->town;
@@ -174,6 +199,10 @@ class UserController extends Controller
     }
 
     function saveDp(Request $request){
+        if(Auth::guest()){
+            return back()->withErrors(['msg','Please login first']);
+        }
+
         $user = User::find(Auth::user()->id);
         // $path = Storage::put('dps', $request->file('dp'), 'public');
         // $path = $request->file('dp')->store('uploads/dps');

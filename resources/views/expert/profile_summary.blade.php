@@ -23,45 +23,50 @@
 
 <div id="profileSummaryLg" class="col-sm-12 col-md-5 col-lg-4">
 	<div id="userDetails" class="text-center">
-		<h3 style="padding-top: 20px;">{{$project->title}}</h3>
-		<p style="margin-top: 10px;">{{$project->houses->count()}} Houses</p>
-		@if($myProject)
+		<div id="profilePic">
+		</div>
+		<h3>{{$shop->name}}</h3>
+		<br>
+		@if($myShop)
 			<a href="/setupAccount" class="btn btn-default">
-				Edit project
+				Edit shop
 			</a>
 
 			<a href="/setupAccount" class="btn btn-default">
-				delete project
+				delete shop
 			</a>
 		@endif
 		<!-- <hr> -->
-		<em>Owner:</em> 
-		<strong>
-			<a href="{{url('/user/') . '/' . $project->user->id}}">
-				{{$project->user->full_name()}}
-			</a>
-		</strong>
 	</div>
 </div>
 
-<div id="profileSummary" class="col-sm-12 col-md-4" style="background: #fff; padding: 50px 25px; text-align: cente;margin-top: -12px; border-bottom: 1px solid #ddd; margin-bottom: 3px;">
+<div id="profileSummary" class="col-sm-12 col-md-4">
+	<div id="lgDp">
+		<div id="cover">
+			<div id="theDp">
+			</div>
+		</div>
+		<div id="user">
+			<span id="name">{{$shop->name}}</span>
 
-	<div class="layout center">
-		<div class="layout vertical flex" style="font-size: 2em">
-			<span id="name">{{$project->title}}</span>
+			@if(!Auth::guest())
+				@if($myShop)
+					<a id="followBtn" href="javascript;"
+						onclick="editProduct('edit-project')">
+						<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+							<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+							<path d="M0 0h24v24H0z" fill="none"/>
+						</svg>
+					</a>
+				@endif
+			@endif
 		</div>
 	</div>
-	<span id="profession" style="margin-top: 15px; display: block; font-size: 1.2em">
-		Owner: <a href="{{url('/user/') . '/' . $project->user->id}}">
-			<span id="name">{{$project->user->fname}}</span>
-			<span id="name">{{$project->user->lname}}</span>
-		</a>
-	</span>
 </div>
 
 <script>
-	function editProject(url){
-        var formdata = new FormData($("#editProject")[0]);
+	function editProduct(url){
+        var formdata = new FormData($("#editProduct")[0]);
         $.ajax({
               type:'POST',
               url: url,

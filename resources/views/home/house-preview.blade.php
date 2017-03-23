@@ -2,10 +2,31 @@
     <button class="closer --js-house-preview-closer">
         <svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
     </button>
-    <div class="dh-card --js-house-preview-card">
+
+    <div class="dh-card --js-house-preview-card" data-postid="">
+        @if (Auth::user())
+            <button class="hidden-xs hidden-sm btn drim-btn" style="background:#8bc34a; border-radius: 5px; overflow: hidden; padding: 6px; padding-bottom: 6px; padding-right: 9px; color: #fff; position: absolute; right: 20px; top: 20px;">
+                <img class="drimmer" src="{{asset('images/drim.png')}}" height="20px"/> <span style="letter-spacing: 5px">DRIM</span>
+            </button>
+        @endif
+
+        <div class="hidden visible-xs visible-sm" style="background-color: rgba(255,255,255,0.9); height: 60px; position: fixed; top: 0; left:0; width: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.15)">
+            <div class="layout center justified" style="height: 60px; padding-left: 4px; padding-right: 12px;">
+                <button class="layout center for-mob --js-house-preview-closer" style="padding: 0;background: transparent; border: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+
+                @if (Auth::user())
+                    <button class="btn drim-btn" style="background:#8bc34a; border-radius: 5px; overflow: hidden; padding: 6px; padding-bottom: 6px; padding-right: 9px; color: #fff">
+                        <img class="drimmer" src="{{asset('images/drim.png')}}" height="20px"/> <span style="letter-spacing: 5px">DRIM</span>
+                    </button>
+                @endif
+            </div>
+        </div>
+
         <div class="content">
             <h3 id="previewTitle">Some title</h3>
-            <p id="previewCaption">Lorem.</p>
+            <p id="previewCaption" style="padding-top: 15px;">Lorem.</p>
             
             <div id="previewImageHolder" class="image"><img style="min-height: 300px;" id="previewImage" src="{{asset('/')}}" alt=""></div>
 
@@ -44,6 +65,7 @@
 
             <hr>
 
+            <h5>Comments</h5>
             <div id="previewComments" class="comments">
                 <div id="commentsList" class="no-comment">
                     <div class="empty-message">No comments</div>
@@ -51,30 +73,60 @@
                 <div id="loadingComments" class="empty-message">
                 Loading comments</div>
                 
-                @if (Auth::user())
-                    <form id="submitComment" action="{{ url('/submitComment') }}" method="POST">
-                        {{ csrf_field() }}
-                        <input id="previewHouseId" class="previewHouseId" type="hidden" name="house_id">
+                <div class="hidden-xs hidden-sm">
+                    @if (Auth::user())
+                        <form id="submitComment" action="{{ url('/submitComment') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input id="previewHouseId" class="previewHouseId" type="hidden" name="house_id">
 
-                        <div class="item flex">
-                            <div class="avatar">
-                                <?php 
-                                    $user = Auth::user();
-                                ?>
-                                <img src='{{asset($user_url . $user->dp)}}' 
-                                alt="{{$user->fname}}'s dp">
+                            <div class="item flex">
+                                <div class="avatar">
+                                    <?php 
+                                        $user = Auth::user();
+                                    ?>
+                                    <img src='{{asset($user_url . $user->dp)}}' 
+                                    alt="{{$user->fname}}'s dp">
+                                </div>
+
+                                <textarea class="item-text flex comment-text" placeholder="Your comment" name="content" rows="5"></textarea>
                             </div>
 
-                            <textarea class="item-text flex" placeholder="Your comment" name="content" rows="5"></textarea>
-                        </div>
-
-                        <button type="button" disabled onclick="submitComment()" style="float: right; margin-top: -10px; display: inline-block;" class="btn btn-primary">Submit</button>
-                    </form>
-                @else
-                    <div class="empty-message"><a href="/login">Login</a> to comment</div>
-                @endif
+                            <button type="button" disabled onclick="submitComment()" style="float: right; margin-top: -10px; display: inline-block;" class="btn btn-primary">Submit</button>
+                        </form>
+                    @else
+                        <div class="empty-message"><a href="/login">Login</a> to comment</div>
+                    @endif
+                </div>
             </div>
         </div>
+    </div>
+
+    <div class="preview-comment-toolbar layout center hidden visible-xs visible-sm" style="background: #fff; height: 60px; position: fixed; bottom: 0; left:0; width: 100%; box-shadow: 0 -1px 3px rgba(0,0,0,0.2)">
+
+        @if (Auth::user())
+            <form id="submitComment" action="{{ url('/submitComment') }}" method="POST" class="layout center">
+                {{ csrf_field() }}
+                <input id="previewHouseId" class="previewHouseId" type="hidden" name="house_id">
+
+                <div class="avatar" style="margin: 0 10px; display: none;">
+                    <?php 
+                        $user = Auth::user();
+                    ?>
+                    <img src='{{asset($user_url . $user->dp)}}' 
+                    alt="{{$user->fname}}'s dp">
+                </div>
+
+                <input class="flex comment-text" style="padding-left: 12px;height: 60px; font-size: 1.3em; border: none;background-color: transparent; outline: none !important" placeholder="Your comment" name="content"/>
+
+                <button type="button" disabled onclick="submitComment()" class="btn layout center-center" style="padding: 5px; margin: 0 10px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </form>
+        @else
+            <div style="height: 60px; font-size: 1.3em;" class="layout center-center">
+                <a href="/login">Login </a> &nbsp; to comment
+            </div>
+        @endif
     </div>
 </div>
 
@@ -82,7 +134,7 @@
     var _prev_token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';
     var cur_user = <?php echo Auth::guest() ?: Auth::user(); ?>;
 
-    $("#submitComment textarea")
+    $("#submitComment textarea, input")
         .on("focus", function(){
             console.log("Foucs in");
             $(this).on("keyup", function(){
@@ -100,7 +152,13 @@
     function submitComment(){
         var commentObj = {};
         commentObj.user = cur_user;
-        commentObj.content = $("#submitComment textarea").val();
+        commentObj.content = $("#submitComment .comment-text").val();
+
+        $(".comment-text").each(function(){
+            if($(this).val().length)
+                commentObj.content = $(this).val();
+        });
+
         var new_comment = $(comment_template(commentObj));
         new_comment.addClass("waiting my-comment");
         new_comment.find("form").prepend(_prev_token);
@@ -143,7 +201,7 @@
                 setTimeout(function(){
                     comment.remove();
 
-                    $("#submitComment textarea").val(commentObj.content);
+                    $("#submitComment .comment-text").val(commentObj.content);
                     $("#submitComment button").removeAttr("disabled");
                 }, 100);
             }
@@ -155,14 +213,14 @@
             setTimeout(function(){
                 new_comment.remove();
 
-                $("#submitComment textarea").val(commentObj.content);
+                $("#submitComment .comment-text").val(commentObj.content);
                 $("#submitComment button").removeAttr("disabled");
             }, 100);
         })
         .always(function(){
             console.log("Action done");
             $("#submitComment").removeClass("adding-comment");
-            $("#submitComment textarea").val("");
+            $("#submitComment .comment-text").val("");
         });
     }
 

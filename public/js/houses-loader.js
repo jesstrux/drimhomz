@@ -51,12 +51,17 @@ first_load = true;
         wookmark.layout(true);
       }
 
+      window.setTimeout(function(){
+        isLoading = false;
+        $loaderMessage.removeClass("open");
+      }, fadeInDelay + 300);
+
       // Set opacity for each new image at a random time
       $newImages.each(function () {
         var $self = $(this);
         window.setTimeout(function () {
           $self.css('opacity', 1);
-        }, Math.random() * fadeInDelay);
+        }, Math.random());
       });
 
       $(".user-link").each(function(){
@@ -92,13 +97,14 @@ first_load = true;
       if(error.responseText == "No more"){
         $document.off('scroll', onScroll);
         $noMoreMessage.addClass("open");
+
+        isLoading = false;
+        $loaderMessage.removeClass("open");
       }else{
         console.log(error);
       }
     })
     .always(function() {
-      isLoading = false;
-      $loaderMessage.removeClass("open");
       console.log("Data loaded!");
     });
   };
@@ -152,7 +158,8 @@ first_load = true;
       html +=   '</div>';
       html +=   '<div class="content">';
       html +=     '<h3>'+house.title+'</h3>';
-      html +=     '<a class="user-link" href="/user/'+house.owner.id+'" data-user-id="'+house.owner.id+'">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
+      html +=     '<a class="user-link hidden-xs hidden-sm" href="/user/'+house.owner.id+'" data-user-id="'+house.owner.id+'">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
+      html +=     '<a class="hidden visible-xs visible-sm" href="/user/'+house.owner.id+'">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
       html +=     '<span class="social-stuff">'+likes_text+' | '+comments_text+'</span>'
       html +=   '</div>';
       html +=  '</li>';

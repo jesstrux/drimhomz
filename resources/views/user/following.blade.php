@@ -5,12 +5,12 @@
 @endif
 
 @foreach($following as $fol)
-    <div class="house-card">
+    <a href="{{url('/user/').'/'.$fol->user->id}}" class="house-card">
         <div class="image" style="background-color: #eee">
             <img src="{{asset($user_url . $fol->user->dp)}}" alt="{{$fol->user->fname}}'s dp">
         </div>
         <div class="content">
-            <h3><a href="/user/{{$fol->user->id}}" style="color: inherit;">{{$fol->user->full_name()}}</a></h3>
+            <h3>{{$fol->user->full_name()}}</h3>
         </div>
-    </div>
+    </a>
 @endforeach
