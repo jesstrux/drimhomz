@@ -19,6 +19,15 @@
                     {{$ad->image_url}}
                     <p>{{$ad->title}}</p>
                 </a>
+                <a href="{{$ad->link}}" class="house-card">
+                    <div class="image" style="pointer-events: auto;">
+
+                        <img src="/images/categories/uploads/banners/{!! $ad->image_url !!}">
+                    </div>
+                    <div class="content">
+                        <h3 style="line-height: 30px;margin: 0; margin-top: 4px;">{{$ad->title}}</h3>
+                    </div>
+                </a>
             @endforeach
         </div>
     @else

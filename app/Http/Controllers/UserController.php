@@ -178,6 +178,9 @@ class UserController extends Controller
             return back()->withErrors(['msg','Please login first']);
         }
 
+        $this->validate(request(), [
+            'location' => 'required'
+        ]);
         $user = User::find(Auth::user()->id);
         // $user->gender = $request->gender;
         // $user->town = $request->town;
@@ -232,11 +235,12 @@ class UserController extends Controller
         $user = User::find(Auth::user()->id);
         // $path = Storage::put('dps', $request->file('dp'), 'public');
         // $path = $request->file('dp')->store('uploads/dps');
-        $photoName = $request->file('dp')->getClientOriginalName();
-        $destination = base_path()."/public/images/uploads/user_dps/";
+        $extension = $request->file('dp')->getClientOriginalExtension();
+        $photoName = Auth::user()->id.'_'.time().'.'.$extension;
+        $destination = public_path()."/images/uploads/user_dps/";
         $request->file('dp')->move($destination, $photoName);
         $user->dp = $photoName;
-        $user->save();
+
         
         if($user->save()){
             return "success";

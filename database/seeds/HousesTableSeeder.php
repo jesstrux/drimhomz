@@ -3,6 +3,7 @@
 use App\House;
 use Illuminate\Database\Seeder;
 use ColorThief\ColorThief;
+use Intervention\Image\Facades\Image;
 
 class HousesTableSeeder extends Seeder
 {

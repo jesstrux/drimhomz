@@ -84,7 +84,7 @@
                                     <?php 
                                         $user = Auth::user();
                                     ?>
-                                    <img src='{{asset($user_url . $user->dp)}}' 
+                                    <img src='{!! asset($user_url . $user->dp) !!}'
                                     alt="{{$user->fname}}'s dp">
                                 </div>
 
