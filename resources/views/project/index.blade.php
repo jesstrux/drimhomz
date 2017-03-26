@@ -360,8 +360,13 @@
     </style>
 
     <?php
+    	$myProfile = false;
+    	if(!Auth::guest()){
+    		$myProfile = Auth::user()->id == $project->user_id;
+    	}
     	$houses = $project->houses;
 	    $house_count = count($houses);
+	    $the_project = $project;
     ?>
     <main class="container-fluid">
 		<div class="row">
@@ -384,7 +389,7 @@
 					@endif
 
 					<div role="tabpanel" class="tab-pane fade in active" id="projects">
-						@include('project.houses')
+						@include('houses.list')
 					</div>
 				</div>
 			</div>

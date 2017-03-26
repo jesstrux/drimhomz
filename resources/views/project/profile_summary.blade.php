@@ -1,3 +1,9 @@
+<?php
+	$href = url('/user/') . "/" . $project->user->id;
+
+	$link = "<a href='$href'>";
+	$owner = $myProject ? "You" : $link.$project->user->full_name() . "</a>"
+?>
 <style>
 	.lg-followed{
 		background-color: #ffa500; color: #f1eee9;
@@ -25,22 +31,21 @@
 	<div id="userDetails" class="text-center">
 		<h3 style="padding-top: 20px;">{{$project->title}}</h3>
 		<p style="margin-top: 10px;">{{$project->houses->count()}} Houses</p>
+		<p style="margin-bottom: 20px;">
+			<em>Owner:</em> 
+			<strong>
+				{{$owner}}
+			</strong>
+		</p>
 		@if($myProject)
-			<a href="/setupAccount" class="btn btn-default">
+			<a href="{{url('editProject/'.$project->id)}}" class="btn btn-default">
 				Edit project
-			</a>
-
-			<a href="/setupAccount" class="btn btn-default">
-				delete project
-			</a>
+			</a>&nbsp;
+			{{--<a href="/setupAccount" class="btn btn-default">--}}
+				{{--delete project--}}
+			{{--</a>--}}
 		@endif
 		<!-- <hr> -->
-		<em>Owner:</em> 
-		<strong>
-			<a href="{{url('/user/') . '/' . $project->user->id}}">
-				{{$project->user->full_name()}}
-			</a>
-		</strong>
 	</div>
 </div>
 
@@ -52,10 +57,7 @@
 		</div>
 	</div>
 	<span id="profession" style="margin-top: 15px; display: block; font-size: 1.2em">
-		Owner: <a href="{{url('/user/') . '/' . $project->user->id}}">
-			<span id="name">{{$project->user->fname}}</span>
-			<span id="name">{{$project->user->lname}}</span>
-		</a>
+		Owner: {{$owner}}
 	</span>
 </div>
 

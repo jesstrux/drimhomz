@@ -1,6 +1,7 @@
 <?php
 
 use App\House;
+use App\HouseImage;
 use Illuminate\Database\Seeder;
 use ColorThief\ColorThief;
 
@@ -17,16 +18,29 @@ class HousesTableSeeder extends Seeder
     	$projects = App\Project::all()->modelKeys();
 
         function saveThumb($ext){
-            $destinationPath = public_path('images/uploads/houses/');
-            $thumbPath = $destinationPath.'thumbs/';
-            $real_path = $thumbPath . $ext;
+            $orgPath = public_path('images/uploads/houses/');
+            $image = Image::make($orgPath . $ext);
+            $destinationPath = storage_path('app/public/uploads/housesIsh');
+            $image->save($destinationPath .'/'.$ext);
 
-            $img = Image::make($destinationPath . $ext);
-            $img->resize(600, 600, function ($constraint) {
+            $image_sizes = new \stdClass();
+            $image_sizes->width = $image->width();
+            $image_sizes->height = $image->height();
+
+            $img = Image::make($image->basePath());
+            $thumb_path = $destinationPath.'/thumbs/'.$ext;
+
+            $img->resize(rand (400, 800), null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save($real_path);
+            })->save($thumb_path);
 
-            return getColor($real_path);
+            $image_sizes->width_thumb = $img->width();
+            $image_sizes->height_thumb = $img->height();
+
+            return [
+                "image_sizes" => $image_sizes,
+                "color" => $img->limitColors(1)->pickColor(0, 0, 'hex')
+            ];
         }
 
         function getColor($image_url){
@@ -44,17 +58,30 @@ class HousesTableSeeder extends Seeder
             // $ext = $i%31;
             $image_url = "slide$i.jpg";
 
-            $dominantColor = saveThumb($image_url);
+            $more_info = saveThumb($image_url);
+            $image_sizes = $more_info["image_sizes"];
 
 			$house = [
-	        	'image_url' => $image_url,
 	        	'title' => $faker->realText(10),
-	        	'description' => $faker->realText(),
-	        	'placeholder_color' => $dominantColor,
+                'image_url' => $image_url,
+                'placeholder_color' => $more_info["color"],
+                'description' => $faker->realText(),
 	        	'project_id' => $projects[$faker->numberBetween(0, count($projects) - 1)]
 	        ];
 
-	        House::create($house);
+	        $new_house = House::create($house);
+
+            if($new_house){
+                $house_image = [
+                    'house_id' => $new_house->id,
+                    'width' => $image_sizes->width,
+                    'height' => $image_sizes->height,
+                    'width_thumb' => $image_sizes->width_thumb,
+                    'height_thumb' => $image_sizes->height_thumb
+                ];
+
+                HouseImage::create($house_image);
+            }
 		}
     }
 }

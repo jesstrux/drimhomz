@@ -1,0 +1,88 @@
+#newPinModal .cust-modal-content{
+	width: 700px; 
+	transform: none; 
+	opacity: 1; 
+	padding: 30px;
+}
+
+#newPinModal #projectList{
+	position: relative;
+	overflow-x: hidden; 
+	height: 400px;
+}
+
+#projectItems{
+	padding: 20px;
+}
+
+#newPinCard{
+	background-color: #ddd; 
+	width: calc(100% - 20px);
+	height: 250px; 
+	margin-right: 20px;
+}
+
+@media only screen and (max-width: 760px) {
+	#newPinModal{
+		overflow: hidden;
+		display: block;
+		padding-top: 60px;
+	}
+
+	#newPinModal .cust-modal-content{
+		width: 100%;
+		height: calc(100vh - 60px);
+		padding: 0;
+		position: relative;
+		box-shadow: none;
+	}
+
+	#newPinModal .cust-modal-content > .row{
+		margin: 0 !important;
+	}
+
+	#toPin{
+		padding-top: 25px !important;
+		position: fixed;
+		top: 0;
+		border-right: none !important;
+	}
+	
+	#newPinCard{
+		background-color: #ddd; 
+		width: calc(100% - 20px);
+		max-width: 300px;
+		height: 250px; 
+		margin-right: 0;
+		margin: auto;
+		box-shadow: 0 0 16px rgba(0,0,0,0.16);
+		border-radius: 5px;
+	}
+
+	#newPinModal #projectList{
+		/*opacity: 0;*/
+		padding: 0;
+		box-shadow: 0 -3px 16px rgba(0,0,0,0.16);
+		position: relative;
+		z-index: 1;
+		position: absolute;
+		width: 100%;
+		top: 30vh;
+		background-color: #fff;
+		overflow: hidden;
+		height: 70vh;
+	}
+
+	#projectItems{
+		padding: 0;
+	}
+
+	#projectOptions{
+		padding: 5px;
+		padding-top: 6px;
+		overflow: auto;
+		position: relative;
+		padding-bottom: 5px !important;
+		height: calc(70vh - 11px) !important;
+	}
+}

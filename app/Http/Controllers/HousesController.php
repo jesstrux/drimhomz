@@ -22,7 +22,7 @@ class HousesController extends Controller
 
     public function randomList($page){
         $houses_per_page = 15;
-    	$db_values = House::with('project')->get();
+    	$db_values = House::with('project')->orderBy('created_at', 'desc')->get();
 		$len = count($db_values) - 1;
 		$values = array();
 
@@ -34,11 +34,22 @@ class HousesController extends Controller
             
             $db_values[$i]->fav_count = $db_values[$i]->favorites()->count();
             $db_values[$i]->comment_count = $db_values[$i]->comments()->count();
+            $image = $db_values[$i]->image;
+            if($image != null){
+                $db_values[$i]->width = $image->width;
+                $db_values[$i]->height = $image->height;
+                $db_values[$i]->width_thumb = $image->width_thumb;
+                $db_values[$i]->height_thumb = $image->height_thumb;
+            }
 
-            if(!Auth::guest())
+            if(!Auth::guest()){
                 $db_values[$i]->faved = $db_values[$i]->faved(Auth::user()->id);
-            else
+                $db_values[$i]->followed = $db_values[$i]->followed(Auth::user()->id);
+            }
+            else{
                 $db_values[$i]->faved = false;
+                $db_values[$i]->followed = false;
+            }
 
             $values []= $db_values[$i];
         }
@@ -58,11 +69,23 @@ class HousesController extends Controller
         $house_id = $request->input('house_id');
         $house = House::find($house_id);
 
+        $follow = [
+            'user_id' => $user_id,
+            'house_id' => $house_id
+        ];
+
         if($house->followed($user_id)){
-            return response()->json([
-                'success' => false,
-                'msg' => "You already followed this house"
-            ]);
+            if(FollowPost::where($follow)->delete()){
+                return response()->json([
+                    'success' => true,
+                    'msg' => "Successfully unfollowed house"
+                ]);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'msg' => "Couldn't unfollow house"
+                ]);
+            }
         }
         else if($house->owner()->id == $user_id){
             return response()->json([
@@ -71,11 +94,6 @@ class HousesController extends Controller
             ]);
         }
         else{
-            $follow = [
-                'user_id' => $user_id,
-                'house_id' => $house_id
-            ];
-
             if(FollowPost::create($follow)){
                 return response()->json([
                     'success' => true,
@@ -83,7 +101,7 @@ class HousesController extends Controller
                 ]);
             }else{
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'msg' => "Couldn't follow house"
                 ]);
             }
@@ -248,6 +266,13 @@ class HousesController extends Controller
     }
 
     public function favorite_house(Request $request){
+        if(Auth::guest()){
+            return response()->json([
+                'success' => false,
+                'msg' => 'Please login first before liking a house.'
+            ]);
+        }
+
         $authuser = Auth::user();
         $house_id = $request->input('house_id');
         $house = House::find($house_id);

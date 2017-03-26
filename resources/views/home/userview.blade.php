@@ -47,7 +47,6 @@
     var random_ads = <?php echo $random_ads; ?>;
 </script>
 <div class="image-grid">
-        @include('home.house-preview')
         <ul id="container">
             
         </ul>
@@ -62,3 +61,49 @@
 <script src="{{asset('js/wookmark.min.js')}}"></script>
 <script src="{{asset('js/imagesLoaded.min.js')}}"></script>
 <script src="{{asset('js/houses-loader.js')}}"></script>
+
+<script>
+    function followHouse(id){
+        showLoading();
+        var form = $("#followHouse"+id);
+        var formdata = new FormData(form[0]);
+        var el = form.find(".follow-house-btn");
+        formdata.append("house_id", id);
+        formdata.append("_token", Laravel.csrfToken);
+
+        $.ajax({
+              type:'POST',
+              url: "/followHouse",
+              data: formdata,
+              dataType:'json',
+              async:false,
+              processData: false,
+              contentType: false
+        })
+        .done(function(response){
+            console.log("Response!, ", response);
+            if(response.success){
+                closeNewPin();
+                showToast("success", response.msg);
+
+                if(el.hasClass("followed")){
+                  el.text("FOLLOW");
+                }else{
+                  el.text("UNFOLLOW");
+                }
+
+                el.toggleClass("followed");
+            }else{
+                showToast("error", response.msg);
+            }
+        })
+        .fail(function(response){
+            console.log("Error!, ", response);
+            showToast("error", "An unknown error Occured");
+        })
+        .always(function(){
+            console.log("Action done");
+            hideLoading();
+        });
+    }
+</script>
