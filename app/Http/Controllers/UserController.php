@@ -239,6 +239,9 @@ class UserController extends Controller
         $photoName = Auth::user()->id.'_'.time().'.'.$extension;
         $destination = public_path()."/images/uploads/user_dps/";
         $request->file('dp')->move($destination, $photoName);
+        $oldDp  = $destination.$user->dp;
+      if(file_exists($oldDp))
+          unlink($oldDp);
         $user->dp = $photoName;
 
         

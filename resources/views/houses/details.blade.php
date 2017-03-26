@@ -51,7 +51,7 @@
             <div id="loadingComments" class="empty-message">
             Loading comments</div>
             
-            @if (Auth::user())
+            @if (Auth::check())
                 <form id="submitComment" action="{{ url('/submitComment') }}" method="POST">
                     {{ csrf_field() }}
                     <input id="previewHouseId" class="previewHouseId" type="hidden" name="house_id">

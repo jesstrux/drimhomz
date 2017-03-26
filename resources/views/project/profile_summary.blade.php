@@ -24,7 +24,7 @@
 <div id="profileSummaryLg" class="col-sm-12 col-md-5 col-lg-4">
 	<div id="userDetails" class="text-center">
 		<h3 style="padding-top: 20px;">{{$project->title}}</h3>
-		<p style="margin-top: 10px;">{{$project->houses->count()}} Houses</p>
+		<p style="margin-top: 10px;">{{$project->houses->count()}} Dreams</p>
 		@if($myProject)
 			<a href="/setupAccount" class="btn btn-default">
 				Edit project

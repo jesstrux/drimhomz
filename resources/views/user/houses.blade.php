@@ -7,12 +7,12 @@
 			</svg>
         </div>
         <div style="height: 50px;">
-        	<h3 style="font-size: 1.5em; margin: 0; text-align: center;line-height: 70px">New house</h3>
+        	<h3 style="font-size: 1.5em; margin: 0; text-align: center;line-height: 70px">New Dream</h3>
         </div>
     </a>
 @elseif(!$myProfile && is_null($house_count))
 	<div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">
-		{{$user->fname}} hasn't added any houses yet.
+		{{$user->fname}} hasn't added any dreams yet.
 	</div>
 @endif
 
@@ -46,7 +46,7 @@
     </button>
 
     <form enctype="multipart/form-data" class="cust-modal-content" method="POST" action="/createHouse" style="width: 380px; padding-top: 15px;">
-        <h3>New House</h3>
+        <h3>New Dream</h3>
         {{ csrf_field() }}
         <input type="hidden" name="user_id" value="{{$user->id}}">
         
@@ -71,6 +71,8 @@
 
         <label>Title</label>
         <input name="title" type="text" placeholder="enter project title here" required>
+        <label>Description</label>
+        <input name="description" type="text" placeholder="enter project title here" required>
 
         <button type="submit">CREATE</button>
     </form>

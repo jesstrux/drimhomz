@@ -55,7 +55,7 @@
         <!-- <div class="empty-message">There are no featured houses.</div> -->
         <div style="position: relative; height: 50px; margin-bottom: 30px;">
             <div id="loaderMessage" class="empty-message api-message">Loading....</div>
-            <div id="noMoreMessage" class="empty-message no-more-message api-message">No more houses</div>
+            <div id="noMoreMessage" class="empty-message no-more-message api-message">No more dreams</div>
         </div>
 </div>
 

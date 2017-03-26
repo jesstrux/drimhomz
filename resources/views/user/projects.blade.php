@@ -14,7 +14,7 @@
 @else
 	@if(is_null($project_count))
 		<div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">
-			{{$user->fname}} hasn't added any houses yet.
+			{{$user->fname}} hasn't added any dreams yet.
 		</div>
 	@endif
 @endif

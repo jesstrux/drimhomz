@@ -43,9 +43,9 @@
             <div id="myhouses" class="subpage">
                 <section class="short">
                     <div class="section-header text-center">
-                        <h3>House pictures</h3>
+                        <h3>Dream pictures</h3>
                         <p>
-                            Here are your houses, click button below to add a new one.<br>
+                            Here are your dreams, click button below to add a new one.<br>
 
                             <button class="round-btn" style="padding: 5px 20px; min-width: 0">New picture</button>
                         </p>
@@ -57,7 +57,7 @@
             <div id="myalbums" class="subpage">
                 <section class="short">
                     <div class="section-header text-center">
-                        <h3>House albums</h3>
+                        <h3>Dream albums</h3>
                         <p>
                             Here are your albums, click the button below to create a new one. <br>
                             <button class="round-btn" style="padding: 5px 20px; min-width: 0">New album</button>

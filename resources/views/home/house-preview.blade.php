@@ -27,7 +27,7 @@
         <div class="content">
             <h3 id="previewTitle">Some title</h3>
             <p id="previewCaption" style="padding-top: 15px;">Lorem.</p>
-            
+
             <div id="previewImageHolder" class="image"><img style="min-height: 300px;" id="previewImage" src="{{asset('/')}}" alt=""></div>
 
             <div class="layout">
@@ -72,16 +72,16 @@
                 </div>
                 <div id="loadingComments" class="empty-message">
                 Loading comments</div>
-                
+
                 <div class="hidden-xs hidden-sm">
-                    @if (Auth::user())
+                    @if (Auth::check())
                         <form id="submitComment" action="{{ url('/submitComment') }}" method="POST">
                             {{ csrf_field() }}
                             <input id="previewHouseId" class="previewHouseId" type="hidden" name="house_id">
 
                             <div class="item flex">
                                 <div class="avatar">
-                                    <?php 
+                                    <?php
                                         $user = Auth::user();
                                     ?>
                                     <img src='{!! asset($user_url . $user->dp) !!}'
@@ -103,16 +103,16 @@
 
     <div class="preview-comment-toolbar layout center hidden visible-xs visible-sm" style="background: #fff; height: 60px; position: fixed; bottom: 0; left:0; width: 100%; box-shadow: 0 -1px 3px rgba(0,0,0,0.2)">
 
-        @if (Auth::user())
+        @if (Auth::check())
             <form id="submitComment" action="{{ url('/submitComment') }}" method="POST" class="layout center">
                 {{ csrf_field() }}
                 <input id="previewHouseId" class="previewHouseId" type="hidden" name="house_id">
 
                 <div class="avatar" style="margin: 0 10px; display: none;">
-                    <?php 
+                    <?php
                         $user = Auth::user();
                     ?>
-                    <img src='{{asset($user_url . $user->dp)}}' 
+                    <img src='{{asset($user_url . $user->dp)}}'
                     alt="{{$user->fname}}'s dp">
                 </div>
 
@@ -132,7 +132,7 @@
 
 <script>
     var _prev_token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';
-    var cur_user = <?php echo Auth::guest() ?: Auth::user(); ?>;
+
 
     $("#submitComment textarea, input")
         .on("focus", function(){
@@ -150,15 +150,15 @@
         });
 
     function submitComment(){
+
         var commentObj = {};
-        commentObj.user = cur_user;
+        commentObj.user = <?php echo Auth::user(); ?>;
         commentObj.content = $("#submitComment .comment-text").val();
 
         $(".comment-text").each(function(){
             if($(this).val().length)
                 commentObj.content = $(this).val();
         });
-
         var new_comment = $(comment_template(commentObj));
         new_comment.addClass("waiting my-comment");
         new_comment.find("form").prepend(_prev_token);
@@ -184,10 +184,10 @@
         .done(function(response){
             if(response.success){
                 var comment = $('#commentsList .a-comment.waiting');
-                comment.find("#commentId").val(response.id);
-                comment.prop("id", "comment" + response.id);
-                comment.find("form").prop("id", "deleteComment" + response.id);
-                comment.find("form button").attr("onclick", "deleteComment("+response.id+")");
+                comment.find("#commentId").val(response.comment_id);
+                comment.prop("id", "comment" + response.comment_id);
+                comment.find("form").prop("id", "deleteComment" + response.comment_id);
+                comment.find("form button").attr("onclick", "deleteComment("+response.comment_id+")");
 
                 setTimeout(function(){
                     comment.removeClass('waiting');
@@ -288,7 +288,8 @@
     }
 
     function updateUi(new_details){
-        featured_houses[cur_house] = new_details;
+        var featured_houses = [];
+         featured_houses[cur_house] = new_details;
         var ltrailingS = new_details.fav_count == 1 ? "" : "s";
         var likes_text = new_details.fav_count + " like" + ltrailingS;
 
@@ -306,7 +307,7 @@
         else
           $('#previewReactions').removeClass("faved");
 
-        console.log(new_details.comment_count);
+        console.log("Comment(s): "+new_details.comment_count);
         if(new_details.comment_count < 1){
           $('#commentsList').addClass('no-comments');
         }
