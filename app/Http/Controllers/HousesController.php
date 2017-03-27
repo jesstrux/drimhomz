@@ -24,6 +24,7 @@ class HousesController extends Controller
     public function randomList($page){
         $houses_per_page = 15;
     	$db_values = House::with('project')->orderBy('created_at', 'desc')->get();
+
 		$len = count($db_values) - 1;
 		$values = array();
 
@@ -224,6 +225,7 @@ class HousesController extends Controller
     }
 
     public function submit_comment(Request $request){
+
         if(Auth::guest())
             return response()->json(["success" => false]);
         else{
@@ -237,8 +239,9 @@ class HousesController extends Controller
             if($new_comment->id){
                 return response()->json([
                     'success' => true,
-                    'id' => $new_comment->id,
-                    'comment' => $new_comment
+                    'comment_id' => $new_comment->id,
+                    'comment' => $new_comment->content,
+
                 ]);
             }else{
                 return response()->json([

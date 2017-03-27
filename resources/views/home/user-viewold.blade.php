@@ -1,10 +1,10 @@
 <section id="pictures" class="short hidden">
     <div class="container">
         <div class="section-header text-center">
-            <h3>Featured houses</h3>
+            <h3>Featured dreams</h3>
             <p>
                 Here's today's collection, hope you find some that you like, if you do don't forget to rate them so others can find them too. <br>
-                <button class="round-btn" style="padding: 5px 20px; min-width: 0">Suggest a house</button>
+                <button class="round-btn" style="padding: 5px 20px; min-width: 0">Suggest a dream</button>
             </p>
         </div>
     </div>
@@ -91,6 +91,6 @@
             @endforeach
         </ul>
     @else
-        <div class="empty-message">There are no featured houses.</div>
+        <div class="empty-message">There are no featured dreams.</div>
     @endif
 </div>
