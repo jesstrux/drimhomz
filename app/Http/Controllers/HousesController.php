@@ -225,10 +225,26 @@ class HousesController extends Controller
     }
 
     public function submit_comment(Request $request){
-
         if(Auth::guest())
             return response()->json(["success" => false]);
         else{
+            if($request->input('comment_id') != null){
+                $comment = Comment::find($request->input('comment_id'));
+                $comment->content = $request->input('content');
+
+                if($comment->save()){
+                    return response()->json([
+                        'success' => true,
+                        'comment_id' => $request->input('comment_id'),
+                        'comment' => $request->input('content'),
+
+                    ]);
+                }else{
+                    return response()->json([
+                        'success' => false
+                    ]);
+                }
+            }
             $comment = [
                 'user_id' => Auth::user()->id,
                 'house_id' => $request->input('house_id'),

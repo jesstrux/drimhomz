@@ -1,4 +1,6 @@
 <div id="preview" class="--js-house-preview">
+    <input id="editCommentId" type="hidden" name="comment_id">
+
     <button class="closer --js-house-preview-closer">
         <svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
     </button>
@@ -135,12 +137,12 @@
     var featured_houses = featured_houses ||  [];
     var _prev_token = '<?php echo csrf_field(); ?>';
     var cur_user = <?php echo Auth::guest() ?: Auth::user(); ?>;
-
+    var the_comment;
 
     $("#submitComment textarea, #submitComment input")
         .on("focus", function(){
-            console.log("Foucs in");
             $(this).on("keyup", function(){
+                the_comment = $(this).val();
                 if($(this).val().length)
                     $("#submitComment button").removeAttr("disabled");
                 else
@@ -148,42 +150,61 @@
             });
         })
         .on("focusout", function(){
-            console.log("Foucs out");
             $(this).off("change");
+        })
+        .on("change", function(){
+            the_comment = $(this).val();
+            if($(this).val().length)
+                $("#submitComment button").removeAttr("disabled");
+            else
+                $("#submitComment button").attr("disabled", "disabled");
         });
 
     function submitComment(){
         showLoading();
 
+        var editted_comment;
+
         var commentObj = {};
         commentObj.user = <?php echo Auth::user(); ?>;
-        commentObj.content = $("#submitComment .comment-text").val();
+        commentObj.content = the_comment;
 
-        $(".comment-text").each(function(){
-            if($(this).val().length)
-                commentObj.content = $(this).val();
-        });
-        var new_comment = $(comment_template(commentObj));
-        new_comment.addClass("waiting my-comment");
-        new_comment.find("form").prepend(_prev_token);
+//        $(".comment-text").each(function(){
+//            if($(this).val().length)
+//                commentObj.content = $(this).val();
+//        });
 
-        if($('#commentsList').hasClass("no-comments"))
-            $('#commentsList').removeClass('no-comments');
+        if(!commentEditMode){
+            var new_comment = $(comment_template(commentObj));
+            new_comment.addClass("waiting my-comment");
+            new_comment.find("form").prepend(_prev_token);
 
-        $('#commentsList').append(new_comment);
+            if($('#commentsList').hasClass("no-comments"))
+                $('#commentsList').removeClass('no-comments');
 
-        $("#submitComment button").attr("disabled", "disabled");
-        $("#submitComment").addClass("adding-comment");
+            $('#commentsList').append(new_comment);
 
-        var formdata = new FormData($("#submitComment")[0]);
-        if(formdata.getAll("content")[0].length == 0){
-            formdata.append("content", commentObj.content);
-            console.log(formdata.getAll("content")[0], commentObj.content);
-        }else{
-            console.log("Has contetn", formdata.getAll("content")[0]);
+            $("#submitComment button").attr("disabled", "disabled");
+            $("#submitComment").addClass("adding-comment");
         }
 
-        // return;
+        var formdata = new FormData($("#submitComment")[0]);
+        formdata.append("content", commentObj.content);
+//        if(formdata.getAll("content")[0].length == 0){
+//            console.log(formdata.getAll("content")[0], commentObj.content);
+//        }else{
+//            console.log("Has contetn", formdata.getAll("content")[0]);
+//        }
+
+        if($("#editCommentId").val().length > 0){
+            editted_comment = $("#editCommentId").val();
+            formdata.append("comment_id", editted_comment);
+            $("#"+editted_comment).addClass("waiting");
+        }
+
+        console.log("The comment is: " + $("#editCommentId").val());
+        console.log(formdata.getAll("content"));
+//        return;
 
         $.ajax({
               type:'POST',
@@ -196,16 +217,21 @@
         })
         .done(function(response){
             if(response.success){
-                var comment = $('#commentsList .a-comment.waiting');
-                comment.find("#commentId").val(response.comment_id);
-                comment.prop("id", "comment" + response.comment_id);
-                comment.find("form").prop("id", "deleteComment" + response.comment_id);
-                comment.find("form button").attr("onclick", "deleteComment("+response.comment_id+")");
+                if(commentEditMode){
+                    commentSaved(commentObj.content, response.comment_id);
+                    showToast("success", "Comment edited!");
+                }else{
+                    var comment = $('#commentsList .a-comment.waiting');
+                    comment.find("#commentId").val(response.comment_id);
+                    comment.prop("id", "comment" + response.comment_id);
+                    comment.find("form").prop("id", "deleteComment" + response.comment_id);
+                    comment.find("form button").attr("onclick", "deleteComment("+response.comment_id+")");
 
-                comment.removeClass('waiting');
-                showToast("success", "Comment sent!");
-                house_details.comment_count += 1;
-                updateUi(house_details);
+                    comment.removeClass('waiting');
+                    showToast("success", "Comment sent!");
+                    house_details.comment_count += 1;
+                    updateUi(house_details);
+                }
             }else{
                 console.log("Failure!, ", response);
                 showToast("error", "Comment wasn't added!");
@@ -220,6 +246,7 @@
             }
         })
         .fail(function(error){
+//            document.write(error.responseText);
             console.log("Error!, ", error);
             var comment = $('#commentsList .a-comment.waiting');
             comment.css("opacity", 0);
@@ -278,6 +305,27 @@
             console.log("Action done");
             hideLoading();
         });
+    }
+
+    function editComment(id){
+        var el = $("#comment" + id);
+        commentEditMode = true;
+        var commentText = el.find(".comment-content").text();
+        $("#editCommentId").val(id);
+
+        $(".comment-text").each(function(){
+            $(this).val(commentText);
+            $(this).focus();
+        });
+
+//        console.log("commentText: " + commentText);
+    }
+
+    function commentSaved(content, id){
+        var el = $("#comment" + id);
+        commentEditMode = false;
+        el.find(".comment-content").text(content);
+        $(el).removeClass("waiting");
     }
 
     function toggleFav(){

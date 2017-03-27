@@ -18,8 +18,7 @@
 					</p>
 				</div>
 				<span class="secondary">
-					<!-- Nov 9, 12:22 AM -->
-					{{$question->created_at}}
+					{{$question->created_at->diffForHumans()}}
 				</span>
 	        </div>
 

@@ -45,6 +45,7 @@
         var user_base_url = "<?php echo $user_url?>";
         var ad_base_url = "<?php echo $banner_url?>";
         var drimMode = false;
+        var commentEditMode = false;
         var user_exists = <?php echo Auth::guest() ? "false" : "true" ?>;
 console.log('House: '+house_base_url);
         function getPopup(el){

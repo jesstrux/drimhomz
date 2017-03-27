@@ -268,14 +268,19 @@ function comment_template(commentObj) {
     comment += '        <a href="/user/'+commentObj.user.id+'">'
     comment += '            '+commentObj.user.fname+ ' ' + commentObj.user.lname+'</a>';
     comment += '        </div>';
-    comment += '        <p>'+commentObj.content+'</p>';
+    comment += '        <p class="comment-content">'+commentObj.content+'</p>';
     comment += '    </div>';
+    comment += '    <div class="form-things layout">';
+    comment += '    <a type="button" class="comment-editor" style="cursor: pointer" onclick="editComment('+commentObj.id+')">';
+    comment += '        <i class="fa fa-pencil" title="edit"></i>';
+    comment += '    </a>';
     comment += '    <form id="deleteComment'+commentObj.id+'" action="deleteComment" method="POST">';
     comment += '        <input id="commentId" type="hidden" value="'+commentObj.id+'" name="id">';
     comment += '        <a type="button" style="cursor: pointer" onclick="deleteComment('+commentObj.id+')">'
     comment += '            <i class="fa fa-trash" title="Delete"></i>';
     comment += '        </a>';
     comment += '    </form>';
+    comment += '    </div>';
     comment += '</div>';
 
     return comment;
