@@ -79,10 +79,12 @@ $(document).ready(function(){
     $(document).on("click", '.drim-btn', function(){
         $parent = $(this).closest('.dh-card');
 
-        if(($parent).hasClass('--js-house-preview-card'))
-            return;
+        $('--js-house-preview-card').removeClass('open');
 
-        openNewPin($parent);
+        if(($parent).hasClass('--js-house-preview-card'))
+            openNewPin($parent, true);
+        else
+            openNewPin($parent);
     });
 
     $(document).on("click", '.dh-card.grid-item.a-house', function(e){
@@ -135,15 +137,15 @@ $(document).ready(function(){
 
         for (; i < length; i++) {
           var comment = $(comment_template(data[i]));
-          if(data[i].user_id == cur_user.id || house_details.owner.id == cur_user.id){
+          if((user_exists && data[i].user_id == cur_user.id) || (user_exists && house_details.owner.id == cur_user.id)){
             comment.addClass('my-comment');
           }
-          comment.find("form").prepend(_token);
+          comment.find("form").prepend('<input type="hidden" name="_token" value="'+_token+'">');
           $('#commentsList').append(comment);
         }
     }
 
-    $(document).on("click", '.--js-house-preview .closer', function(e){
+    $(document).on("click", '.--js-house-preview-closer', function(e){
         $preview = $(".--js-house-preview");
 
         if($preview.hasClass('open')){
@@ -177,6 +179,8 @@ $(document).ready(function(){
     });
 
     function setPreview(){
+        $('#previewImage').attr("src", "");
+        $('#preview .dh-card').attr('data-postid', house_details.id);
         $('#previewTitle').text(house_details.title);
         $('#previewCaption').text(house_details.description);
         $('#previewCommentCount').text(house_details.comment_count);

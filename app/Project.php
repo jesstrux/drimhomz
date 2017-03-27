@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     protected $fillable = [
-        'user_id', 'title'
+        'user_id', 'title', 'location', 'time_start', 'time_finish', 'budget'
     ];
 
     public function user(){
@@ -22,12 +22,12 @@ class Project extends Model
     	$houses = $this->houses()->get();
 		$html = '<div id="projHouses" class="layout wrap">';
 		$count = 0;
-		$house_url = asset("images/uploads/") . "/houses";
+		$house_url = asset("storage/uploads/") . "/housesIsh";
 
 		foreach ($houses as $house){
 			if($count < 4){
 				$img_url = "$house_url/thumbs/$house->image_url";
-				$html .= '<div class="column-inner"style="background-image: url('.$img_url.')"></div>';
+				$html .= '<div class="column-inner"style="background-color:'.$house->placeholder_color.';background-image: url('.$img_url.')"></div>';
 
 				$count++;
 			}else{

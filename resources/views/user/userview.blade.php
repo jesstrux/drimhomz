@@ -1,9 +1,19 @@
+@if(!Auth::guest() && $myProfile)
+	<?php $is_my_profile = true; ?>
+@endif
+
 @extends('layouts.app')
 
 @section('content')
     <style>
-    	body{
-			background-color: #f8f8f8;
+		@media only screen and (max-width: 760px) {
+	        body{
+	            background-color: white !important;
+	        }
+    	}
+		a{
+			color: inherit;
+			text-decoration: none;
 		}
     	#profileSummaryLg{
 			display: none;
@@ -244,6 +254,29 @@
 			}
 		}
 
+		@media all and (max-width: 767px) {
+			#tabsContent{
+				padding: 0 6px;
+			}
+
+			.house-card{
+				padding: 0 !important;
+				background-color: #f00;
+				border-radius: 2px;
+			}
+
+			.house-card .image, .house-card .image img,
+			.house-card > div{
+				overflow: hidden;
+				border-radius: 8px 8px 0 0 !important;
+			}
+
+			.house-card .content{
+				padding: 4px 14px;
+				padding-bottom: 10px;
+			}
+		}
+
 		@media all and (min-width: 1200px) {
 			#userDetails{
 				margin: 0 20px;
@@ -335,8 +368,6 @@
             text-overflow: ellipsis;
         }
     </style>
-
-    @include('home.house-preview')
 
     <script>
     	var _token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';

@@ -153,7 +153,7 @@
 
     <div id="pnewPofilePage">
     	<div id="outer" class="container">
-			<div id="wrapper" class="layout">
+			<div id="wrapper" class="layout" style="background-color: #fff; margin-bottom: 40px;">
 		    	<div id="dpEditor" class="flex">
 					@if (session('verification_status'))
 

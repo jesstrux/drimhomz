@@ -1,7 +1,7 @@
 <nav id="mainestNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container" style="padding-right: 20px; position: relative;">
         <div class="navbar-header" style="position: relative;">
-            <button type="button" class="navbar-toggle collapsed hidden-xs" data-toggle="collapse" data-target="#app-navbar-collapse">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                 <span class="sr-only">Toggle Navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -12,34 +12,9 @@
                 <span id="logo">{{ config('app.name', 'Drimhomz') }}</span>
             </a>
 
-            <div id="mobAuthLinks" class="layout center hidden-sm hidden-md hidden-lg hidden-xl">
-                @if (Auth::guest())
-                    <a href="{{ url('/login') }}">Login</a>
-                @else
-                    <?php
-                        $profileUrl = "/user/".Auth::user()->id;
-                    ?>
-                    @if(!isset($is_my_profile))
-                        <a class="layout center-center" href="{{ url($profileUrl) }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                        </a>
-                    @else
-                        <a class="layout center-center" href="{{ url('/setupAccount') }}" style="font-weight: bold;">
-                            EDIT
-                        </a>
-                    @endif
-
-                    <a class="layout center-center" href="{{ url('/logout') }}"
-                        onclick="event.preventDefault();
-                                 document.getElementById('logout-form').submit();">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
-                    </a>
-
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
-                @endif
-            </div>
+            <button class="search-opener hidden-sm hidden-md hidden-lg hidden-xl" style="position: relative;" onclick="openSearchBar()">
+                <svg fill="#555" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </button>
         </div>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">

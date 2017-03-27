@@ -24,7 +24,7 @@
 }
 .webui-popover-content{padding:0 !important}
 body{
-	background: white;
+	background: #f5f5f5 !important;/*white;*/
 	--primary-color: #00134b; /*0, 19, 75,*/
 	--accent-color: #94edfe;
 	padding-top: 75px;
@@ -100,7 +100,12 @@ body.locked{
 	box-shadow: 0 1px 2px rgba(0,0,0,.3);
 }
 
-.dh-card .post-actions{
+.post-actions{
+	position: absolute; 
+	right: 0; top: 0; 
+	padding: 8px; 
+	padding-right:10px; 
+	z-index: 3;
 	opacity: 0;
 	pointer-events: none;
 }
@@ -108,6 +113,49 @@ body.locked{
 .dh-card:hover .post-actions{
 	opacity: 1;
 	pointer-events: auto;
+}
+
+@media only screen and (max-width: 760px) {
+	.dh-card .post-actions{
+		display: none;
+	}
+}
+
+.post-actions .drim-btn{
+	background:#8bc34a; 
+	border-radius: 50%; 
+	overflow: hidden; 
+	padding: 6px; 
+	padding-bottom: 6px;
+}
+
+.post-actions form{
+	display: inline-block; margin-left: 10px
+}
+
+.post-actions .drim-btn{
+	display: inline-block; margin-left: 10px
+}
+
+.post-actions .follow-house-btn{
+	font-size: 12px; padding: 3px; height: 25px;
+	background-color: rgba(0,0,0,0.3);
+	font-weight: bold;
+	border: 2px solid #fff;
+	color: #fff;
+}
+
+.post-actions .follow-house-btn:hover{
+	color: #fff;
+}
+
+.post-actions .follow-house-btn.followed{
+	background:#ff9800; color: #fff; 
+	border-color: #f57c00;
+}
+
+.post-actions .follow-house-btn.followed:hover{
+	background:#f57c00;
 }
 
 .dh-card .image{
@@ -119,12 +167,22 @@ body.locked{
 	overflow: hidden;
 	/*display: none;*/
 }
-.dh-card .image img{
+#container .dh-card .image img{
 	/*width: 100%;*/
 	/*min-height: 220px;*/
-	height: auto;
-	max-width: 130%;
+	/*height: 150%;*/
+	max-width: 140% !important;
 }
+
+#previewImageHolder{
+	position: relative;
+	width: 100%;
+	z-index: -1;
+}
+#previewImageHolder img{
+	width: 100% !important;
+}
+
 .dh-card .content{
 	padding: 16px;
 	text-align: justify;
@@ -133,8 +191,9 @@ body.locked{
 .dh-card .content h3{
 	color: #000;
 	text-align: left;
-	margin-top: 5px;
-	margin-bottom: 8px;
+	margin-top: 1px;
+	margin-bottom: 3px;
+	font-size: 1.2em;
 	/*padding-bottom: 8px;
 	border-bottom: 1px solid #ddd;*/
 }
@@ -142,12 +201,13 @@ body.locked{
 	display: inline-block;
 	color: inherit; /*#9acd32;*/
 	/*padding: 5px 0;*/
-	font-size: 16px;
+	/*font-size: 16px;*/
 	/*font-family: consolas;*/
+	font-size: 0.9em;
 	font-weight: bolder;
 }
 .dh-card .content .social-stuff{
-	display: block; margin-top: 10px; color: #777
+	display: block; margin-top: 3px; color: #777
 }
 
 .main-aside{
@@ -205,6 +265,17 @@ body.locked{
 	display: block;
 	margin-right: 20px;
 	/*margin-top: 5px;*/
+}
+
+@media all and (max-width: 406px) {
+    .navbar-brand{
+        margin-top: 6px;
+    }
+
+    .navbar-brand img{
+    	position: relative;
+        top: -1px;
+    }
 }
 
 .navbar-brand #logo{
@@ -980,10 +1051,36 @@ body.moving-stuff #manageImage #resizeCanvas{
     -o-transition: opacity 0.25s ease-out;
     transition: opacity 0.25s ease-out;
 }
+#forMob{
+	display: none;
+}
 
 .cust-modal.open{
     opacity: 1;
     pointer-events: auto;
+}
+
+.cust-modal .cust-modal-toolbar{
+	position: fixed; 
+	top: 0; left: 0; 
+	width: 100%; 
+	height: 60px; 
+	background-color: #fff;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.cust-modal .cust-modal-toolbar.semi-trans{
+	background-color: rgba(255,255,255,0.9); 
+}
+
+.cust-modal .cust-modal-toolbar.bottom{
+	top: auto;
+	bottom: 0;
+	box-shadow: 0 -1px 3px rgba(0,0,0,0.15);
+}
+
+.cust-modal .cust-modal-toolbar.no-shadow{
+	box-shadow: none;
 }
 
 .cust-modal .cust-modal-content{
@@ -1059,6 +1156,53 @@ body.moving-stuff #manageImage #resizeCanvas{
     background-color: #1565c0;/*background-color: #0d47a1;*/
     box-shadow: 0 5px 12px rgba(0,0,0,0.3);
 }
+
+@media only screen and (max-width: 760px) {
+	#forMob{
+		display: block
+	}
+	.cust-modal{
+		overflow: hidden;
+		display: block;
+		padding-top: 60px;
+		/*background-color: #fff !important;*/
+    	/*background-image: none !important;*/}
+    .cust-modal.has-trans{
+    	-webkit-transform: translateY(5%) scale(0.9);
+	    -ms-transform: translateY(5%) scale(0.9);
+	    -o-transform: translateY(5%) scale(0.9);
+	    transform: translateY(5%) scale(0.9);
+
+    	-webkit-transition: all 0.15s ease-out;
+	    -o-transition: all 0.15s ease-out;
+	    transition: all 0.15s ease-out;
+	}
+
+	.cust-modal.has-trans.open{
+		-webkit-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
+		transform: none;
+	}
+
+	.cust-modal .cust-modal-content{
+		width: 100vw !important;
+		height: calc(100vh - 60px);
+		padding: 0;
+		position: relative;
+		box-shadow: none !important;
+		background-color: #fff;
+		-webkit-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
+		transform: none;
+	}
+
+	.cust-modal-title{
+		display: none;
+	}
+}
+
 /*HOUSE PAGE*/
 .image{
     pointer-events: none;
@@ -1087,8 +1231,19 @@ body.moving-stuff #manageImage #resizeCanvas{
 }
 
 .tangazo{
+	position: relative;
     overflow: hidden;
     border-radius: 0
+}
+
+.tangazo:before{
+	content: "FEATURED AD";
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%;
+	padding: 16px;
+	background-color: rgba(0,0,0,0.3);
+	color: #fff;
 }
 
 .tangazo .content{
@@ -1097,6 +1252,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     width: 100%;
     background-color: #eee;
     box-shadow: 0 -3px 6px rgba(0,0,0,0.3);
+    display: none;
 
     -webkit-transform: translateY(120%);
     -ms-transform: translateY(120%);
@@ -1138,7 +1294,7 @@ body.moving-stuff #manageImage #resizeCanvas{
 
 @media all and (max-width: 406px) {
     #container .grid-sizer, #container .dh-card{
-        width: calc(100% - 10px);
+        width: calc(50% - 10px);
     }
 }
 
@@ -1175,6 +1331,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     pointer-events: none;
     background-color: transparent;
 }
+
 #preview.open{
     pointer-events: auto;
     overflow-y: auto;
@@ -1183,10 +1340,11 @@ body.moving-stuff #manageImage #resizeCanvas{
     background-image: -o-linear-gradient(#222, #333);
     background-image: linear-gradient(#222, #333);
 }
+
 .closer{
-    position: fixed;
-    top: 20px;
-    right: 50px;
+    position: absolute;
+    top: 17px;
+    right: 17px;
     width: 30px;
     height: 30px;
     padding: 0;
@@ -1211,6 +1369,51 @@ body.moving-stuff #manageImage #resizeCanvas{
     margin: 35px auto;
     padding-bottom: 40px;
     /*overflow: auto;*/
+}
+
+#preview .preview-comment-toolbar{
+	-webkit-transform: translateY(100%);
+	-ms-transform: translateY(100%);
+	-o-transform: translateY(100%);
+	transform: translateY(100%);
+	pointer-events: none;
+	opacity: 0;
+	z-index: 1;
+
+	-webkit-transition: 0.35s transform 0.35s ease-out;
+	-o-transition: 0.35s transform 0.35s ease-out;
+	transition: 0.35s transform 0.35s ease-out;
+}
+
+#preview.open .preview-comment-toolbar{
+	-webkit-transform: none;
+	-ms-transform: none;
+	-o-transform: none;
+	transform: none;
+	pointer-events: auto;
+	opacity: 1;
+}
+
+@media only screen and (max-width: 600px){ /*760px*/
+    #preview, #preview.open{
+    	padding-top: 63px;
+    	padding-bottom: 30px;
+    }
+    #preview.open{
+    	background-color: #fff !important;
+    	background-image: none !important;
+    }
+    #preview .dh-card{
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+        padding: 8px;
+        box-shadow: none;
+    }
+
+    #preview .closer:not(.for-mob){
+	    display: none;
+	}
 }
 
 #preview.open .dh-card, #preview.open .closer{
@@ -1284,6 +1487,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     width: 40px;
     min-width: 40px;
     overflow: hidden;
+    background-color: #ddd;
 }
 
 #preview .dh-card hr {
@@ -1390,22 +1594,6 @@ body.moving-stuff #manageImage #resizeCanvas{
 #submitComment.adding-comment > button{
     pointer-events: none;
     opacity: 0.5;
-}
-
-.follow-house-btn{
-	font-size: 12px; padding: 3px; height: 25px;
-	background-color: rgba(0,0,0,0.3);
-	font-weight: bold;
-	border: 2px solid #fff;
-	color: #fff;
-}
-
-.follow-house-btn:hover{
-	color: #fff;
-}
-
-.follow-house-btn.followed{
-	background:red; color: #fff; 
 }
 
 #searchBar{
@@ -1580,4 +1768,183 @@ body.open-search #searchBar form{
 	background: #ddd;
 	background-position: center;
 	background-size: cover;
+}
+
+#mobAuthLinks{
+	position: relative;
+	/*background-color: green;*/
+	float: right; 
+	margin-right: 3px;
+}
+
+#mobAuthLinks a{
+	color: inherit;
+	font-size: 1.2em;
+	font-family: inherit;
+	text-transform: uppercase;
+	height: 60px;
+	line-height: 60px;
+	padding: 0 12px;
+}
+
+#newPinModal .cust-modal-content{
+	width: 700px; 
+	transform: none; 
+	opacity: 1; 
+	padding: 30px;
+}
+
+#newPinModal #projectList{
+	position: relative;
+	overflow-x: hidden; 
+	height: 400px;
+}
+
+#projectItems{
+	padding: 20px;
+}
+
+#newPinCard{
+	background-color: #ddd; 
+	width: calc(100% - 20px);
+	height: 250px; 
+	margin-right: 20px;
+}
+
+#projectOptions label{
+	padding: 8px; 
+	background-color: #eee; 
+	cursor: pointer;
+}
+
+#projectOptions label .flex{
+	white-space: nowrap;
+	overflow: hidden;
+	-ms-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+}
+
+#projectOptions label button{
+	opacity: 0;
+}
+
+#projectOptions label:hover button{
+	opacity: 1;
+}
+
+@media only screen and (max-width: 760px) {
+	#newPinModal{
+		overflow: hidden;
+		display: block;
+		padding-top: 60px;
+	}
+
+	#newPinModal .cust-modal-content{
+		width: 100%;
+		height: calc(100vh - 60px);
+		padding: 0;
+		position: relative;
+		box-shadow: none;
+	}
+
+	#newPinModal .cust-modal-content > .row{
+		margin: 0 !important;
+	}
+
+	#toPin{
+		padding-top: 25px !important;
+		position: fixed;
+		top: 0;
+		border-right: none !important;
+	}
+	
+	#newPinCard{
+		background-color: #ddd; 
+		width: calc(100% - 20px);
+		max-width: 300px;
+		height: 250px; 
+		margin-right: 0;
+		margin: auto;
+		box-shadow: 0 0 16px rgba(0,0,0,0.16);
+		border-radius: 5px;
+	}
+
+	#newPinModal #projectList{
+		/*opacity: 0;*/
+		padding: 0;
+		box-shadow: 0 -3px 16px rgba(0,0,0,0.16);
+		position: relative;
+		z-index: 1;
+		position: absolute;
+		width: 100%;
+		top: 30vh;
+		background-color: #fff;
+		overflow: hidden;
+		height: 70vh;
+		opacity: 0;
+		-webkit-transform: translateY(50%);
+		-ms-transform: translateY(50%);
+		-o-transform: translateY(50%);
+		transform: translateY(50%);
+
+		-webkit-transition: transform 0.35s ease-out 0.1s;
+		-o-transition: transform 0.35s ease-out 0.1s;
+		transition: transform 0.35s ease-out 0.1s;
+	}
+
+	#newPinModal.open #projectList{
+		opacity: 1;
+		-webkit-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
+		transform: none;
+	}
+
+	#projectItems{
+		padding: 0;
+	}
+
+	#projectOptions{
+		padding: 5px;
+		padding-top: 6px;
+		overflow: auto;
+		position: relative;
+		padding-bottom: 5px !important;
+		height: calc(70vh - 11px) !important;
+	}
+}
+
+#userBottomSheet .cust-modal-content{
+	
+}
+
+#userBottomSheet .cust-modal-content.peeking{
+	-webkit-transform: translateY(100%) !important;
+	-ms-transform: translateY(100%) !important;
+	-o-transform: translateY(100%) !important;
+	transform: translateY(100%) !important;
+	opacity: 0;
+
+	-webkit-transition: all 0.15s ease-out;
+	-o-transition: all 0.15s ease-out;
+	transition: all 0.15s ease-out;
+}
+
+#userBottomSheet:not(.loading) .cust-modal-content .user-loader{
+	display: none;
+}
+
+#userBottomSheet #profilePopup{
+	padding-bottom: 0;
+}
+
+#userBottomSheet #profilePopup > #cover,
+#userBottomSheet #profilePopup:before{
+	height: 170px;
+}
+
+#userBottomSheet #profilePopup > #userDetails{
+	top: 60px !important;
+	padding-bottom: 20px;
+	margin-bottom: -30px;
 }

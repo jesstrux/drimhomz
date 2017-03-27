@@ -58,12 +58,20 @@ class User extends Authenticatable
 
 
     //RELATIONS
+    public function articles(){
+        return $this->hasMany("App\Article");
+    }
+
+    public function answers(){
+        return $this->hasMany("App\Answer");
+    }
+
     public function houses(){
-        return $this->hasManyThrough('App\House', 'App\Project');
+        return $this->hasManyThrough('App\House', 'App\Project')->orderBy('created_at', 'desc');
     }
 
     public function projects(){
-        return $this->hasMany("App\Project");
+        return $this->hasMany("App\Project")->orderBy('created_at', 'desc');
     }
     public function messages(){
         return $this->hasMany("App\Message");

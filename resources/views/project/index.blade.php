@@ -3,7 +3,7 @@
 @section('content')
     <style>
     	body{
-			background-color: #f8f8f8;
+			background-color: #fff;
 		}
     	#profileSummaryLg{
 			display: none;
@@ -244,6 +244,29 @@
 			}
 		}
 
+		@media all and (max-width: 767px) {
+			#projectsList{
+				padding: 0 6px;
+			}
+
+			.house-card{
+				padding: 0 !important;
+				background-color: #f00;
+				border-radius: 2px;
+			}
+
+			.house-card .image, .house-card .image img,
+			.house-card > div{
+				overflow: hidden;
+				border-radius: 8px 8px 0 0 !important;
+			}
+
+			.house-card .content{
+				padding: 4px 14px;
+				padding-bottom: 10px;
+			}
+		}
+
 		@media all and (min-width: 1200px) {
 			#userDetails{
 				margin: 0 20px;
@@ -337,14 +360,19 @@
     </style>
 
     <?php
+    	$myProfile = false;
+    	if(!Auth::guest()){
+    		$myProfile = Auth::user()->id == $project->user_id;
+    	}
     	$houses = $project->houses;
 	    $house_count = count($houses);
+	    $the_project = $project;
     ?>
     <main class="container-fluid">
 		<div class="row">
 			@include('project.profile_summary')
 
-			<div class="col-sm-12 col-md-7 col-lg-8">
+			<div id="projectsList" class="col-sm-12 col-md-7 col-lg-8">
 				<div id="userHouses" style="margin-top: 20px;">
 					@if($errors->any())
 						<div class="alert alert-error alert-dismissible" role="alert">
@@ -361,7 +389,7 @@
 					@endif
 
 					<div role="tabpanel" class="tab-pane fade in active" id="projects">
-						@include('project.houses')
+						@include('houses.list')
 					</div>
 				</div>
 			</div>

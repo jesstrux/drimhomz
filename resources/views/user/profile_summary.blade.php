@@ -1,4 +1,14 @@
 <style>
+	#followBtn{
+		outline: none !important;
+	}
+	#followBtn:not(.followed){
+		background-color: #f3f3f3;
+		border: 2px solid #ccc;
+	}
+	#followBtn:not(.followed) svg{
+		fill: #555;
+	}
 	.lg-followed{
 		background-color: #ffa500; color: #f1eee9;
 		/*pointer-events: none;*/
@@ -17,6 +27,19 @@
 	}
 
 	#followBtnLg.lg-followed span:nth-child(1){
+		display: none;
+	}
+
+	#profileSummary{
+		/*margin-bottom: 5px;*/
+	}
+
+	#profileSummary .tabhead{
+		color: inherit;
+		text-decoration: none;
+	}
+
+	#profileSummary .tabhead.active{
 		display: none;
 	}
 </style>
@@ -60,30 +83,19 @@
 	</div>
 </div>
 
-<div id="profileSummary" class="col-sm-12 col-md-4">
-	<div id="lgDp">
-		<div id="cover">
-			<div id="theDp">
-				<img src="{{asset($user_url . $user->dp)}}" alt="{{$user->fname}}'s dp">
+<div id="profileSummary" class="col-sm-12 col-md-4" style="background: #fff; padding-top: 5px; padding-bottom: 3px; text-align: cente;margin-top: -12px;">
+
+	<div class="layout center">
+		<div style="position: relative;width: 110px; height: 110px; margin: 20px 16px;" >
+			<div style="height: 100%; width: 100%; border-radius: 50%; overflow: hidden;background-color: #ddd">
+				<img src="{{asset($user_url . $user->dp)}}" alt="{{$user->fname}}'s dp" width="100%;">
 			</div>
-		</div>
-		<div id="user">
-			<span id="name">{{$user->full_name()}}</span>
-			<span id="profession">{{$user->town}}</span>
 
 			@if(!Auth::guest())
-				@if($myProfile)
-					<a id="followBtn" href="{{url('/setupAccount')}}"
-						onclick="editProfile('edit-profile')">
-						<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-							<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-							<path d="M0 0h24v24H0z" fill="none"/>
-						</svg>
-					</a>
-				@else
-					<button id="followBtn"
+				@if(!$myProfile)
+					<button style="position: absolute; bottom: -12px; right: -12px" id="followBtn"
 						class="{{$followed_str}}"
-						onclick="followUser('follow-user')">
+						onclick="followUser('/followUser')">
 						<svg fill="#000000" height="30" viewBox="0 0 24 24" width="30" xmlns="http://www.w3.org/2000/svg">
 							<path d="M0 0h24v24H0z" fill="none"/>
 							<path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
@@ -92,15 +104,24 @@
 				@endif
 			@endif
 		</div>
+
+		<div class="layout vertical flex" style="font-size: 2em; padding: 0 10px;">
+			<span id="name">{{$user->fname}}</span>
+			<span id="name">{{$user->lname}}</span>
+		</div>
 	</div>
-	<div class="tabheads">
+	<span id="profession">{{$user->town}}</span>
+
+	<div class="tabheads" style="margin-top: -6px; margin-bottom: 4px;">
 		<a href="/user/{{$user->id}}/projects" data-target="projects" class="tabhead {{is_curpage($page, 'projects')}}"><span>{{$project_count}}</span><span>PROJECTS</span></a>
 		<a href="/user/{{$user->id}}/houses" data-target="houses" class="tabhead {{is_curpage($page, 'houses')}}"><span>{{$house_count}}</span><span>HOUSES</span></a>
 
-		<!-- <a href="/user/{{$user->id}}/following" data-target="following" class="tabhead {{is_curpage($page, 'following')}}"><span>{{$following_count}}</span><span>FOLLOWING</span></a> -->
+		<a href="/user/{{$user->id}}/following" data-target="following" class="tabhead {{is_curpage($page, 'following')}}"><span>{{$following_count}}</span><span>FOLLOWING</span></a>
 
 		<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
 	</div>
+
+	<h5 style="text-align: center; font-weight: bold; font-size: 1.2em; text-transform: uppercase; padding-left: 12px; margin: 7px 0; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">{{$page}}</h5>
 </div>
 
 

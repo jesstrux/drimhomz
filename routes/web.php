@@ -17,12 +17,18 @@ Route::get('/testUrl/{user_id}/{follower}', function ($user_id, $follower) {
     // else
     //  echo "Hello guest";
 
- 	$project = App\House::find($user_id);
-    print_r($project->owner()->fname);
+ 	// $project = App\House::find($user_id);
+    // print_r($project->owner()->fname);
+
+    $path = "D:/media/image/Instagram/11352189_1062461287100810_1652580300_n.jpg";
+    $img = new Intervention\Image\Image();
+    $img->setFileInfoFromPath($path);
+    $height = $img->height();
+    print_r($height);
 });
 
 Route::get('/house/{id}', function ($id) {
-    $house = App\House::find($id);
+    $house = App\House::with('comments', 'image')->find($id);
 
     return view('houses.single', compact('house'));
 });
@@ -38,8 +44,9 @@ Route::get('/product/{id}', function ($id) {
 });
 
 Route::get('resizeImage', 'ImageController@resizeImage');
-Route::post('resizeImagePost',['as'=>'resizeImagePost','uses'=>'ImageController@resizeImagePost']);
+Route::post('createAd',['as'=>'resizeImagePost','uses'=>'ImageController@resizeImagePost']);
 
+Route::post('createAd','AdminController@create_ad');
 
 Route::get('/about', function () {
     return view('home.about');
@@ -52,9 +59,7 @@ Route::get('/search/{q}/{category}', 'SearchController@search_category');
 Route::get('/shop', 'ShopController@index');
 Route::get('/shop/{id}', 'ShopController@show_profile');
 
-Route::get('/expert', function () {
-    return view('home.expert');
-});
+Route::get('/expert', 'ExpertController@index');
 
 Route::get('/advice', 'AdviceController@index');
 Route::get('/advice/{page}', 'AdviceController@index');
@@ -63,6 +68,14 @@ Route::get('/user/{id}', 'UserController@showprofile');
 Route::get('/user/{id}/{page}', 'UserController@showprofile');
 
 Route::get('/project/{id}', 'ProjectsController@showprofile');
+
+Route::get('/editProject/{id}', function ($id) {
+    $project = App\Project::find($id);
+
+    return view('project.edit-project', compact('project'));
+});
+
+Route::post('/editProject', 'ProjectsController@edit_project');
 
 Route::get('/userProfilePopup/{user_id}', 'UserController@get_profile_popup');
 

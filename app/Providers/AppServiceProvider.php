@@ -13,12 +13,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $res_url = asset("images/uploads/") . "/";
+        $base_url = url("/");
+        $res_url = asset("images/") . "/";
+        $storage_url = asset('storage/uploads/') . "/";
+
         View::share([
+            'base_url' => $base_url,
             'res_url' => $res_url,
-            'user_url' => $res_url . "user_dps/",
-            'house_url' => $res_url . "houses/",
-            'banner_url' => $res_url . "banners/",
+            'user_url' => $storage_url . "user_dps/",
+            'house_url' => $storage_url . "housesIsh/",
+            'banner_url' => $storage_url . "banners/",
         ]);
     }
 

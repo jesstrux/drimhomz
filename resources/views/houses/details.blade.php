@@ -3,7 +3,7 @@
         <h3 id="previewTitle">{{$house->title}}</h3>
         <p id="previewCaption">{{$house->description}}</p>
         
-        <div id="previewImageHolder" class="image"><img style="min-height: 300px; max-height: 450px" id="previewImage" src="{{asset($house_url.$house->image_url)}}" alt=""></div>
+        <div class="image" style="margin:24px 0; height:{{$house->image->height}}; background-color: {{$house->placeholder_color}}"><img style="min-height: 300px; max-height: 450px;" id="previewImage" src="{{asset($house_url.$house->image_url)}}" alt=""></div>
 
         <div class="layout">
             <div class="item single-line flex">
@@ -45,11 +45,33 @@
         <hr>
 
         <div class="comments">
-            <div id="commentsList" class="no-comment">
+            <?php $no_comments = $house->comments->count() < 1 ? "no-comments" : ""?>
+            <div id="commentsList" class="{{$no_comments}}">
                 <div class="empty-message">No comments</div>
+
+                @if($house->comments->count() > 0)
+                    @foreach($house->comments as $comment)
+                        <div id="comment{{$comment->id}}" class="a-comment item flex">
+                            <div class="avatar">
+                                <img src="{{$user_url . $comment->user->dp}}" alt="{{$comment->user->fname}}'s dp">
+                            </div>
+                            <div class="item-text">
+                                <div class="title">
+                                    <a href="/user/{{$comment->user->id}}">
+                                        {{$comment->user->fname . ' ' . $comment->user->lname}}</a>
+                                </div>
+                                <p>{{$comment->content}}</p>
+                            </div>
+                            <form id="deleteComment{{$comment->id}}" action="{{url('/deleteComment')}}" method="POST">
+                                <input id="commentId" type="hidden" value="{{$comment->id}}" name="id">
+                                <button type="button" onclick="deleteComment({{$comment->id}})">
+                                    delete
+                                </button>
+                            </form>
+                        </div>
+                    @endforeach
+                @endif
             </div>
-            <div id="loadingComments" class="empty-message">
-            Loading comments</div>
             
             @if (Auth::user())
                 <form id="submitComment" action="{{ url('/submitComment') }}" method="POST">

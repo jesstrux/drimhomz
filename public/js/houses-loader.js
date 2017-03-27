@@ -1,4 +1,4 @@
-var featured_houses = [];
+var featured_houses = featured_houses ||  [];
 first_load = true;
 
 (function ($) {
@@ -51,12 +51,17 @@ first_load = true;
         wookmark.layout(true);
       }
 
+      window.setTimeout(function(){
+        isLoading = false;
+        $loaderMessage.removeClass("open");
+      }, fadeInDelay + 300);
+
       // Set opacity for each new image at a random time
       $newImages.each(function () {
         var $self = $(this);
         window.setTimeout(function () {
           $self.css('opacity', 1);
-        }, Math.random() * fadeInDelay);
+        }, Math.random());
       });
 
       $(".user-link").each(function(){
@@ -92,13 +97,14 @@ first_load = true;
       if(error.responseText == "No more"){
         $document.off('scroll', onScroll);
         $noMoreMessage.addClass("open");
+
+        isLoading = false;
+        $loaderMessage.removeClass("open");
       }else{
         console.log(error);
       }
     })
     .always(function() {
-      isLoading = false;
-      $loaderMessage.removeClass("open");
       console.log("Data loaded!");
     });
   };
@@ -129,30 +135,59 @@ first_load = true;
       var comments_text = house.comment_count + " comment" + ctrailingS;
 
       if(first_load && (i == 0 || i == 3)){
-        var ad_idx = i == 0 ? i : 2;
+        var ad_idx = i == 0 ? i : 1;
         html += getAd(ad_idx);
       }
 
-      var post_actions = '<div class="post-actions" style="position: absolute; right: 0; top: 0; padding: 8px; padding-right:10px; z-index: 3;">';
-      post_actions += '<button class="btn drim-btn" style="background:#8bc34a; border-radius: 50%; overflow: hidden; padding: 6px; padding-bottom: 6px"><img class="drimmer" src="images/drim.png" height="20px"/></button>';
-      post_actions += '<form action="" id="followHouse'+house.id+'" method="POST" style="display: inline-block; margin-left: 10px"><input type="hidden" name="_token" value="'+Laravel.csrfToken+'"/><button class="btn follow-house-btn" type="button" onclick="followHouse('+house.id+')">FOLLOW</button></form>';
-      post_actions += '</div>';
-
       var actions_html = "";
       if(user_exists){
+        var followed_str = "FOLLOW";
+        var followed_class = "";
+
+        if(house.followed){
+          followed_str = "UNFOLLOW";
+          followed_class = "followed";
+        }
+
+        var post_actions = '<div class="post-actions">';
+        post_actions += '<button class="btn drim-btn"><img class="drimmer" src="images/drim.png" height="20px"/></button>';
+        post_actions += '<form action="" id="followHouse'+house.id+'" method="POST"><input type="hidden" name="_token" value="'+Laravel.csrfToken+'"/><button class="btn follow-house-btn '+followed_class+'" type="button" onclick="followHouse('+house.id+')">'+followed_str+'</button></form>';
+        post_actions += '</div>';
+
         actions_html = post_actions;
       }
 
       // console.log(cur_user.id.length);
+      var ratio;
+      var win_w = window.innerWidth;
+      var el_w;
+
+      if(win_w <= 768){
+        el_w = win_w / 2;
+      }
+      else if(win_w > 768 && win_w <= 900){
+        el_w = win_w / 3;
+      }
+      else{
+        el_w = win_w / 5;
+      }
+      ratio = house.width_thumb / el_w;
+      var shorter_height = house.height_thumb / ratio;
+
+      console.log(house.width_thumb, house.height_thumb);
+      console.log(ratio, el_w, shorter_height);
+
+      var ratio_height = shorter_height + 'px';
 
       html += '<li style="cursor: pointer;" id="house'+house.id+'"  class="dh-card grid-item a-house" data-postid="'+house.id+'">';
       html +=   actions_html;
-      html +=   '<div class="image">';
-      html +=     '<img src="' + house_base_url + 'thumbs/' + house.image_url+'" alt="'+house.title+'">';
+      html +=   '<div class="image" style="background-color: '+house.placeholder_color+';heigh:'+ratio_height+'">';
+      html +=     '<img style="background-color: transparent;" src="' + house_base_url + 'thumbs/' + house.image_url+'" alt="'+house.title+'">';
       html +=   '</div>';
       html +=   '<div class="content">';
       html +=     '<h3>'+house.title+'</h3>';
-      html +=     '<a class="user-link" href="/user/'+house.owner.id+'" data-user-id="'+house.owner.id+'">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
+      html +=     '<a class="user-link hidden-xs hidden-sm" href="/user/'+house.owner.id+'" data-user-id="'+house.owner.id+'">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
+      html +=     '<a class="hidden visible-xs visible-sm" onclick="showUserBottomSheet('+house.owner.id+')">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
       html +=     '<span class="social-stuff">'+likes_text+' | '+comments_text+'</span>'
       html +=   '</div>';
       html +=  '</li>';
