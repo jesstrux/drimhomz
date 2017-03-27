@@ -1569,8 +1569,13 @@ body.moving-stuff #manageImage #resizeCanvas{
 	background-color: #991000 !important;
 }
 
-.a-comment:not(.my-comment) form, .a-comment:not(.my-comment) .comment-editor{
+.a-comment:not(.my-comment) form,
+.a-comment:not(.my-comment) .comment-editor{
     display: none;
+}
+
+.a-comment.my-house form{
+	display: inline-block;
 }
 
 .a-comment.waiting form{
@@ -1746,7 +1751,8 @@ body.open-search #searchBar form{
 
 .search-opener{
 	display: inline-block;
-	margin-top: 5px;
+	margin-top: 3px;
+	padding-top: 5px;
 }
 
 #searchBar button:hover, .search-opener:hover,
