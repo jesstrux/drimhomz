@@ -21,41 +21,27 @@
             </div>
 
             <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="javascript:void(0);" data-target="#featuredAds">Featured Ads</a></li>
                 {{--<li><a href="javascript:void(0);" data-target="#pages">Pages</a></li>--}}
                 <li><a href="javascript:void(0);" data-target="#users">Manage Users</a></li>
-<<<<<<< HEAD
                 <li><a href="javascript:void(0);" data-target="#ads">Featured Ads</a></li>
-=======
->>>>>>> search
+
             </ul>
         </aside>
 
         <div id="profileSections" class="flex">
-<<<<<<< HEAD
             <div id="pages" class="subpage current">
 
                 @include('dashboard.pages')
-=======
-            <div id="featuredAds" class="subpage current">
-                @include('dashboard.ads')
-            </div>
 
-            <div id="pages" class="subpage">
-                @include('dashboard.pages') 
->>>>>>> search
             </div>
 
             <div id="users" class="subpage">
                 @include('dashboard.users')
             </div>
-<<<<<<< HEAD
 
             <div id="ads" class="subpage">
                 @include('dashboard.ads')
             </div>
-=======
->>>>>>> search
         </div>
     </div>
 
