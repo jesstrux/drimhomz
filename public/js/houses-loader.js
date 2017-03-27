@@ -39,12 +39,14 @@ first_load = true;
    */
   function applyLayout($newImages) {
     $container.append($newImages);
-
+    showLoading();
     imagesLoaded(container, function () {
+      hideLoading();
       // Destroy the old handler
       if (wookmark === undefined) {
         wookmark = new Wookmark(container, {
-          offset: 10
+          offset: 10,
+          align: 'left'
         });
       } else {
         wookmark.initItems();
@@ -81,31 +83,36 @@ first_load = true;
     if(!$(container).length)
       return;
     
-    isLoading = true;
-    $loaderMessage.addClass("open");
+    //isLoading = true;
+    //$loaderMessage.addClass("open");
     // console.log("Loading data!", window.Laravel.csrfToken);
-
+    showLoading();
     $.ajax({
       url: apiURL + "/" + page,
       type: 'GET',
       dataType: 'json'
     })
     .done(function(data) {
-      onLoadData(data);
+      var houses = data.houses;
+      if(houses && houses.length){
+        onLoadData(houses);
+      }
+
+      //isLoading = false;
+      //$loaderMessage.removeClass("open");
+
+      if(!data.more){
+        $document.off('scroll', onScroll);
+
+        $noMoreMessage.addClass("open");
+      }
     })
     .fail(function(error) {
-      if(error.responseText == "No more"){
-        $document.off('scroll', onScroll);
-        $noMoreMessage.addClass("open");
-
-        isLoading = false;
-        $loaderMessage.removeClass("open");
-      }else{
-        console.log(error);
-      }
+      console.log(error);
     })
     .always(function() {
       console.log("Data loaded!");
+      hideLoading();
     });
   };
 
@@ -205,7 +212,10 @@ first_load = true;
   $document.on('scroll', onScroll);
   
   function getAd(i){
-    return tangazo_tpl(random_ads[i]);
+    if(random_ads && random_ads.length)
+      return tangazo_tpl(random_ads[i]);
+    else
+      return "";
   }
   // Load first data from the API.
   loadData();

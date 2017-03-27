@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
             'base_url' => $base_url,
             'res_url' => $res_url,
             'user_url' => $storage_url . "user_dps/",
-            'house_url' => $storage_url . "housesIsh/",
+            'house_url' => $storage_url . "houses/",
             'banner_url' => $storage_url . "banners/",
         ]);
     }

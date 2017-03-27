@@ -10,14 +10,14 @@
         comment += '    </div>';
         comment += '    <div class="item-text">';
         comment += '        <div class="title">';
-        comment += '        <a href="/user/'+commentObj.user.id+'">'
+        comment += '        <a href="/user/'+commentObj.user.id+'">';
         comment += '            '+commentObj.user.fname+ ' ' + commentObj.user.lname+'</a>';
         comment += '        </div>';
         comment += '        <p>'+commentObj.content+'</p>';
         comment += '    </div>';
         comment += '    <form id="deleteComment'+commentObj.id+'" action="deleteComment" method="POST">';
         comment += '        <input id="commentId" type="hidden" value="'+commentObj.id+'" name="id">';
-        comment += '        <button type="button" onclick="deleteComment('+commentObj.id+')">'
+        comment += '        <button type="button" onclick="deleteComment('+commentObj.id+')">';
         comment += '            delete';
         comment += '        </button>';
         comment += '    </form>';

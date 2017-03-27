@@ -22,7 +22,7 @@ class Project extends Model
     	$houses = $this->houses()->get();
 		$html = '<div id="projHouses" class="layout wrap">';
 		$count = 0;
-		$house_url = asset("storage/uploads/") . "/housesIsh";
+		$house_url = asset("storage/uploads/") . "/houses";
 
 		foreach ($houses as $house){
 			if($count < 4){

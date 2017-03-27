@@ -60,8 +60,6 @@
 
 <script>
     function projectCreationSuccess(project){
-        console.log("Mpaka hapa");
-        window.location.href = base_url + "/editProject/" + project.id;
         showToast("success", "Project created!");
 
         var proj_html = `<a href="/project/`+project.id+`" class="house-card">

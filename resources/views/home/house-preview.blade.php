@@ -132,7 +132,7 @@
 
 <script>
     var featured_houses = featured_houses ||  [];
-    var _prev_token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';
+    var _prev_token = '<?php echo csrf_field(); ?>';
     var cur_user = <?php echo Auth::guest() ?: Auth::user(); ?>;
 
     $("#submitComment textarea, #submitComment input")

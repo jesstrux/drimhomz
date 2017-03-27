@@ -4,6 +4,7 @@ use App\House;
 use App\HouseImage;
 use Illuminate\Database\Seeder;
 use ColorThief\ColorThief;
+use Illuminate\Support\Facades\File;
 
 class HousesTableSeeder extends Seeder
 {
@@ -20,7 +21,8 @@ class HousesTableSeeder extends Seeder
         function saveThumb($ext){
             $orgPath = public_path('images/uploads/houses/');
             $image = Image::make($orgPath . $ext);
-            $destinationPath = storage_path('app/public/uploads/housesIsh');
+            $destinationPath = storage_path('app/public/uploads/houses');
+            if(!File::exists($destinationPath)) File::makeDirectory($destinationPath, 0777,true);
             $image->save($destinationPath .'/'.$ext);
 
             $image_sizes = new \stdClass();
@@ -29,6 +31,7 @@ class HousesTableSeeder extends Seeder
 
             $img = Image::make($image->basePath());
             $thumb_path = $destinationPath.'/thumbs/'.$ext;
+            if(!File::exists($destinationPath.'/thumbs/')) File::makeDirectory($destinationPath.'/thumbs/', 0777,true);
 
             $img->resize(rand (400, 800), null, function ($constraint) {
                 $constraint->aspectRatio();
