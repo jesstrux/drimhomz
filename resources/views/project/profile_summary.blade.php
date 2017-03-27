@@ -2,8 +2,10 @@
 	$href = url('/user/') . "/" . $project->user->id;
 
 	$link = "<a href='$href'>";
-	$owner = $myProject ? "You" : $link.$project->user->full_name() . "</a>"
+	$owner = $myProject ? "You" : $link.$project->user->full_name().'</a>'
+
 ?>
+
 <style>
 	.lg-followed{
 		background-color: #ffa500; color: #f1eee9;
@@ -26,7 +28,6 @@
 		display: none;
 	}
 </style>
-
 <div id="profileSummaryLg" class="col-sm-12 col-md-5 col-lg-4">
 	<div id="userDetails" class="text-center">
 		<h3 style="padding-top: 20px;">{{$project->title}}</h3>

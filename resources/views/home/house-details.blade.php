@@ -27,7 +27,7 @@
 
     function submitComment(){
         var commentObj = {};
-        commentObj.user = cur_user;
+        commentObj.user = curr_user;
         commentObj.content = $("#submitComment textarea").val();
         var new_comment = $(comment_template(commentObj));
         new_comment.addClass("waiting my-comment");
