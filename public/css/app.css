@@ -1744,6 +1744,11 @@ body.open-search #searchBar form{
 	width: 35px;
 }
 
+.search-opener{
+	display: inline-block;
+	margin-top: 5px;
+}
+
 #searchBar button:hover, .search-opener:hover,
 #searchBar button:focus, .search-opener:focus{
 	background-color: rgba(0,0,0,0.1);
