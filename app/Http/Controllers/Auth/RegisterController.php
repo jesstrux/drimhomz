@@ -69,8 +69,13 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $role = $data['role'];
+        $expertise = $data['expertise'];
+
         if (!isset($role) || strlen($role) < 1)
             $role = "user";
+
+        if (!isset($expertise) || strlen($expertise) < 1)
+            $expertise = "user";
 
 
         $verification_code = generateVerificationCode(4);
@@ -87,7 +92,8 @@ class RegisterController extends Controller
                     'phone' => $data['phone'],
                     'verification_code' => $verification_code,
                     'role' => $role,
-                    'dp' => "/public/images/uploads/user_dps/drimhomzDefaultDp.png",
+                    'expertise' => $expertise,
+                    'dp' => "drimhomzDefaultDp.png",
                     'password' => bcrypt($data['password']),
                 ]);
 

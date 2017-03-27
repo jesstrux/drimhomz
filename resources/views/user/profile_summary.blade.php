@@ -42,11 +42,24 @@
 	#profileSummary .tabhead.active{
 		display: none;
 	}
+
+	#becomeExpertModal .cust-modal-content{
+		border-radius: 3px;
+		width: 400px !important;
+	}
+
+	@media only screen and (max-width: 760px) {
+		#becomeExpertModal .cust-modal-content{
+			border-radius: 0;
+			width: 100vw !important;
+			padding: 20px;
+		}
+	}
 </style>
 
 <div id="profileSummaryLg" class="col-sm-12 col-md-5 col-lg-4">
 	<div id="userDetails" class="text-center">
-		<div id="profilePic">
+		<div id="profilePic" style="background: #ddd;">
 			<img src='{{asset($user_url . $user->dp)}}' 
 			alt="{{$user->fname}}'s dp">
 		</div>
@@ -61,7 +74,10 @@
 		@if($myProfile)
 			<a href="/setupAccount" class="btn btn-default">
 				Edit profile
-			</a>
+			</a>&nbsp;
+			{{--<button class="btn btn-default" onclick="openBecomeExpert()">--}}
+				{{--Become Expert--}}
+			{{--</button>--}}
 		@else
 			@if(!Auth::guest())
 				<form id="followUser" role="form" method="POST" action="{{ url('follow-user') }}">
@@ -105,9 +121,15 @@
 			@endif
 		</div>
 
-		<div class="layout vertical flex" style="font-size: 2em; padding: 0 10px;">
+		<div class="layout vertical flex" style="font-size: 2em; padding: 0 10px; padding-top: {{$myProfile ? "26px;" : ""}}">
 			<span id="name">{{$user->fname}}</span>
 			<span id="name">{{$user->lname}}</span>
+
+			{{--@if($myProfile)--}}
+				{{--<button class="btn btn-default" onclick="openBecomeExpert()" style="margin-top: 10px; margin-bottom: 20px;">--}}
+					{{--Become Expert--}}
+				{{--</button>--}}
+			{{--@endif--}}
 		</div>
 	</div>
 	<span id="profession">{{$user->town}}</span>
@@ -124,10 +146,60 @@
 	<h5 style="text-align: center; font-weight: bold; font-size: 1.2em; text-transform: uppercase; padding-left: 12px; margin: 7px 0; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">{{$page}}</h5>
 </div>
 
+<div id="becomeExpertModal" class="cust-modal has-trans">
+	<div class="hidden visible-xs cust-modal-toolbar no-shadow" style="z-index: 2">
+		<div class="layout center" style="height: 60px">
+			<button class="layout center for-mob" style="padding: 0;background: transparent; border: none;" onclick="closeBecomeExpert()">
+				<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+			</button>
 
+			<h5 class="flex" style="font-size: 23px; margin: 0; margin-left: 8px;">Become Expert</h5>
+
+			<button onclick="event.preventDefault();
+                                 document.getElementById('becomeExpert').submit();" class="btn save-new-project" style="background:#8bc34a; border-radius: 5px; overflow: hidden;color: #fff; margin-right: 10px;">
+				SUBMIT
+			</button>
+		</div>
+	</div>
+
+	<div class="cust-modal-content" style="position: relative;">
+
+		@if(isset($user))
+			<button class="closer hidden-xs" onclick="closeBecomeExpert()">
+				<svg fill="#aaa" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+			</button>
+
+			<form id="becomeExpert" method="POST" action="/becomeExpert" onsubmit="checkValidity(event, this)">
+				<h3 class="hidden-xs">Become Expert</h3>
+				<p>Please fill in some extra information below</p>
+
+				{{csrf_field()}}
+				<label>Skills</label>
+				<select name="skill[]" multiple required style="padding: 8px 4px;border: 1px solid #999 !important">
+					<option value="Architect">Architect</option>
+					<option value="Interior Designer">Interior Designer</option>
+					<option value="Mason">Mason</option>
+					<option value="Preemptive Strategist">Preemptive Strategist</option>
+					<option value="Quantity Surveyor">Quantity Surveyor</option>
+					<option value="Town Planner">Town Planner</option>
+				</select>
+
+				<label>Office Name</label>
+				<input autocomplete="off" name="office_name" type="text" placeholder="eg. AQ Surveyors" required style="font-size: 1.5em; margin-bottom: 40px;">
+
+				<button type="submit" class="btn btn-primary save-new-project hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn">SUBMIT</button>
+			</form>
+		@else
+			<p>Please <a href="{{url('/login/')}}"><strong>login</strong></a> to become an expert.</p>
+		@endif
+	</div>
+</div>
+
+<script src="{{asset('js/jquery.validate.min.js')}}"></script>
 <script>
 	var is_followed = <?php echo $is_followed ?: 0 ?>;
 	var followers_count = <?php echo $followers_count ?>;
+	$("#becomeExpert").validate();
 
 	function followUser(url){
         var formdata = new FormData($("#followUser")[0]);
@@ -188,4 +260,21 @@
             console.log("Action done");
         });
     }
+
+	function openBecomeExpert(){
+		$("#becomeExpertModal").addClass("open");
+		$("body").addClass("locked")
+	}
+
+	function closeBecomeExpert(){
+		$("#becomeExpertModal").removeClass("open");
+		$("body").removeClass("locked")
+	}
+
+	function checkValidity(event, form){
+		if(!$(form).valid()){
+			event.preventDefault();
+			alert("Not cool man!");
+		}
+	}
 </script>

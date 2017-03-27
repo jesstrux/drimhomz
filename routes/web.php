@@ -66,6 +66,8 @@ Route::get('/advice/{page}', 'AdviceController@index');
 
 Route::get('/user/{id}', 'UserController@showprofile');
 Route::get('/user/{id}/{page}', 'UserController@showprofile');
+Route::post('/becomeExpert', 'UserController@become_expert');
+
 
 Route::get('/project/{id}', 'ProjectsController@showprofile');
 

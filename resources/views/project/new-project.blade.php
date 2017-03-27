@@ -96,13 +96,14 @@
         .done(function(response){
 //            console.log("Response! from new project, ", response);
             if(response.success){
-                console.log("Project created from new project!", location.href, location.href.indexOf("projects") !== -1);
                 closeNewProject();
-                if(location.href.indexOf("user") !== -1){
+                if(location.href.indexOf("user") !== -1 && !drimMode){
                     showLoading();
                     window.location.href = base_url + "/editProject/" + response.project.id;
                 }
-                projectCreationSuccess(response.project);
+                else{
+                    projectCreationSuccess(response.project);
+                }
             }else{
                 $("#newProjectTitle").focus();
                 $("#newProjectTitle").val(curTitle);

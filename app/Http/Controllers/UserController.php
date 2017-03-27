@@ -7,6 +7,7 @@ use Auth;
 use Carbon\Carbon;
 
 use App\User;
+use App\Office;
 use App\House;
 use App\Follows;
 use App\Location;
@@ -173,11 +174,28 @@ class UserController extends Controller
         // return "Am i admin? ". $amiAdmin. ", Is user already admin? ". ($user->role == "admin");
     }
 
-    function setupProfile(Request $request){
+    function become_expert(Request $request){
         if(Auth::guest()){
             return back()->withErrors(['msg','Please login first']);
         }
 
+        $user = User::find(Auth::user()->id);
+        $skills_input = $request->get('skill');
+        $skills= implode(", ",$skills_input);
+        $user->skills = $skills;
+        $user->save();
+
+        $office = new \stdClass();
+        $office->name = $request->input('office_name');;
+
+        Office::create($office);
+        echo $skills;
+    }
+
+    function setupProfile(Request $request){
+        if(Auth::guest()){
+            return back()->withErrors(['msg','Please login first']);
+        }
 
         function save_user($user){
             if($user->save()){

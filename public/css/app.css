@@ -1548,13 +1548,28 @@ body.moving-stuff #manageImage #resizeCanvas{
     opacity: 0.5;
 }
 
-.a-comment form{
+.a-comment .form-things{
     position: absolute;
     right: 0;
     top: 0;
 }
 
-.a-comment:not(.my-comment) form{
+.a-comment .comment-editor{
+	margin-right: 5px;
+}
+
+.a-comment a[type="button"]{
+	display: inline-block;
+	padding: 5px 10px !important;
+	background-color: #C90 !important;
+	color: #fff;
+}
+
+.a-comment form a[type="button"]{
+	background-color: #991000 !important;
+}
+
+.a-comment:not(.my-comment) form, .a-comment:not(.my-comment) .comment-editor{
     display: none;
 }
 

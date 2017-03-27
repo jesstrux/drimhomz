@@ -17,7 +17,8 @@ class AdminController extends Controller
         $ad = [
             'image_url' => $file_name,
             'title' => $request->input('title'),
-            'link' => $request->input('link')
+            'link' => $request->input('link'),
+            'priority' => $request->input('priority')
         ];
 //        $ad_exists = Advertisement::where("title", $request->input('title'))->exists();
 

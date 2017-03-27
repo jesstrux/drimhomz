@@ -2,7 +2,14 @@
 
 @section('content')
 
-<div class="container" style="max-width: 800px">
+    <style>
+        @media only screen and (max-width: 760px) {
+            #container{
+                width: 98%;
+            }
+        }
+    </style>
+<div id="container" class="container" style="max-width: 800px">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">

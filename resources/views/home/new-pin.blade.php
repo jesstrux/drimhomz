@@ -114,6 +114,7 @@
     var pin_id;
 
     function openNewPin($jqel, fromPreview) {
+        drimMode = true;
         $("#newPinModal").addClass("open");
         $("body").addClass("locked");
         el = $jqel.get(0);
@@ -187,6 +188,7 @@
     }
 
     function closeNewPin() {
+        drimMode = true;
         $("#newPinModal").removeClass("open");
         $("body").removeClass("locked");
     }
