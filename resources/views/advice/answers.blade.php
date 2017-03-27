@@ -1,8 +1,22 @@
 <div class="col-lg-12 answers card inset">
 	<div class="show-more" style="padding: 20px 0; text-align: center; border-botto: 1px solid #ddd">
-		<button>
-			<span class="show-message">{{$answers->count()}}</span><span class="hide-message">Hide</span><span>answers</span>
-		</button>
+		<?php
+			$no_answers = $answers->count() < 1 ? true : false;
+			$btn_style = "";
+			if($no_answers){
+				$btn_style = "border: none; pointer-events: none !important";
+			}else{
+				$count_text = $answers->count();
+				$trailingS = $answers->count() > 1 ? "s" : "";
+			}
+		?>
+		@if(!$no_answers)
+			<button style="{{$btn_style}}}">
+				<span id="answersCount" class="show-message">{{$count_text}}</span><span class="hide-message">Hide</span><span>answer{{$trailingS}}</span>
+			</button>
+		@else
+			<span id="answersCount" class="show-message">No</span><span> answers</span>
+		@endif
 	</div>
 
 	<div class="other-answers">
@@ -12,7 +26,7 @@
 	            	<img src="{{$user_url . $answer->user->dp}}" width="40" alt="" />
 	          	</div>
 				<div class="item-text">
-					<h3>{{$answer->user->full_name()}} <span class="secondary">{{$answer->created_at}}</span></h3>
+					<h3>{{$answer->user->full_name()}} <span class="secondary" style="float: right">{{$answer->created_at->diffForHumans()}}</span></h3>
 					<p>
 						{{$answer->content}}
 					</p>

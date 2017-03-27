@@ -7,7 +7,7 @@
     ?>
     <style>
 		body{
-			background-color: #eee;
+			background-color: #eee !important;
 			/*ECECEC;*/
 			/*background-color: #ccc;*/
 		}
@@ -54,7 +54,7 @@
 			padding: 16px;
 			-ms-align-items: center;
 			align-items: center;
-			border-bottom: 1px solid #ddd;
+			/*border-bottom: 1px solid #ddd;*/
 		}
 		.avatar{
 			width: 40px;

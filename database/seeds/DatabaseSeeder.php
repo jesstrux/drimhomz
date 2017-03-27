@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(HousesTableSeeder::class);
         $this->call(CommentsTableSeeder::class);
         $this->call(FavoritesTableSeeder::class);
+//        $this->call(FollowPostTableSeeder::class);
 
         $this->call(ArticlesSeeder::class);
         $this->call(ArticleCommentsSeeder::class);

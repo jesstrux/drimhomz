@@ -1,8 +1,22 @@
 <div class="col-lg-12 answers card inset">
+	<?php
+	$no_comments = $comments->count() < 1 ? true : false;
+	$btn_style = "";
+	if($no_comments){
+		$btn_style = "border: none; pointer-events: none !important";
+	}else{
+		$count_text = $comments->count();
+		$trailingS = $comments->count() > 1 ? "s" : "";
+	}
+	?>
 	<div class="show-more" style="padding: 20px 0; text-align: center; border-botto: 1px solid #ddd">
-		<button>
-			<span class="show-message">{{$comments->count()}}</span><span class="hide-message">Hide</span><span>comments</span>
-		</button>
+		@if(!$no_comments)
+			<button style="{{$btn_style}}}">
+				<span id="commentsCount" class="show-message">{{$count_text}}</span><span class="hide-message">Hide</span><span>comment{{$trailingS}}</span>
+			</button>
+		@else
+			<span id="commentsCount" class="show-message">No</span><span> comments</span>
+		@endif
 	</div>
 
 	<div class="other-answers">
@@ -12,7 +26,7 @@
 	            	<img src="{{$user_url . $answer->user->dp}}" width="40" alt="" />
 	          	</div>
 				<div class="item-text">
-					<h3>{{$answer->user->full_name()}} <span class="secondary">{{$answer->created_at}}</span></h3>
+					<h3>{{$answer->user->full_name()}} <span class="secondary" style="float: right">{{$answer->created_at->diffForHumans()}}</span></h3>
 					<p>
 						{{$answer->content}}
 					</p>
