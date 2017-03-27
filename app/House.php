@@ -16,6 +16,11 @@ class House extends Model
         return $this->belongsTo('App\Project');
     }
 
+    public function image()
+    {
+        return $this->hasOne('App\HouseImage');
+    }
+
     public function owner(){
         return $this->project->user;
     }

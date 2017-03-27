@@ -9,6 +9,7 @@ use App\User;
 use App\House;
 use App\Advertisement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -29,7 +30,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $random_ads = Advertisement::all();
+//        $random_ads = Advertisement::all();
+        $random_ads = DB::table('advertisements')->orderBy('created_at', 'asc')->limit(2)->get();
         $todayString = Carbon::today();
         $today = $todayString->toFormattedDateString();
 
@@ -46,36 +48,38 @@ class HomeController extends Controller
         if(Auth::user()->role == "admin"){
             $pages = Page::all();
             $users = User::all();
-            
-            $db_values = Advertisement::all();
-            $len = count($db_values);
-            $randomAds = array();
-            
+
             $todayString = Carbon::today();
             $today = $todayString->toFormattedDateString();
 
-            if($len > 0){
-                for ($i=0; $i < 10; $i++) {
-                    $rand = rand ( 0 , $len - 1 );
-                    $value = $db_values[$rand];
-                    $randomAds[]= $value;
-                }
-            }
+            $db_values = DB::table('advertisements')->orderBy('created_at', 'desc')->get();
+            $randomAds = $db_values;
+            $len = count($db_values);
+//            $randomAds = array();
+
+
+//            if($len > 0){
+//                for ($i=0; $i < 10; $i++) {
+//                    $rand = rand ( 0 , $len - 1 );
+//                    $value = $db_values[$rand];
+//                    $randomAds[]= $value;
+//                }
+//            }
 
             return view('home.dashboard', compact('pages', 'users', 'randomAds', 'today'));
         }else{
 
-            $db_values = Advertisement::all();
-            $len = count($db_values) - 1;
-            $randomAds = array();
+            $random_ads = DB::table('advertisements')->orderBy('created_at', 'asc')->limit(2)->get();
+//            $len = count($db_values) - 1;
+//            $randomAds = array();
             $todayString = Carbon::today();
             $today = $todayString->toFormattedDateString();
 
-            for ($i=0; $i < 10; $i++) {
-                $rand = rand ( 0 , $len );
-                $value = $db_values[$rand];
-                $randomAds []= $value;
-            }
+//            for ($i=0; $i < 10; $i++) {
+//                $rand = rand ( 0 , $len );
+//                $value = $db_values[$rand];
+//                $randomAds []= $value;
+//            }
 
             return view('home', compact('randomAds', 'today'));
         }

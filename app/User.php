@@ -67,11 +67,11 @@ class User extends Authenticatable
     }
 
     public function houses(){
-        return $this->hasManyThrough('App\House', 'App\Project');
+        return $this->hasManyThrough('App\House', 'App\Project')->orderBy('created_at', 'desc');
     }
 
     public function projects(){
-        return $this->hasMany("App\Project");
+        return $this->hasMany("App\Project")->orderBy('created_at', 'desc');
     }
     public function messages(){
         return $this->hasMany("App\Message");

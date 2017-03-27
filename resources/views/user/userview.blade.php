@@ -6,10 +6,11 @@
 
 @section('content')
     <style>
-    	body{
-			background-color: #fff;
-			/*#f8f8f8;*/
-		}
+		@media only screen and (max-width: 760px) {
+	        body{
+	            background-color: white !important;
+	        }
+    	}
 		a{
 			color: inherit;
 			text-decoration: none;
@@ -367,8 +368,6 @@
             text-overflow: ellipsis;
         }
     </style>
-
-    @include('home.house-preview')
 
     <script>
     	var _token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';

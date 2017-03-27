@@ -5,12 +5,12 @@
 
     <div class="dh-card --js-house-preview-card" data-postid="">
         @if (Auth::user())
-            <button class="hidden-xs hidden-sm btn drim-btn" style="background:#8bc34a; border-radius: 5px; overflow: hidden; padding: 6px; padding-bottom: 6px; padding-right: 9px; color: #fff; position: absolute; right: 20px; top: 20px;">
+            <button class="hidden-xs btn drim-btn" style="background:#8bc34a; border-radius: 5px; overflow: hidden; padding: 6px; padding-bottom: 6px; padding-right: 9px; color: #fff; position: absolute; right: 20px; top: 20px;">
                 <img class="drimmer" src="{{asset('images/drim.png')}}" height="20px"/> <span style="letter-spacing: 5px">DRIM</span>
             </button>
         @endif
 
-        <div class="hidden visible-xs visible-sm" style="background-color: rgba(255,255,255,0.9); height: 60px; position: fixed; top: 0; left:0; width: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.15)">
+        <div class="hidden visible-xs" style="background-color: rgba(255,255,255,0.9); height: 60px; position: fixed; top: 0; left:0; width: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.15)">
             <div class="layout center justified" style="height: 60px; padding-left: 4px; padding-right: 12px;">
                 <button class="layout center for-mob --js-house-preview-closer" style="padding: 0;background: transparent; border: none;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
@@ -73,7 +73,7 @@
                 <div id="loadingComments" class="empty-message">
                 Loading comments</div>
                 
-                <div class="hidden-xs hidden-sm">
+                <div class="hidden-xs">
                     @if (Auth::user())
                         <form id="submitComment" action="{{ url('/submitComment') }}" method="POST">
                             {{ csrf_field() }}
@@ -101,7 +101,7 @@
         </div>
     </div>
 
-    <div class="preview-comment-toolbar layout center hidden visible-xs visible-sm" style="background: #fff; height: 60px; position: fixed; bottom: 0; left:0; width: 100%; box-shadow: 0 -1px 3px rgba(0,0,0,0.2)">
+    <div class="preview-comment-toolbar layout center hidden visible-xs" style="background: #fff; height: 60px; position: fixed; bottom: 0; left:0; width: 100%; box-shadow: 0 -1px 3px rgba(0,0,0,0.2)">
 
         @if (Auth::user())
             <form id="submitComment" action="{{ url('/submitComment') }}" method="POST" class="layout center">
@@ -131,10 +131,11 @@
 </div>
 
 <script>
-    var _prev_token = '<input type="hidden" name="_token" value="'+ '<?php echo csrf_token(); ?>' +'">';
+    var featured_houses = featured_houses ||  [];
+    var _prev_token = '<?php echo csrf_field(); ?>';
     var cur_user = <?php echo Auth::guest() ?: Auth::user(); ?>;
 
-    $("#submitComment textarea, input")
+    $("#submitComment textarea, #submitComment input")
         .on("focus", function(){
             console.log("Foucs in");
             $(this).on("keyup", function(){
@@ -150,6 +151,7 @@
         });
 
     function submitComment(){
+        showLoading();
         var commentObj = {};
         commentObj.user = cur_user;
         commentObj.content = $("#submitComment .comment-text").val();
@@ -172,6 +174,15 @@
         $("#submitComment").addClass("adding-comment");
 
         var formdata = new FormData($("#submitComment")[0]);
+        if(formdata.getAll("content")[0].length == 0){
+            formdata.append("content", commentObj.content);
+            console.log(formdata.getAll("content")[0], commentObj.content);
+        }else{
+            console.log("Has contetn", formdata.getAll("content")[0]);
+        }
+
+        // return;
+
         $.ajax({
               type:'POST',
               url: "/submitComment",
@@ -189,13 +200,13 @@
                 comment.find("form").prop("id", "deleteComment" + response.id);
                 comment.find("form button").attr("onclick", "deleteComment("+response.id+")");
 
-                setTimeout(function(){
-                    comment.removeClass('waiting');
-                }, 1200);
+                comment.removeClass('waiting');
+                showToast("success", "Comment sent!");
                 house_details.comment_count += 1;
                 updateUi(house_details);
             }else{
                 console.log("Failure!, ", response);
+                showToast("error", "Comment wasn't added!");
                 var comment = $('#commentsList .a-comment.waiting');
                 comment.css("opacity", 0);
                 setTimeout(function(){
@@ -216,15 +227,20 @@
                 $("#submitComment .comment-text").val(commentObj.content);
                 $("#submitComment button").removeAttr("disabled");
             }, 100);
+
+            showToast("error", "Comment wasn't added!");
         })
         .always(function(){
             console.log("Action done");
             $("#submitComment").removeClass("adding-comment");
             $("#submitComment .comment-text").val("");
+            hideLoading();
         });
     }
 
     function deleteComment(id){
+        showLoading();
+
         var el = $("#comment" + id);
         var formdata = new FormData($(el.find("form"))[0]);
         el.addClass('waiting');
@@ -244,22 +260,27 @@
                 el.remove();
                 house_details.comment_count -= 1;
                 updateUi(house_details);
+                showToast("success", "Comment deleted!");
             }else{
                 el.removeClass('waiting');
+                showToast("error", "Couldn't delete comment!");
             }
         })
         .fail(function(response){
             console.log("Response!, ", response);
-            el.remove();
+            el.removeClass('waiting');
+            showToast("error", "Couldn't delete comment!");
+            document.write(response.responseText);
         })
         .always(function(){
             console.log("Action done");
+            hideLoading();
         });
     }
 
     function toggleFav(){
         var formdata = new FormData($("#favoriteHouse")[0]);
-
+        showLoading();
         $.ajax({
               type:'POST',
               url: "/favoriteHouse",
@@ -271,19 +292,25 @@
         })
         .done(function(response){
             console.log("Response!, ", response);
-            if(house_details.faved)
-                house_details.fav_count -= 1;
-            else
-                house_details.fav_count += 1;
+            if(response.success){
+                if(house_details.faved)
+                    house_details.fav_count -= 1;
+                else
+                    house_details.fav_count += 1;
 
-            house_details.faved = !house_details.faved;
-            updateUi(house_details);
+                house_details.faved = !house_details.faved;
+                updateUi(house_details);
+            }
+            else{
+                showToast("error", response.msg);
+            }
         })
         .fail(function(error){
             console.log("Error!, ", error);
         })
         .always(function(){
             console.log("Action done");
+            hideLoading();
         });
     }
 

@@ -153,7 +153,7 @@
 
     <div id="pnewPofilePage">
     	<div id="outer" class="container">
-			<div id="wrapper" class="layout">
+			<div id="wrapper" class="layout" style="background-color: #fff; margin-bottom: 40px;">
 		    	<div id="dpEditor" class="flex">
 					@if (session('verification_status'))
 
@@ -334,7 +334,7 @@
 		</div>
     </div>
 
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&amp;key=AIzaSyBgc2zYiUzXGjZ277annFVhIXkrpXdOoXw"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyBgc2zYiUzXGjZ277annFVhIXkrpXdOoXw"></script>
     <script src="{{asset('js/jquery.geocomplete.min.js')}}"></script>
 
     <script>
@@ -412,6 +412,7 @@
 				}
 				else{
 					console.log("Error occured!", response);
+					document.write(response.responseText);
 				}
 			})
 			.always(function(){

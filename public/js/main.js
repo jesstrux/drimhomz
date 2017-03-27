@@ -1,4 +1,4 @@
-var house_details = {}, cur_house;
+var house_details = house_details || {}, cur_house;
 var hovering = false;
 var cur_popup;
 var cur_popup_area;
@@ -81,10 +81,10 @@ $(document).ready(function(){
 
         $('--js-house-preview-card').removeClass('open');
 
-        // if(($parent).hasClass('--js-house-preview-card'))
-            // return;
-
-        openNewPin($parent);
+        if(($parent).hasClass('--js-house-preview-card'))
+            openNewPin($parent, true);
+        else
+            openNewPin($parent);
     });
 
     $(document).on("click", '.dh-card.grid-item.a-house', function(e){
@@ -99,7 +99,10 @@ $(document).ready(function(){
         }
 
         var index_moi = $(this).index();
-        index_moi -= index_moi < 4 ? 1 : 2;
+        if(random_ads && random_ads.length){
+            index_moi -= index_moi < 4 ? 1 : 2;
+        }
+
         is_cur_house = cur_house == index_moi;
 
         if(!is_cur_house){
@@ -179,6 +182,7 @@ $(document).ready(function(){
     });
 
     function setPreview(){
+        $('#previewImage').attr("src", "");
         $('#preview .dh-card').attr('data-postid', house_details.id);
         $('#previewTitle').text(house_details.title);
         $('#previewCaption').text(house_details.description);

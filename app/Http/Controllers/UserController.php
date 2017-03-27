@@ -178,9 +178,16 @@ class UserController extends Controller
             return back()->withErrors(['msg','Please login first']);
         }
 
-        $this->validate(request(), [
-            'location' => 'required'
-        ]);
+
+        function save_user($user){
+            if($user->save()){
+                return "success";
+            }
+            else {
+                return response('error!');
+            }
+        }
+
         $user = User::find(Auth::user()->id);
         // $user->gender = $request->gender;
         // $user->town = $request->town;
@@ -194,36 +201,30 @@ class UserController extends Controller
         $time = strtotime($request->input('dob'));
         $user->dob = strftime("%Y-%m-%d %H:%M:%S", $time);
 
-        $location_str = $request->input('location');
+        if($request->input('location') !== null){
+            $location_str = $request->input('location');
+            preg_match('/(\S{1,20}).\s(\S{1,20})/', $location_str, $location_array, PREG_OFFSET_CAPTURE);
+            $long = $location_array[1];
+            $lat = $location_array[2];
 
-        preg_match('/(\S{1,20}).\s(\S{1,20})/', $location_str, $location_array, PREG_OFFSET_CAPTURE);
-        $long = $location_array[1];
-        $lat = $location_array[2];
+            $location_q = Location::where("user_id", $user->id)->first();
+            $location = Location::find($location_q->id);
+            $location->long = $long[0];
+            $location->lat = $lat[0];
+            $same_long = $location_q ->long == $long[0];
+            $same_lat = $location_q ->lat == $lat[0];
 
-        $location_q = Location::where("user_id", $user->id)->first();
-        $location = Location::find($location_q->id);
-        $location->long = $long[0];
-        $location->lat = $lat[0];
-        $same_long = $location_q ->long == $long[0];
-        $same_lat = $location_q ->lat == $lat[0];
+            if($same_long && $same_lat)
+                return(save_user($user));
 
-        function save_user($user){
-            if($user->save()){
-                return "success";
+            if($location->save()){
+                return(save_user($user));
             }
             else {
-                return response('error!');
+                return response("error: Can\'t set location!");
             }
-        }
-
-        if($same_long && $same_lat)
+        }else{
             return(save_user($user));
-
-        if($location->save()){
-            return(save_user($user));
-        }
-        else {
-            return response("error: Can\'t set location!");
         }
     }
 

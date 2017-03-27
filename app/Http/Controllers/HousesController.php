@@ -9,6 +9,7 @@ use App\House;
 use App\Comment;
 use App\Favorite;
 use App\FollowPost;
+use App\HouseImage;
 use ColorThief\ColorThief;
 use Image;
 
@@ -22,28 +23,51 @@ class HousesController extends Controller
 
     public function randomList($page){
         $houses_per_page = 15;
-    	$db_values = House::with('project')->get();
+    	$db_values = House::with('project')->orderBy('created_at', 'desc')->get();
 		$len = count($db_values) - 1;
 		$values = array();
 
-        if($page > $len/$houses_per_page)
-            return "No more";
-
-		for ($i = $page - 1; $i < $houses_per_page * $page; $i++) {
+        if($page > $len/$houses_per_page){
+            $fin = $len - $page;
+        }else{
+            $fin = $houses_per_page * $page;
+        }
+		for ($i = $page - 1; $i < $fin; $i++) {
             $db_values[$i]->owner = $db_values[$i]->owner();
             
             $db_values[$i]->fav_count = $db_values[$i]->favorites()->count();
             $db_values[$i]->comment_count = $db_values[$i]->comments()->count();
+            $image = $db_values[$i]->image;
+            if($image != null){
+                $db_values[$i]->width = $image->width;
+                $db_values[$i]->height = $image->height;
+                $db_values[$i]->width_thumb = $image->width_thumb;
+                $db_values[$i]->height_thumb = $image->height_thumb;
+            }
 
-            if(!Auth::guest())
+            if(!Auth::guest()){
                 $db_values[$i]->faved = $db_values[$i]->faved(Auth::user()->id);
-            else
+                $db_values[$i]->followed = $db_values[$i]->followed(Auth::user()->id);
+            }
+            else{
                 $db_values[$i]->faved = false;
+                $db_values[$i]->followed = false;
+            }
 
             $values []= $db_values[$i];
         }
 
-		return $values;
+        if($page > $len/$houses_per_page){
+            return response()->json([
+                "houses" => $values,
+                "more" => false
+            ]);
+        }else{
+            return response()->json([
+                "houses" => $values,
+                "more" => true
+            ]);
+        }
     }
 
     public function follow_house(Request $request){
@@ -58,11 +82,23 @@ class HousesController extends Controller
         $house_id = $request->input('house_id');
         $house = House::find($house_id);
 
+        $follow = [
+            'user_id' => $user_id,
+            'house_id' => $house_id
+        ];
+
         if($house->followed($user_id)){
-            return response()->json([
-                'success' => false,
-                'msg' => "You already followed this house"
-            ]);
+            if(FollowPost::where($follow)->delete()){
+                return response()->json([
+                    'success' => true,
+                    'msg' => "Successfully unfollowed house"
+                ]);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'msg' => "Couldn't unfollow house"
+                ]);
+            }
         }
         else if($house->owner()->id == $user_id){
             return response()->json([
@@ -71,11 +107,6 @@ class HousesController extends Controller
             ]);
         }
         else{
-            $follow = [
-                'user_id' => $user_id,
-                'house_id' => $house_id
-            ];
-
             if(FollowPost::create($follow)){
                 return response()->json([
                     'success' => true,
@@ -83,7 +114,7 @@ class HousesController extends Controller
                 ]);
             }else{
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'msg' => "Couldn't follow house"
                 ]);
             }
@@ -124,73 +155,68 @@ class HousesController extends Controller
     }
 
     public function store(Request $request){
-        function createProject($title, $user_id){
-            $project = [
-                'user_id' => $user_id,
-                'title' => $title
-            ];
-
-            return Project::create($project)->id;
-        }
-
-        function saveImage($request){
-            // $this->validate($request, [
-            //     'title' => 'required',
-            //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3072',
-            // ]);
-
+        function saveThumb(Request $request){
             $image = $request->file('image_url');
-            $input['imagename'] = time().'.'.$image->getClientOriginalExtension();
-         
-       
-            $destinationPath = public_path('images/uploads/houses/');
-            $thumbPath = $destinationPath.'thumbs';
+            $destinationPath = storage_path('app/public/uploads/houses/thumbs/');
 
             $img = Image::make($image->getRealPath());
-            $img->resize(800, 800, function ($constraint) {
+            $path = $image->store('public/uploads/houses');
+            $exploded_array = explode("/", $path);
+            $new_image_name = $exploded_array[count($exploded_array) - 1];
+            $thumb_path = $destinationPath.$new_image_name;
+
+            $image_sizes = new \stdClass();
+            $image_sizes->width = $img->width();
+            $image_sizes->height = $img->height();
+
+
+            $img->resize(rand (400, 800), null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save($thumbPath.'/'.$input['imagename']);
+            })->save($thumb_path);
 
-            $res['placeholder_color'] = getColor($thumbPath.'/'.$input['imagename']);
+            $image_sizes->width_thumb = $img->width();
+            $image_sizes->height_thumb = $img->height();
 
-            $image->move($destinationPath, $input['imagename']);
-
-            $res['image_url'] = $input['imagename'];
-
-            return $res;
+            return [
+                "url" => $new_image_name,
+                "image_sizes" => $image_sizes,
+                "color" => $img->limitColors(1)->pickColor(0, 0, 'hex')
+            ];
         }
 
-        function getColor($image_url){
-            try{
-                $dominantColor = ColorThief::getColor($image_url);
-            }
-            catch (Exception $e) {
-                $dominantColor = array(0,0,0);
-            }
-
-            return "rgb(".implode(", ", $dominantColor).")";
-        }
-
-        $project_id = $request->input('project_id') ?: createProject($request->input('project_title'));
-        $image_info = saveImage($request);
+        $more_info = saveThumb($request);
+        $image_sizes = $more_info["image_sizes"];
 
         $house = [
             'title' => $request->input('title'),
             // 'description' => $request->input('description'),
-            'image_url' => $image_info['image_url'],
-            'placeholder_color' => $image_info['placeholder_color'],
-            'project_id' => $project_id
+            'image_url' => $more_info['url'],
+            'placeholder_color' => $more_info["color"],
+//            'description' => $faker->realText(),
+            'project_id' => $request->input('project_id')
         ];
 
         $new_house = House::create($house);
-        if($new_house)
-            return back()->with('success','House successfully created')
-            ->with('house', House::find($new_house->id));
-        else
+
+        if($new_house){
+            $house_image = [
+                'house_id' => $new_house->id,
+                'width' => $image_sizes->width,
+                'height' => $image_sizes->height,
+                'width_thumb' => $image_sizes->width_thumb,
+                'height_thumb' => $image_sizes->height_thumb
+            ];
+
+            $new_house_image = HouseImage::create($house_image);
+
+            if($new_house_image)
+                return back()->with('success','House successfully created')
+                    ->with('house', House::find($new_house->id));
+            else
+                return back()->withErrors(['msg','Failed to create house']);
+        }else{
             return back()->withErrors(['msg','Failed to create house']);
-            // return response()->json([
-            //     'success' => 'false'
-            // ]);
+        }
     }
 
     public function get_comments($house){
@@ -248,6 +274,13 @@ class HousesController extends Controller
     }
 
     public function favorite_house(Request $request){
+        if(Auth::guest()){
+            return response()->json([
+                'success' => false,
+                'msg' => 'Please login first before liking a house.'
+            ]);
+        }
+
         $authuser = Auth::user();
         $house_id = $request->input('house_id');
         $house = House::find($house_id);
