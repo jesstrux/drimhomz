@@ -56,7 +56,10 @@
         float: right;
     }
 
-    @media all and (max-width: 780px) {
+    @media only screen and (max-width: 760px) {
+        body{
+            background-color: #fff !important;
+        }
         #info{
             padding-top: 10px;
         }
@@ -99,6 +102,13 @@
 
         .setup-field .form-control{
             width: 100% !important;
+        }
+
+        #savebtnWrapper button{
+            width: 100%;
+            text-transform: uppercase;
+            padding: 10px 0;
+            font-size: 1.3em;
         }
     }
 

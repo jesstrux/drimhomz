@@ -7,7 +7,7 @@
     ?>
     <style>
 		body{
-			background-color: #fefefe;
+			background-color: #fefefe !important;
 			/*ECECEC;*/
 			/*background-color: #ccc;*/
 		}

@@ -113,8 +113,10 @@
 
     var pin_id;
 
-    function openNewPin($jqel, fromPreview) {
+    function openNewPinner($jqel, fromPreview) {
+        drimMode = true;
         $("#newPinModal").addClass("open");
+        console.log("drimMode: " + drimMode);
         $("body").addClass("locked");
         el = $jqel.get(0);
         pin_id = $jqel.attr('data-postid');
@@ -195,5 +197,6 @@
     function closeNewPin() {
         $("#newPinModal").removeClass("open");
         $("body").removeClass("locked");
+        drimMode = false;
     }
 </script>
