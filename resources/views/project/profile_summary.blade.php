@@ -58,6 +58,14 @@
 	</div>
 	<span id="profession" style="margin-top: 15px; display: block; font-size: 1.2em">
 		Owner: {{$owner}}
+
+		<p style="margin-top: 10px;">
+			@if($myProject)
+				<a href="{{url('editProject/'.$project->id)}}" class="btn btn-default">
+					Edit project
+				</a>&nbsp;
+			@endif
+		</p>
 	</span>
 </div>
 

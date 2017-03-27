@@ -79,11 +79,9 @@ class ProjectsController extends Controller
         $project->time_start = strftime("%Y-%m-%d %H:%M:%S", $time_start);
         $project->time_finish = strftime("%Y-%m-%d %H:%M:%S", $time_finish);
 
-        if($project->save()){
-            return "success";
-        }
-        else {
-            return response("error: Can\'t save project!");
-        }
+        if($project->save())
+            return back()->with('success','House successfully created');
+        else
+            return back()->withErrors(['msg','Failed to create project']);
     }
 }

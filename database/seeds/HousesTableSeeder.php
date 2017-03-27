@@ -20,7 +20,7 @@ class HousesTableSeeder extends Seeder
         function saveThumb($ext){
             $orgPath = public_path('images/uploads/houses/');
             $image = Image::make($orgPath . $ext);
-            $destinationPath = storage_path('app/public/uploads/housesIsh');
+            $destinationPath = storage_path('app/public/uploads/houses');
             $image->save($destinationPath .'/'.$ext);
 
             $image_sizes = new \stdClass();

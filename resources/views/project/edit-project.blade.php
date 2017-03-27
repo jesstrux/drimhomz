@@ -122,6 +122,20 @@
             <div id="editorForm">
                 <h3>Edit project</h3>
 
+                @if($errors->any())
+                    <div class="alert alert-error alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Error!</strong>{{$errors->first()}}
+                    </div>
+                @endif
+
+                @if (\Session::has('success'))
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Success!</strong> {!! \Session::get('success') !!}
+                    </div>
+                @endif
+
                 <div id="infoSavedAlert" class="alert alert-success alert-dismissible collapse" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <strong>Success!</strong> Changes saved.
@@ -158,7 +172,7 @@
                         <label for="timeStart" class="col-md-4 control-label">Start time</label>
 
                         <div class="col-md-8">
-                            <input id="timeStart" placeholder="Start time" type="date" class="form-control" name="time_start" value="{{$project->time_start}}" required>
+                            <input id="timeStart" placeholder="Start time" type="date" class="form-control" value="{{date('Y-m-d',strtotime($project->time_start))}}" required>
                         </div>
                     </div>
 
@@ -166,7 +180,7 @@
                         <label for="timeFin" class="col-md-4 control-label">Finish time</label>
 
                         <div class="col-md-8">
-                            <input id="timeFin" placeholder="Start time" type="date" class="form-control" name="time_finish" value="{{$project->time_finish}}" required>
+                            <input id="timeFin" placeholder="Start time" type="date" class="form-control" name="time_finish" value="{{date('Y-m-d',strtotime($project->time_finish))}}" required>
                         </div>
                     </div>
 
@@ -189,7 +203,7 @@
     </div>
 </div>
 
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places&amp;key=AIzaSyBgc2zYiUzXGjZ277annFVhIXkrpXdOoXw"></script>
+<script src="http://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyBgc2zYiUzXGjZ277annFVhIXkrpXdOoXw"></script>
 <script src="{{asset('js/jquery.geocomplete.min.js')}}"></script>
 
 <script>

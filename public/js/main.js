@@ -1,4 +1,4 @@
-var house_details = {}, cur_house;
+var house_details = house_details || {}, cur_house;
 var hovering = false;
 var cur_popup;
 var cur_popup_area;
@@ -99,7 +99,10 @@ $(document).ready(function(){
         }
 
         var index_moi = $(this).index();
-        index_moi -= index_moi < 4 ? 1 : 2;
+        if(random_ads && random_ads.length){
+            index_moi -= index_moi < 4 ? 1 : 2;
+        }
+
         is_cur_house = cur_house == index_moi;
 
         if(!is_cur_house){
@@ -140,7 +143,7 @@ $(document).ready(function(){
           if((user_exists && data[i].user_id == cur_user.id) || (user_exists && house_details.owner.id == cur_user.id)){
             comment.addClass('my-comment');
           }
-          comment.find("form").prepend('<input type="hidden" name="_token" value="'+_token+'">');
+          comment.find("form").prepend(_token);
           $('#commentsList').append(comment);
         }
     }

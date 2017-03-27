@@ -82,7 +82,7 @@
 @include('project.new-project')
 <script>
     function projectCreationSuccess(project){
-        // showToast("success", "Project created!");
+        showToast("success", "Project created from new pin!");
         var new_it = "new" + project.id;
         var proj_html = `<label for="proj`+new_it+`" style="padding: 12px; background-color: #eee">
             <form id="newPin`+new_it+`" method="POST" action="/createPin" class="layout">
@@ -96,7 +96,7 @@
                     SAVE
                 </button>
             </form>
-        </label>`
+        </label>`;
 
         var new_project = $(proj_html);
         var first_label = $("#projectOptions label:first");
@@ -104,9 +104,6 @@
             first_label.before(new_project);
         else
             $("#projectOptions").append(new_project);
-        
-        // $("#newPinModal").removeClass("temp-close");
-        // addnewPin(project.id);
     }
 
     function projectCreationError(msg){

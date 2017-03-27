@@ -1113,7 +1113,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     margin-bottom: 30px;
 }
 
-.cust-modal-content label, .cust-modal-content input, .cust-modal-content select{
+.cust-modal-content label, .cust-modal-content input, .cust-modal-content select, .cust-modal-content textarea{
     display: block;
     width: 100%;
 }
@@ -1124,7 +1124,7 @@ body.moving-stuff #manageImage #resizeCanvas{
     margin-bottom: 2px;
 }
 
-.cust-modal-content input:not([type="file"]), .cust-modal-content select{
+.cust-modal-content input:not([type="file"]), .cust-modal-content select, .cust-modal-content textarea{
     border: none;
     background-color: transparent;
     border-bottom: 1px solid #aaa;
@@ -1132,7 +1132,8 @@ body.moving-stuff #manageImage #resizeCanvas{
     outline: none;
 }
 
-.cust-modal-content input:not([type="file"]):focus, .cust-modal-content select:focus{
+.cust-modal-content input:not([type="file"]):focus, .cust-modal-content select:focus,
+.cust-modal-content textarea:focus{
     border-bottom: 2px solid #777;
     margin-bottom: 30px;
 }

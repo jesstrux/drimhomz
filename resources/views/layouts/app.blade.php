@@ -38,7 +38,7 @@
             'csrfToken' => csrf_token()
         ]); ?>
 
-        var _token = "<?php echo csrf_token(); ?>";
+        var _token = '<?php echo csrf_field(); ?>';
         var base_url = "<?php echo $base_url?>";
         var house_base_url = "<?php echo $house_url?>";
         var user_base_url = "<?php echo $user_url?>";
