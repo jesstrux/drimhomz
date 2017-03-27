@@ -75,9 +75,12 @@
 			<a href="/setupAccount" class="btn btn-default">
 				Edit profile
 			</a>&nbsp;
-			{{--<button class="btn btn-default" onclick="openBecomeExpert()">--}}
-				{{--Become Expert--}}
-			{{--</button>--}}
+
+			@if($user->role != "expert")
+				<button class="btn btn-default" onclick="openBecomeExpert()">
+					Become Expert
+				</button>
+			@endif
 		@else
 			@if(!Auth::guest())
 				<form id="followUser" role="form" method="POST" action="{{ url('follow-user') }}">

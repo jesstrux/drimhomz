@@ -59,11 +59,11 @@ class User extends Authenticatable
 
     //RELATIONS
     public function articles(){
-        return $this->hasMany("App\Article");
+        return $this->hasMany('App\Article');
     }
 
     public function answers(){
-        return $this->hasMany("App\Answer");
+        return $this->hasMany('App\Answer');
     }
 
     public function houses(){
@@ -71,11 +71,13 @@ class User extends Authenticatable
     }
 
     public function projects(){
-        return $this->hasMany("App\Project")->orderBy('created_at', 'desc');
+        return $this->hasMany('App\Project')->orderBy('created_at', 'desc');
     }
+
     public function messages(){
-        return $this->hasMany("App\Message");
+        return $this->hasMany('App\Message');
     }
+
     public function followers(){
         return $this->hasMany('App\Follows');
     }
@@ -91,6 +93,10 @@ class User extends Authenticatable
     public function location_str(){
         $loc = $this->location()->first();
         return $loc->long . ", " . $loc->lat;
+    }
+
+    public function office(){
+        return $this->hasOne('App\Office');
     }
 
     // public function town(){

@@ -183,13 +183,22 @@ class UserController extends Controller
         $skills_input = $request->get('skill');
         $skills= implode(", ",$skills_input);
         $user->skills = $skills;
-        $user->save();
+        $user->role = "expert";
 
-        $office = new \stdClass();
-        $office->name = $request->input('office_name');;
+        if($user->save()){
+            $office = [
+                "user_id" => Auth::user()->id,
+                "name" => $request->input('office_name')
+            ];
 
-        Office::create($office);
-        echo $skills;
+            $new_office = Office::create($office);
+            if($new_office)
+                return redirect('office/'.$new_office -> id);
+            else
+                return back()->withErrors(['msg','Sorry failed to save changes']);
+        }
+        else
+            return back()->withErrors(['msg','Sorry failed to save changes']);
     }
 
     function setupProfile(Request $request){

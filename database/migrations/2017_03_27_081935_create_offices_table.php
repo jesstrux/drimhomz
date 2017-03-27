@@ -13,9 +13,11 @@ class CreateOfficesTable extends Migration
      */
     public function up()
     {
-        Schema::create('office', function (Blueprint $table) {
+        Schema::create('offices', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('location')->nullable();
+            $table->string('logo')->nullable();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
