@@ -136,7 +136,7 @@
 
     var cur_user = <?php echo Auth::guest() ?: Auth::user(); ?>;
     // var cur_user = JSON.parse(cur_user_obj);
-    var random_ads = <?php echo $random_ads; ?>;
+    var random_ads = <?php echo isset($random_ads) ? $random_ads : json_encode(array())  ?>;
 </script>
 
 @if(!Auth::guest())

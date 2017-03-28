@@ -69,19 +69,7 @@ class HomeController extends Controller
             return view('home.dashboard', compact('pages', 'users', 'randomAds', 'today'));
         }else{
 
-            $random_ads = DB::table('advertisements')->orderBy('created_at', 'asc')->limit(2)->get();
-//            $len = count($db_values) - 1;
-//            $randomAds = array();
-            $todayString = Carbon::today();
-            $today = $todayString->toFormattedDateString();
-
-//            for ($i=0; $i < 10; $i++) {
-//                $rand = rand ( 0 , $len );
-//                $value = $db_values[$rand];
-//                $randomAds []= $value;
-//            }
-
-            return view('home', compact('randomAds', 'today'));
+            return redirect('home/');
         }
     }
 }
