@@ -165,6 +165,7 @@
                         <textarea rows="3" name="description" placeholder="Enter some description" required></textarea><br>
 
                         <button type="submit" class="hidden-xs">CREATE</button>
+                        <div class="hidden visible-xs" style="height: 60px">&nbsp;</div>
                     </div>
                 </div>
             </form>
