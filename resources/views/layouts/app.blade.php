@@ -179,16 +179,45 @@
         <div class="loader"></div>
     </div>
 </div>
+
 @include('layouts.header')
 
 <div id="mainContent">
     @yield('content')
 </div>
+<div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
+    <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
+        <div class="user-loader layout vertical center-center" style="text-align: center; padding: 10px;">
+            <img src="{{asset('images/loading.gif')}}" alt="" style="width:60px; margin-top: 18px;">
+            <p style="font-size: 1.4em; margin-top: 15px;">Loading...</p>
+        </div>
+
+        <div class="the-profile"></div>
+    </div>
+</div>
 
 @include('layouts.footer')
 @include('home.house-preview')
 @include('home.ad-preview')
+@include('project.new-project')
+@include('houses.new-house')
 
+<?php
+$auth_user = null;
+$user_projects = null;
+if(!Auth::guest()){
+    $auth_user = Auth::user();
+    $user_projects = $auth_user->projects;
+}
+?>
+
+@if(isset($auth_user) && $auth_user != null)
+    @include('home.new-pin')
+@endif
+
+<!-- Scripts -->
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/iziToast.min.js')}}"></script>
 <script>
     function showToast(type, msg, time){
         var timeout = 1200;
@@ -232,38 +261,13 @@
         });
     }
 
-    $(document).on("click", '.tangazo', function(e){
-        e.preventDefault();
-        var ad = $(this).index() == 0 ? cur_idx_left : cur_idx_right;
-        openAd(random_ads[ad]);
+    $(document).ready(function(){
+        $(document).on("click", '.tangazo', function(e){
+            e.preventDefault();
+            var ad = $(this).index() == 0 ? cur_idx_left : cur_idx_right;
+            openAd(random_ads[ad]);
+        });
     });
 </script>
-
-<?php
-$auth_user = null;
-$user_projects = null;
-if(!Auth::guest()){
-    $auth_user = Auth::user();
-    $user_projects = $auth_user->projects;
-}
-?>
-
-@if(isset($auth_user) && $auth_user != null)
-    @include('home.new-pin')
-@endif
-
-<!-- Scripts -->
-<script src="{{asset('js/bootstrap.min.js')}}"></script>
-<script src="{{asset('js/iziToast.min.js')}}"></script>
-<div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
-    <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
-        <div class="user-loader layout vertical center-center" style="text-align: center; padding: 10px;">
-            <img src="{{asset('images/loading.gif')}}" alt="" style="width:60px; margin-top: 18px;">
-            <p style="font-size: 1.4em; margin-top: 15px;">Loading...</p>
-        </div>
-
-        <div class="the-profile"></div>
-    </div>
-</div>
 </body>
 </html>
