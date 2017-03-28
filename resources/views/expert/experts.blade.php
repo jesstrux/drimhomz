@@ -17,7 +17,7 @@
     }
 </style>
 @foreach($products as $product)
-    <a href="{{url('/user/').'/'.$product->id}}" class="card no-pad" id="product_{{$product->id}}" style="margin-bottom: 10px; margin-top: 10px;">
+    <a href="{{url('/office/').'/'.$product->office->id}}" class="card no-pad" id="product_{{$product->id}}" style="margin-bottom: 10px; margin-top: 10px;">
         <div>
             <?php
                 $full_name = $product->fname . " " . $product->lname;
@@ -47,11 +47,11 @@
                     </em>
 
                     <div style="font-size: 1em; font-weight: bold;margin: 0;">
-                        <a href="{{$articles_link}}">
+                        <a hre="{{$articles_link}}">
                             {{$articles_count}} Articles
                         </a>
                         &nbsp;
-                        <a href="{{$answers_link}}">
+                        <a hre="{{$answers_link}}">
                             {{$answers_count}} Answers
                         </a>  
                     </div>
