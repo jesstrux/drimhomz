@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Advertisement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -18,7 +19,8 @@ class AdminController extends Controller
             'image_url' => $file_name,
             'title' => $request->input('title'),
             'link' => $request->input('link'),
-            'priority' => $request->input('priority')
+            'priority' => $request->input('priority'),
+            'description' => $request->input('description')
         ];
 //        $ad_exists = Advertisement::where("title", $request->input('title'))->exists();
 
@@ -26,5 +28,19 @@ class AdminController extends Controller
             return back()->with('success','Advertisement successfully created');
         else
             return back()->withErrors(['msg','Failed to create Advertisement']);
+    }
+
+    public function delete_ad(Request $request){
+        if(Auth::guest()){
+            return back()->withErrors(['msg','You have no required permission']);
+        }else if(Auth::user()->role !== 'admin'){
+            return back()->withErrors(['msg','You have no required permission']);
+        }
+
+        $ad = Advertisement::find($request->input("id"));
+        if($ad->delete())
+            return back()->with('success','Advertisement successfully deleted');
+        else
+            return back()->withErrors(['msg','Failed to delete Advertisement']);
     }
 }

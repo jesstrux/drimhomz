@@ -19,7 +19,10 @@ class CreateMessagesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->char('status')->default('0')->comment = "status=0 when message is not yet sent, status=1 for a sent message";
             $table->char('type')->default('0')->comment = "Registration message=0";
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

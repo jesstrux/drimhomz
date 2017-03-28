@@ -19,7 +19,10 @@ class CreateProductsTable extends Migration
             $table->integer('shop_id')->unsigned();
             $table->string('image_url')->nullable();
             $table->timestamps();
-            $table->foreign('shop_id')->references('id')->on('shops');
+            $table->foreign('shop_id')
+                ->references('id')
+                ->on('shops')
+                ->onDelete('cascade');
         });
     }
 

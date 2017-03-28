@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Advertisement extends Model
 {
     protected $fillable = [
-        'title', 'image_url', 'link', 'priority'
+        'title', 'image_url', 'link', 'priority', 'description'
     ];
 
     public function views(){

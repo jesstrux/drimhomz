@@ -17,8 +17,14 @@ class CreateAdviewsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('advertisement_id')->unsigned();
-            $table->foreign('advertisement_id')->references('id')->on('advertisements');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('advertisement_id')
+                ->references('id')
+                ->on('advertisements')
+                ->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

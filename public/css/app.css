@@ -267,7 +267,7 @@ body.locked{
 	/*margin-top: 5px;*/
 }
 
-@media all and (max-width: 406px) {
+@media all and (max-width: 468px) {
     .navbar-brand{
         margin-top: 6px;
     }
@@ -1753,6 +1753,7 @@ body.open-search #searchBar form{
 	display: inline-block;
 	margin-top: 3px;
 	padding-top: 5px;
+	float: right;
 }
 
 #searchBar button:hover, .search-opener:hover,

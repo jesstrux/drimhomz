@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('town')->nullable();
             $table->string('gender')->nullable();
             $table->string('skills')->nullable();
+            $table->string('description')->nullable();
             $table->datetime('dob')->nullable();
             $table->string('verification_code')->default('0');
             $table->char('verified')->default('0')->comment = "verified=0 when the phone number is not verified yet, verified=1 for a verified phone number";

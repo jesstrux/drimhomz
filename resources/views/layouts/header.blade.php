@@ -1,6 +1,12 @@
 <nav id="mainestNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container" style="padding-right: 20px; position: relative;">
         <div class="navbar-header" style="position: relative;">
+            @if(isset($has_menu) && $has_menu)
+                <button onclick="openMenu()" style="float: left; margin-left: 8px; margin-right: 0; height:60px; border: none; background-color: transparent; position: relative;" class="btn btn-default hidden visible-xs">
+                    <i style="font-size: 25px" class="fa fa-bars"></i>
+                </button>
+            @endif
+
             <button type="button" class="navbar-toggle collapsed hidden-xs" data-toggle="collapse" data-target="#app-navbar-collapse">
                 <span class="sr-only">Toggle Navigation</span>
                 <span class="icon-bar"></span>

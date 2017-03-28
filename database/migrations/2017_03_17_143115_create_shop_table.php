@@ -21,7 +21,10 @@ class CreateShopTable extends Migration
             $table->string('location');
             $table->string('coords')->nullable();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

@@ -1,3 +1,4 @@
+<?php $has_menu = true; ?>
 @extends('layouts.app')
 
 @section('content')
@@ -9,6 +10,43 @@
 
         .is-admin .remove-admin-btn{
             display: inline-block;
+        }
+        @media only screen and (max-width: 760px) {
+            .main-aside{
+                -webkit-transform: translateX(-100%);
+                -moz-transform: translateX(-100%);
+                -ms-transform: translateX(-100%);
+                -o-transform: translateX(-100%);
+                transform: translateX(-100%);
+            }
+            #profileSections {
+                -webkit-transform: translateX(-250px);
+                -moz-transform: translateX(-250px);
+                -ms-transform: translateX(-250px);
+                -o-transform: translateX(-250px);
+                transform: translateX(-250px);
+
+                max-width: 100vw;
+                min-width: 100vw;
+                overflow: hidden;
+                margin-top: -12px;
+            }
+
+            .main-aside, #profileSections {
+                -webkit-transition: transform 0.25s ease-out;
+                -moz-transition: transform 0.25s ease-out;
+                -ms-transition: transform 0.25s ease-out;
+                -o-transition: transform 0.25s ease-out;
+                transition: transform 0.25s ease-out;;
+            }
+
+            .main-aside.open, .main-aside.open + #profileSections{
+                -webkit-transform: none;
+                -moz-transform: none;
+                -ms-transform: none;
+                -o-transform: none;
+                transform: none;
+            }
         }
     </style>
     <div id="profilePage" class="layout">
@@ -55,7 +93,12 @@
                 $('#profilePage .subpage.current').removeClass('current');
                 $(target).addClass('current');
                 // console.log(curIdx, nextIdx ,animDir);
+                openMenu();
             });
         });
+
+        function openMenu(){
+            $(".main-aside").toggleClass("open");
+        }
     </script>
 @endsection
