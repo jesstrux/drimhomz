@@ -235,8 +235,8 @@ console.log('House: '+house_base_url);
 
     $(document).on("click", '.tangazo', function(e){
         e.preventDefault();
-        var ad = $(this).index() == 0 ? cur_idx_left : cur_idx_ ;
-        openAd(ad);
+        var ad = $(this).index() == 0 ? cur_idx_left : cur_idx_right;
+        openAd(random_ads[ad]);
     });
 </script>
 
