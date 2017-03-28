@@ -22,17 +22,17 @@ class HousesTableSeeder extends Seeder
         function saveThumb($ext){
             $orgPath = public_path('images/uploads/houses/');
             $image = Image::make($orgPath . $ext);
-            $destinationPath = storage_path('app/public/uploads/houses');
-            if(!File::exists($destinationPath)) File::makeDirectory($destinationPath, 0777,true);
-            $image->save($destinationPath .'/'.$ext);
+//            $destinationPath = storage_path('app/public/uploads/houses');
+            if(!File::exists($orgPath)) File::makeDirectory($orgPath, 0777,true);
+            $image->save($orgPath .'/'.$ext);
 
             $image_sizes = new \stdClass();
             $image_sizes->width = $image->width();
             $image_sizes->height = $image->height();
 
             $img = Image::make($image->basePath());
-            $thumb_path = $destinationPath.'/thumbs/'.$ext;
-            if(!File::exists($destinationPath.'/thumbs/')) File::makeDirectory($destinationPath.'/thumbs/', 0777,true);
+            $thumb_path = $orgPath.'/thumbs/'.$ext;
+            if(!File::exists($orgPath.'/thumbs/')) File::makeDirectory($orgPath.'/thumbs/', 0777,true);
 
             $img->resize(rand (400, 800), null, function ($constraint) {
                 $constraint->aspectRatio();
@@ -45,17 +45,6 @@ class HousesTableSeeder extends Seeder
                 "image_sizes" => $image_sizes,
                 "color" => $img->limitColors(1)->pickColor(0, 0, 'hex')
             ];
-        }
-
-        function getColor($image_url){
-            try{
-                $dominantColor = ColorThief::getColor($image_url);
-            }
-            catch (Exception $e) {
-                $dominantColor = array(0,0,0);
-            }
-
-            return "rgb(".implode(", ", $dominantColor).")";
         }
 
     	for ($i=0; $i < 32; $i++) {

@@ -158,12 +158,17 @@ class HousesController extends Controller
     public function store(Request $request){
         function saveThumb(Request $request){
             $image = $request->file('image_url');
-            $destinationPath = storage_path('app/public/uploads/houses/thumbs/');
-
+//            $destinationPath = storage_path('app/public/uploads/houses/thumbs/');
+            $destinationPath = public_path('images/uploads/houses/');
             $img = Image::make($image->getRealPath());
-            $path = $image->store('public/uploads/houses');
-            $exploded_array = explode("/", $path);
-            $new_image_name = $exploded_array[count($exploded_array) - 1];
+            $new_image_name = time().'.'.$image->getClientOriginalExtension();
+            $img->save($destinationPath.$new_image_name);
+
+//            $path = $image->store('public/uploads/houses');
+//            $exploded_array = explode("/", $path);
+//            $new_image_name = $exploded_array[count($exploded_array) - 1];
+//            $destinationPath = public_path('uploads/houses/thumbs/');
+            $destinationPath = public_path('uploads/houses/thumbs/');
             $thumb_path = $destinationPath.$new_image_name;
 
             $image_sizes = new \stdClass();

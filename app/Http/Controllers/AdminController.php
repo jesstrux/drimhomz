@@ -9,9 +9,13 @@ class AdminController extends Controller
 {
     public function create_ad(Request $request){
         $image = $request->file('image');
-        $path = $image->store('public/uploads/banners');
-        $sub_paths = explode("/", $path);
-        $file_name = $sub_paths[count($sub_paths) - 1];
+        $img = Image::make($image->getRealPath());
+        $file_name = time().'.'.$image->getClientOriginalExtension();
+        $destinationPath = public_path('images/uploads/banners/');
+        $img->save($destinationPath.$file_name);
+//        $path = $image->store('public/uploads/banners');
+//        $sub_paths = explode("/", $path);
+//        $file_name = $sub_paths[count($sub_paths) - 1];
 
 //        return response()->json([$path, $sub_paths, $file_name, $request->input("title"), $request->input("link")]);
 
