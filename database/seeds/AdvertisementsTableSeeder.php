@@ -21,6 +21,8 @@ class AdvertisementsTableSeeder extends Seeder
 	        	'title' => $faker->realText(10),
 	            'link' => $faker->url(),
 	            'image_url' => "banner$i.jpg",
+                'priority' => rand(1, 5),
+                'description' => $faker->realText($faker->numberBetween(20, 80))
 	        ];
 	        Advertisement::create($advertisement);
         }

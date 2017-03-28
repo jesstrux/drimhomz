@@ -47,6 +47,7 @@ Route::get('resizeImage', 'ImageController@resizeImage');
 Route::post('createAd',['as'=>'resizeImagePost','uses'=>'ImageController@resizeImagePost']);
 
 Route::post('createAd','AdminController@create_ad');
+Route::post('/deleteAd','AdminController@delete_ad');
 
 Route::get('/about', function () {
     return view('home.about');

@@ -30,8 +30,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-//        $random_ads = Advertisement::all();
-        $random_ads = DB::table('advertisements')->orderBy('created_at', 'asc')->limit(2)->get();
+        $random_ads = Advertisement::all();
+//        $random_ads = DB::table('advertisements')->orderBy('created_at', 'asc')->limit(2)->get();
         $todayString = Carbon::today();
         $today = $todayString->toFormattedDateString();
 

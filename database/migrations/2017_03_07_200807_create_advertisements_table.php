@@ -18,6 +18,7 @@ class CreateAdvertisementsTable extends Migration
             $table->string('title')->nullable();
             $table->string('image_url')->nullable();
             $table->string('link')->nullable();
+            $table->string('description')->nullable();
             $table->integer('priority')->nullable();
             $table->timestamps();
         });

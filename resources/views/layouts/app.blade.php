@@ -82,18 +82,18 @@
             overflow: hidden !important;
         }
         #pageLoader{
-            position: fixed; 
-            top: 0; left: 0; 
-            right: 0; bottom: 0; 
-            background: rgba(0,0,0,0.06); 
+            position: fixed;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
+            background: rgba(0,0,0,0.06);
             z-index: 9999999;
             display: -webkit-flex;
             display: -moz-flex;
             display: -ms-flex;
             display: -o-flex;
-            display: flex; 
+            display: flex;
             -ms-align-items: center;
-            align-items: center; 
+            align-items: center;
             justify-content: center;
             opacity: 0;
             pointer-events: none;
@@ -174,89 +174,96 @@
     </style>
 </head>
 <body class="open-searc" style="backgroun: #eee !important;">
-    <div id="pageLoader">
-        <div style="width: 230px; height: 230px; transform: scale(0.6)">
-            <div class="loader"></div>
-        </div>
+<div id="pageLoader">
+    <div style="width: 230px; height: 230px; transform: scale(0.6)">
+        <div class="loader"></div>
     </div>
-    @include('layouts.header')
+</div>
+@include('layouts.header')
 
-    <div id="mainContent">
-        @yield('content')
-    </div>
+<div id="mainContent">
+    @yield('content')
+</div>
 
-    @include('layouts.footer')
-    <!-- Scripts -->
-    @include('home.house-preview')
+@include('layouts.footer')
+@include('home.house-preview')
+@include('home.ad-preview')
 
-    <div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
-        <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
-            <div class="user-loader layout vertical center-center" style="text-align: center; padding: 10px;">
-              <img src="{{asset('images/loading.gif')}}" alt="" style="width:60px; margin-top: 18px;">
-              <p style="font-size: 1.4em; margin-top: 15px;">Loading...</p>
-            </div>
-
-            <div class="the-profile"></div>
-        </div>
-    </div>
-
-    <?php
-        $auth_user = null;
-        $user_projects = null;
-        if(!Auth::guest()){
-            $auth_user = Auth::user();
-            $user_projects = $auth_user->projects;
-        }
-    ?>
-
-    @if(isset($auth_user) && $auth_user != null)
-        @include('home.new-pin')
-    @endif
-
-    <script>
-        function showToast(type, msg, time){
-          var timeout = 1200;
-          if(time)
+<script>
+    function showToast(type, msg, time){
+        var timeout = 1200;
+        if(time)
             timeout = time;
-          
-          if(type == "success"){
-              iziToast.success({
-                  title: 'Success',
-                  message: msg,
-                  position: 'topRight',
-                  timeout: timeout
-              });
-          }else{
-              iziToast.error({
-                  title: 'Error',
-                  message: msg,
-                  position: 'topRight',
-                  timeout: timeout
-              });
-          }
-        }
 
-        function hideUserBottomSheet(){
-          $("#userBottomSheet .cust-modal-content").addClass("peeking");
-          setTimeout(function(){
+        if(type == "success"){
+            iziToast.success({
+                title: 'Success',
+                message: msg,
+                position: 'topRight',
+                timeout: timeout
+            });
+        }else{
+            iziToast.error({
+                title: 'Error',
+                message: msg,
+                position: 'topRight',
+                timeout: timeout
+            });
+        }
+    }
+
+    function hideUserBottomSheet(){
+        $("#userBottomSheet .cust-modal-content").addClass("peeking");
+        setTimeout(function(){
             $("#userBottomSheet .cust-modal-content").removeClass("peeking");
             $("#userBottomSheet").removeClass("open");
             $("#userBottomSheet .the-profile").html("");
             $("body").removeClass("locked");
-          },100);
-        }
+        },100);
+    }
 
-        function showUserBottomSheet(userid){
-          $("#userBottomSheet").addClass("open loading");
-          $("body").addClass("locked");
-          $.get(base_url + '/userProfilePopup/' + userid,function(res){
+    function showUserBottomSheet(userid){
+        $("#userBottomSheet").addClass("open loading");
+        $("body").addClass("locked");
+        $.get(base_url + '/userProfilePopup/' + userid,function(res){
             console.log(res);
             $("#userBottomSheet").removeClass("loading");
             $("#userBottomSheet .the-profile").html(res);
-          });
-        }
-    </script>
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/iziToast.min.js')}}"></script>
+        });
+    }
+
+    $(document).on("click", '.tangazo', function(e){
+        e.preventDefault();
+        var ad = $(this).index() == 0 ? cur_idx_left : cur_idx_right;
+        openAd(random_ads[ad]);
+    });
+</script>
+
+<?php
+$auth_user = null;
+$user_projects = null;
+if(!Auth::guest()){
+    $auth_user = Auth::user();
+    $user_projects = $auth_user->projects;
+}
+?>
+
+@if(isset($auth_user) && $auth_user != null)
+    @include('home.new-pin')
+@endif
+
+<!-- Scripts -->
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/iziToast.min.js')}}"></script>
+<div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
+    <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
+        <div class="user-loader layout vertical center-center" style="text-align: center; padding: 10px;">
+            <img src="{{asset('images/loading.gif')}}" alt="" style="width:60px; margin-top: 18px;">
+            <p style="font-size: 1.4em; margin-top: 15px;">Loading...</p>
+        </div>
+
+        <div class="the-profile"></div>
+    </div>
+</div>
 </body>
 </html>

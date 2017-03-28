@@ -1,3 +1,5 @@
+var cur_idx_left = 0;
+var cur_idx_right = 1;
 var featured_houses = featured_houses ||  [];
 first_load = true;
 
@@ -181,8 +183,8 @@ first_load = true;
       ratio = house.width_thumb / el_w;
       var shorter_height = house.height_thumb / ratio;
 
-      console.log(house.width_thumb, house.height_thumb);
-      console.log(ratio, el_w, shorter_height);
+      //console.log(house.width_thumb, house.height_thumb);
+      //console.log(ratio, el_w, shorter_height);
 
       var ratio_height = shorter_height + 'px';
 
@@ -200,6 +202,9 @@ first_load = true;
       html +=  '</li>';
     }
 
+    if(first_load){
+      activateAds();
+    }
     first_load = false;
 
     $newHouses = $(html);
@@ -216,6 +221,25 @@ first_load = true;
       return tangazo_tpl(random_ads[i]);
     else
       return "";
+  }
+
+  function activateAds(){
+    setInterval(function(){
+      cur_idx_left = cur_idx_left+2 > random_ads.length - 1 ? 0 : cur_idx_left+2;
+      setAd($(".tangazo:first"), random_ads[cur_idx_left]);
+    }, 3000);
+
+    setTimeout(function(){
+      setInterval(function(){
+        cur_idx_right = cur_idx_right + 2 > random_ads.length - 1 ? 1 : cur_idx_right + 2;
+        setAd($(".tangazo:last"), random_ads[cur_idx_right]);
+      }, 3000);
+    }, 1800);
+  }
+
+  function setAd(el, ad){
+    el.find("a").prop("href", ad.link);
+    el.find("img").prop({src: ad_base_url + ad.image_url, alt: ad.title});
   }
   // Load first data from the API.
   loadData();

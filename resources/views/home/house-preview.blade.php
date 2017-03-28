@@ -166,7 +166,7 @@
         var editted_comment;
 
         var commentObj = {};
-        commentObj.user = <?php echo Auth::user(); ?>;
+        commentObj.user = <?php echo Auth::guest() ? json_encode(new stdClass()) : Auth::user() ?>;
         commentObj.content = the_comment;
 
 //        $(".comment-text").each(function(){

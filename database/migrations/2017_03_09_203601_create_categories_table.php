@@ -17,7 +17,10 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('house_id')->unsigned();
-            $table->foreign('house_id')->references('id')->on('houses');
+            $table->foreign('house_id')
+                ->references('id')
+                ->on('houses')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

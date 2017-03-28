@@ -34,13 +34,9 @@
     function tangazo_tpl(ad){
         html  = '<li class="tangazo dh-card grid-item">';
         html +=   '<div class="image">';
-        html +=     '<a hre="'+ad.link+'" style="display: block"><img src="' + ad_base_url + ad.image_url+'" alt="'+ad.title+'"></a>';
+        html +=     '<a style="display: block"><img src="' + ad_base_url + ad.image_url+'" alt="'+ad.title+'"></a>';
         html +=   '</div>';
-        // html +=   '<div class="content">';
-        // html +=     '<h3>'+ad.title+'</h3>';
-        // html +=     '<a hre="'+ad.link+'">CHECK IT OUT</a>'
-        // html +=   '</div>';
-        html +=  '</li>';
+        html += '</li>';
 
         return html;
     }
