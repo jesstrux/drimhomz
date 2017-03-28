@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/verifyPhoneNumber';
+    protected $redirectTo = '/setupAccount';
 
     /**
      * Create a new controller instance.
@@ -102,7 +102,7 @@ class RegisterController extends Controller
                 ];
                 Location::create($location);
                 $message->saveMessage(['body' => $body,'user_id'=>$new_user->id]);
-                Artisan::call("schedule:run");
+                //Artisan::call("schedule:run");
 
                 return $new_user;
             } catch (\SQLiteException $e) {
