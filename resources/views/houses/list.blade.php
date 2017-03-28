@@ -28,6 +28,7 @@
     ?>
     <div style="cursor: pointer;" class="house-card a-house-item" data-house="{{$house}}" data-user="{{$house->owner()}}" data-comments="{{$comment_count}}" data-favs="{{$fav_count}}">
         <div class="image" style="background-color: {{$house->placeholder_color}}">
+
             <img src="{{asset($house_url . $house->image_url)}}" alt="{{$house->title}}">
         </div>
         <div class="content">

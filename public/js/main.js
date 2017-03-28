@@ -140,9 +140,13 @@ $(document).ready(function(){
 
         for (; i < length; i++) {
           var comment = $(comment_template(data[i]));
-          if((user_exists && data[i].user_id == cur_user.id) || (user_exists && house_details.owner.id == cur_user.id)){
+          if(user_exists && data[i].user_id == cur_user.id){
             comment.addClass('my-comment');
           }
+          if(user_exists && house_details.owner.id == cur_user.id){
+              comment.addClass('my-house');
+          }
+
           comment.find("form").prepend(_token);
           $('#commentsList').append(comment);
         }

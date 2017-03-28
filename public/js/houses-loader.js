@@ -46,7 +46,7 @@ first_load = true;
       if (wookmark === undefined) {
         wookmark = new Wookmark(container, {
           offset: 10,
-          align: 'left'
+          align: 'center'
         });
       } else {
         wookmark.initItems();

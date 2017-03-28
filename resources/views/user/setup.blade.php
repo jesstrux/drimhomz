@@ -176,7 +176,7 @@
 								<img src="{{asset('images/loading.gif')}}" alt="">
 							</div>
 
-							<img src='{{asset("images/uploads/user_dps/$user->dp")}}' id="curDp" alt="">
+							<img src='{{asset("storage/uploads/user_dps/$user->dp")}}' id="curDp" alt="">
 						</div>
 
 						<h3 style="margin-top: 0; margin-bottom: 15px;">Profile picture</h3>

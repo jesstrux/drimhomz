@@ -259,7 +259,7 @@ class UserController extends Controller
         $destination = public_path()."/images/uploads/user_dps/";
         $request->file('dp')->move($destination, $photoName);
         $oldDp  = $destination.$user->dp;
-      if(file_exists($oldDp))
+      if(file_exists($oldDp)&&$user->dp!='drimhomzDefaultDp.png')
           unlink($oldDp);
         $user->dp = $photoName;
 

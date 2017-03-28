@@ -112,11 +112,16 @@
     }
 
     var pin_id;
+    var was_locked;
 
     function openNewPin($jqel, fromPreview) {
         drimMode = true;
         $("#newPinModal").addClass("open");
-        $("body").addClass("locked");
+        was_locked = $("body").hasClass("locked");
+
+        if(!was_locked){
+            $("body").addClass("locked");
+        }
         el = $jqel.get(0);
         pin_id = $jqel.attr('data-postid');
 
@@ -190,6 +195,8 @@
     function closeNewPin() {
         drimMode = true;
         $("#newPinModal").removeClass("open");
-        $("body").removeClass("locked");
+
+        if(!was_locked)
+            $("body").removeClass("locked");
     }
 </script>

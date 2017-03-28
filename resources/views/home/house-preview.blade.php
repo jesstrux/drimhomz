@@ -225,7 +225,8 @@
                     comment.find("#commentId").val(response.comment_id);
                     comment.prop("id", "comment" + response.comment_id);
                     comment.find("form").prop("id", "deleteComment" + response.comment_id);
-                    comment.find("form button").attr("onclick", "deleteComment("+response.comment_id+")");
+                    comment.find("form [type='button']").attr("onclick", "deleteComment("+response.comment_id+")");
+                    comment.find(".comment-editor").attr("onclick", "editComment("+response.comment_id+")");
 
                     comment.removeClass('waiting');
                     showToast("success", "Comment sent!");

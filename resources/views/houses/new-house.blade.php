@@ -95,24 +95,24 @@
         }
     }
 </style>
-<div id="newHouse" class="cust-modal ope">
-    <button class="closer hidden-xs hidden-sm" onclick="closeNewHouse()">
-        <svg fil="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
-
+<div id="newHouse" class="cust-modal">
     <div class="hidden visible-xs cust-modal-toolbar" style="z-index: 2">
         <div class="layout center" style="height: 60px">
             <button class="layout center for-mob" style="padding: 0;background: transparent; border: none;" onclick="closeNewHouse()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
             </button>
 
-            <h5 class="flex" style="font-size: 23px; margin: 0; margin-left: 8px;">New House</h5>
+            <h5 class="flex" style="font-size: 23px; margin: 0; margin-left: 8px;">New Dream</h5>
 
-            <button style="background:#8bc34a; border-radius: 5px; overflow: hidden;color: #fff; margin-right: 10px;" class="btn" onclick="saveHouse()">CREATE</button>
+            <button style="background:#8bc34a; border-radius: 5px; overflow: hidden;color: #fff; margin-right: 10px;" class="btn" type="button" onclick="saveHouse()">CREATE</button>
         </div>
     </div>
 
-    <div class="cust-modal-content" style="display: inline-block">
+    <div class="cust-modal-content" style="display: inline-block; position: relative;">
+        <a class="close hidden-xs" onclick="closeNewHouse()" style="position: absolute !important; right: 20px !important; top: 20px !important;">
+            <svg fill="#000" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </a>
+
         @if(!Auth::guest())
             <?php 
                 $user = Auth::user();
@@ -125,15 +125,15 @@
                 </div>
             </div>
 
-            <form id="createHouseForm" enctype="multipart/form-data" method="POST" action="/createHouse" style="width: 100%; padding-top: 15px;">
-                <h3 class="cust-modal-title">New House</h3>
+            <form id="createHouseForm" enctype="multipart/form-data" onsubmit="saveHouse()" method="POST" action="/createHouse" style="width: 100%; padding-top: 15px;">
+                <h3 class="cust-modal-title">New Dream</h3>
                 {{ csrf_field() }}
                 <input type="hidden" name="user_id" value="{{$user->id}}">
 
                 <div id="newHouseWrapper" class="layout">
                     <div id="houseImageContainer">
                         <img id="houseImage" src="" alt="" style="width: 100%; height: 250px; background-color: #ddd; margin: 15px auto; margin-bottom: 25px; display: inline-block; border: none">
-                        <label style="margin-bottom: 8px;">House image</label>
+                        <label style="margin-bottom: 8px;">Dream image</label>
                         <input style="margin-bottom: 10px;" onchange="showImage(this)" accept="images/*" name="image_url" type="file" required><br>
                     </div>
 
@@ -159,7 +159,7 @@
                         @endif
 
                         <label>Title</label>
-                        <input name="title" type="text" placeholder="enter project title here" required>
+                        <input name="title" type="text" placeholder="enter dream title here" required>
 
                         <label style="margin-bottom: 8px;">Description</label>
                         <textarea rows="3" name="description" placeholder="Enter some description" required></textarea><br>
@@ -171,7 +171,7 @@
         @else
             <p>
                 Please <a href="{{url('/login')}}">LOGIN</a>
-                to create a new house.
+                to create a new dream.
             </p>
         @endif
     </div>    
@@ -262,6 +262,6 @@
 
     function saveHouse(){
         showLoading();
-        document.getElementById('createHouseForm').submit();
+//        document.getElementById('createHouseForm').submit();
     }
 </script>

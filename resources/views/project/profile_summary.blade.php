@@ -2,7 +2,8 @@
 	$href = url('/user/') . "/" . $project->user->id;
 
 	$link = "<a href='$href'>";
-	$owner = $myProject ? "You" : $link.$project->user->full_name().'</a>'
+
+	$owner = $myProject ? "You" : $link.$project->user->fname . " " . $project->user->lname . "</a>";
 
 ?>
 
@@ -35,7 +36,7 @@
 		<p style="margin-bottom: 20px;">
 			<em>Owner:</em> 
 			<strong>
-				{{$owner}}
+				{!! $owner !!}
 			</strong>
 		</p>
 		@if($myProject)

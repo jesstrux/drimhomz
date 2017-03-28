@@ -47,7 +47,6 @@
         var drimMode = false;
         var commentEditMode = false;
         var user_exists = <?php echo Auth::guest() ? "false" : "true" ?>;
-console.log('House: '+house_base_url);
         function getPopup(el){
             console.log("El is: " + el);
             return "A popover is showing here";
