@@ -73,7 +73,7 @@
         opacity: 1;
         pointer-events: auto;
         background-color: #ffa500;
-        color: #fff;
+        color: #f5f5f5;
     }
 
     #fab-wrapper.open .a-fab.lg{

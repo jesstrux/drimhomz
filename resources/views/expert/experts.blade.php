@@ -1,12 +1,54 @@
 <style>
+    .big-outer{
+        margin-bottom: 10px;
+        margin-top: 0;
+    }
     .large-text{
         font-size: 2.5em !important;
         line-height: 1.5em !important;
     }
-    .product-image{
+
+    .expert-wrapper{
+        /*background-color: #00b3ee;*/
+    }
+
+    .expert-image{
         background-color: #ddd;
         height: 150px;
         width: 150px;
+    }
+
+    .expert-info{
+        padding: 0 15px;
+        margin-left: 5px;
+        width: 100%;
+    }
+
+    .expert-info h3{
+        color: #333;
+        font-size: 2.1rem;
+        margin: 0; margin-bottom: 10px;
+    }
+
+    .expert-activity{
+        font-size: 1em;
+        /*font-weight: bold;*/
+        margin: 0;
+    }
+
+    @media only screen and (max-width: 760px) {
+        .expert-image{
+            height: 70px;
+            width: 70px;
+        }
+
+        .expert-info h3{
+            margin: 0; margin-bottom: 4px;
+        }
+
+        .expert-activity{
+            margin-top: -5px;
+        }
     }
     a{
         color: inherit !important;
@@ -17,7 +59,7 @@
     }
 </style>
 @foreach($products as $product)
-    <a href="{{url('/office/').'/'.$product->office->id}}" class="card no-pad" id="product_{{$product->id}}" style="margin-bottom: 10px; margin-top: 10px;">
+    <a href="{{url('/office/').'/'.$product->office->id}}" class="card no-pad big-outer" id="product_{{$product->id}}">
         <div>
             <?php
                 $full_name = $product->fname . " " . $product->lname;
@@ -29,28 +71,32 @@
                 $answers_count = $product->answers->count();
                 $answers_link = $answers_count > 0 ? url("/answersByWriter/$product->id") : "";
             ?>
-            <div class="layout">
-                <div class="product-image">
-                    <img src="{{$user_url . $product->dp}}" width="150px" height="150px" alt="" />
+            <div class="expert-wrapper layout">
+                <div class="expert-image">
+                    <img src="{{$user_url . $product->dp}}" width="100%" alt="" />
                 </div>
 
-                <div class="layout vertical" style="padding: 0 15px; margin-left: 5px; width: 100%;">
-                    <h3 style="margin: 0; margin-bottom: 10px;">
+                <div class="expert-info layout vertical">
+                    <h3>
                         {{$product->full_name()}}
                     </h3>
 
-                    <em>
+                    <span>
                         Expertise:
-                        <span style="font-size: 1.4em; font-weight: bold;">
+                        <span style="font-weight: bold;">
                             {{$product->role}}
                         </span>
-                    </em>
+                    </span>
 
-                    <div style="font-size: 1em; font-weight: bold;margin: 0;">
+                    <div class="layout center">
+                        <span style="color: #000 !important; letter-spacing: 3px; margin-right: 5px;">5.4</span>
+                        <svg fill="#888" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </div>
+                    <div class="expert-activity hidden">
                         <a hre="{{$articles_link}}">
                             {{$articles_count}} Articles
                         </a>
-                        &nbsp;
+                        &nbsp; | &nbsp;
                         <a hre="{{$answers_link}}">
                             {{$answers_count}} Answers
                         </a>  

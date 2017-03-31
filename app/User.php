@@ -5,6 +5,7 @@ namespace App;
 use App\Follows;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -18,6 +19,17 @@ class User extends Authenticatable
     protected $fillable = [
         'fname', 'lname', 'phone', 'password', 'role', 'gender', 'town', 'dob', 'skills', 'description', 'verification_code', 'verified'
     ];
+
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
+    }
+
+    // in the User class
+    public function preferredNotificationChannel()
+    {
+        return $this->isOnline() ? ['broadcast'] : ['database'];
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -98,20 +110,6 @@ class User extends Authenticatable
     public function office(){
         return $this->hasOne('App\Office');
     }
-
-    // public function town(){
-    //     $str = $this->location_str();
-    //     define("API_KEY", "AIzaSyAQcqitQMDb4pWTudvPoZt6golxzFXrvmI");
-    //     $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$str&key=".API_KEY;
-
-    //     $response = file_get_contents($url);
-    //     $json = json_decode($response,true);
-     
-    //     $lat = $json['results'][0]['geometry']['location']['lat'];
-    //     $lng = $json['results'][0]['geometry']['location']['lng'];
-     
-    //     return json_encode(array($lat, $lng));
-    // }
 
     public function cover($house_url, $user_url){
         $first_house = $this->houses()->first();

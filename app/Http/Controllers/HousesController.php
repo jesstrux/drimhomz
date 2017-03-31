@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Image;
+use Illuminate\Http\Request;
+
 use App\User;
 use App\Project;
 use App\House;
@@ -10,10 +13,10 @@ use App\Comment;
 use App\Favorite;
 use App\FollowPost;
 use App\HouseImage;
-use ColorThief\ColorThief;
-use Image;
 
-use Illuminate\Http\Request;
+use App\Notifications\CommentPosted;
+use App\Notifications\PostFollowed;
+use App\Notifications\PostFaved;
 
 class HousesController extends Controller
 {
@@ -108,7 +111,11 @@ class HousesController extends Controller
             ]);
         }
         else{
-            if(FollowPost::create($follow)){
+            $new_follow = FollowPost::create($follow);
+            if($new_follow){
+                if($user_id != $new_follow->house->owner()->id)
+                    User::find($new_follow->house->owner()->id)->notify(new PostFollowed($new_follow->user, $new_follow->house));
+
                 return response()->json([
                     'success' => true,
                     'msg' => "Successfully followed house"
@@ -233,7 +240,7 @@ class HousesController extends Controller
         if(Auth::guest())
             return response()->json(["success" => false]);
         else{
-            if($request->input('comment_id') != null){
+            if($request->input('comment_id') != null && $comment = Comment::find($request->input('comment_id')->exists())){
                 $comment = Comment::find($request->input('comment_id'));
                 $comment->content = $request->input('content');
 
@@ -257,7 +264,10 @@ class HousesController extends Controller
             ];
             $new_comment = Comment::create($comment);
             
-            if($new_comment->id){
+            if($new_comment){
+                if(Auth::user()->id != $new_comment->house->owner()->id)
+                    User::find($new_comment->house->owner()->id)->notify(new CommentPosted($new_comment, $new_comment->user));
+
                 return response()->json([
                     'success' => true,
                     'comment_id' => $new_comment->id,
@@ -316,7 +326,11 @@ class HousesController extends Controller
         ];
 
         if(!$faved){
-            if(Favorite::create($fav)){
+            $new_fav = Favorite::create($fav);
+            if($new_fav){
+                if($authuser->id != $new_fav->house->owner()->id)
+                    User::find($new_fav->house->owner()->id)->notify(new PostFaved($new_fav->user, $new_fav->house));
+
                 return response()->json([
                     'success' => 'true'
                 ]);

@@ -26,7 +26,7 @@
 	    <hr style="border-color: #ddd; margin-bottom: 0;">
 	</section>
 
-	<div class="container" style="max-width: 800px; margin-top: 10px;">
+	<div class="container" style="max-width: 800px; margin-top: 0">
 		<?php $products = $experts; ?>
 		@include('expert.experts')
 	</div>

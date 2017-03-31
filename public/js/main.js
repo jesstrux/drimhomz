@@ -290,13 +290,32 @@ function comment_template(commentObj) {
     return comment;
 }
 
+function openNotifications(){
+    var res = $("#searchResults");
+    if(!res.hasClass("show-notifications"))
+        res.addClass("open show-notifications");
+    else{
+        res.removeClass("open");
+        res.removeClass("show-notifications");
+    }
+}
+
 function openSearchBar(){
     $("body").addClass("open-search");
     $("#searchBar input").focus();
 }
 
 function closeSearchBar(){
-    $("body").removeClass("open-search");
+    if($("#searchBar").hasClass('search-started')){
+        $("#searchBar").removeClass('search-started');
+
+        setTimeout(function(){
+            $("body").removeClass("open-search");
+        }, 160);
+    }else{
+        $("body").removeClass("open-search");
+        $("#searchBar").removeClass('search-started');
+    }
 }
 
 function emptySearchBar(){

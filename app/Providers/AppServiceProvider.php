@@ -3,10 +3,11 @@
 namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Log;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
+/**
      * Bootstrap any application services.
      *
      * @return void
@@ -23,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
             'user_url' => $storage_url . "user_dps/",
             'house_url' => $storage_url . "houses/",
             'banner_url' => $storage_url . "banners/",
+            'office_url' => $storage_url . "offices/",
         ]);
     }
 
