@@ -177,49 +177,10 @@
         @endif
     </div>    
 </div>
-<div id="forMob" style="position: absolute; opacity: 0; pointer-events:  none;"></div>
-<script src="{{asset('js/jquery.camera.js')}}"></script>
 <script>
     $(document).ready(function(){
-        function takePhoto(){
-          if($("#forMob").css('display') != "none"){
-          console.log("For mob" + $("#forMob").css('display'));
-            $("#camera").camera({
-              resolution: "QVGA", // "QVGA", "VGA", "HD"
-              snap: function(result){
-                kunaNewPic(result);
-              },
-              reset: function(result){
-                console.log(result);
-              },
-              flip: function(facing){
-                onFlip(facing);
-              }
-            });
-          }
-        }
+
     });
-
-    function kunaNewPic(res){
-        console.log(res);
-    }
-
-    function onFlip(facing){
-        $("#camera").camera({
-            turn: facing,
-            resolution: "QVGA", // "QVGA", "VGA", "HD"
-            snap: function(result){
-                kunaNewPic(result);
-            },
-            reset: function(result){
-                console.log(result);
-            },
-            flip: function(facing){
-                console.log("Facing front: " + facing);
-                onFlip(facing);
-            }
-        });
-    }
 
     function closeNewHouse(){
         $("#newHouse").removeClass("open");

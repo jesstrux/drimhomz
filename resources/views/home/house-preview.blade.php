@@ -248,7 +248,7 @@
         })
         .fail(function(error){
 //            document.write(error.responseText);
-            console.log("Error!, ", error);
+            console.log("Error!, ", error.responseText);
             var comment = $('#commentsList .a-comment.waiting');
             comment.css("opacity", 0);
             setTimeout(function(){
@@ -300,7 +300,7 @@
             console.log("Response!, ", response);
             el.removeClass('waiting');
             showToast("error", "Couldn't delete comment!");
-            document.write(response.responseText);
+//            document.write(response.responseText);
         })
         .always(function(){
             console.log("Action done");

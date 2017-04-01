@@ -2,6 +2,9 @@
 
 use App\Libraries\Karibusms;
 use App\Message;
+use App\Notifications\CommentPosted;
+use App\Notifications\PostFaved;
+use App\Notifications\PostFollowed;
 
 Route::get('/', 'GuestController@index');
 
@@ -11,20 +14,46 @@ Auth::routes();
 
 Route::get('/dashboard', 'HomeController@dashboard');
 
-Route::get('/testUrl/{user_id}/{follower}', function ($user_id, $follower) {
-    // if(!Auth::guest())
-    //     echo Auth::user()->full_name();
-    // else
-    //  echo "Hello guest";
+Route::get('/notifications', function(){
+    if(!Auth::guest()){
+        $notifications = Auth::user()->notifications;
+//        return $notifications;
+        $unread_count = Auth::user()->unreadNotifications->count();
+        return view('notifications.index', compact('notifications', 'unread_count'));
+    }
+});
 
- 	// $project = App\House::find($user_id);
-    // print_r($project->owner()->fname);
+Route::post('/clearNotifications', 'UserController@clear_notifications');
 
-    $path = "D:/media/image/Instagram/11352189_1062461287100810_1652580300_n.jpg";
-    $img = new Intervention\Image\Image();
-    $img->setFileInfoFromPath($path);
-    $height = $img->height();
-    print_r($height);
+Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
+    if(!Auth::guest()){
+         $user = Auth::user();
+//         ->full_name();
+
+        $comment = [
+            'user_id' => $user->id,
+            'house_id' => $house_id
+        ];
+
+        if(App\Favorite::where($comment)->exists()){
+            echo "exists <br/>";
+            $new_comment = App\Favorite::where($comment)->first();
+        }else{
+            echo "make";
+            $new_comment = App\Favorite::create($comment);
+        }
+
+        echo json_encode($new_comment);
+
+        $user_id = $new_comment->house->owner()->id;
+
+        if($new_comment)
+            App\User::find($user_id)->notify(new CommentPosted($new_comment, $new_comment->user));
+            App\User::find($user_id)->notify(new PostFollowed($new_comment->user, $new_comment->house));
+     }
+     else{
+         echo "Hello guest";
+     }
 });
 
 Route::get('/house/{id}', function ($id) {
@@ -67,8 +96,21 @@ Route::get('/expert', 'ExpertController@index');
 Route::get('/advice', 'AdviceController@index');
 Route::get('/advice/{page}', 'AdviceController@index');
 
+Route::get('/getUser/{id}', function ($id) {
+    $user = App\User::find($id);
+    $user->project_count = $user->projects->count();
+    $user->house_count = $user->houses->count();
+    $user->followers_count = $user->followers->count();
+    $user->following_count = $user->following->count();
+
+    return $user;
+});
 Route::get('/user/{id}', 'UserController@showprofile');
 Route::get('/user/{id}/{page}', 'UserController@showprofile');
+Route::get('/userProfilePopup/{user_id}', 'UserController@get_profile_popup');
+Route::post('/followUser', 'UserController@follow_user');
+Route::get('/profile', 'UserController@profile');
+
 Route::post('/becomeExpert', 'UserController@become_expert');
 
 
@@ -82,14 +124,7 @@ Route::get('/editProject/{id}', function ($id) {
 
 Route::post('/editProject', 'ProjectsController@edit_project');
 
-Route::get('/userProfilePopup/{user_id}', 'UserController@get_profile_popup');
-
 Route::post('toggle-admin', ['as'=>'/toggleAdmin','uses'=>'UserController@toggle_admin']);
-
-Route::post('/followUser', 'UserController@follow_user');
-
-
-Route::get('/profile', 'UserController@profile');
 
 Route::get('/realhomz', function () {
     return view('home.realhomz');

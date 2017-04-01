@@ -18,10 +18,28 @@
                 <span id="logo">{{ config('app.name', 'Drimhomz') }}</span>
             </a>
 
-            <div id="mobAuthLinks" class="layout center hidden-sm hidden-md hidden-lg hidden-xl">
+            <div id="mobAuthLinks" class="layout center">
                 @if (Auth::guest())
                     <a href="{{ url('/login') }}">Login</a>
                 @else
+                    @if(!isset($is_my_profile))
+                        <a href="javascript:void(0);" class="layout center-center" onclick="openSearchBar()">
+                            <svg fill="#555" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        </a>
+                    @endif
+
+                    <?php
+                        $notifications = Auth::user()->notifications;
+                        $unread_count = Auth::user()->unreadNotifications->count();
+                    ?>
+
+                    <a href="{{ url('/notifications') }}" class="layout center-center" onclic="openNotifications()" style="position: relative;">
+                        <span style="line-height: 1; padding: 3px 8px; padding-bottom: 5px; border-radius: 12px; display: inline-block; align-self: flex-start ;background-color: #ffa500; position: absolute; top: 12px; right:2px; font-size: 14px; color: #000">{{$unread_count}}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M11.5 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6.5-6v-5.5c0-3.07-2.13-5.64-5-6.32V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5v.68c-2.87.68-5 3.25-5 6.32V16l-2 2v1h17v-1l-2-2z"/></svg>
+                    </a>
+
+                    @include('notifications.wrapper')
+
                     <?php
                         $profileUrl = "/user/".Auth::user()->id;
                     ?>
@@ -33,17 +51,17 @@
                         <a class="layout center-center" href="{{ url('/setupAccount') }}" style="font-weight: bold;">
                             EDIT
                         </a>
-                    @endif
 
-                    <a class="layout center-center" href="{{ url('/logout') }}"
-                        onclick="event.preventDefault();
+                        <a class="layout center-center" href="{{ url('/logout') }}"
+                           onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
-                    </a>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
+                        </a>
 
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    @endif
                 @endif
             </div>
         </div>
@@ -56,6 +74,18 @@
 
             <!-- Right Side Of Navbar -->
             <ul id="mainNav" class="nav navbar-nav navbar-right" style="position: relative;">
+                <li style="margin-right: 9px;">
+                    <button class="search-opener pull-right hidden-xs" style="position: relative;" onclick="openSearchBar()">
+                        <svg fill="#555" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </button>
+                </li>
+                @if(!Auth::guest())
+                    <?php
+                    $notifications = Auth::user()->notifications;
+                    $unread_count = Auth::user()->unreadNotifications->count();
+                    ?>
+                    @include('notifications.wrapper')
+                @endif
                 <?php
                     $isadmin = false;
 
@@ -73,7 +103,7 @@
                 @else
                     <li><a href="{{ url('/home') }}">Home</a></li>
                 @endif
-                
+
                 <!-- <li><a href="about">About</a></li> -->
                 {{--<li><a href="{{ url('/shop') }}">Shop</a></li>--}}
                 {{--<li><a href="{{ url('/expert') }}">Expert</a></li>--}}
@@ -111,10 +141,6 @@
                         </ul>
                     </li>
                 @endif
-
-                <button class="search-opener hidden-xs" style="position: relative;" onclick="openSearchBar()">
-                    <svg fill="#555" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                </button>
             </ul>
         </div>
 
@@ -126,21 +152,21 @@
 
                 <input class="flex" name="q" type="search" placeholder="Search" required autocomplete="off">
 
-                <span>Enter to search</span> &emsp;
+                <span class="hidden-xs">Enter to search</span> &emsp;
 
                 <button type="button" class="search-clearer" onclick="emptySearchBar()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                 </button>
             </form>
+        </div>
 
-            <div id="searchResults">
-                <div id="loader" class="layout center-center" style="text-align: center; height: 100%; position: relative; padding: 10px;">
-                    <img src="{{asset('img/loading.gif')}}" alt="">
-                </div>
+        <div id="searchResults">
+            <div id="loader" class="layout center-center" style="text-align: center; height: 100%; position: relative; padding: 10px;">
+                <img src="{{asset('img/loading.gif')}}" alt="">
+            </div>
 
-                <div id="results">
-                    
-                </div>
+            <div id="results">
+
             </div>
         </div>
     </div>

@@ -4,10 +4,10 @@
 
     <div class="container" style="padding-top: 20px;">
         <div class="row">
-            <div class="col-md-4 text-center">
-                <img src="" alt="" width="100%" height="210px" style="background-color: #eee; border: none; max-width: 260px; border-radius: 5px">
-                <h2>{{$office->name}}</h2>
-                <br>
+            <div class="col-md-4 layout vertical">
+                <?php $image_url = isset($office->image_url) && strlen($office->image_url) > 0 ? $office->image_url : 'def.png'?>
+                <img src="{{$office_url . $image_url}}" alt="" width="100%" height="210px" style="background-color: #eee; border: none; max-width: 260px; border-radius: 5px">
+                <h2 style="margin-bottom: 15px; font-size: 1.5em;">{{$office->name}}</h2>
                 <div class="rateyo"></div>
             </div>
 
@@ -22,8 +22,9 @@
                         @endif
                     </p>
 
-                    <h3 style="margin-top: 40px;margin-bottom: 20px;">Location - ({{$office->user->town}})</h3>
-                    @if(isset($office->user->town) && strlen($office->user->town) > 0)
+                    <?php $town_available = isset($office->user->town) && strlen($office->user->town) > 0 ?>
+                    <h3 style="margin-top: 40px;margin-bottom: 20px;">Location @if($town_available) ({{$office->user->town}}) @endif</h3>
+                    @if($town_available)
                         <p>
                             <input type="hidden" id="my_input" value="{{$office->user->town}}">
                             <div id="my_map" style="background-color: #eee; height: 400px; width: 100%;"></div>
@@ -40,7 +41,7 @@
 
     <script src="http://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyBgc2zYiUzXGjZ277annFVhIXkrpXdOoXw"></script>
     <script src="{{asset('js/jquery.geocomplete.min.js')}}"></script>
-    <script src="{{asset('js/jjquery.rateyo.min.js')}}"></script>
+    <script src="{{asset('js/jquery.rateyo.min.js')}}"></script>
 
     <script>
         $("#my_input").geocomplete({
@@ -48,6 +49,15 @@
         });
         $("#my_input").trigger("geocode");
 
-        $(".rateyo").rateYo();
+        $(".rateyo").rateYo({
+            maxValue: 5,
+            numStars: 5,
+            fullStar: true,
+            starWidth: "20px"
+        }).on("rateyo.set", function (e, data) {
+            var rating = data.rating;
+            $(this).next().text(rating);
+            console.log(rating);
+        });
     </script>
 @endsection

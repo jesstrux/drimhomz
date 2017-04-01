@@ -26,15 +26,15 @@ class House extends Model
     }
 
     public function categories(){
-        return $this->hasMany("App\Category");
+        return $this->hasMany('App\Category');
     }
 
     public function comments(){
-        return $this->hasMany("App\Comment");
+        return $this->hasMany('App\Comment');
     }
 
     public function favorites(){
-        return $this->hasMany("App\Favorite");
+        return $this->hasMany('App\Favorite');
     }
 
     public function faved($uid){

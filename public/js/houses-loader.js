@@ -187,6 +187,7 @@ first_load = true;
       //console.log(ratio, el_w, shorter_height);
 
       var ratio_height = shorter_height + 'px';
+      var full_name = house.owner.fname + ' ' + house.owner.lname;
 
       html += '<li style="cursor: pointer;" id="house'+house.id+'"  class="dh-card grid-item a-house" data-postid="'+house.id+'">';
       html +=   actions_html;
@@ -197,7 +198,7 @@ first_load = true;
       html +=     '<h3>'+house.title+'</h3>';
       html +=     '<a class="user-link hidden-xs hidden-sm" href="/user/'+house.owner.id+'" data-user-id="'+house.owner.id+'">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
       html +=     '<a class="hidden visible-xs visible-sm" onclick="showUserBottomSheet('+house.owner.id+')">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
-      html +=     '<span class="social-stuff">'+likes_text+' | '+comments_text+'</span>'
+      html +=     '<span class="social-stuff">'+likes_text+' &nbsp; | &nbsp; '+comments_text+'</span>'
       html +=   '</div>';
       html +=  '</li>';
     }

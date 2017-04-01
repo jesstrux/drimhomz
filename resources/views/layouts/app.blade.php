@@ -187,12 +187,8 @@
 </div>
 <div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
     <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
-        <div class="user-loader layout vertical center-center" style="text-align: center; padding: 10px;">
-            <img src="{{asset('images/loading.gif')}}" alt="" style="width:60px; margin-top: 18px;">
-            <p style="font-size: 1.4em; margin-top: 15px;">Loading...</p>
-        </div>
-
-        <div class="the-profile"></div>
+        <?php $user = Auth::user(); ?>
+        @include('user.profile_bottom_sheet')
     </div>
 </div>
 
@@ -219,6 +215,7 @@ if(!Auth::guest()){
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/iziToast.min.js')}}"></script>
 <script>
+
     function showToast(type, msg, time){
         var timeout = 1200;
         if(time)
@@ -241,26 +238,6 @@ if(!Auth::guest()){
         }
     }
 
-    function hideUserBottomSheet(){
-        $("#userBottomSheet .cust-modal-content").addClass("peeking");
-        setTimeout(function(){
-            $("#userBottomSheet .cust-modal-content").removeClass("peeking");
-            $("#userBottomSheet").removeClass("open");
-            $("#userBottomSheet .the-profile").html("");
-            $("body").removeClass("locked");
-        },100);
-    }
-
-    function showUserBottomSheet(userid){
-        $("#userBottomSheet").addClass("open loading");
-        $("body").addClass("locked");
-        $.get(base_url + '/userProfilePopup/' + userid,function(res){
-            console.log(res);
-            $("#userBottomSheet").removeClass("loading");
-            $("#userBottomSheet .the-profile").html(res);
-        });
-    }
-
     $(document).ready(function(){
         $(document).on("click", '.tangazo', function(e){
             e.preventDefault();
@@ -268,6 +245,18 @@ if(!Auth::guest()){
             openAd(random_ads[ad]);
         });
     });
+
+    // window.Echo = new Echo({
+    //     broadcaster: 'pusher',
+    //     key: '813712e6e7edfc7d0978'
+    // });
+
+    // var userId = <php echo Auth::guest() ? 1 : Auth::user()->id; ?>
+
+    // Echo.private('App.User.' + userId)
+    //         .notification((notification) => {
+    //     console.log(notification.type);
+    // });
 </script>
 </body>
 </html>

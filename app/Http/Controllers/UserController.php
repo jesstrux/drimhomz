@@ -255,6 +255,29 @@ class UserController extends Controller
         }
     }
 
+    function clear_notifications(Request $request){
+        if(Auth::guest()){
+            return response()->json([
+                'success' => false,
+                'msg' => "Please login first"
+            ]);
+        }
+
+        $user = Auth::user();
+        if($user->unreadNotifications->count() < 1){
+            return response()->json([
+                'success' => true,
+                'msg' => "Notifications cleared!"
+            ]);
+        }
+
+        $user->unreadNotifications->markAsRead();
+        return response()->json([
+            'success' => true,
+            'msg' => "Notifications cleared!"
+        ]);
+    }
+
     function saveDp(Request $request){
         if(Auth::guest()){
             return back()->withErrors(['msg','Please login first']);
