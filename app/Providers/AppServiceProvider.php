@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $base_url = url("/");
         $res_url = asset("images/") . "/";
-        $storage_url = asset('storage/uploads/') . "/";
+        $storage_url = asset('images/uploads/') . "/";
 
         View::share([
             'base_url' => $base_url,

@@ -9,6 +9,6 @@ class OfficeController extends Controller
 {
     public function show_profile($id){
         $office = Office::find($id);
-        print_r($office->user);
+        return view("expert.office", compact('office'));
     }
 }
