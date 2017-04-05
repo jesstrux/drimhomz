@@ -118,7 +118,7 @@
 				$plots_active = $page == "plots" ? "active" : "";
 				?>
 
-				<h4 class="tab-links hidde" style="margin-top: 30px; margin-bottom: 15px;">
+				<h4 class="tab-links hidden" style="margin-top: 30px; margin-bottom: 15px;">
 					<a href="{{url('realhomz/homes')}}" class="{{$homes_active}}">
 						HOMES
 					</a> &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -126,7 +126,7 @@
 					<a href="{{url('realhomz/plots')}}" class="{{$plots_active}}">PLOTS</a>
 				</h4>
 
-				@if(Auth::user() && Auth::user()->role != 'realtor')
+				@if(Auth::user() && Auth::user()->role == 'realtor')
 					@if($page == "homes")
 						<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewHome()">Add Home</button>
 					@elseif($page == "rentals")
@@ -144,4 +144,5 @@
 		@include('realhomz.'.$page)
 		@include('realhomz.new_'.substr($page, 0, strlen($page) - 1))
 	</div>
+	<br>
 @endsection
