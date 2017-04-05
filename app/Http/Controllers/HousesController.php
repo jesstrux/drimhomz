@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Image;
 use Illuminate\Http\Request;
-
+use Image;
 use App\User;
 use App\Project;
 use App\House;
