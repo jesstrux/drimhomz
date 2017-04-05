@@ -12,15 +12,15 @@ class FollowsTableSeeder extends Seeder
      */
     public function run()
     {
-    	$faker = Faker\Factory::create();
-        $users = App\User::all()->modelKeys();
-        $user_count = count($users);
-        // $len = $user_count * $user_count - 1;
-        // Illuminate\Database\Eloquent\Collection
-        $follow_list = array();
-        $follower_list = array();
+		$faker = Faker\Factory::create();
+		$users = App\User::all()->modelKeys();
+		$user_count = count($users);
+		// $len = $user_count * $user_count - 1;
+		// Illuminate\Database\Eloquent\Collection
+		$follow_list = array();
+		$follower_list = array();
 
-        for ($i=0; $i < count($users); $i++) { 
+		for ($i=0; $i < count($users); $i++) {
         	for ($j=0; $j < count($users); $j++) { 
         		if($i != $j){
         			$follow = [

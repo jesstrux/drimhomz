@@ -186,18 +186,18 @@ console.log('House: '+house_base_url);
 <div id="mainContent">
     @yield('content')
 </div>
-<div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
-    <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
-        <?php $user = Auth::user(); ?>
-        @include('user.profile_bottom_sheet')
-    </div>
-</div>
 
 @include('layouts.footer')
 @include('home.house-preview')
 @include('home.ad-preview')
 @include('project.new-project')
 @include('houses.new-house')
+<div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
+    <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
+        <?php $user = Auth::user(); ?>
+        @include('user.profile_bottom_sheet')
+    </div>
+</div>
 
 <?php
 $auth_user = null;
