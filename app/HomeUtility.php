@@ -10,6 +10,7 @@ class HomeUtility extends Model
 
     protected $fillable = [
         'home_id',
-        'utility_id'
+        'utility_id',
+        'count'
     ];
 }

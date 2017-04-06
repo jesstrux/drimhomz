@@ -31,19 +31,13 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
          $user = Auth::user();
 //         ->full_name();
 
-        $rooms = DB::table('home_utilities')
-            ->join('utilities', 'utilities.id', '=', 'home_utilities.utility_id')
-            ->join('homes', 'homes.id', '=', 'home_utilities.home_id')
-            ->where([
-                'homes.id' => 5,
-                'utilities.type' => "room",
-            ])
-            ->select("home_utilities.id", "utilities.type", "utilities.name")
-            ->get();
+        $existing_rooms = App\Utility::whereNotIn('id', function($query){
+            $query->select(DB::raw("utility_id"))
+                ->from('home_utilities')
+                ->whereRaw('home_id = 26');
+            })->where("type", "room")->select("name", "type")->get();
 
-//        $home = App\Home::find(1)->first();
-//
-        echo json_encode($rooms);
+        echo json_encode($existing_rooms);
      }
      else{
          echo "Hello guest";
@@ -123,12 +117,20 @@ Route::post('toggle-admin', ['as'=>'/toggleAdmin','uses'=>'UserController@toggle
 Route::get('/realhomz', function () {
     return redirect('realhomz/homes');
 });
+
 Route::get('/realhomz/{page}', 'RealHomzController@index');
+Route::post('/createHome', 'RealHomzController@create_home');
 Route::get('/realhomz/{page}/{id}', 'RealHomzController@profile');
 Route::get('/realhomz/{page}/{id}/new', 'RealHomzController@new_profile');
+Route::get('/missingUtilities/{home_id}/{type}', function ($home_id, $type) {
+    $existing_rooms = DB::table("home_utilities")
+        ->where("home_id", $home_id)->pluck('utility_id');
 
-Route::post('/createHome', 'RealHomzController@create_home');
-
+//    $rooms = App\Utility::whereNotIn('id', $existing_rooms)->where("type", $type)->select("id", "name")->get();
+    return $rooms = App\Utility::whereNotIn('id', $existing_rooms)->select("id", "name")->get();;
+});
+Route::post('/addRooms', 'RealHomzController@add_rooms');
+Route::post('/removeRoom', 'RealHomzController@remove_room');
 
 Route::get('/randomHouses/{page}', 'HousesController@randomList');
 
