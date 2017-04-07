@@ -79,6 +79,8 @@ Route::get('/expert', 'ExpertController@index');
 
 Route::get('/advice', 'AdviceController@index');
 Route::get('/advice/{page}', 'AdviceController@index');
+Route::post('/submitAnswer', 'AdviceController@submit_answer');
+Route::post('/submitArticleComment', 'AdviceController@submit_comment');
 
 Route::get('/getUser/{id}', function ($id) {
     $user = App\User::find($id);
@@ -116,6 +118,8 @@ Route::get('/realhomz', function () {
 
 Route::get('/realhomz/{page}', 'RealHomzController@index');
 Route::post('/createHome', 'RealHomzController@create_home');
+Route::post('/createPlot', 'RealHomzController@create_plot');
+Route::post('/createRental', 'RealHomzController@create_rental');
 Route::get('/realhomz/{page}/{id}', 'RealHomzController@profile');
 Route::get('/realhomz/{page}/{id}/new', 'RealHomzController@new_profile');
 Route::get('/missingUtilities/{home_id}/{table}', function ($home_id, $table) {

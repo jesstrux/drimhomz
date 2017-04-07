@@ -1,4 +1,4 @@
-<div class="col-lg-12 answers card inset">
+<div id="answers{{$question->id}}" class="col-lg-12 answers card inset">
 	<div class="show-more" style="padding: 20px 0; text-align: center; border-botto: 1px solid #ddd">
 		<?php
 			$no_answers = $answers->count() < 1 ? true : false;
@@ -22,7 +22,7 @@
 
 	<div class="other-answers">
 		@foreach($answers as $answer)
-			<div class="item answer">
+			<div id="answer{{$answer->id}}" class="item answer">
 	        	<div class="avatar">
 	            	<img src="{{$user_url . $answer->user->dp}}" width="40" alt="" />
 	          	</div>
@@ -41,11 +41,15 @@
         @if(Auth::check() && $user)
         	<div class="avatar">
             	<img src="{{$user_url . $user->dp}}" width="40" alt="" />
+				<input type="hidden" value="{{Auth::user()->fname ." " . Auth::user()->lname}}">
           	</div>
-          	<div class="item-text">
-          		<textarea name="answer" id="compose-answer-12" class="form-control autosize answer-value" rows="3" placeholder="Your Answer..." required="true"></textarea>
-          		<button class="btn btn-primary" disabled>&nbsp;SUBMIT&nbsp;</button>
-          	</div>
+			<form method="POST" class="item-text" id="submitAnswer{{$question->id}}" action="/submitAnswer" onsubmit="submitAnswer(event, '{{$question->id}}')">
+				{{csrf_field()}}
+				<input id="userId" name="user_id" type="hidden" value="{{Auth::user()->id}}">
+				<input id="questionId" name="question_id" type="hidden" value="{{$question->id}}">
+				<textarea name="content" class="form-control autosize answer-value" rows="3" placeholder="Your Answer..." required="true" onkeyup="activateSubmitBtn(event)"></textarea>
+				<button class="btn btn-primary" disabled type="submit">&nbsp;SUBMIT&nbsp;</button>
+			</form>
         @else
         	<p>
         		<center>
@@ -57,3 +61,75 @@
         @endif
     </div>
 </div>
+
+<script>
+	var new_comment_form;
+	var dp_src = "";
+	var user_name = "";
+	var the_btn, the_area, the_val;
+
+	function submitAnswer(e, id){
+		e.preventDefault();
+		id = parseInt(id);
+
+		showLoading();
+
+		new_comment_form = $("#submitAnswer"+id);
+		var formdata = new FormData(new_comment_form[0]);
+
+		var parent = new_comment_form.closest('.my-answer');
+		dp_src = parent.find(".avatar img").attr("src");
+		user_name = parent.find(".avatar input").val();
+		the_btn = new_comment_form.find("button");
+		the_area = new_comment_form.find("textarea");
+		the_val = the_area.val();
+
+		the_area.val("");
+		the_btn.attr("disabled", "disabled");
+
+		$.ajax({
+			type:'POST',
+			url: new_comment_form.attr("action"),
+			data: formdata,
+			dataType:'json',
+			async:false,
+			processData: false,
+			contentType: false
+		})
+		.done(function(response){
+			if(response.success){
+				$(".rooms-list").find("#room"+id).remove();
+				showToast("success", "Comment sent");
+				var answer = response.answer;
+
+				var new_answer = '<div id="answer'+answer.id+'" class="item answer"> <div class="avatar"> <img src="'+dp_src+'" width="40" alt="" /> </div> <div class="item-text"> <h3>'+user_name+'<span class="secondary" style="float: right;">now</span></h3> <p> '+answer.content+' </p> </div></div>';
+				$("#answers"+id).find(".other-answers").append($(new_answer));
+			}else{
+				showToast("error", response.msg);
+				the_btn.removeAttr("disabled");
+				the_area.val(the_val);
+			}
+		})
+		.fail(function(response){
+			showToast("error", "Unknown Error occured");
+			the_btn.removeAttr("disabled");
+			the_area.val(the_val);
+		})
+		.always(function(){
+			hideLoading();
+		});
+	}
+
+	function activateSubmitBtn(e){
+		if(!e)
+			return;
+
+		var el = $(e.target);
+		var btn = el.closest("form").find("button");
+
+		if(el.val().length > 0)
+			btn.removeAttr("disabled");
+		else
+			btn.attr("disabled", "disabled");
+	}
+</script>

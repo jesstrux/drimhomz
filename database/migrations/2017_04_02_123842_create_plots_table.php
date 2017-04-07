@@ -21,8 +21,8 @@ class CreatePlotsTable extends Migration
             $table->string('town')->nullable();
             $table->string('street')->nullable();
             $table->integer('size')->nullable();
-            $table->integer('plot_number')->nullable();
-            $table->integer('block')->nullable();
+            $table->string('plot_number')->nullable();
+            $table->string('block')->nullable();
             $table->string('topographical_nature')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')

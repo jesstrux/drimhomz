@@ -32,12 +32,12 @@ class RealHomzController extends Controller
             }
 
             case "plots": {
-                $list = Plot::all();
+                $list = Plot::with('images')->orderBy('created_at', 'desc')->get();
                 break;
             }
 
             case "rentals": {
-                $list = Rental::all();
+                $list = Rental::with('images')->orderBy('created_at', 'desc')->get();
                 break;
             }
         }
@@ -76,6 +76,91 @@ class RealHomzController extends Controller
             return response()->json([
                 'success' => true,
                 'home' => $new_home
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'msg' => 'Failed to save home'
+            ]);
+    }
+
+    public function create_rental(Request $request){
+//        if(Auth::guest() || Auth::user()->role != 'realtor'){
+//            return response()->json([
+//                'success' => false,
+//                'msg' => 'You have to be registered as a realtor and logged in to add a home.'
+//            ]);
+//        }
+
+        $home = [
+            'user_id' => $request->input('user_id'),
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'rental_type' => $request->input('rental_type')
+        ];
+
+        $home_exists = Rental::where([
+            'user_id' => $request->input('user_id'),
+            'name' => $request->input('title')])->exists();
+
+        if($home_exists){
+            return response()->json([
+                'success' => false,
+                'msg' => 'You already have a home called ' . $request->input('name')
+            ]);
+        }
+
+        $new_home = Rental::create($home);
+
+        if($new_home)
+            return response()->json([
+                'success' => true,
+                'rental' => $new_home
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'msg' => 'Failed to save home'
+            ]);
+    }
+
+    public function create_plot(Request $request){
+//        if(Auth::guest() || Auth::user()->role != 'realtor'){
+//            return response()->json([
+//                'success' => false,
+//                'msg' => 'You have to be registered as a realtor and logged in to add a home.'
+//            ]);
+//        }
+
+        $home = [
+            'user_id' => $request->input('user_id'),
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'size' => $request->input('size'),
+            'plot_number' => $request->input('plot_number'),
+            'block' => $request->input('block'),
+            'topogaphical_nature' => $request->input('topogaphical_nature')
+        ];
+
+        $home_exists = Plot::where([
+            'user_id' => $request->input('user_id'),
+            'name' => $request->input('title')])->exists();
+
+        if($home_exists){
+            return response()->json([
+                'success' => false,
+                'msg' => 'You already have a plot called ' . $request->input('name')
+            ]);
+        }
+
+        $new_home = Rental::create($home);
+
+        if($new_home)
+            return response()->json([
+                'success' => true,
+                'rental' => $new_home
             ]);
         else
             return response()->json([
