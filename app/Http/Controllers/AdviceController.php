@@ -42,7 +42,7 @@ class AdviceController extends Controller
 
 			return response()->json([
 				"success" => true,
-				"answer" => $answer,
+				"answer" => $new_answer,
 				"msg" => "Answer successfully sent."
 			]);
 		}else{
@@ -71,13 +71,51 @@ class AdviceController extends Controller
 
 			return response()->json([
 					"success" => true,
-					"answer" => $answer,
+					"answer" => $new_answer,
 					"msg" => "Comment successfully sent."
 			]);
 		}else{
 			return response()->json([
 					"success" => false,
 					"msg" => "Coulnd't save comment."
+			]);
+		}
+	}
+
+	public function remove_comment(Request $request){
+		if(Auth::guest())
+			return response()->json(["success" => false]);
+
+		$comment = ArticleComment::find($request->input('id'));
+
+		if($comment->delete()){
+			return response()->json([
+					"success" => true,
+					"msg" => "Comment successfully deleted."
+			]);
+		}else{
+			return response()->json([
+					"success" => false,
+					"msg" => "Coulnd't delete comment."
+			]);
+		}
+	}
+
+	public function remove_answer(Request $request){
+		if(Auth::guest())
+			return response()->json(["success" => false]);
+
+		$comment = Answer::find($request->input('id'));
+
+		if($comment->delete()){
+			return response()->json([
+					"success" => true,
+					"msg" => "Answer successfully deleted."
+			]);
+		}else{
+			return response()->json([
+					"success" => false,
+					"msg" => "Coulnd't delete answer."
 			]);
 		}
 	}

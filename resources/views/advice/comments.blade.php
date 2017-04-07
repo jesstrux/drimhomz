@@ -22,12 +22,20 @@
 
 	<div class="other-answers">
 		@foreach($comments as $answer)
-			<div class="item answer">
+			<div id="answer{{$answer->id}}" class="item answer">
 	        	<div class="avatar">
 	            	<img src="{{$user_url . $answer->user->dp}}" width="40" alt="" />
 	          	</div>
 				<div class="item-text">
-					<h3>{{$answer->user->full_name()}} <span class="secondary" style="float: right">{{$answer->created_at->diffForHumans()}}</span></h3>
+					<h3>{{$answer->user->full_name()}}
+						<form style="display: inline-block" method="POST" id="removeAnswer{{$answer->id}}" action="/removeComment" onsubmit="removeAnswer(event, '{{$answer->id}}')">
+							{{csrf_field()}}
+							<input name="id" type="hidden" value="{{$answer->id}}">
+							<button class="btn" type="submit">
+								<i class="fa fa-trash"></i>
+							</button>
+						</form>
+						<span class="secondary" style="float: right">{{$answer->created_at->diffForHumans()}}</span></h3>
 					<p>
 						{{$answer->content}}
 					</p>
@@ -98,8 +106,7 @@
 			if(response.success){
 				showToast("success", "Comment sent");
 				var answer = response.answer;
-
-				var new_answer = '<div id="answer'+answer.id+'" class="item answer"> <div class="avatar"> <img src="'+dp_src+'" width="40" alt="" /> </div> <div class="item-text"> <h3>'+user_name+'<span class="secondary" style="float: right;">now</span></h3> <p> '+answer.content+' </p> </div></div>';
+				var new_answer = '<div id="answer'+answer.id+'" class="item answer"> <div class="avatar"> <img src="'+dp_src+'" width="40" alt="" /> </div> <div class="item-text"> <h3>'+user_name+'<form style="display: inline-block" method="POST" id="removeAnswer'+answer.id+'" action="/removeComment" onsubmit="removeAnswer(event, '+answer.id+')">'+_token+'<input name="id" type="hidden" value="'+answer.id+'"> <button class="btn" type="submit"> <i class="fa fa-trash"></i> </button> </form><span class="secondary" style="float: right;">now</span></h3> <p> '+answer.content+' </p> </div></div>';
 				$("#answers"+id).find(".other-answers").append($(new_answer));
 				console.log(answer, $(new_answer));
 			}else{
@@ -129,5 +136,40 @@
 			btn.removeAttr("disabled");
 		else
 			btn.attr("disabled", "disabled");
+	}
+
+
+	function removeAnswer(e, id){
+		e.preventDefault();
+		id = parseInt(id);
+
+		showLoading();
+
+		var remove_answer_form = $("#removeAnswer"+id);
+		var formdata = new FormData(remove_answer_form[0]);
+
+		$.ajax({
+			type:'POST',
+			url: remove_answer_form.attr("action"),
+			data: formdata,
+			dataType:'json',
+			async:false,
+			processData: false,
+			contentType: false
+		})
+		.done(function(response){
+			if(response.success){
+				showToast("success", "Comment deleted");
+				$("#answer"+id).remove();
+			}else{
+				showToast("error", response.msg);
+			}
+		})
+		.fail(function(response){
+			showToast("error", "Unknown Error occured");
+		})
+		.always(function(){
+			hideLoading();
+		});
 	}
 </script>

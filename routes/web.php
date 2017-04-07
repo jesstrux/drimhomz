@@ -81,6 +81,8 @@ Route::get('/advice', 'AdviceController@index');
 Route::get('/advice/{page}', 'AdviceController@index');
 Route::post('/submitAnswer', 'AdviceController@submit_answer');
 Route::post('/submitArticleComment', 'AdviceController@submit_comment');
+Route::post('/removeAnswer', 'AdviceController@remove_answer');
+Route::post('/removeComment', 'AdviceController@remove_comment');
 
 Route::get('/getUser/{id}', function ($id) {
     $user = App\User::find($id);
