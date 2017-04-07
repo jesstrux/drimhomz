@@ -40,10 +40,11 @@
                                     <button type="submit" class="btn btn-primary">
                                         Verify Phone number
                                     </button>
-                                @if(Auth::check()&&!Auth::user()->verfified)
-                                            <a class="btn btn-primary">
+
+                                @if(Auth::check()&&!Auth::user()->verified)
+                                            <button class="btn btn-primary resend" type="button"  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>Resending...">
                                                 Resend Code
-                                            </a>
+                                            </button>
                                      @endif
                                 </div>
                             </div>
@@ -53,4 +54,24 @@
             </div>
         </div>
     </div>
+    <script>
+        $('.btn').on('click', function() {
+
+            var $this = $(this);
+            $this.button('loading');
+            $.ajax({
+                url:'/resendCode',
+                type:'json',
+                method:'get',
+                success:function(data){
+                    $this.button('reset');
+                    console.log(data);
+                },
+                error:function(data){
+                    $this.button('reset');
+                    console.log(data);
+                }
+            });
+        });
+    </script>
 @endsection

@@ -247,9 +247,10 @@ if(!Auth::guest()){
         var curr_url = window.location.href;
         var final = curr_url.substr(curr_url.lastIndexOf('/') + 1);
         <?php if(Auth::check()){?>
-        var verified ={{ Auth::user()->verified}};
 
-        <?php }else{?> var verified = 0;<?php }?>
+        var verified ={{ Auth::user()->verified}};
+        <?php }else{?> var verified = true;<?php }?>
+
 
         if( !verified&&final!='verifyPhoneNumber') {
             iziToast.info({
@@ -263,7 +264,7 @@ if(!Auth::guest()){
 
                     ['<button>Click Here</button>', function (instance, toast) {
                         instance.hide({ transitionOut: 'fadeOutUp' }, toast);
-                        window.location.href = 'verifyPhoneNumber';
+                        window.location.href = '/verifyPhoneNumber';
                     }]
                 ],
             });

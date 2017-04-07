@@ -102,7 +102,8 @@ class RegisterController extends Controller
                 ];
                 Location::create($location);
                 $message->saveMessage(['body' => $body,'user_id'=>$new_user->id]);
-                //Artisan::call("schedule:run");
+                //Artisan::call();
+                call_in_background("schedule:run");
 
                 return $new_user;
             } catch (\SQLiteException $e) {

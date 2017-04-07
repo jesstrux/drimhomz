@@ -176,3 +176,7 @@ Route::get('/codes',function(){
 
     }
 });
+Route::get('/resendCode',function(){
+   call_in_background("schedule:run");
+    return response()->json('success');
+});

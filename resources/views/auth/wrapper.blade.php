@@ -22,7 +22,7 @@
 
     <!-- Scripts -->
     <script src="{{asset('js/jquery-3.1.0.min.js')}}"></script>
-    {{--<script src="{{asset('bower_components/intl-tel-input/build/js/intlTelInput.min.js')}}"></script>--}}
+    <script src="{{asset('bower_components/intl-tel-input/build/js/intlTelInput.min.js')}}"></script>
     <script>
         var telInput = $(".phoneNumber"),
           errorMsg = $("#error-msg"),

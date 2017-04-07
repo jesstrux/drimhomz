@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e677e6309e972384c9cd32227f277355",
-    "content-hash": "31862a4d1eff2e0847c260300994a66a",
+    "hash": "81b14442a5de0ab1b8ae583796cf0493",
+    "content-hash": "65ad813eac85fe6bb90a947d7a94f351",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -284,6 +284,62 @@
                 "url"
             ],
             "time": "2017-03-20 17:10:46"
+        },
+        {
+            "name": "illuminated/helper-functions",
+            "version": "1.0.23",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dmitry-ivanov/laravel-helper-functions.git",
+                "reference": "a098612d1a9572fc0865d611d1d9dd378f9d6abc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dmitry-ivanov/laravel-helper-functions/zipball/a098612d1a9572fc0865d611d1d9dd378f9d6abc",
+                "reference": "a098612d1a9572fc0865d611d1d9dd378f9d6abc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*",
+                "nesbot/carbon": "^1.19",
+                "php": ">=5.5.9",
+                "spatie/array-to-xml": "^2.2",
+                "symfony/filesystem": "^2.7|^3.0",
+                "symfony/finder": "^2.7|^3.0",
+                "symfony/process": "^2.7|^3.0",
+                "symfony/var-dumper": "^2.7|^3.0"
+            },
+            "require-dev": {
+                "illuminated/testing-tools": "^0.6",
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/autoload.php"
+                ],
+                "psr-4": {
+                    "Illuminated\\Helpers\\": "src/classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Ivanov",
+                    "email": "dmitry.g.ivanov@gmail.com"
+                }
+            ],
+            "description": "Provides Laravel-specific and pure PHP helper functions.",
+            "keywords": [
+                "function",
+                "helper",
+                "laravel"
+            ],
+            "time": "2017-03-17 12:36:39"
         },
         {
             "name": "intervention/image",
@@ -1327,6 +1383,54 @@
             "time": "2017-03-26 20:37:53"
         },
         {
+            "name": "spatie/array-to-xml",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/array-to-xml.git",
+                "reference": "48a71d57980a40a1f84d741df563a594272feae9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/48a71d57980a40a1f84d741df563a594272feae9",
+                "reference": "48a71d57980a40a1f84d741df563a594272feae9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4|^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ArrayToXml\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://murze.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convert an array to xml",
+            "homepage": "https://github.com/spatie/array-to-xml",
+            "keywords": [
+                "array",
+                "convert",
+                "xml"
+            ],
+            "time": "2017-02-18 10:05:46"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v5.4.6",
             "source": {
@@ -1557,6 +1661,55 @@
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
             "time": "2017-04-04 07:26:27"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v3.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "64421e6479c4a8e60d790fb666bd520992861b66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/64421e6479c4a8e60d790fb666bd520992861b66",
+                "reference": "64421e6479c4a8e60d790fb666bd520992861b66",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-03-26 15:47:15"
         },
         {
             "name": "symfony/finder",
