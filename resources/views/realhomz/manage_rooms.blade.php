@@ -120,7 +120,7 @@ if(!Auth::guest()){
                 <svg fill="#aaa" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
             </button>
 
-            <form id="addRooms" method="POST" action="/addRooms" onsubmit="saveRooms(event)">
+            <form id="addRooms" method="POST" action="{{$add_rooms_url}}" onsubmit="saveRooms(event)">
                 <h3 class="hidden-xs" style="margin-left: 26px;">Add Rooms</h3>
                 <input id="homeIdInput" type="hidden" name="home_id" value="{{$real->id}}">
                 {{csrf_field()}}
@@ -175,7 +175,7 @@ if(!Auth::guest()){
 
     function openAddRooms() {
         var homeId = $("#homeIdInput").val();
-        var url = "/missingUtilities/"+homeId+"/room";
+        var url = "/missingUtilities/"+homeId+"/"+"<?php echo $utilities?>";
 
         $("#addRoomsOuter").addClass("open");
         var newRooms = $("#newRooms");
@@ -187,8 +187,12 @@ if(!Auth::guest()){
 
             for(var i = 0; i < res.length; i++){
                 var room = res[i];
-                var checkbox_html = "<input id='room"+room.id+"' name='utility_id[]' value='"+room.id+"' type='checkbox'>";
-                var label_html = '<label for="room'+room.id+'"><div class="layout"><svg fill="#333" xmlns="http://www.w3.org/2000/svg" style="widt: 24px;min-width: 24px; margin-right: 8px;" width="24" height="24" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg> <svg fill="#333" xmlns="http://www.w3.org/2000/svg" style="widt: 24px;min-width: 24px; margin-right: 8px;" width="24" height="24" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span class="flex layout center">'+room.name+'</span></div> <div class="value-div layout center-center"><input name="count[]" type="text" value="1"></div></label>';
+                var room_count = "";
+                if(room.type == "room")
+                    room_count = '<div class="value-div layout center-center"><input name="count[]" type="text" value="1"></div>';
+
+                var checkbox_html = "<input id='aroom"+room.id+"' name='utility_id[]' value='"+room.id+"' type='checkbox'>";
+                var label_html = '<label for="aroom'+room.id+'"><div class="layout"><svg fill="#333" xmlns="http://www.w3.org/2000/svg" style="widt: 24px;min-width: 24px; margin-right: 8px;" width="24" height="24" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg> <svg fill="#333" xmlns="http://www.w3.org/2000/svg" style="widt: 24px;min-width: 24px; margin-right: 8px;" width="24" height="24" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span class="flex layout center">'+room.name+'</span></div>'+room_count+'</label>';
                 newRooms.append($(checkbox_html));
                 newRooms.append($(label_html));
             }
@@ -208,12 +212,12 @@ if(!Auth::guest()){
 
         if(chosen_count < 1)
             showToast("error", "Please choose atleast one room!");
-
-        var formdata = new FormData($("#addRooms")[0]);
+        var add_room_form = $("#addRooms");
+        var formdata = new FormData(add_room_form[0]);
 
         $.ajax({
             type:'POST',
-            url: "/addRooms",
+            url: add_room_form.attr("action"),
             data: formdata,
             dataType:'json',
             async:false,
@@ -234,7 +238,7 @@ if(!Auth::guest()){
                     if(room.type == "room")
                         room_count = '<span class="room-count">'+response.counts[i]+'</span>';
 
-                    var room_html = '<span id="room'+room.id+'" class="room-item layout inline">'+room_count + room.name+' <form id="removeRoom'+room.id+'" action="/removeRoom" onsubmit="removeRoom(event, '+room.id+')" method="post"> '+_token+' <input type="hidden" name="home_utility_id" value="'+room.id+'"><button type="submit" class="room-remover layout center-center"><svg fill="#aaa" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></form></span>';
+                    var room_html = '<span id="room'+room.id+'" class="room-item layout inline">'+room_count + room.name+' <form id="removeRoom'+room.id+'" action="<?php echo $remove_room_url ?>" onsubmit="removeRoom(event, '+room.id+')" method="post"> '+_token+' <input type="hidden" name="home_utility_id" value="'+room.id+'"><button type="submit" class="room-remover layout center-center"><svg fill="#aaa" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></form></span>';
 
                     rooms_list.find(".the-list").append($(room_html));
 
@@ -256,6 +260,39 @@ if(!Auth::guest()){
         })
         .always(function(){
             console.log("Action done");
+            hideLoading();
+        });
+    }
+
+    function removeRoom(e, id){
+        e.preventDefault();
+
+        showLoading();
+
+        var remove_room_form = $("#removeRoom"+id);
+        var formdata = new FormData(remove_room_form[0]);
+
+        $.ajax({
+            type:'POST',
+            url: remove_room_form.attr("action"),
+            data: formdata,
+            dataType:'json',
+            async:false,
+            processData: false,
+            contentType: false
+        })
+        .done(function(response){
+            if(response.success){
+                $(".rooms-list").find("#room"+id).remove();
+                showToast("success", "Room removed");
+            }else{
+                showToast("error", response.msg);
+            }
+        })
+        .fail(function(response){
+            showToast("error", "Unknown Error occured");
+        })
+        .always(function(){
             hideLoading();
         });
     }

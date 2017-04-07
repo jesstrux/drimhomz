@@ -31,13 +31,9 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
          $user = Auth::user();
 //         ->full_name();
 
-        $existing_rooms = App\Utility::whereNotIn('id', function($query){
-            $query->select(DB::raw("utility_id"))
-                ->from('home_utilities')
-                ->whereRaw('home_id = 26');
-            })->where("type", "room")->select("name", "type")->get();
-
-        echo json_encode($existing_rooms);
+        $ids = array(21, 2, 4);
+        $home = App\Home::find(31);
+        return $home->new_utility_rooms($ids);
      }
      else{
          echo "Hello guest";
@@ -122,15 +118,18 @@ Route::get('/realhomz/{page}', 'RealHomzController@index');
 Route::post('/createHome', 'RealHomzController@create_home');
 Route::get('/realhomz/{page}/{id}', 'RealHomzController@profile');
 Route::get('/realhomz/{page}/{id}/new', 'RealHomzController@new_profile');
-Route::get('/missingUtilities/{home_id}/{type}', function ($home_id, $type) {
-    $existing_rooms = DB::table("home_utilities")
-        ->where("home_id", $home_id)->pluck('utility_id');
-
-//    $rooms = App\Utility::whereNotIn('id', $existing_rooms)->where("type", $type)->select("id", "name")->get();
-    return $rooms = App\Utility::whereNotIn('id', $existing_rooms)->select("id", "name")->get();;
+Route::get('/missingUtilities/{home_id}/{table}', function ($home_id, $table) {
+    $existing_rooms = DB::table($table."_utilities")
+        ->where($table."_id", $home_id)->pluck('utility_id');
+    return $rooms = App\Utility::whereNotIn('id', $existing_rooms)->select("id", "name", "type")->get();;
 });
-Route::post('/addRooms', 'RealHomzController@add_rooms');
-Route::post('/removeRoom', 'RealHomzController@remove_room');
+Route::post('/addRoomsToHome', 'RealHomzController@add_rooms_to_home');
+Route::post('/addRoomsToRental', 'RealHomzController@add_rooms_to_rental');
+Route::post('/removeRoomFromHome', 'RealHomzController@remove_room_from_home');
+Route::post('/removeRoomFromRental', 'RealHomzController@remove_room_from_rental');
+Route::post('/addPicturesToHome', 'RealHomzController@add_pictures_to_home');
+Route::post('/addPicturesToRental', 'RealHomzController@add_pictures_to_rental');
+Route::post('/addPicturesToPlot', 'RealHomzController@add_pictures_to_plot');
 
 Route::get('/randomHouses/{page}', 'HousesController@randomList');
 

@@ -37,6 +37,7 @@ class Home extends Model
             ->where([
                 'homes.id' => $this->id
             ])
+            ->orderBy("utilities.type", "desc")
             ->select("home_utilities.id", "home_utilities.count", "utilities.name", "utilities.type")
             ->get();
 

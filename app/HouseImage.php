@@ -12,6 +12,6 @@ class HouseImage extends Model
     ];
 
     public function house(){
-        return $this->belongsTo("App\House");
+        return $this->belongsTo('App\House');
     }
 }
