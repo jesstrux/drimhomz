@@ -132,7 +132,7 @@
 				$plots_active = $page == "plots" ? "active" : "";
 				?>
 
-				<h4 class="tab-links hidden" style="margin-top: 30px; margin-bottom: 15px;">
+				<h4 class="tab-links" style="margin-top: 30px; margin-bottom: 15px;">
 					<a href="{{url('realhomz/homes')}}" class="{{$homes_active}}">
 						HOMES
 					</a> &nbsp;&nbsp;|&nbsp;&nbsp;

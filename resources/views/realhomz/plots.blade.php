@@ -19,8 +19,9 @@
         background-color: #ddd;
         background-position: center;
         background-size: cover;
-        height: 150px;
-        width: 150px;
+        /*height: 150px;*/
+        /*width: 150px;*/
+        width: 200px;
     }
 
     .expert-info{
