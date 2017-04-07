@@ -195,11 +195,16 @@ if(!Auth::guest()){
             if(response.success){
                 closeAddPictures();
                 showToast("success", response.msg);
+
+                if(!<?php echo $real->images->count();?>){
+                    $("#placeholderPic").css("background-image", "url(<?php echo $image_base_url; ?>/"+response.first_image+")");
+                }
             }else{
                 showToast("error", response.msg);
             }
         })
         .fail(function(response){
+            document.write(response.responseText);
             showToast("error", "Unknown Error occured");
         })
         .always(function(){

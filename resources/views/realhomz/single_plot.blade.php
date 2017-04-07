@@ -98,7 +98,7 @@
 					@if($real->images->count() > 0)
 						<div class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$plot_url . $real->images->first()->image_url}}); background-position: center; background-size: cover"></div>
 					@else
-						<div class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$plot_url . $real->image()}}); background-position: center; background-size: cover"></div>
+						<div id="placeholderPic" class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$plot_url . $real->image()}}); background-position: center; background-size: cover"></div>
 					@endif
 
 					@if($my_home)
@@ -113,6 +113,7 @@
 </div>
 
 <?php
+	$image_base_url = $plot_url;
 	$add_pictures_url = "/addPicturesToPlot";
 ?>
 @include('realhomz.add_pictures')

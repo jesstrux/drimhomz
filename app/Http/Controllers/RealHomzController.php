@@ -127,6 +127,9 @@ class RealHomzController extends Controller
         $utility_ids = $request->get("utility_id");
         $utility_counts = $request->get("count");
 
+//        echo "Utilties: " . count($utility_ids) . " Counts: " . count($utility_counts);
+//        return;
+
         for ($j=0; $j < count($utility_ids); $j++) {
             $utility = [
                 "utility_id" => $utility_ids[$j],
@@ -226,6 +229,7 @@ class RealHomzController extends Controller
             ]);
         }
 
+        $first_image_src = "";
         $count = 0;
         foreach ($house_images as $image) {
             $count++;
@@ -242,7 +246,11 @@ class RealHomzController extends Controller
 
             $destinationPath = public_path('images/uploads/'.$real_path);
             $img = Image::make($image->getRealPath());
-            $new_image_name = time().$count.'.'.$image->getClientOriginalExtension();
+            $new_image_name = $home_id.'-'.time().$count.'.'.$image->getClientOriginalExtension();
+
+            if($count == 1)
+                $first_image_src = $new_image_name;
+
             $img->save($destinationPath.$new_image_name);
 
             $house_image = [
@@ -277,6 +285,7 @@ class RealHomzController extends Controller
 
         return response()->json([
             "success" => true,
+            "first_image" => $first_image_src,
             "msg" => "Images successfully uploaded"
         ]);
     }

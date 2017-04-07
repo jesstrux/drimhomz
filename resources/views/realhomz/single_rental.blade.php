@@ -201,7 +201,7 @@
 					@if($real->images->count() > 0)
 						<div class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$rental_url . $real->images->first()->image_url}}); background-position: center; background-size: cover"></div>
 					@else
-						<div class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$rental_url . $real->image()}}); background-position: center; background-size: cover"></div>
+						<div id="placeholderPic" class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$rental_url . $real->image()}}); background-position: center; background-size: cover"></div>
 					@endif
 
 					@if($my_home)
@@ -216,6 +216,7 @@
 </div>
 
 <?php
+	$image_base_url = $rental_url;
 	$add_rooms_url = "/addRoomsToRental";
 	$utilities = "rental";
 	$remove_room_url = "/removeRoomFromRental";
