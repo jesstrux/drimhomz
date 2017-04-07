@@ -42,7 +42,7 @@
                                     </button>
 
                                 @if(Auth::check()&&!Auth::user()->verified)
-                                            <button class="btn btn-primary resend" type="button"  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>Resending...">
+                                            <button class="btn btn-primary resend" type="button"  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Resending...">
                                                 Resend Code
                                             </button>
                                      @endif
@@ -65,11 +65,30 @@
                 method:'get',
                 success:function(data){
                     $this.button('reset');
-                    console.log(data);
+                    if(data.status=='success'){
+                    iziToast.success({
+                        title: 'Success!',
+                        message: data.message,
+                        position: 'topRight',
+                        timeout: 5000
+                    });
+                    }else {
+                        iziToast.info({
+                            title: 'Warning!',
+                            message: data.message,
+                            position: 'topRight',
+                            timeout: 5000
+                        });
+                    }
                 },
                 error:function(data){
                     $this.button('reset');
-                    console.log(data);
+                    iziToast.error({
+                        title: 'Error!',
+                        message: data.message,
+                        position: 'topRight',
+                        timeout: 5000
+                    });
                 }
             });
         });

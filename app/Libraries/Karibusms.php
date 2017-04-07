@@ -46,7 +46,7 @@ class Karibusms {
      * @uses True Will not use your android phone to send SMS but will use internet messaging
      * 	     False is the default. SMS will be called from your android phone
      */
-    public $karibuSMSpro = TRUE;
+    public $karibuSMSpro = FALSE;
 
     public function __construct() {
 		define("API_KEY","25331731790");
