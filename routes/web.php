@@ -5,6 +5,7 @@ use App\Message;
 use App\Notifications\CommentPosted;
 use App\Notifications\PostFaved;
 use App\Notifications\PostFollowed;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', 'GuestController@index');
 
@@ -30,26 +31,19 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
          $user = Auth::user();
 //         ->full_name();
 
-        $comment = [
-            'user_id' => $user->id,
-            'house_id' => $house_id
-        ];
+        $rooms = DB::table('home_utilities')
+            ->join('utilities', 'utilities.id', '=', 'home_utilities.utility_id')
+            ->join('homes', 'homes.id', '=', 'home_utilities.home_id')
+            ->where([
+                'homes.id' => 5,
+                'utilities.type' => "room",
+            ])
+            ->select("home_utilities.id", "utilities.type", "utilities.name")
+            ->get();
 
-        if(App\Favorite::where($comment)->exists()){
-            echo "exists <br/>";
-            $new_comment = App\Favorite::where($comment)->first();
-        }else{
-            echo "make";
-            $new_comment = App\Favorite::create($comment);
-        }
-
-        echo json_encode($new_comment);
-
-        $user_id = $new_comment->house->owner()->id;
-
-        if($new_comment)
-            App\User::find($user_id)->notify(new CommentPosted($new_comment, $new_comment->user));
-            App\User::find($user_id)->notify(new PostFollowed($new_comment->user, $new_comment->house));
+//        $home = App\Home::find(1)->first();
+//
+        echo json_encode($rooms);
      }
      else{
          echo "Hello guest";
@@ -127,8 +121,14 @@ Route::post('/editProject', 'ProjectsController@edit_project');
 Route::post('toggle-admin', ['as'=>'/toggleAdmin','uses'=>'UserController@toggle_admin']);
 
 Route::get('/realhomz', function () {
-    return view('home.realhomz');
+    return redirect('realhomz/homes');
 });
+Route::get('/realhomz/{page}', 'RealHomzController@index');
+Route::get('/realhomz/{page}/{id}', 'RealHomzController@profile');
+Route::get('/realhomz/{page}/{id}/new', 'RealHomzController@new_profile');
+
+Route::post('/createHome', 'RealHomzController@create_home');
+
 
 Route::get('/randomHouses/{page}', 'HousesController@randomList');
 

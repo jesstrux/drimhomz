@@ -185,18 +185,18 @@
 <div id="mainContent">
     @yield('content')
 </div>
-<div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
-    <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
-        <?php $user = Auth::user(); ?>
-        @include('user.profile_bottom_sheet')
-    </div>
-</div>
 
 @include('layouts.footer')
 @include('home.house-preview')
 @include('home.ad-preview')
 @include('project.new-project')
 @include('houses.new-house')
+<div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
+    <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
+        <?php $user = Auth::user(); ?>
+        @include('user.profile_bottom_sheet')
+    </div>
+</div>
 
 <?php
 $auth_user = null;
@@ -244,6 +244,30 @@ if(!Auth::guest()){
             var ad = $(this).index() == 0 ? cur_idx_left : cur_idx_right;
             openAd(random_ads[ad]);
         });
+        var curr_url = window.location.href;
+        var final = curr_url.substr(curr_url.lastIndexOf('/') + 1);
+        <?php if(Auth::check()){?>
+        var verified ={{ Auth::user()->verified}};
+
+        <?php }else{?> var verified = 0;<?php }?>
+
+        if( !verified&&final!='verifyPhoneNumber') {
+            iziToast.info({
+                title: 'Reminder!',
+                message: 'Please verify your phone number!',
+                position: 'topLeft',
+                timeout: false,
+                close:false,
+                drag:false,
+                buttons: [
+
+                    ['<button>Click Here</button>', function (instance, toast) {
+                        instance.hide({ transitionOut: 'fadeOutUp' }, toast);
+                        window.location.href = 'verifyPhoneNumber';
+                    }]
+                ],
+            });
+        }
     });
 
     // window.Echo = new Echo({

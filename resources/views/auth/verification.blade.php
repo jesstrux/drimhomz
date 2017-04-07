@@ -40,6 +40,11 @@
                                     <button type="submit" class="btn btn-primary">
                                         Verify Phone number
                                     </button>
+                                @if(Auth::check()&&!Auth::user()->verfified)
+                                            <a class="btn btn-primary">
+                                                Resend Code
+                                            </a>
+                                     @endif
                                 </div>
                             </div>
                         </form>

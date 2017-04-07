@@ -7,7 +7,7 @@
     ?>
     <style>
 		body{
-			background-color: #eee;
+			background-color: #eee !important;
 			/*ECECEC;*/
 			/*background-color: #ccc;*/
 		}
@@ -21,6 +21,7 @@
 		.tab-links a.active{
 			font-weight: bold;
 			color: #444;
+			pointer-events: none;
 		}
 		.card {
 		  position: relative;

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
-use Image;
+
 use App\User;
 use App\Project;
 use App\House;
@@ -12,7 +12,7 @@ use App\Comment;
 use App\Favorite;
 use App\FollowPost;
 use App\HouseImage;
-
+use Image;
 use App\Notifications\CommentPosted;
 use App\Notifications\PostFollowed;
 use App\Notifications\PostFaved;

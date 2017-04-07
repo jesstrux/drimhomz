@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(LocationsTableSeeder::class);
         $this->call(FollowsTableSeeder::class);
-        
+
         $this->call(AdvertisementsTableSeeder::class);
         $this->call(AdViewsTableSeeder::class);
-        
+
         $this->call(ProjectsTableSeeder::class);
         $this->call(HousesTableSeeder::class);
         $this->call(CommentsTableSeeder::class);
@@ -32,5 +32,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ShopsTableSeeder::class);
         $this->call(ProductsTableSeeder::class);
+
+        $this->call(NearbyServicesTableSeeder::class);
+        $this->call(UtilitiesTableSeeder::class);
+        $this->call(HomesTableSeeder::class);
+        $this->call(HomeImagesTableSeeder::class);
+        $this->call(HomeUtilitiesTableSeeder::class);
     }
 }
