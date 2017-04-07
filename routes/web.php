@@ -31,9 +31,8 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
          $user = Auth::user();
 //         ->full_name();
 
-        $ids = array(21, 2, 4);
-        $home = App\Home::find(31);
-        return $home->new_utility_rooms($ids);
+        $home = App\User::find(5);
+        return $home->rating();
      }
      else{
          echo "Hello guest";
@@ -76,6 +75,7 @@ Route::get('/shop/{id}', 'ShopController@show_profile');
 Route::get('/office/{id}', 'OfficeController@show_profile');
 
 Route::get('/expert', 'ExpertController@index');
+Route::post('/rateExpert', 'ExpertController@rate_expert');
 
 Route::get('/advice', 'AdviceController@index');
 Route::get('/advice/{page}', 'AdviceController@index');

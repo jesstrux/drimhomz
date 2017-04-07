@@ -243,6 +243,10 @@
 		.show-more button svg{
 			width: 25px; height: 25px;
 		}
+
+		.full-question:not(.my-question) .answer:not(.my-response) form{
+			display: none !important;
+		}
 	</style>
 
 	<section class="short" style="background-color: #fff;margin-bottom: 50px">

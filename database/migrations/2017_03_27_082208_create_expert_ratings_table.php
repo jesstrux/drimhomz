@@ -15,8 +15,8 @@ class CreateExpertRatingsTable extends Migration
     {
         Schema::create('expert_ratings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('comment');
             $table->integer('rating');
+            $table->string('comment')->nullable();
             $table->integer('user_id')->unsigned();
             $table->integer('expert_id')->unsigned();
             $table->timestamps();

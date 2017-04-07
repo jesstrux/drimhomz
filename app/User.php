@@ -70,6 +70,14 @@ class User extends Authenticatable
 
 
     //RELATIONS
+    public function ratings(){
+        return $this->hasMany('App\ExpertRating', 'expert_id');
+    }
+
+    public function rating(){
+        return $this->ratings()->avg("rating");
+    }
+
     public function articles(){
         return $this->hasMany('App\Article');
     }

@@ -22,7 +22,13 @@
 
 	<div class="other-answers">
 		@foreach($answers as $answer)
-			<div id="answer{{$answer->id}}" class="item answer">
+			<?php
+				$my_answer = "";
+				if(!Auth::guest() && $answer->user->id == Auth::user()->id)
+					$my_answer = "my-response";
+			?>
+
+			<div id="answer{{$answer->id}}" class="item answer {{$my_answer}}">
 	        	<div class="avatar">
 	            	<img src="{{$user_url . $answer->user->dp}}" width="40" alt="" />
 	          	</div>
@@ -109,7 +115,7 @@
 				showToast("success", "Comment sent");
 				var answer = response.answer;
 
-				var new_answer = '<div id="answer'+answer.id+'" class="item answer"> <div class="avatar"> <img src="'+dp_src+'" width="40" alt="" /> </div> <div class="item-text"> <h3>'+user_name+'<form style="display: inline-block" method="POST" id="removeAnswer'+answer.id+'" action="/removeAnswer" onsubmit="removeAnswer(event, '+answer.id+')">'+_token+'<input name="id" type="hidden" value="'+answer.id+'"> <button class="btn" type="submit"> <i class="fa fa-trash"></i> </button> </form><span class="secondary" style="float: right;">now</span></h3> <p> '+answer.content+' </p> </div></div>';
+				var new_answer = '<div id="answer'+answer.id+'" class="item my-response answer"> <div class="avatar"> <img src="'+dp_src+'" width="40" alt="" /> </div> <div class="item-text"> <h3>'+user_name+'<form style="display: inline-block" method="POST" id="removeAnswer'+answer.id+'" action="/removeAnswer" onsubmit="removeAnswer(event, '+answer.id+')">'+_token+'<input name="id" type="hidden" value="'+answer.id+'"> <button class="btn" type="submit"> <i class="fa fa-trash"></i> </button> </form><span class="secondary" style="float: right;">now</span></h3> <p> '+answer.content+' </p> </div></div>';
 				$("#answers"+id).find(".other-answers").append($(new_answer));
 			}else{
 				showToast("error", response.msg);

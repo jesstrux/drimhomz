@@ -10,7 +10,7 @@
 		text-align: center;
 	}
 
-	#userDetails{
+	#profileBottomSheet #userDetails{
 		position: relative;
 		z-index: 3;
 		/*background-color: #ffa500;*/
@@ -18,7 +18,7 @@
 		box-shadow: 0 2px 7px rgba(0,0,0,0.2) !important;
 	}
 
-	#profilePic{
+	#profileBottomSheet #profilePic{
 		margin: auto;
 		width: 120px;
 		height: 120px;
@@ -61,18 +61,18 @@
 	.lg-followed {background-color: #ffa500;}
 	.lg-followed:hover, .lg-followed:focus{background-color: rgba(0,0,0,0.4);}
 
-	#followBtnLg span{
+	#profileBottomSheet #followBtnLg span{
 		text-transform: uppercase;
 	}
 
-	#followBtnLg:not(.lg-followed) span:nth-child(2){
+	#profileBottomSheet #followBtnLg:not(.lg-followed) span:nth-child(2){
 		display: none;
 	}
 
-	#followBtnLg.lg-followed span:nth-child(1){
+	#profileBottomSheet #followBtnLg.lg-followed span:nth-child(1){
 		display: none;
 	}
-	
+
 	#profileBottomSheet ul{
 		list-style: none;
 		padding: 0;

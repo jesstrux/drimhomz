@@ -76,11 +76,11 @@
 				Edit profile
 			</a>&nbsp;
 
-			{{--@if($user->role != "expert")--}}
-				{{--<button class="btn btn-default" onclick="openBecomeExpert()">--}}
-					{{--Become Expert--}}
-				{{--</button>--}}
-			{{--@endif--}}
+			@if($user->role != "expert")
+				<button class="btn btn-default" onclick="openBecomeExpert()">
+					Become Expert
+				</button>
+			@endif
 		@else
 			@if(!Auth::guest())
 				<form id="followUser" role="form" method="POST" action="{{ url('follow-user') }}">
