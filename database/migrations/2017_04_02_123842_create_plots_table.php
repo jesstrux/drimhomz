@@ -15,6 +15,20 @@ class CreatePlotsTable extends Migration
     {
         Schema::create('plots', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->text('description');
+            $table->integer('price');
+            $table->string('town')->nullable();
+            $table->string('street')->nullable();
+            $table->integer('size')->nullable();
+            $table->integer('plot_number')->nullable();
+            $table->integer('block')->nullable();
+            $table->string('topographical_nature')->nullable();
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

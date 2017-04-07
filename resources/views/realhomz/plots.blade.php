@@ -20,6 +20,7 @@
         background-position: center;
         background-size: cover;
         /*height: 150px;*/
+        /*width: 150px;*/
         width: 200px;
     }
 
@@ -79,14 +80,9 @@
     }
 </style>
 @foreach($list as $real)
-    <a href="{{url('realhomz/home/').'/'.$real->id}}" class="big-outer" id="real_{{$real->id}}">
+    <a href="{{url('realhomz/plot/').'/'.$real->id}}" class="big-outer" id="real_{{$real->id}}">
         <div class="expert-wrapper layout">
-            @include('realhomz.home')
+            @include('realhomz.plot')
         </div>
     </a>
-    {{--@if($loop->iteration != $list->count())--}}
-        {{--<hr style="border-color: #e0e0e0">--}}
-    {{--@else--}}
-        {{--<br>--}}
-    {{--@endif--}}
 @endforeach

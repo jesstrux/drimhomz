@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HomeImage extends Model
+class PlotImage extends Model
 {
     protected $fillable = [
         'image_url',
         'placeholder_color',
         'caption',
-        'home_id'
+        'plot_id'
     ];
 }

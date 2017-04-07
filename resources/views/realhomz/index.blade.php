@@ -105,6 +105,20 @@
 		.item + .card-body{
 			font-size: 16px;
 		}
+
+		.real-content{
+			background: #fff;
+			max-width: 900px;
+			margin: 10px auto;
+			padding: 40px 20px;
+		}
+
+		@media only screen and (max-width: 760px) {
+			.real-content{
+				margin: 0 auto;
+				padding: 20px;
+			}
+		}
 	</style>
 
 	<section class="short" style="background-color: #fff; padding-bottom: 20px;">
@@ -118,7 +132,7 @@
 				$plots_active = $page == "plots" ? "active" : "";
 				?>
 
-				<h4 class="tab-links hidden" style="margin-top: 30px; margin-bottom: 15px;">
+				<h4 class="tab-links" style="margin-top: 30px; margin-bottom: 15px;">
 					<a href="{{url('realhomz/homes')}}" class="{{$homes_active}}">
 						HOMES
 					</a> &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -126,7 +140,7 @@
 					<a href="{{url('realhomz/plots')}}" class="{{$plots_active}}">PLOTS</a>
 				</h4>
 
-				@if(Auth::user() && Auth::user()->role == 'realtor')
+				@if(Auth::user() && Auth::user()->role != 'realtor')
 					@if($page == "homes")
 						<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewHome()">Add Home</button>
 					@elseif($page == "rentals")
@@ -140,7 +154,7 @@
 	</section>
 
 	<br>
-	<div class="section-heade" style="background: #fff; max-width: 900px; margin: 10px auto; padding: 40px 20px;">
+	<div class="real-content">
 		@include('realhomz.'.$page)
 		@include('realhomz.new_'.substr($page, 0, strlen($page) - 1))
 	</div>

@@ -1,4 +1,4 @@
-<div class="expert-image" style="background-image: url({{$home_url . $real->image()}})"></div>
+<div class="expert-image" style="background-image: url({{$plot_url . $real->image()}})"></div>
 
 <div class="expert-info layout vertical">
     <h3>

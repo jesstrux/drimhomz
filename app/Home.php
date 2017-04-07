@@ -35,10 +35,10 @@ class Home extends Model
             ->join('utilities', 'utilities.id', '=', 'home_utilities.utility_id')
             ->join('homes', 'homes.id', '=', 'home_utilities.home_id')
             ->where([
-                'homes.id' => $this->id,
-                'utilities.type' => "room",
+                'homes.id' => $this->id
             ])
-            ->select("home_utilities.id", "utilities.type", "utilities.name")
+            ->orderBy("utilities.type", "desc")
+            ->select("home_utilities.id", "home_utilities.count", "utilities.name", "utilities.type")
             ->get();
 
         return $utilities;
@@ -52,7 +52,7 @@ class Home extends Model
                 'homes.id' => $this->id,
                 'utilities.type' => "feature",
             ])
-            ->select("home_utilities.id", "utilities.type", "utilities.name")
+            ->select("home_utilities.id", "home_utilities.count", "utilities.name")
             ->get();
 
         return $utilities;
@@ -70,7 +70,7 @@ class Home extends Model
         if($this->images()->count() > 0){
             return $this->images->first()->placeholder_color;
         }else{
-            return "";
+            return "#ddd";
 //                "#" . dechex(rand(0x000000, 0xFFFFFF));
         }
     }

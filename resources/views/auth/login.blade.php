@@ -35,6 +35,7 @@
                                 <span id="error-msg" class="hide">Invalid number</span>
                                 <input type="hidden" name="phone" id="phone_no" value="{{ old('phone_number') }}">
 
+                                {{--<input id="phon" name="phone" type="tel" class="form-control" value="{{ old('phone') }}" required>--}}
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('phone') }}</strong>

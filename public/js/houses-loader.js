@@ -47,8 +47,7 @@ first_load = true;
       // Destroy the old handler
       if (wookmark === undefined) {
         wookmark = new Wookmark(container, {
-          offset: 10,
-          align: 'center'
+          offset: 10
         });
       } else {
         wookmark.initItems();
@@ -212,7 +211,7 @@ first_load = true;
 
     // Apply layout.
     applyLayout($newHouses);
-  };
+  }
 
   // Capture scroll event.
   $document.on('scroll', onScroll);
