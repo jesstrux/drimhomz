@@ -36,9 +36,10 @@ function sendMessages($messages){
 
     //set a custom name to be used in sending SMS
     $karibuSMS->set_name("DREAMHOMZ");
+    if (!$messages->isEmpty()) {
     foreach ($messages as $message) {
         $status = $karibuSMS->send_sms($message->phone, $message->body);
-        Message::where('status', '=', '0')->where('type', '=',$message->type)->where('id', '=', $message->id)->update(['status' => '1']);
-
+        Message::where('user_id', '=', $message->user_id)->where('status', '>=', '0')->where('type', '=', $message->type)->increment('status');
+    }
     }
 }

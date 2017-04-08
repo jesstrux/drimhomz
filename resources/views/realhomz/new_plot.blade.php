@@ -13,22 +13,17 @@ if(!Auth::guest()){
         padding: 32px 36px;
         padding-top: 8px;border-radius: 6px;
         width: 500px;
-        max-height: 400px;
-        overflow: hidden;
-        overflow-y: auto !important;
     }
 
     @media only screen and (max-width: 760px) {
         #newPlotOuter .cust-modal-content{
             padding-top: 22px;
             border-radius: 0;
-            max-height: calc(100vh - 20px) !important;
-            padding-bottom: 20px !important;
         }
     }
 </style>
 <div id="newPlotOuter" class="cust-modal has-trans">
-    <div class="hidden visible-xs cust-modal-toolbar" style="z-index: 2">
+    <div class="hidden visible-xs cust-modal-toolbar no-shadow" style="z-index: 2">
         <div class="layout center" style="height: 60px">
             <button class="layout center for-mob" style="padding: 0;background: transparent; border: none;" onclick="closeNewPlot()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
@@ -54,7 +49,7 @@ if(!Auth::guest()){
                 <input type="hidden" name="user_id" value="{{$user->id}}">
                 {{csrf_field()}}
                 <label>Title</label>
-                <input autocomplete="off" id="newPlotTitle" name="name" type="text" placeholder="eg. Small plot for house" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
+                <input autocomplete="off" id="newPlotTitle" name="name" type="text" placeholder="eg. Bungalow in Kyela" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Price</label>
                 <input autocomplete="off" id="newPlotPrice" name="price" type="number" placeholder="price of the plot" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
@@ -69,10 +64,10 @@ if(!Auth::guest()){
                 <input autocomplete="off" id="newPlotBlock" name="block" type="text" placeholder="Block where the plot is" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Description</label>
-                <textarea id="newPlotDesc" placeholder="Short description about plot" name="description" cols="10" rows="3" required onkeyup="setSubmit()" style="margin-bottom: 40px;"></textarea>
+                <textarea id="newPlotDesc" placeholder="Short description about plot" name="description" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
 
                 <label>Topographical Nature: </label>
-                <select name="topogaphical_nature" id="newPlotNature" onchange="setSubmit()">
+                <select name="topogaphical_nature" id="newPlotNature">
                     <option value="Valley">Valley(Bondeni)</option>
                     <option value="Level ground">Level ground(Tambarare)</option>
                     <option value="Hill land">Hill Land</option>
@@ -80,7 +75,7 @@ if(!Auth::guest()){
                     <option value="Foresty">Foresty(Msitu)</option>
                     <option value="Steep land">Steep land(Mteremko)</option>
                 </select>
-                <button disabled class="btn btn-primary save-new-plot hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn" type="submit">CREATE</button>
+                <button disabled class="btn btn-primary save-new-plot hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn" type="button" onclick="addNewPlot()">CREATE</button>
             </form>
         @else
             <p>Please <a href="{{url('/login/')}}"><strong>login</strong></a> to create a plot</p>
@@ -116,54 +111,43 @@ if(!Auth::guest()){
         // formdata.append("_token", $(_token).val());
 
         $.ajax({
-            type:'POST',
-            url: "/createPlot",
-            data: formdata,
-            dataType:'json',
-            async:false,
-            processData: false,
-            contentType: false
-        })
-        .done(function(response){
-            if(response.success){
-                console.log("Success! from new plot, ", response);
-                closeNewPlot();
-                showLoading();
-                window.location.href = base_url + "/realhomz/plot/" + response.plot.id + "/new";
-            }else{
-                console.log("Success! not", response);
-                $('.save-new-plot').removeAttr("disabled");
-                showToast(response.msg);
-            }
-        })
-        .fail(function(response){
-            console.log("Error!, ", response);
-            $('.save-new-plot').removeAttr("disabled");
-            showToast("Unknown Error occured");
-        })
-        .always(function(){
-            console.log("Action done");
-            hideLoading();
-        });
+                    type:'POST',
+                    url: "/createPlot",
+                    data: formdata,
+                    dataType:'json',
+                    async:false,
+                    processData: false,
+                    contentType: false
+                })
+                .done(function(response){
+                    if(response.success){
+                        console.log("Success! from new plot, ", response);
+                        closeNewPlot();
+                        showLoading();
+                        window.location.href = base_url + "/realhomz/plots/" + response.plot.id + "/new";
+                    }else{
+                        console.log("Success! not", response);
+                        $('.save-new-plot').removeAttr("disabled");
+                        showToast(response.msg);
+                    }
+                })
+                .fail(function(response){
+                    console.log("Error!, ", response);
+                    $('.save-new-plot').removeAttr("disabled");
+                    showToast("Unknown Error occured");
+                })
+                .always(function(){
+                    console.log("Action done");
+                    hideLoading();
+                });
     }
 
     function setSubmit(){
         var title = $("#newPlotTitle").val();
         var price = $("#newPlotPrice").val();
         var description = $("#newPlotDesc").val();
-        var size = $("#newPlotSize").val();
-        var number = $("#newPlotNumber").val();
-        var block = $("#newPlotBlock").val();
-        var nature = $("#newPlotNature").val();
 
-        if(title.length > 0
-                && price.length > 0
-                && description.length > 0
-                && price.length > 0
-                && size.length > 0
-                && number.length > 0
-                && block.length > 0
-                && nature.length > 0){
+        if(title.length > 0 && price.length > 0 && description.length > 0){
             $('.save-new-plot').removeAttr("disabled");
         }else{
             $('.save-new-plot').attr("disabled", "disabled");

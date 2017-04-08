@@ -15,13 +15,8 @@
 			font-size: 1.6em;
 		}
 		.tab-links a{
-			display: inline-block;
 			color: inherit;
 			font-family: inherit;
-			margin-bottom: 15px;
-		}
-		.tab-links a:last-child{
-			margin-bottom: 0;
 		}
 		.tab-links a.active{
 			font-weight: bold;
@@ -145,7 +140,7 @@
 					<a href="{{url('realhomz/plots')}}" class="{{$plots_active}}">PLOTS</a>
 				</h4>
 
-				@if(Auth::user() && Auth::user()->role == 'realtor')
+				@if(Auth::user() && Auth::user()->role != 'realtor')
 					@if($page == "homes")
 						<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewHome()">Add Home</button>
 					@elseif($page == "rentals")

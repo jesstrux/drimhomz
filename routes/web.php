@@ -5,6 +5,7 @@ use App\Message;
 use App\Notifications\CommentPosted;
 use App\Notifications\PostFaved;
 use App\Notifications\PostFollowed;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 Route::get('/', 'GuestController@index');
@@ -15,8 +16,8 @@ Auth::routes();
 
 Route::get('/dashboard', 'HomeController@dashboard');
 
-Route::get('/notifications', function(){
-    if(!Auth::guest()){
+Route::get('/notifications', function () {
+    if (!Auth::guest()) {
         $notifications = Auth::user()->notifications;
 //        return $notifications;
         $unread_count = Auth::user()->unreadNotifications->count();
@@ -27,16 +28,15 @@ Route::get('/notifications', function(){
 Route::post('/clearNotifications', 'UserController@clear_notifications');
 
 Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
-    if(!Auth::guest()){
-         $user = Auth::user();
+    if (!Auth::guest()) {
+        $user = Auth::user();
 //         ->full_name();
 
         $home = App\User::find(5);
         return $home->rating();
-     }
-     else{
-         echo "Hello guest";
-     }
+    } else {
+        echo "Hello guest";
+    }
 });
 
 Route::get('/house/{id}', function ($id) {
@@ -56,10 +56,10 @@ Route::get('/product/{id}', function ($id) {
 });
 
 Route::get('resizeImage', 'ImageController@resizeImage');
-Route::post('createAd',['as'=>'resizeImagePost','uses'=>'ImageController@resizeImagePost']);
+Route::post('createAd', ['as' => 'resizeImagePost', 'uses' => 'ImageController@resizeImagePost']);
 
-Route::post('createAd','AdminController@create_ad');
-Route::post('/deleteAd','AdminController@delete_ad');
+Route::post('createAd', 'AdminController@create_ad');
+Route::post('/deleteAd', 'AdminController@delete_ad');
 
 Route::get('/about', function () {
     return view('home.about');
@@ -112,7 +112,7 @@ Route::get('/editProject/{id}', function ($id) {
 
 Route::post('/editProject', 'ProjectsController@edit_project');
 
-Route::post('toggle-admin', ['as'=>'/toggleAdmin','uses'=>'UserController@toggle_admin']);
+Route::post('toggle-admin', ['as' => '/toggleAdmin', 'uses' => 'UserController@toggle_admin']);
 
 Route::get('/realhomz', function () {
     return redirect('realhomz/homes');
@@ -125,8 +125,8 @@ Route::post('/createRental', 'RealHomzController@create_rental');
 Route::get('/realhomz/{page}/{id}', 'RealHomzController@profile');
 Route::get('/realhomz/{page}/{id}/new', 'RealHomzController@new_profile');
 Route::get('/missingUtilities/{home_id}/{table}', function ($home_id, $table) {
-    $existing_rooms = DB::table($table."_utilities")
-        ->where($table."_id", $home_id)->pluck('utility_id');
+    $existing_rooms = DB::table($table . "_utilities")
+        ->where($table . "_id", $home_id)->pluck('utility_id');
     return $rooms = App\Utility::whereNotIn('id', $existing_rooms)->select("id", "name", "type")->get();;
 });
 Route::post('/addRoomsToHome', 'RealHomzController@add_rooms_to_home');
@@ -148,9 +148,9 @@ Route::post('/createHouse', 'HousesController@store');
 Route::post('/pinHouse', 'HousesController@pin_house');
 Route::post('/followHouse', 'HousesController@follow_house');
 
-Route::post('setup-account-post', ['as'=>'/setupAccountPost','uses'=>'UserController@setupProfile']);
+Route::post('setup-account-post', ['as' => '/setupAccountPost', 'uses' => 'UserController@setupProfile']);
 
-Route::post('save-dp', ['as'=>'/saveDp','uses'=>'UserController@saveDp']);
+Route::post('save-dp', ['as' => '/saveDp', 'uses' => 'UserController@saveDp']);
 
 Route::get('/comments/{house}', 'HousesController@get_comments');
 
@@ -165,40 +165,24 @@ Route::post('/deleteComment', 'HousesController@delete_comment');
 Route::get('/verifyPhoneNumber', 'UserController@verify_phone_number');
 Route::post('/verifyCode', 'UserController@verify_code');
 
-Route::get('/codes',function(){
-//    $messages = Message::limit(10)->where('sent','=','0')->select('body','phone')->get();
-    $messages = Message::limit(10)->where('messages.status', '=', '0')->select('messages.id','messages.body','users.phone','messages.type','users.verification_code','users.id as user_id')
-        ->join('users', 'messages.user_id', '=', 'users.id')
-        ->get();
-   // dd($messages);
-    $karibuSMS = new Karibusms();
-    foreach ($messages as $message) {
-    echo ('Message: '.count($message->id).'-->'. $message->body.' <br>');
 
-        Message::where('user_id', '=', $message->user_id)->where('status', '=', '0')->where('type', '=',$message->type)->where('id', '=', $message->id)->update(['status' => '1']);
-        //set a custom name to be used in sending SMS
-       // $karibuSMS->set_name("DREAMHOMZ");
-        $status = $karibuSMS->send_sms($message->phone,$message->body);
-
-    }
-});
-Route::get('/resendCode',function(){
-    $messages = Message::limit(10)->where('messages.status', '=', '0')->select('messages.id','messages.body','users.phone','messages.type','users.verification_code','users.id as user_id')
+Route::get('/resendCode', function () {
+     $messages = Message::limit(1)->where('messages.status', '>=', '0')->where('messages.user_id', '=', Auth::user()->id)->select('messages.id', 'messages.body', 'users.phone', 'messages.type', 'users.verification_code', 'users.id as user_id')
         ->join('users', 'messages.user_id', '=', 'users.id')
         ->get();
     $karibuSMS = new Karibusms();
-    if(!$messages->isEmpty()) {
+    if (!$messages->isEmpty()) {
         foreach ($messages as $message) {
 
-            Message::where('user_id', '=', $message->user_id)->where('status', '=', '0')->where('type', '=', $message->type)->where('id', '=', $message->id)->update(['status' => '1']);
+            Message::where('user_id', '=', $message->user_id)->where('status', '>=', '0')->where('type', '=', $message->type)->where('id', '=', $message->id)->increment('status');
 
             //set a custom name to be used in sending SMS
             $karibuSMS->set_name("DREAMHOMZ");
-            $status = $karibuSMS->send_sms($message->phone, $message->body);
+             $status = $karibuSMS->send_sms($message->phone, $message->body);
 
         }
         //call_in_background("schedule:run");
-        return response()->json(['status'=>'success','message'=>'Your Verification Code has been sent to your Phone Number']);
+        return response()->json(['status' => 'success', 'message' => 'Your Verification Code has been sent to your Phone Number']);
     }
-    return response()->json(['status'=>'error','message'=>'Looks like the Verification Code was sent before']);
+    return response()->json(['status' => 'error', 'message' => 'Looks like the Verification Code was sent before']);
 });
