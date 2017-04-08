@@ -40,6 +40,12 @@
                                     <button type="submit" class="btn btn-primary">
                                         Verify Phone number
                                     </button>
+
+                                @if(Auth::check()&&!Auth::user()->verified)
+                                            <button class="btn btn-primary resend" type="button"  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Resending...">
+                                                Resend Code
+                                            </button>
+                                     @endif
                                 </div>
                             </div>
                         </form>
@@ -48,4 +54,43 @@
             </div>
         </div>
     </div>
+    <script>
+        $('.btn').on('click', function() {
+
+            var $this = $(this);
+            $this.button('loading');
+            $.ajax({
+                url:'/resendCode',
+                type:'json',
+                method:'get',
+                success:function(data){
+                    $this.button('reset');
+                    if(data.status=='success'){
+                    iziToast.success({
+                        title: 'Success!',
+                        message: data.message,
+                        position: 'topRight',
+                        timeout: 5000
+                    });
+                    }else {
+                        iziToast.info({
+                            title: 'Warning!',
+                            message: data.message,
+                            position: 'topRight',
+                            timeout: 5000
+                        });
+                    }
+                },
+                error:function(data){
+                    $this.button('reset');
+                    iziToast.error({
+                        title: 'Error!',
+                        message: data.message,
+                        position: 'topRight',
+                        timeout: 5000
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

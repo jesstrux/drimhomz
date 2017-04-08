@@ -17,7 +17,7 @@ function generateRandomString($length = 10) {
 }
 
 function generateVerificationCode($length = 4) {
-    $characters = '0123456789';
+    $characters = '0123456789ABCDEFGHJK';
     $charactersLength = strlen($characters);
     $randomString = '';
     for ($i = 0; $i < $length; $i++) {

@@ -105,9 +105,9 @@
                 @endif
 
                 <!-- <li><a href="about">About</a></li> -->
-                {{--<li><a href="{{ url('/shop') }}">Shop</a></li>--}}
-                {{--<li><a href="{{ url('/expert') }}">Expert</a></li>--}}
-                {{--<li><a href="{{ url('/advice') }}">Advice</a></li>--}}
+                <li><a href="{{ url('/shop') }}">Shop</a></li>
+                <li><a href="{{ url('/expert') }}">Expert</a></li>
+                <li><a href="{{ url('/advice') }}">Advice</a></li>
 
                 <li><a href="{{ url('/realhomz') }}">Realhomz</a></li>
                 <!-- Authentication Links -->

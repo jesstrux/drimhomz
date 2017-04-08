@@ -47,7 +47,6 @@
         var drimMode = false;
         var commentEditMode = false;
         var user_exists = <?php echo Auth::guest() ? "false" : "true" ?>;
-console.log('House: '+house_base_url);
         function getPopup(el){
             console.log("El is: " + el);
             return "A popover is showing here";
@@ -245,6 +244,31 @@ if(!Auth::guest()){
             var ad = $(this).index() == 0 ? cur_idx_left : cur_idx_right;
             openAd(random_ads[ad]);
         });
+        var curr_url = window.location.href;
+        var final = curr_url.substr(curr_url.lastIndexOf('/') + 1);
+        <?php if(Auth::check()){?>
+
+        var verified ={{ Auth::user()->verified}};
+        <?php }else{?> var verified = true;<?php }?>
+
+
+        if( !verified&&final!='verifyPhoneNumber') {
+            iziToast.info({
+                title: 'Reminder!',
+                message: 'Please verify your phone number!',
+                position: 'topLeft',
+                timeout: false,
+                close:false,
+                drag:false,
+                buttons: [
+
+                    ['<button>Click Here</button>', function (instance, toast) {
+                        instance.hide({ transitionOut: 'fadeOutUp' }, toast);
+                        window.location.href = '/verifyPhoneNumber';
+                    }]
+                ],
+            });
+        }
     });
 
     // window.Echo = new Echo({

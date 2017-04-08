@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Advertisement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Intervention\Image\Facades\Image;
 class AdminController extends Controller
 {
     public function create_ad(Request $request){

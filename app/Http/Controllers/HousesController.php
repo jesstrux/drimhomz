@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Image;
 use Illuminate\Http\Request;
 
 use App\User;
@@ -13,7 +12,7 @@ use App\Comment;
 use App\Favorite;
 use App\FollowPost;
 use App\HouseImage;
-
+use Image;
 use App\Notifications\CommentPosted;
 use App\Notifications\PostFollowed;
 use App\Notifications\PostFaved;
@@ -175,7 +174,7 @@ class HousesController extends Controller
 //            $exploded_array = explode("/", $path);
 //            $new_image_name = $exploded_array[count($exploded_array) - 1];
 //            $destinationPath = public_path('uploads/houses/thumbs/');
-            $destinationPath = public_path('uploads/houses/thumbs/');
+            $destinationPath = public_path('images/uploads/houses/thumbs/');
             $thumb_path = $destinationPath.$new_image_name;
 
             $image_sizes = new \stdClass();
@@ -183,7 +182,7 @@ class HousesController extends Controller
             $image_sizes->height = $img->height();
 
 
-            $img->resize(rand (400, 800), null, function ($constraint) {
+            $img->size(rand (400, 800), null, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($thumb_path);
 

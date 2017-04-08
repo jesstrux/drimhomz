@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\User;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -47,7 +48,7 @@ class ProjectsController extends Controller
 
     function showprofile($id){
         $project = Project::with('houses')->find($id);
-
+        $user = User::find($project->user_id);
         if(!Auth::guest()){
             $authuser = Auth::user();
             $myProject = $authuser->id == $project->user->id;
@@ -55,7 +56,8 @@ class ProjectsController extends Controller
             $myProject = false;
         }
 
-        return view('project.index', compact('project', 'myProject'));
+
+        return view('project.index', compact('project', 'myProject','user'));
     }
 
     function edit_project(Request $request){
