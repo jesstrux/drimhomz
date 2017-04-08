@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ExpertRating;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -14,12 +15,23 @@ class ExpertController extends Controller
     }
 
     public function rate_expert(Request $request){
-        return $request->toArray();
-//        'rating', 'comment', 'user_id', 'expert_id'
-//        $rating = [
-//            'rating' =>
-//        ];
-//        if($user_id != $new_follow->house->owner()->id)
-//            User::find($new_follow->house->owner()->id)->notify(new PostFollowed($new_follow->user, $new_follow->house));
+        $rating = [
+            'rating' => $request->input("rating"),
+            'comment' => $request->input("comment"),
+            'user_id' => $request->input("user_id"),
+            'expert_id' => $request->input("expert_id")
+        ];
+
+        if(ExpertRating::create($rating)){
+            return response()->json([
+                "success" => true,
+                "msg" => "Successfully rated expert."
+            ]);
+        }else{
+            return response()->json([
+                "success" => false,
+                "msg" => "Coulnd't rate expert."
+            ]);
+        }
     }
 }

@@ -31,9 +31,8 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
          $user = Auth::user();
 //         ->full_name();
 
-        $ids = array(21, 2, 4);
-        $home = App\Home::find(31);
-        return $home->new_utility_rooms($ids);
+        $home = App\User::find(5);
+        return $home->rating();
      }
      else{
          echo "Hello guest";
@@ -76,9 +75,14 @@ Route::get('/shop/{id}', 'ShopController@show_profile');
 Route::get('/office/{id}', 'OfficeController@show_profile');
 
 Route::get('/expert', 'ExpertController@index');
+Route::post('/rateExpert', 'ExpertController@rate_expert');
 
 Route::get('/advice', 'AdviceController@index');
 Route::get('/advice/{page}', 'AdviceController@index');
+Route::post('/submitAnswer', 'AdviceController@submit_answer');
+Route::post('/submitArticleComment', 'AdviceController@submit_comment');
+Route::post('/removeAnswer', 'AdviceController@remove_answer');
+Route::post('/removeComment', 'AdviceController@remove_comment');
 
 Route::get('/getUser/{id}', function ($id) {
     $user = App\User::find($id);
@@ -116,6 +120,8 @@ Route::get('/realhomz', function () {
 
 Route::get('/realhomz/{page}', 'RealHomzController@index');
 Route::post('/createHome', 'RealHomzController@create_home');
+Route::post('/createPlot', 'RealHomzController@create_plot');
+Route::post('/createRental', 'RealHomzController@create_rental');
 Route::get('/realhomz/{page}/{id}', 'RealHomzController@profile');
 Route::get('/realhomz/{page}/{id}/new', 'RealHomzController@new_profile');
 Route::get('/missingUtilities/{home_id}/{table}', function ($home_id, $table) {

@@ -8,17 +8,21 @@ if(!Auth::guest()){
         background-image: none;
         background-color: rgba(0,0,0,0.1);
     }
+
     #newHomeOuter .cust-modal-content{
         box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2);
         padding: 32px 36px;
         padding-top: 8px;border-radius: 6px;
         width: 500px;
+        overflow: hidden;
+        overflow-y: auto;
     }
 
     @media only screen and (max-width: 760px) {
         #newHomeOuter .cust-modal-content{
             padding-top: 22px;
             border-radius: 0;
+            height: 100vh;
         }
     }
 </style>
@@ -106,7 +110,7 @@ if(!Auth::guest()){
                 console.log("Success! from new project, ", response);
                 closeNewHome();
                 showLoading();
-                window.location.href = base_url + "/realhomz/homes/" + response.home.id + "/new";
+                window.location.href = base_url + "/realhomz/home/" + response.home.id + "/new";
             }else{
                 console.log("Success! not", response);
                 $('.save-new-project').removeAttr("disabled");
