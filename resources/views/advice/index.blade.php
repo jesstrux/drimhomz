@@ -244,7 +244,7 @@
 			width: 25px; height: 25px;
 		}
 
-		.full-question:not(.my-question) .answer:not(.my-response) form{
+		.full-question:not(.my-question) .answer:not(.my-response):not(.my-answer) form{
 			display: none !important;
 		}
 	</style>

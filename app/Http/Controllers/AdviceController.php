@@ -86,7 +86,8 @@ class AdviceController extends Controller
 		if(Auth::guest())
 			return response()->json(["success" => false]);
 
-		$comment = ArticleComment::find($request->input('id'));
+		 $comment = ArticleComment::find($request->input('id'))->where('user_id',Auth::user()->id);
+
 
 		if($comment->delete()){
 			return response()->json([
@@ -103,7 +104,7 @@ class AdviceController extends Controller
 
 	public function remove_answer(Request $request){
 		if(Auth::guest())
-			return response()->json(["success" => false]);
+			return response()->json(["success" => false])->where('user_id',Auth::user()->id);
 
 		$comment = Answer::find($request->input('id'));
 
