@@ -16,14 +16,68 @@ class AdviceController extends Controller
     public function index($page = "questions")
     {
     	if($page == "questions"){
-    		$questions = Question::with('answers')->get();
+    		$questions = Question::orderBy('created_at','desc')->with('answers')->get();
     		return view('advice.index', compact('page', 'questions'));
     	}else{
-    		$articles = Article::with('comments')->get();
+    		$articles = Article::orderBy('created_at','desc')->with('comments')->get();
     		return view('advice.index', compact('page', 'articles'));
     	}
     }
 
+	
+	public function create_question(Request $request){
+
+		$question_exists = Question::where([
+			'user_id' => $request->input('user_id'),
+			'title' => $request->input('title')])->exists();
+
+		if($question_exists){
+			return response()->json([
+				'success' => false,
+				'msg' => 'You already have a question called ' . $request->input('title')
+			]);
+		}
+
+		$new_question = Question::create(request()->except('_token'));
+
+		if($new_question)
+			return response()->json([
+				'success' => true,
+				'question' => $new_question
+			]);
+		else
+			return response()->json([
+				'success' => false,
+				'msg' => 'Failed to save question'
+			]);
+	}
+	public function create_article(Request $request){
+
+		$article_exists = Article::where([
+			'user_id' => $request->input('user_id'),
+			'title' => $request->input('title')])->exists();
+
+		if($article_exists){
+			return response()->json([
+				'success' => false,
+				'msg' => 'You already have a question called ' . $request->input('title')
+			]);
+		}
+
+		$new_article = Article::create(request()->except('_token'));
+
+		if($new_article)
+			return response()->json([
+				'success' => true,
+				'article' => $new_article
+			]);
+		else
+			return response()->json([
+				'success' => false,
+				'msg' => 'Failed to save article'
+			]);
+	}
+	
 	public function submit_answer(Request $request){
 		if(Auth::guest())
 			return response()->json(["success" => false]);
