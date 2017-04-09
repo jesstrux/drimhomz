@@ -245,14 +245,14 @@ if(!Auth::guest()){
             openAd(random_ads[ad]);
         });
         var curr_url = window.location.href;
-        var final = curr_url.substr(curr_url.lastIndexOf('/') + 1);
+        var route_name = curr_url.substr(curr_url.lastIndexOf('/') + 1);
         <?php if(Auth::check()){?>
 
         var verified ={{ Auth::user()->verified}};
         <?php }else{?> var verified = true;<?php }?>
 
 
-        if( !verified&&final!='verifyPhoneNumber') {
+        if(!verified&&route_name!='verifyPhoneNumber') {
             iziToast.info({
                 title: 'Reminder!',
                 message: 'Please verify your phone number!',

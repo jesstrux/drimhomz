@@ -55,7 +55,7 @@
         </div>
     </div>
     <script>
-        $('.btn').on('click', function() {
+        $('.resend').on('click', function() {
 
             var $this = $(this);
             $this.button('loading');

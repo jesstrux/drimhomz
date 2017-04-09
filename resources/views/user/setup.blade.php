@@ -155,13 +155,13 @@
     	<div id="outer" class="container">
 			<div id="wrapper" class="layout" style="background-color: #fff; margin-bottom: 40px;">
 		    	<div id="dpEditor" class="flex">
-					@if (session('verification_status'))
 
-						<div id="phoneVerifiedAlert" class="alert alert-success alert-dismissible collapse" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							{{session('verification_status')}}
-						</div>
-					@endif
+
+						{{--<div id="phoneVerifiedAlert" class="alert alert-success alert-dismissible collapse" role="alert">--}}
+							{{--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>--}}
+							{{--{{session('verification_status')}}--}}
+						{{--</div>--}}
+
 					<form id="dpForm" enctype="multipart/form-data" role="form" method="POST" action="{{ url('save-dp') }}" class="layout vertical center">
 	                	{{ csrf_field() }}
 
@@ -176,7 +176,7 @@
 								<img src="{{asset('images/loading.gif')}}" alt="">
 							</div>
 
-							<img src='{{asset("storage/uploads/user_dps/$user->dp")}}' id="curDp" alt="">
+							<img src='{{asset("images/uploads/user_dps/$user->dp")}}' id="curDp" alt="">
 						</div>
 
 						<h3 style="margin-top: 0; margin-bottom: 15px;">Profile picture</h3>
@@ -338,6 +338,19 @@
     <script src="{{asset('js/jquery.geocomplete.min.js')}}"></script>
 
     <script>
+
+		$(document).ready(function(){
+			@if (session('verification_status')){
+				iziToast.{{session('verification_type')}}({
+					title: 'Information',
+					message: "{{session('verification_status')}}",
+					position: 'topLeft',
+					timeout: 3000
+				});
+			}
+			@endif
+		});
+
     	// const API_KEY = "AIzaSyAQcqitQMDb4pWTudvPoZt6golxzFXrvmI";
     	var tempImage;
     	var image = $("#curDp");
