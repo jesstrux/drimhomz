@@ -24,17 +24,18 @@
 <div id="profileSummaryLg" class="col-sm-12 col-md-5 col-lg-4">
 	<div id="userDetails" class="text-center">
 		<div id="profilePic">
+			<img src="{{asset($shop_url . $shop->image_url)}}" alt="">
 		</div>
 		<h3>{{$shop->name}}</h3>
 		<br>
 		@if($myShop)
-			<a href="/setupAccount" class="btn btn-default">
-				Edit shop
-			</a>
+			{{--<a href="/setupAccount" class="btn btn-default">--}}
+				{{--Edit shop--}}
+			{{--</a>--}}
 
-			<a href="/setupAccount" class="btn btn-default">
-				delete shop
-			</a>
+			{{--<a href="/setupAccount" class="btn btn-default">--}}
+				{{--delete shop--}}
+			{{--</a>--}}
 		@endif
 		<!-- <hr> -->
 	</div>

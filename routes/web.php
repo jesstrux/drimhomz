@@ -71,6 +71,7 @@ Route::get('/search/{q}/{category}', 'SearchController@search_category');
 
 Route::get('/shop', 'ShopController@index');
 Route::get('/shop/{id}', 'ShopController@show_profile');
+Route::post('/createShop', 'ShopController@store');
 
 Route::get('/office/{id}', 'OfficeController@show_profile');
 

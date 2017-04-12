@@ -26,9 +26,9 @@
 
 @if($shops_count > 0)
     @foreach($shops as $fol)
-        <a href="{{url('/advice/articles/').'/'.$fol->id}}" class="house-card">
+        <a href="{{url('/shops/').'/'.$fol->id}}" class="house-card">
             <div class="image" style="background-color: #eee">
-                <img src="{{asset($shop_url . $fol->follower->image_url)}}" alt="{{$fol->follower->fname}}'s dp">
+                <img src="{{asset($shop_url . $fol->image_url)}}" alt="{{$fol->name}}'s dp">
             </div>
             <div class="content">
                 <h3>{{$fol->name}}</h3>
@@ -36,3 +36,28 @@
         </a>
     @endforeach
 @endif
+
+@include('shop.new-shop')
+
+<script>
+    function shopCreationSuccess(project){
+        showToast("success", "Project created!");
+
+        var proj_html = `<a href="/shop/`+project.id+`" class="house-card">
+                <div class="image" style="pointer-events: auto;">
+                <img src="`+ shop_base_url + `/def.png"/>
+    </div>
+        <div class="content">
+                <h3 style="line-height: 30px;margin: 0; margin-top: 4px;">`+project.name+`</h3>
+        </div>
+        </a>`;
+
+        var new_project = $(proj_html);
+        $("#createShopBtn").after(new_project);
+    }
+
+    function projectCreationError(msg){
+        var message = msg && msg.length ? msg : "Couldn't create shop!";
+        showToast("error", message);
+    }
+</script>
