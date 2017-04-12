@@ -270,7 +270,7 @@
 				@if(Auth::user())
 					@if($page == "questions")
 						<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewQuestion()">Add Question</button>
-					@elseif($page == "articles" && Auth::user() && Auth::user()->role != 'realtor')
+					@elseif($page == "articles" && Auth::user() && Auth::user()->role != 'user')
 						<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewArticle()">Add Article</button>
 					@endif
 				@endif
@@ -283,7 +283,6 @@
 	</div>
 	<br>
 	<div class="real-content">
-		@include('advice.'.$page)
 		@include('advice.new_'.substr($page, 0, strlen($page) - 1))
 	</div>
 	<br>

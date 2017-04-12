@@ -49,7 +49,7 @@ if(!Auth::guest()){
                 <input type="hidden" name="user_id" value="{{$user->id}}">
                 {{csrf_field()}}
                 <label>Title</label>
-                <input autocomplete="off" id="newQuestionTitle" name="title" type="text" placeholder="eg.Selling plots" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
+                <input autocomplete="off" id="newQuestionTitle" name="title" type="text" placeholder="eg. Selling plots" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>content</label>
                 <textarea id="newQuestionDesc" placeholder="Short content about question" name="content" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
@@ -57,7 +57,7 @@ if(!Auth::guest()){
                 <button disabled class="btn btn-primary save-new-question hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn" type="button" onclick="addNewQuestion()">CREATE</button>
             </form>
         @else
-            <p>Please <a href="{{url('/login/')}}"><strong>login</strong></a> to create a question</p>
+            <p>Please <a href="{{url('/login/')}}"><strong>login</strong></a> to post your question</p>
         @endif
     </div>
 </div>

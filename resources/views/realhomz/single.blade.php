@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 	<?php
 		$my_home = false;
 

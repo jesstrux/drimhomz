@@ -64,6 +64,7 @@ class AdviceController extends Controller
 			]);
 		}
 
+		if(Auth::user()->role != 'user')
 		$new_article = Article::create(request()->except('_token'));
 
 		if($new_article)

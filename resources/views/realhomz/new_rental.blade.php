@@ -104,7 +104,7 @@ if(!Auth::guest()){
                         console.log("Success! from new rental, ", response);
                         closeNewRental();
                         showLoading();
-                        window.location.href = base_url + "/realhomz/rentals/" + response.rental.id + "/new";
+                        window.location.href = base_url + "/realhomz/rental/" + response.rental.id + "/new";
                     }else{
                         console.log("Success! not", response);
                         $('.save-new-rental').removeAttr("disabled");

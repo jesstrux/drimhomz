@@ -168,6 +168,7 @@ Route::get('/verifyPhoneNumber', 'UserController@verify_phone_number');
 Route::post('/verifyCode', 'UserController@verify_code');
 
 
+//This Functions only applies to a specific user who resends verification code for phone number verification
 Route::get('/resendCode', function () {
      $messages = Message::limit(1)->where('messages.status', '>=', '0')->where('messages.user_id', '=', Auth::user()->id)->select('messages.id', 'messages.body', 'users.phone', 'messages.type', 'users.verification_code', 'users.id as user_id')
         ->join('users', 'messages.user_id', '=', 'users.id')
