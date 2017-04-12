@@ -294,15 +294,20 @@ class UserController extends Controller
         $user = User::find(Auth::user()->id);
         // $path = Storage::put('dps', $request->file('dp'), 'public');
         // $path = $request->file('dp')->store('uploads/dps');
-        $extension = $request->file('dp')->getClientOriginalExtension();
-        $photoName = Auth::user()->id.'_'.time().'.'.$extension;
-        $destination = public_path()."/images/uploads/user_dps/";
-        $request->file('dp')->move($destination, $photoName);
-        $oldDp  = $destination.$user->dp;
-      if(file_exists($oldDp))
-          unlink($oldDp);
-        $user->dp = $photoName;
 
+        if($request->file('dp') != null){
+            $extension = $request->file('dp')->getClientOriginalExtension();
+            $photoName = Auth::user()->id.'_'.time().'.'.$extension;
+            $destination = public_path()."/images/uploads/user_dps/";
+            $request->file('dp')->move($destination, $photoName);
+            $oldDp  = $destination.$user->dp;
+
+            if(file_exists($oldDp))
+                unlink($oldDp);
+            $user->dp = $photoName;
+        }else{
+            $user->dp = "def.png";
+        }
         
         if($user->save()){
             return "success";

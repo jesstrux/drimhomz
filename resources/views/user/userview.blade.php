@@ -463,6 +463,9 @@
 			</div>
 		</div>
 	</main>
+
+	@include('user.profile-picture')
+
 	<script>
 		function infoSaved(message){
     		var alert = $("#savedAlert");

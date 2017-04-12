@@ -152,6 +152,7 @@ Route::post('/followHouse', 'HousesController@follow_house');
 Route::post('setup-account-post', ['as'=>'/setupAccountPost','uses'=>'UserController@setupProfile']);
 
 Route::post('save-dp', ['as'=>'/saveDp','uses'=>'UserController@saveDp']);
+Route::post('/saveDp', 'UserController@saveDp');
 
 Route::get('/comments/{house}', 'HousesController@get_comments');
 
