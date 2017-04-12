@@ -172,6 +172,55 @@ console.log('House: '+house_base_url);
             box-shadow: 0em -2.6em 0em 0em rgba(255,165,0, 0.2), 1.8em -1.8em 0 0em rgba(255,165,0, 0.2), 2.5em 0em 0 0em rgba(255,165,0, 0.2), 1.75em 1.75em 0 0em rgba(255,165,0, 0.2), 0em 2.5em 0 0em rgba(255,165,0, 0.2), -1.8em 1.8em 0 0em rgba(255,165,0, 0.5), -2.6em 0em 0 0em rgba(255,165,0, 0.7), -1.8em -1.8em 0 0em #ffa500;
           }
         }
+
+        body:not(.open-menu) #mobNavOpener i:last-child{
+            display: none;
+        }
+
+        body.open-menu #mobNavOpener i:first-child{
+            display: none;
+        }
+
+        @media only screen and (max-width: 760px) {
+            body #mainContent,
+            body #mainestNav{
+                -webkit-transition: transform 0.15s;
+                -moz-transition: transform 0.15s;
+                -ms-transition: transform 0.15s;
+                -o-transition: transform 0.15s;
+                transition: transform 0.15s;
+            }
+
+            body.open-menu{
+                overflow: hidden;
+                padding-top: 0;
+            }
+
+            body.open-menu #mainContent,
+            body.open-menu #mainestNav{
+                box-shadow: -1px 0 10px rgba(0,0,0,0.24);
+                -webkit-transform: translateX(250px);
+                -moz-transform: translateX(250px);
+                -ms-transform: translateX(250px);
+                -o-transform: translateX(250px);
+                transform: translateX(250px);
+
+
+                -webkit-transition: transform 0.25s;
+                -moz-transition: transform 0.25s;
+                -ms-transition: transform 0.25s;
+                -o-transition: transform 0.25s;
+                transition: transform 0.25s;
+            }
+
+            body.open-menu #mainContent{
+                height: 110vh;
+                padding-top: 70px;
+            }
+            #outerContent{
+                background-color: inherit;
+            }
+        }
     </style>
 </head>
 <body class="open-searc" style="backgroun: #eee !important;">
@@ -181,10 +230,16 @@ console.log('House: '+house_base_url);
     </div>
 </div>
 
-@include('layouts.header')
+<div id="siteContent" style="position: relative;">
+    @include('layouts.mobile-nav')
 
-<div id="mainContent">
-    @yield('content')
+    <div id="outerContent">
+        @include('layouts.header')
+
+        <div id="mainContent">
+            @yield('content')
+        </div>
+    </div>
 </div>
 
 @include('layouts.footer')

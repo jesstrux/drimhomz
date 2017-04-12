@@ -14,7 +14,7 @@
 
     .expert-image{
         background-color: #ddd;
-        height: 150px;
+        min-height: 110px;
         width: 150px;
     }
 
@@ -22,6 +22,7 @@
         padding: 0 15px;
         margin-left: 5px;
         width: 100%;
+        box-shadow: none !important;
     }
 
     .expert-info h3{
@@ -38,7 +39,7 @@
 
     @media only screen and (max-width: 760px) {
         .expert-image{
-            height: 70px;
+            min-height: 40px;
             width: 70px;
         }
 
@@ -58,8 +59,13 @@
         text-decoration: none !important;
     }
 </style>
+@if($products->count() < 1)
+    <div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">There are no experts available.</div>
+@endif
+
 @foreach($products as $product)
-    <a href="{{url('/office/').'/'.$product->office->id}}" class="card no-pad big-outer" id="product_{{$product->id}}">
+    {{--.'/'.$product->office->id--}}
+    <a href="{{url('/user/'.$product->id)}}" class="big-outer" id="product_{{$product->id}}">
         <div>
             <?php
                 $full_name = $product->fname . " " . $product->lname;
@@ -76,12 +82,12 @@
                     <img src="{{$user_url . $product->dp}}" width="100%" alt="" />
                 </div>
 
-                <div class="expert-info layout vertical">
+                <div class="expert-info layout vertical" style="box-shadow: none !important">
                     <h3>
                         {{$product->full_name()}}
                     </h3>
 
-                    <span>
+                    <span style="display: block">
                         Expertise:
                         <span style="font-weight: bold;">
                             {{$product->role}}
@@ -89,7 +95,7 @@
                     </span>
 
                     <div class="layout center">
-                        <span style="color: #000 !important; letter-spacing: 3px; margin-right: 5px;">5.4</span>
+                        <span style="color: #000 !important; letter-spacing: 3px; margin-right: 5px;">{{number_format($product->rating(), 1, '.', '')}}</span>
                         <svg fill="#888" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                     </div>
                     <div class="expert-activity hidden">

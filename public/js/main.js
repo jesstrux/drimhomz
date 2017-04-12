@@ -43,11 +43,37 @@ $(document).ready(function(){
         }
     });
 
+    var win_base_url = window.location.origin + "/";
+
     $('#mainNav li a').each(function(){
-        if(window.location.href.indexOf($(this).prop("href")) != -1)
-            $(this).parents('li').addClass('active');
-        else
-            $(this).parents('li').removeClass('active');
+        if(win_base_url.indexOf($(this).prop("href")) != -1){
+            if(window.location.pathname == "/" || window.location.pathname == "" || window.location.pathname == "/home")
+                $(this).parents('li').addClass('active');
+            else
+                $(this).parents('li').removeClass('active');
+        }else{
+            if(window.location.href.indexOf($(this).prop("href")) != -1){
+                $(this).parents('li').addClass('active');
+            }
+            else
+                $(this).parents('li').removeClass('active');
+        }
+    });
+
+    $('#mainMobNav a').each(function(){
+        if(win_base_url.indexOf($(this).prop("href")) != -1){
+            if(window.location.pathname == "/" || window.location.pathname == "" || window.location.pathname == "/home"){
+                $(this).addClass('active');
+            }
+            else
+                $(this).removeClass('active');
+        }else{
+            if(window.location.href.indexOf($(this).prop("href")) != -1){
+                $(this).addClass('active');
+            }
+            else
+                $(this).removeClass('active');
+        }
     });
 
     $(".user-link").each(function(){

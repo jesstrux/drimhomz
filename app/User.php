@@ -57,8 +57,9 @@ class User extends Authenticatable
             array('user_id' => $uid, 'followed_id' => $this->id))->exists();
     }
 
-    public function follow($uid){
-        // $uid
+    public function rated($uid){
+        return ExpertRating::where(
+            array('user_id' => $uid, 'expert_id' => $this->id))->exists();
     }
 
     public function unfollow($uid){
@@ -75,7 +76,12 @@ class User extends Authenticatable
     }
 
     public function rating(){
-        return $this->ratings()->avg("rating");
+        $ratings = $this->ratings;
+        if($ratings->count() > 0){
+            return $ratings->avg("rating");
+        }else{
+            return 0.000;
+        }
     }
 
     public function articles(){

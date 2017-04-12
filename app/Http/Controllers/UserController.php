@@ -73,9 +73,17 @@ class UserController extends Controller
         return view('user.setup', compact('user'));
     }
 
-    function showprofile($id, $page = "projects"){
-        $user = User::with('projects', 'following', 'houses', 'followers')->find($id);
+    function showprofile($id, $page = null){
+//        $user = User::with('projects', 'following', 'houses', 'followers')->find($id);
+        $user = User::find($id);
 
+        if($page == null){
+            if($user->role == "expert" || $user->role == "realtor" || $user->role == "seller")
+                $page = "articles";
+            else
+                $page = "projects";
+        }
+        
         if(!Auth::guest()){
             $authuser = Auth::user();
             $myProfile = $authuser->id == $user->id;

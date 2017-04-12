@@ -18,7 +18,8 @@
                     </div>
                 </div>
 
-                @if(!Auth::guest() && Auth::user()->id != $office->user_id)
+                @if(!Auth::guest() && Auth::user()->id != $office->user_id
+                    && !$user->rated(Auth::user()->id))
                     <button class="btn" style="background-color: #f1a00b; color: #f1eee9; align-self: flex-start; margin-top: 15px; margin-bottom: 20px;" onclick="openRateExpert()">
                         RATE EXPERT
                     </button>
@@ -75,5 +76,11 @@
         });
     </script>
 
-    @include('expert.rate_expert')
+    @if(!Auth::guest() && Auth::user()->id != $office->user_id
+                    && !$user->rated(Auth::user()->id))
+        <?php
+            $expert = $office->user;
+        ?>
+        @include('expert.rate_expert')
+    @endif
 @endsection

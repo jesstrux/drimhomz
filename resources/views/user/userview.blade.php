@@ -342,7 +342,8 @@
             background-color: #f4f4f4;
         }
 
-        #userHouses .tab-pane .house-card .image img{
+        #userHouses .tab-pane .house-card .image img,
+		#userHouses .tab-pane .house-card .image .userview-image{
             height: 100%;
             min-width: 100%;
         }
@@ -392,6 +393,15 @@
 	    $followers = $user->followers;
 	    $followers_count = count($followers);
 
+		$articles = $user->articles;
+		$articles_count = count($articles);
+
+		$shops = $user->shops;
+		$shops_count = count($shops);
+
+		$reviews = $user->ratings;
+		$reviews_count = count($reviews);
+
 	    if(!isset($page))
 	    	$page = "houses";
 
@@ -407,13 +417,24 @@
 			<?php $is_followed = $followed; ?>
 			@include('user.profile_summary')
 
-			<div id="tabsContent" class="col-sm-12 col-md-7 col-lg-8">
+			<div id="tabsContent" class="col-sm-12 col-md-8 col-lg-8">
 				<div class="tabheads hidden-xs">
-					<a href="/user/{{$user->id}}/projects" data-target="projects" class="tabhead {{is_curpage($page, 'projects')}}"><span>{{$project_count}}</span><span>PROJECTS</span></a>
+					@if($user->role == "user")
+						<a href="/user/{{$user->id}}/projects" data-target="projects" class="tabhead {{is_curpage($page, 'projects')}}"><span>{{$project_count}}</span><span>PROJECTS</span></a>
 
-					<a href="/user/{{$user->id}}/houses" data-target="houses" class="tabhead {{is_curpage($page, 'houses')}}"><span>{{$house_count}}</span><span>DREAMS</span></a>
+						<a href="/user/{{$user->id}}/houses" data-target="houses" class="tabhead {{is_curpage($page, 'houses')}}"><span>{{$house_count}}</span><span>DREAMS</span></a>
 
-					<a href="/user/{{$user->id}}/following" data-target="following" class="tabhead {{is_curpage($page, 'following')}}"><span>{{$following_count}}</span><span>FOLLOWING</span></a>
+						<a href="/user/{{$user->id}}/following" data-target="following" class="tabhead {{is_curpage($page, 'following')}}"><span>{{$following_count}}</span><span>FOLLOWING</span></a>
+					@endif
+
+					@if($user->role == "expert" || $user->role == "realtor" || $user->role == "seller")
+						<a href="/user/{{$user->id}}/articles" data-target="articles" class="tabhead {{is_curpage($page, 'articles')}}"><span>{{$articles_count}}</span><span>ARTICLES</span></a>
+						<a href="/user/{{$user->id}}/reviews" data-target="reviews" class="tabhead {{is_curpage($page, 'reviews')}}"><span>{{$reviews_count}}</span><span>REVIEWS</span></a>
+					@endif
+
+					@if($user->role == "seller")
+						<a href="/user/{{$user->id}}/shops" data-target="shops" class="tabhead {{is_curpage($page, 'shops')}}"><span>{{$shops_count}}</span><span>SHOPS</span></a>
+					@endif
 
 					<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
 				</div>

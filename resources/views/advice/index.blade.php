@@ -244,8 +244,15 @@
 			width: 25px; height: 25px;
 		}
 
-		.full-question:not(.my-question) .answer:not(.my-response) form{
+		.full-question:not(.my-question) .answer:not(.my-response):not(.my-answer) form{
 			display: none !important;
+		}
+
+		@media only screen and (max-width: 760px) {
+			.answers.inset{
+				margin: 0;
+				width: 100vw;
+			}
 		}
 	</style>
 
