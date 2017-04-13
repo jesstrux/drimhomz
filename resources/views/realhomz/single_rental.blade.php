@@ -173,22 +173,14 @@
 							@if($real->town && strlen($real->town) > 0)
 								<span style="etter-spacing: 0.1em">{{$real->town}}</span><br>
 							@else
-								@if($my_home)
-									<span style="etter-spacing: 0.1em"><a href="javascript:void(0);">Add Town</a></span><br>
-								@else
-									<span style="etter-spacing: 0.1em">Unknown</span><br>
-								@endif
+								<span style="etter-spacing: 0.1em">Unknown</span><br>
 							@endif
 
 							<strong style="display: inline-block; margin-top: 18px;color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">Street:</strong> &nbsp;
 							@if($real->street && strlen($real->street) > 0)
 								<span style="etter-spacing: 0.1em">{{$real->street}}</span><br>
 							@else
-								@if($my_home)
-									<span style="etter-spacing: 0.1em"><a href="javascript:void(0);">Add Street</a></span><br>
-								@else
-									<span style="etter-spacing: 0.1em">Unknown</span><br>
-								@endif
+								<span style="etter-spacing: 0.1em">Unknown</span><br>
 							@endif
 						</p>
 					</div>

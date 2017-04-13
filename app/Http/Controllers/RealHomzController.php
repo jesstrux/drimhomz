@@ -56,7 +56,11 @@ class RealHomzController extends Controller
             'user_id' => $request->input('user_id'),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'price' => $request->input('price')
+            'price' => $request->input('price'),
+            'street' => $request->input('street'),
+            'town' => $request->input('town'),
+            'type' => $request->input('type'),
+            'floor_count' => $request->input('floor_count')
         ];
 
         $home_exists = Home::where([
@@ -97,7 +101,11 @@ class RealHomzController extends Controller
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'price' => $request->input('price'),
-            'rental_type' => $request->input('rental_type')
+            'rental_type' => $request->input('rental_type'),
+            'street' => $request->input('street'),
+            'town' => $request->input('town'),
+            'type' => $request->input('type'),
+            'floor_count' => $request->input('floor_count')
         ];
 
         $home_exists = Rental::where([
@@ -137,11 +145,13 @@ class RealHomzController extends Controller
             'user_id' => $request->input('user_id'),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
+	        'street' => $request->input('street'),
+	        'town' => $request->input('town'),
             'price' => $request->input('price'),
             'size' => $request->input('size'),
             'plot_number' => $request->input('plot_number'),
             'block' => $request->input('block'),
-            'topogaphical_nature' => $request->input('topogaphical_nature')
+            'topographical_nature' => $request->input('topographical_nature')
         ];
 
         $home_exists = Plot::where([
@@ -155,12 +165,12 @@ class RealHomzController extends Controller
             ]);
         }
 
-        $new_home = Rental::create($home);
+        $new_home = Plot::create($home);
 
         if($new_home)
             return response()->json([
                 'success' => true,
-                'rental' => $new_home
+                'plot' => $new_home
             ]);
         else
             return response()->json([

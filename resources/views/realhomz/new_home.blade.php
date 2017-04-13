@@ -14,16 +14,18 @@ if(!Auth::guest()){
         padding: 32px 36px;
         padding-top: 8px;border-radius: 6px;
         width: 500px;
+	    max-height: 400px;
         overflow: hidden;
         overflow-y: auto;
     }
+    #newHomeOuter .cust-modal-content{
+	    padding-top: 22px;
+	    border-radius: 0;
+	    max-height: calc(100vh - 20px) !important;
+	    height: 100vh;
+    }
 
     @media only screen and (max-width: 760px) {
-        #newHomeOuter .cust-modal-content{
-            padding-top: 22px;
-            border-radius: 0;
-            height: 100vh;
-        }
     }
 </style>
 <div id="newHomeOuter" class="cust-modal has-trans">
@@ -57,6 +59,21 @@ if(!Auth::guest()){
 
                 <label>Price</label>
                 <input autocomplete="off" id="newHomePrice" name="price" type="number" placeholder="price of the home" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
+
+                <label>Street</label>
+                <input autocomplete="off" id="newHomeStreet" name="street" type="text" placeholder="home Street" style="font-size: 1.5em; margin-bottom: 40px;" >
+
+                <label>Town</label>
+                <input autocomplete="off" id="newHomeTown" name="town" type="text" placeholder="home Town" style="font-size: 1.5em; margin-bottom: 40px;">
+
+	            <label>Type</label>
+	            <select name="type" style="font-size: 1.5em; margin-bottom: 40px;" onchange="setCount(this.value)">
+		            <option value="0">Bungalow</option>
+		            <option value="1">Storey(Ghorofa)</option>
+	            </select>
+
+	            <label class="hidden" id="newHomeFloorsLabel">Number of floors</label>
+	            <input class="hidden" autocomplete="off" id="newHomeFloorsInput" name="floor_count" type="number" placeholder="Number of floors" min="1" style="font-size: 1.5em; margin-bottom: 40px;" value="1">
 
                 <label>Description</label>
                 <textarea id="newHomeDesc" placeholder="Short description about home" name="description" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
@@ -138,5 +155,21 @@ if(!Auth::guest()){
         }else{
             $('.save-new-project').attr("disabled", "disabled");
         }
+    }
+
+    function setCount(val){
+	    var label = $("#newHomeFloorsLabel");
+	    var input = $("#newHomeFloorsInput");
+
+	    console.log(val);
+	    if(val == 1){
+		    label.removeClass("hidden");
+		    input.removeClass("hidden");
+
+		    input.val(1);
+	    }else{
+		    label.addClass("hidden");
+		    input.addClass("hidden");
+	    }
     }
 </script>
