@@ -114,15 +114,7 @@
 			fill: #000;
 		}
 		.tabheads{
-			height: 75px;
-			display: -webkit-flex;
-			display: -moz-flex;
-			display: -ms-flex;
-			display: -o-flex;
-			display: flex;
-			justify-content: space-between;
-			-ms-align-items: center;
-			align-items: center;
+			min-height: 75px;
 		}
 		.tabheads .tabhead{
 			display: inline-block;
@@ -242,7 +234,7 @@
 				background-color: #fff;
 				box-shadow: 0 0 3px rgba(0,0,0,0.16);
 				border-radius: 3px;
-				height: 70px;
+				/*height: 70px;*/
 			}
 
 			#tabsContent .tabheads .tabhead{
@@ -368,6 +360,70 @@
             -ms-text-overflow: ellipsis;
             text-overflow: ellipsis;
         }
+
+		.the-tabs-scroll{
+			position: relative;
+			height: 70px;
+			overflow: hidden;
+			overflow-x: auto;
+		}
+
+		.the-tabs-scroll > .layout{
+			position: absolute;
+			top: 0;
+			left: 0;
+			/*background: #000;*/
+			width: 100%;
+			height: 100%;
+
+			-webkit-transition: opacity 0.35s;
+			-moz-transition: opacity 0.35s;
+			-ms-transition: opacity 0.35s;
+			-o-transition: opacity 0.35s;
+			transition: opacity 0.35s;
+		}
+
+		.the-tabs-scroll:not(.show-user-options):not(.show-expert-options) > .layout,
+		.the-tabs-scroll.show-user-options  > .layout:not(.for-user),
+		.the-tabs-scroll.show-expert-options  > .layout:not(.for-expert){
+			opacity: 0;
+			pointer-events: none;
+
+			-webkit-transition: opacity 0.05s;
+			-moz-transition: opacity 0.05s;
+			-ms-transition: opacity 0.05s;
+			-o-transition: opacity 0.05s;
+			transition: opacity 0.05s;
+		}
+
+		.tab-shifters{
+			display: inline-block;
+			padding: 16px;
+			padding-bottom: 8px;
+		}
+
+		.tab-shifters a{
+			display: inline-block;
+			color: #555;
+		}
+
+		.tab-shifters a.active{
+			display: inline-block;
+			color: #000;
+			font-weight:bold;
+			pointer-events: none;
+		}
+
+		.tab-shifters a:after{
+			content: "";
+			display: inline-block;
+			font-weight: normal;
+		}
+
+		.tab-shifters a:not(:last-child):after{
+			content: "/";
+			margin:0 8px;
+		}
     </style>
 
     <script>
@@ -405,6 +461,20 @@
 	    if(!isset($page))
 	    	$page = "houses";
 
+		$page_parent = "expert";
+
+		$page_parent_map = [
+			"projects" => "user",
+			"houses" => "user",
+			"following" => "user",
+			"followers" => "user",
+			"articles" => "expert",
+			"reviews" => "expert",
+			"shops" => "expert",
+		];
+
+		$page_parent = $page_parent_map[$page];
+
 	    $curpage = 'user.' . $page;
 
 	    function is_curpage($page, $my_page){
@@ -418,25 +488,38 @@
 			@include('user.profile_summary')
 
 			<div id="tabsContent" class="col-sm-12 col-md-8 col-lg-8">
-				<div class="tabheads hidden-xs">
-					@if($user->role == "user")
-						<a href="/user/{{$user->id}}/projects" data-target="projects" class="tabhead {{is_curpage($page, 'projects')}}"><span>{{$project_count}}</span><span>PROJECTS</span></a>
-
-						<a href="/user/{{$user->id}}/houses" data-target="houses" class="tabhead {{is_curpage($page, 'houses')}}"><span>{{$house_count}}</span><span>DREAMS</span></a>
-
-						<a href="/user/{{$user->id}}/following" data-target="following" class="tabhead {{is_curpage($page, 'following')}}"><span>{{$following_count}}</span><span>FOLLOWING</span></a>
-					@endif
-
+				<div class="tabheads hidden-xs the-tab-heads" style="position: relative;">
 					@if($user->role == "expert" || $user->role == "realtor" || $user->role == "seller")
-						<a href="/user/{{$user->id}}/articles" data-target="articles" class="tabhead {{is_curpage($page, 'articles')}}"><span>{{$articles_count}}</span><span>ARTICLES</span></a>
-						<a href="/user/{{$user->id}}/reviews" data-target="reviews" class="tabhead {{is_curpage($page, 'reviews')}}"><span>{{$reviews_count}}</span><span>REVIEWS</span></a>
+						<nav class="tab-shifters">
+							<a class="{{$page_parent == 'user' ? 'active' : ''}}" href="javascript:void(0);" onclick="shiftTabs('user')">AS USER</a>
+							<a class="{{$page_parent == 'expert' ? 'active' : ''}}" href="javascript:void(0);" onclick="shiftTabs('expert')">AS EXPERT</a>
+						</nav>
 					@endif
 
-					@if($user->role == "seller")
-						<a href="/user/{{$user->id}}/shops" data-target="shops" class="tabhead {{is_curpage($page, 'shops')}}"><span>{{$shops_count}}</span><span>SHOPS</span></a>
-					@endif
+					<div class="the-tabs-scroll {{'show-' . $page_parent. '-options'}}">
+						<div class="layout justified for-user">
+							<a href="/user/{{$user->id}}/projects" data-target="projects" class="tabhead {{is_curpage($page, 'projects')}}"><span>{{$project_count}}</span><span>PROJECTS</span></a>
 
-					<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
+							<a href="/user/{{$user->id}}/houses" data-target="houses" class="tabhead {{is_curpage($page, 'houses')}}"><span>{{$house_count}}</span><span>DREAMS</span></a>
+
+							<a href="/user/{{$user->id}}/following" data-target="following" class="tabhead {{is_curpage($page, 'following')}}"><span>{{$following_count}}</span><span>FOLLOWING</span></a>
+
+							<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
+						</div>
+						<div class="layout justified for-expert">
+							@if($user->role == "expert" || $user->role == "realtor" || $user->role == "seller")
+								<a href="/user/{{$user->id}}/articles" data-target="articles" class="tabhead {{is_curpage($page, 'articles')}}"><span>{{$articles_count}}</span><span>ARTICLES</span></a>
+
+								<a href="/user/{{$user->id}}/reviews" data-target="reviews" class="tabhead {{is_curpage($page, 'reviews')}}"><span>{{$reviews_count}}</span><span>REVIEWS</span></a>
+							@endif
+
+							@if($user->role == "seller")
+								<a href="/user/{{$user->id}}/shops" data-target="shops" class="tabhead {{is_curpage($page, 'shops')}}"><span>{{$shops_count}}</span><span>SHOPS</span></a>
+							@endif
+
+							<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
+						</div>
+					</div>
 				</div>
 
 				<div id="userHouses" style="margin-top: 20px;">
@@ -499,5 +582,18 @@
     			alert.hide();
     		}, 2000);
     	}
+
+		function shiftTabs(to){
+			var tabsy = $(".the-tabs-scroll");
+			var inactive = $(".tab-shifters a:not(.active)");
+			var active = $(".tab-shifters a.active");
+
+			tabsy.removeClass("show-user-options");
+			tabsy.removeClass("show-expert-options");
+			tabsy.addClass("show-"+ to +"-options");
+
+			active.removeClass("active");
+			inactive.addClass("active");
+		}
 	</script>
 @endsection
