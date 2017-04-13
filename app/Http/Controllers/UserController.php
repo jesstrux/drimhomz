@@ -49,23 +49,26 @@ class UserController extends Controller
     public function verify_code()
     {
         $this->validate(request(), [
-            'verification_code' => 'required|max:4'
+            'verification_code' => 'required|max:4|exists:users,verification_code',
+
         ]);
-        $verification_code = request('verification_code');
-         $status =  User::where('verification_code','=',$verification_code)->where('id','=',Auth::user()->id)->value('verified');
-        $user = Auth::user();
-       if($status==0){
-           User::where('verification_code','=',$verification_code)->where('verified','=','0')->where('id','=',Auth::user()->id)->update(['verified'=>'1']);
-           request()->session()->flash('verification_status', 'Phone Number Successfully Verified');
-           request()->session()->flash('verification_type', 'success');
-           return view('user.setup', compact('user'));
-       }elseif($status==1){
+         $verification_code = request('verification_code');
+
+        $verified = User::where('verification_code','=',$verification_code)->where('verified','=','0')->where('id','=',Auth::user()->id)->exists();
+
+        if($verified){
+            User::where('verification_code','=',$verification_code)->where('verified','=','0')->where('id','=',Auth::user()->id)->update(['verified'=>'1']);
+            request()->session()->flash('verification_status', 'Phone Number Successfully Verified');
+            request()->session()->flash('verification_type', 'success');
+            return view('user.setup', compact('user'));
+        }else{
+            $user = Auth::user();
             request()->session()->flash('verification_status', 'Phone Number already Verified!');
-           request()->session()->flash('verification_type', 'info');
-           return view('user.setup', compact('user'));
-       }else{
-           return back()->withErrors(['verification_code'=>'The Verification Code does not exist']);
-       }
+            request()->session()->flash('verification_type', 'info');
+            return view('user.setup', compact('user'));
+        }
+
+
     }
 
     public function setup(){
