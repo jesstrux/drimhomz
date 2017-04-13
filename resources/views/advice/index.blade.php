@@ -247,6 +247,13 @@
 		.full-question:not(.my-question) .answer:not(.my-response):not(.my-answer) form{
 			display: none !important;
 		}
+
+		@media only screen and (max-width: 760px) {
+			.answers.inset{
+				margin: 0;
+				width: 100vw;
+			}
+		}
 	</style>
 
 	<section class="short" style="background-color: #fff;margin-bottom: 50px">

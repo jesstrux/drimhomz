@@ -15,6 +15,6 @@ class ExpertRating extends Model
     }
 
     public function user(){
-        return $this->belongsTo('App\User')->select('id', 'fname', 'dp');
+        return $this->belongsTo('App\User')->select('id', 'fname', 'lname', 'dp');
     }
 }

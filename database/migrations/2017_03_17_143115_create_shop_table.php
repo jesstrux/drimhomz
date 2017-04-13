@@ -18,8 +18,13 @@ class CreateShopTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('name');
             $table->string('image_url')->nullable();
-            $table->string('location');
-            $table->string('coords')->nullable();
+            $table->string('type')->nullable();
+            $table->string('town')->nullable();
+            $table->string('street')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->text('quality_statement')->nullable();
+            $table->text('service_statement')->nullable();
             $table->timestamps();
             $table->foreign('user_id')
                 ->references('id')

@@ -100,6 +100,7 @@
                 if(location.href.indexOf("user") !== -1 && !drimMode){
                     showLoading();
                     window.location.href = base_url + "/editProject/" + response.project.id;
+                    showToast("success", "Project successfully created");
                 }
                 else{
                     projectCreationSuccess(response.project);
@@ -112,6 +113,7 @@
             }
         })
         .fail(function(response){
+            showToast("error", "Unknown error occured");
             console.log("Error!, ", response);
             projectCreationError();
             $("#newProjectTitle").focus();

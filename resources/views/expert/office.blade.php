@@ -8,7 +8,25 @@
                 <?php $image_url = isset($office->image_url) && strlen($office->image_url) > 0 ? $office->image_url : 'def.png'?>
                 <img src="{{$office_url . $image_url}}" alt="" width="100%" height="210px" style="background-color: #eee; border: none; max-width: 260px; border-radius: 5px">
                 <h2 style="margin-bottom: 15px; font-size: 1.5em;">{{$office->name}}</h2>
-                <div class="rateyo"></div>
+
+                <div class="layout center">
+                    <div style="color: #aaa; font-size: 2rem; background: #000;padding: 8px; padding-bottom: 10px;letter-spacing: 4px">
+                        {{number_format($office->user->rating(), 1, '.', '')}}
+                    </div>&nbsp;
+                    <div class="layout vertical">
+                        <div class="expert-rating" style="min-height: 20px"></div>&nbsp;
+                        by {{$office->user->ratings()->count()}} people
+                    </div>
+                </div>
+
+                @if(!Auth::guest() && Auth::user()->id != $office->user_id
+                    && !$user->rated(Auth::user()->id))
+                    <button class="btn" style="background-color: #f1a00b; color: #f1eee9; align-self: flex-start; margin-top: 15px; margin-bottom: 20px;" onclick="openRateExpert()">
+                        RATE EXPERT
+                    </button>
+                @else
+                    <div style="margin-bottom: 25px;"></div>
+                @endif
             </div>
 
             <div class="col-md-8">
@@ -60,4 +78,15 @@
             console.log(rating);
         });
     </script>
+<<<<<<< HEAD
+=======
+
+    @if(!Auth::guest() && Auth::user()->id != $office->user_id
+                    && !$user->rated(Auth::user()->id))
+        <?php
+            $expert = $office->user;
+        ?>
+        @include('expert.rate_expert')
+    @endif
+>>>>>>> c2f359aab4a4bcf40211c6e94345808156748a38
 @endsection
