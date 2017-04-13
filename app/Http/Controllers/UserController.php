@@ -52,7 +52,7 @@ class UserController extends Controller
             'verification_code' => 'required|max:4'
         ]);
         $verification_code = request('verification_code');
-         $status =  User::where('verification_code','=',$verification_code)->where('id','=',Auth::user()->id)->value('verified');
+        $status =  User::where('verification_code','=',$verification_code)->where('id','=',Auth::user()->id)->value('verified');
         $user = Auth::user();
        if($status==0){
            User::where('verification_code','=',$verification_code)->where('verified','=','0')->where('id','=',Auth::user()->id)->update(['verified'=>'1']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Image;
 use App\Shop;
 use App\User;
 use Illuminate\Http\Request;
@@ -30,21 +31,29 @@ class ShopController extends Controller
     }
 
     public function store(Request $request){
-        $user_role = User::find($request->input('user_id'))->role;
+        $shop_owner = User::find($request->input('user_id'));
 
-        if($user_role != "seller"){
-            return response()->json([
-                'success' => false,
-                'msg' => 'You must be registered as a seller and be logged in to create shop.'
-            ]);
+        if($shop_owner->role != "seller"){
+            $shop_owner->role = "seller";
+            $shop_owner->save();
         }
 
-        $shop = [
+        function saveThumb(Request $request){
+            $image = $request->file('image_url');
+            $destinationPath = public_path('images/uploads/shops/');
+
+            $img = Image::make($image->getRealPath());
+            $new_image_name = "shop-" .$request->input('user_id').'-'.time().'.'.$image->getClientOriginalExtension();
+            $img->save($destinationPath.$new_image_name);
+            return $new_image_name;
+        }
+
+        $shop_test = [
             'user_id' => $request->input('user_id'),
-            'name' => $request->input('name')
+            'name' => $request->input('name'),
         ];
 
-        $shop_exists = Shop::where($shop)->exists();
+        $shop_exists = Shop::where($shop_test)->exists();
 
         if($shop_exists){
             return response()->json([
@@ -62,8 +71,24 @@ class ShopController extends Controller
             ]);
         }
 
-        $shop['location'] = "";
-        $shop['image_url'] = "def.png";
+        if($request->file('image_url') != null){
+            $image_url = saveThumb($request);
+        }else{
+            $image_url = "def.png";
+        }
+
+        $shop = [
+            'user_id' => $request->input('user_id'),
+            'name' => $request->input('name'),
+            'type' => $request->input('type'),
+            'street' => $request->input('street'),
+            'town' => $request->input('town'),
+            'city' => $request->input('city'),
+            'country' => $request->input('country'),
+            'quality_statement' => $request->input('quality_statement'),
+            'service_statement' => $request->input('service_statement'),
+            'image_url' => $image_url
+        ];
 
         $new_shop = Shop::create($shop);
 

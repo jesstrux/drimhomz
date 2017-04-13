@@ -49,11 +49,8 @@ Route::get('/getHouse/{id}', function ($id) {
     return App\House::find($id);
 });
 
-Route::get('/product/{id}', function ($id) {
-    $product = App\Product::find($id);
-
-    return view('products.single', compact('product'));
-});
+Route::get('/product/{id}', 'ProductController@index');
+Route::post('/createProduct', 'ProductController@store');
 
 Route::get('resizeImage', 'ImageController@resizeImage');
 Route::post('createAd', ['as' => 'resizeImagePost', 'uses' => 'ImageController@resizeImagePost']);
