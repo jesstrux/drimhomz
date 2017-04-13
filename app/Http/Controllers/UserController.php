@@ -63,6 +63,7 @@ class UserController extends Controller
             return view('user.setup', compact('user'));
         }else{
             $user = Auth::user();
+
             request()->session()->flash('verification_status', 'Phone Number already Verified!');
             request()->session()->flash('verification_type', 'info');
             return view('user.setup', compact('user'));

@@ -79,7 +79,10 @@
         });
     </script>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> search
 
     @if(!Auth::guest() && Auth::user()->id != $office->user_id
                     && !$user->rated(Auth::user()->id))
@@ -88,5 +91,8 @@
         ?>
         @include('expert.rate_expert')
     @endif
+<<<<<<< HEAD
 >>>>>>> c2f359aab4a4bcf40211c6e94345808156748a38
+=======
+>>>>>>> search
 @endsection

@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
 
+            //Get unsent messages and send them in the background
             $messages = Message::limit(10)->where('messages.status', '=', '0')->select('messages.id','messages.body','users.phone','messages.type','users.verification_code','users.id as users_id')
                 ->join('users', 'messages.user_id', '=', 'users.id')
                 ->get();
@@ -39,7 +40,7 @@ class Kernel extends ConsoleKernel
         })->everyMinute()
             ->name("SendUnsentMessages")
          // ->withoutOverlapping()
-          ->appendOutputTo(base_path('storage/schedule/background.txt'));
+          ->appendOutputTo(storage_path('schedule/background.txt'));
 
     }
 

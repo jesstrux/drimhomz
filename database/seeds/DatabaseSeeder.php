@@ -31,21 +31,22 @@ class DatabaseSeeder extends Seeder
 //        $this->call(QuestionsSeeder::class);
 //        $this->call(AnswersSeeder::class);
 
+
         $this->call(ShopsTableSeeder::class);
         $this->call(ProductsTableSeeder::class);
 
-//        $this->call(NearbyServicesTableSeeder::class);
-//        $this->call(UtilitiesTableSeeder::class);
-//
-//        $this->call(HomesTableSeeder::class);
-//        $this->call(HomeImagesTableSeeder::class);
-//        $this->call(HomeUtilitiesTableSeeder::class);
-//
-//        $this->call(RentalsTableSeeder::class);
-//        $this->call(RentalImagesTableSeeder::class);
-//        $this->call(RentalUtilitiesTableSeeder::class);
-//
-//        $this->call(PlotsTableSeeder::class);
-//        $this->call(PlotImagesTableSeeder::class);
+        $this->call(NearbyServicesTableSeeder::class);
+        $this->call(UtilitiesTableSeeder::class);
+
+        $this->call(HomesTableSeeder::class);
+        $this->call(HomeImagesTableSeeder::class);
+        $this->call(HomeUtilitiesTableSeeder::class);
+
+        $this->call(RentalsTableSeeder::class);
+        $this->call(RentalImagesTableSeeder::class);
+        $this->call(RentalUtilitiesTableSeeder::class);
+
+        $this->call(PlotsTableSeeder::class);
+        $this->call(PlotImagesTableSeeder::class);
     }
 }

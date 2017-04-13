@@ -274,6 +274,13 @@
 	            	</a> &emsp;|&emsp; 
 	            	<a href="{{url('advice/articles')}}" class="{{$articles_active}}">ARTICLES</a>
 	            </h4>
+				@if(Auth::user())
+					@if($page == "questions")
+						<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewQuestion()">Add Question</button>
+					@elseif($page == "articles" && Auth::user() && Auth::user()->role != 'user')
+						<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewArticle()">Add Article</button>
+					@endif
+				@endif
 	        </div>
 	    </div>
 	</section>
@@ -281,6 +288,11 @@
 	<div class="container" style="max-width: 800px; margin-top: 10px;">
 		@include('advice.'.$page)
 	</div>
+	<br>
+	<div class="real-content">
+		@include('advice.new_'.substr($page, 0, strlen($page) - 1))
+	</div>
+	<br>
 
 	<script>
 		$('.answer-value').on("keyup", function(){

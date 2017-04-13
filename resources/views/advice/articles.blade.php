@@ -5,7 +5,12 @@
 	}
 </style>
 @foreach($articles as $question)
-	<div class="row full-question" id="question_{{$question->id}}">
+	<?php
+		$my_question = "";
+		if(!Auth::guest() && $question->user->id == Auth::user()->id)
+			$my_question = "my-question";
+	?>
+	<div class="row full-question {{$my_question}}" id="question_{{$question->id}}">
 		<div class="col-lg-12 card no-pad question">
 		    <div class="item">
 	        	<div class="avatar">
