@@ -19,16 +19,26 @@
 	#followBtnLg.lg-followed span:nth-child(1){
 		display: none;
 	}
+
+	#shopImage{
+		position: relative;
+		/*display: inline-block;*/
+		background-color: #dddddd;
+		margin: auto;
+		height: 240px;
+		overflow: hidden;
+		background-position:top center; background-size: cover;
+		border-bottom: 1px solid #dddddd;
+	}
 </style>
 
-<div id="profileSummaryLg" class="col-sm-12 col-md-5 col-lg-4">
-	<div id="userDetails" class="text-center">
-		<div id="profilePic">
-			<img src="{{asset($shop_url . $shop->image_url)}}" alt="">
+<div id="profileSummaryLg" class="col-sm-12 col-md-4">
+	<div id="userDetails" class="text-center" style="padding-top: 0;">
+		<div id="shopImage" style="background-image: url({{asset($shop_url . $shop->image_url)}})">
 		</div>
-		<h3>{{$shop->name}}</h3>
-		<br>
+		<h3 style="padding: 10px 20px;">{{$shop->name}}</h3>
 		@if($myShop)
+			{{--<br>--}}
 			{{--<a href="/setupAccount" class="btn btn-default">--}}
 				{{--Edit shop--}}
 			{{--</a>--}}
@@ -42,23 +52,31 @@
 </div>
 
 <div id="profileSummary" class="col-sm-12 col-md-4">
-	<div id="lgDp">
-		<div id="cover">
-			<div id="theDp">
-			</div>
+	<div class="layout" style="padding: 20px; padding-top: 30px; min-height: 180px; background: #fff; margin-top: -15px; border-bottom: 1px solid #dddddd; margin-bottom: 16px;">
+		<div style="width: 120px; min-height: 75px; background: #dddddd; border: 1px solid #dddddd; min-width: 120px; margin-right: 20px; align-self: flex-start;">
+			<img src="{{asset($shop_url . $shop->image_url)}}" alt="" width="100%">
 		</div>
-		<div id="user">
-			<span id="name">{{$shop->name}}</span>
+		<div class="flex">
+			<span id="name" style="font-size: 1.6em;">{{$shop->name}}</span>
+			<p>{{$shop->products->count()}} products available</p>
+			<p>
+				<strong>Location:</strong>
 
+				@if($shop->street != null)
+					{{$shop->street}},
+				@endif
+
+				@if($shop->town != null)
+					{{$shop->town}}
+				@endif
+
+				@if($shop->country != null)
+					{{$shop->country}}
+				@endif
+			</p>
 			@if(!Auth::guest())
 				@if($myShop)
-					<a id="followBtn" href="javascript;"
-						onclick="editProduct('edit-project')">
-						<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-							<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-							<path d="M0 0h24v24H0z" fill="none"/>
-						</svg>
-					</a>
+
 				@endif
 			@endif
 		</div>

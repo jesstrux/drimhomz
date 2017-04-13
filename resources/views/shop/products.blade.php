@@ -1,5 +1,5 @@
 @if($myShop)
-    <a href="javascript:void(0);" class="new-button" onclick="opennewProduct()">
+    <a id="createProductBtn" href="javascript:void(0);" class="new-button" onclick="openNewProduct()">
         <div class="image layout center-center" style="background: #eee;">
             <svg fill="#555" height="100" viewBox="0 0 24 24" width="100" xmlns="http://www.w3.org/2000/svg">
 			    <path d="M0 0h24v24H0z" fill="none"/>
@@ -19,7 +19,7 @@
 @foreach($houses as $house)
     <div style="cursor: pointer;" class="house-card">
         <div class="image" style="background-color: #eee">
-            <img src="{{asset($res_url . '/shops/'. $shop->image_url)}}" alt="{{$house->title}}">
+            <img src="{{$product_url . $house->image_url}}" alt="{{$house->name}}">
         </div>
         <div class="content">
             <h3>{{$house->name}}</h3>
@@ -30,33 +30,4 @@
     </div>
 @endforeach
 
-
-<div id="newProduct" class="cust-modal">
-    <button class="closer" onclick="closenewProduct()">
-        <svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
-
-    <form enctype="multipart/form-data" class="cust-modal-content" method="POST" action="/createHouse" style="width: 380px; padding-top: 15px;">
-        <h3>New Product</h3>
-        {{ csrf_field() }}
-        <input type="hidden" name="user_id" value="{{$shop->user->id}}">
-        
-        <label style="margin-bottom: 8px;">Pick an image</label>
-        <input style="margin-bottom: 10px;" name="image_url" type="file" required><br>
-        <input type="hidden" name="project_id" value="{{$shop->id}}">
-
-        <button type="submit">CREATE</button>
-    </form>
-</div>
-
-<script>
-    function closenewProduct(){
-        $("#newProduct").removeClass("open");
-        $("body").removeClass("locked");
-    }
-
-    function opennewProduct() {
-        $("#newProduct").addClass("open");
-        $("body").addClass("locked");
-    }
-</script>
+@include('products.new-product')

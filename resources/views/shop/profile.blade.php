@@ -345,8 +345,8 @@
 		<div class="row">
 			@include('shop.profile_summary')
 
-			<div class="col-sm-12 col-md-7 col-lg-8">
-				<div id="userHouses" style="margin-top: 20px;">
+			<div class="col-sm-12 col-md-8">
+				<div id="userHouses">
 					@if($errors->any())
 						<div class="alert alert-error alert-dismissible" role="alert">
 						  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -361,7 +361,7 @@
 						</div>
 					@endif
 
-					<div role="tabpanel" class="tab-pane fade in active" id="projects">
+					<div role="tabpanel" class="tab-pane fade in active" id="shopProducts">
 						@include('shop.products')
 					</div>
 				</div>

@@ -465,8 +465,32 @@
 	</main>
 
 	@include('user.profile-picture')
+	@include('user.become_seller')
+
+	@include('shop.new-shop')
 
 	<script>
+		function shopCreationSuccess(project){
+			showToast("success", "Project created!");
+
+			var proj_html = `<a href="/shop/`+project.id+`" class="house-card">
+					<div class="image" style="pointer-events: auto;">
+					<img src="`+ shop_base_url + `/def.png"/>
+					</div>
+					<div class="content">
+					<h3 style="line-height: 30px;margin: 0; margin-top: 4px;">`+project.name+`</h3>
+			</div>
+			</a>`;
+
+			var new_project = $(proj_html);
+			$("#createShopBtn").after(new_project);
+		}
+
+		function projectCreationError(msg){
+			var message = msg && msg.length ? msg : "Couldn't create shop!";
+			showToast("error", message);
+		}
+
 		function infoSaved(message){
     		var alert = $("#savedAlert");
     		alert.find('.msg').text(message);

@@ -18,10 +18,14 @@ class ShopsTableSeeder extends Seeder
         for ($i=0; $i < 30; $i++) { 
         	$shop = [
 	        	'user_id' => $faker->numberBetween(1, $users->count()),
-	            'name' => $faker->sentence($faker->numberBetween(2, 4)),
+	            'name' => $faker->sentence($faker->numberBetween(4, 6)),
                 'image_url' => 'def.png',
-                'coords' => $faker->longitude() . ", " . $faker->latitude(),
-                'location' => $faker->streetName()
+                'town' => $faker->streetName(),
+                'street' => $faker->city(),
+                'city' => $faker->city(),
+                'country' => $faker->country(),
+                'quality_statement' => $faker->realText($faker->numberBetween(20, 50)),
+                'service_statement' => $faker->realText($faker->numberBetween(20, 50)),
 	        ];
 
 	        Shop::create($shop);

@@ -16,7 +16,7 @@
         <a href="{{url('/advice/articles/').'/'.$fol->id}}" class="house-card">
             <div class="image" style="background-color: #eee">
         {{--            <img src="{{asset($user_url . $fol->follower->dp)}}" alt="{{$fol->follower->fname}}'s dp">--}}
-                <div class="userview-image" style="background-color: #ee9"></div>
+                <div class="userview-image" style="background-color: #ddd"></div>
             </div>
             <div class="content">
                 <h3>{{$fol->title}}</h3>

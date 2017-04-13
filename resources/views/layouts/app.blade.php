@@ -43,6 +43,7 @@
         var base_url = "<?php echo $base_url?>";
         var house_base_url = "<?php echo $house_url?>";
         var shop_base_url = "<?php echo $shop_url?>";
+        var product_base_url = "<?php echo $product_url?>";
         var office_base_url = "<?php echo $office_url?>";
         var user_base_url = "<?php echo $user_url?>";
         var ad_base_url = "<?php echo $banner_url?>";
