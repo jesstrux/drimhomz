@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\ExpertRated;
+use App\Notifications\ShopRated;
 use Auth;
 use Image;
 use App\Shop;
@@ -103,5 +105,53 @@ class ShopController extends Controller
                 'success' => false,
                 'msg' => 'Failed to create shop'
             ]);
+    }
+
+    public function rate(Request $request){
+	    $what = $request->input("what");
+	    $rated_id = $request->input('rate_id');
+
+        $rating = [
+            'rating' => $request->input("rating"),
+            'comment' => $request->input("comment"),
+            'user_id' => $request->input("user_id")
+        ];
+
+//	    return response()->json([
+//		    "success" => false,
+//		    "msg" => "Rating $what ". $rated_id
+//	    ]);
+
+	    switch($what){
+		    case "shop" : {
+			    $newly_rated = Shop::find($rated_id)->create($rating);
+
+			    if($newly_rated)
+				    if(Auth::user()->id != $newly_rated->ratable_id)
+					    User::find($newly_rated->ratable->user()->id)->notify(new ShopRated($newly_rated, $newly_rated->user));
+		    }
+		    break;
+
+		    case "user" : {
+			    $newly_rated = User::find($rated_id)->create($rating);
+
+			    if($newly_rated)
+				    if(Auth::user()->id != $newly_rated->ratable_id)
+					    User::find($newly_rated->ratable_id)->notify(new ExpertRated($newly_rated, $newly_rated->user));
+		    }
+		    break;
+	    }
+
+        if($newly_rated){
+            return response()->json([
+                "success" => true,
+                "msg" => "Successfully rated expert."
+            ]);
+        }else{
+            return response()->json([
+                "success" => false,
+                "msg" => "Coulnd't rate expert."
+            ]);
+        }
     }
 }

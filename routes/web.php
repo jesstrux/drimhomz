@@ -30,9 +30,7 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
     if(!Auth::guest()){
          $user = Auth::user();
 //         ->full_name();
-
-        $home = App\User::find(5);
-        return $home->rating();
+	    return App\User::find(1)->notifications;
      }
      else{
          echo "Hello guest";
@@ -61,6 +59,8 @@ Route::post('/deleteAd','AdminController@delete_ad');
 Route::get('/about', function () {
     return view('home.about');
 });
+
+Route::post('/rateIt', 'RatingController@rate');
 
 Route::get('/search', 'SearchController@search');
 Route::get('/search/{q}', 'SearchController@search');

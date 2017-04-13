@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\Notifications\UserFollowed;
 use Auth;
 use Carbon\Carbon;
 
@@ -130,7 +131,11 @@ class UserController extends Controller
                 'followed_id' => $id
             ];
 
-            if(Follows::create($follow)){
+	        $new_follow = Follows::create($follow);
+            if($new_follow){
+                if(Auth::user()->id != $new_follow->followed_id)
+                    User::find($new_follow->followed_id)->notify(new UserFollowed($new_follow->user));
+
                 return response()->json([
                     'success' => 'true'
                 ]);

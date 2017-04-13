@@ -1,3 +1,8 @@
+<?php
+	$notifications = Auth::user()->notifications;
+	$unread_count = Auth::user()->unreadNotifications->count();
+?>
+
 <li class="dropdown hidden-xs" style="background-color: transparent">
     <a href="javascript:void(0);" class="with-icon" data-toggle="dropdown">
         <i class="fa fa-bell"></i>

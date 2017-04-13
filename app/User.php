@@ -57,11 +57,6 @@ class User extends Authenticatable
             array('user_id' => $uid, 'followed_id' => $this->id))->exists();
     }
 
-    public function rated($uid){
-        return ExpertRating::where(
-            array('user_id' => $uid, 'expert_id' => $this->id))->exists();
-    }
-
     public function unfollow($uid){
         // $uid
          return Follows::where(
@@ -69,20 +64,24 @@ class User extends Authenticatable
             )->delete();
     }
 
-
     //RELATIONS
-    public function ratings(){
-        return $this->hasMany('App\ExpertRating', 'expert_id');
-    }
+	public function ratings(){
+		return $this->morphMany('App\Rating', 'ratable');
+	}
 
-    public function rating(){
-        $ratings = $this->ratings;
-        if($ratings->count() > 0){
-            return $ratings->avg("rating");
-        }else{
-            return 0.000;
-        }
-    }
+	public function rating(){
+		$ratings = $this->ratings;
+		if($ratings->count() > 0){
+			return $ratings->avg("rating");
+		}else{
+			return 0.000;
+		}
+	}
+
+	public function rated($uid){
+		return $this->ratings()->where(
+			'user_id', $uid)->exists();
+	}
 
     public function articles(){
         return $this->hasMany('App\Article');

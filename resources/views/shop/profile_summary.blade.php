@@ -46,6 +46,10 @@
 			{{--<a href="/setupAccount" class="btn btn-default">--}}
 				{{--delete shop--}}
 			{{--</a>--}}
+		@else
+			@if(!$shop->rated(Auth::user()->id))
+				<button class="btn btn-primary" onclick="openRateIt(event, 'Shop', {{$shop->id}})">RATE SHOP</button>
+			@endif
 		@endif
 		<!-- <hr> -->
 	</div>

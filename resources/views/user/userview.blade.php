@@ -422,7 +422,8 @@
 
 		.tab-shifters a:not(:last-child):after{
 			content: "/";
-			margin:0 8px;
+			margin-left: 8px;
+			margin-right: 5px;
 		}
     </style>
 
@@ -494,6 +495,9 @@
 							<a class="{{$page_parent == 'user' ? 'active' : ''}}" href="javascript:void(0);" onclick="shiftTabs('user')">AS USER</a>
 							<a class="{{$page_parent == 'expert' ? 'active' : ''}}" href="javascript:void(0);" onclick="shiftTabs('expert')">AS EXPERT</a>
 						</nav>
+
+					@else
+						<div style="height: 10px;"></div>
 					@endif
 
 					<div class="the-tabs-scroll {{'show-' . $page_parent. '-options'}}">
@@ -549,7 +553,6 @@
 
 	@include('user.profile-picture')
 	@include('user.become_seller')
-
 	@include('shop.new-shop')
 
 	<script>

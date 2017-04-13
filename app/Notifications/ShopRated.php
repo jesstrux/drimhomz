@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\Rating;
 use App\User;
 
-class ExpertRated extends Notification
+class ShopRated extends Notification
 {
     use Queueable;
 
@@ -37,7 +37,8 @@ class ExpertRated extends Notification
             'user_name' => $user->fname ." ". $user->lname,
             'user_dp' => $user->dp,
             'rating' => $rating->rating,
-            'link' => "user/".$rating->ratable_id."/reviews#rating".$rating->id
+            'shop_image' => $rating->ratable->image_url,
+            'link' => "shop/".$rating->ratable_id."/reviews#rating".$rating->id
         ];
     }
 }

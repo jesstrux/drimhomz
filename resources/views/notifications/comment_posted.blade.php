@@ -8,7 +8,7 @@
             </span>
             <small>{{$notification->created_at->diffForHumans()}}</small>
         </div>
-        <div style="background-color: {{$data['house_image']}}">
+        <div style="background-color: {{$data['house_color']}}">
             <img class="dropdown-avatar" src="{{$house_url . $data['house_image']}}" alt="house image" />
         </div>
     </div>
