@@ -1,18 +1,12 @@
 <nav id="mainestNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container" style="padding-right: 20px; position: relative;">
         <div class="navbar-header" style="position: relative;">
-            @if(isset($has_menu) && $has_menu)
-                <button onclick="openMenu()" style="float: left; margin-left: 8px; margin-right: 0; height:60px; border: none; background-color: transparent; position: relative;" class="btn btn-default hidden visible-xs">
+            {{--@if(isset($has_menu) && $has_menu)--}}
+                <button id="mobNavOpener" onclick="toggleMenu()" style="outline: none;float: left; margin-left: 8px; margin-right: 0; height:60px; border: none; background-color: transparent; position: relative;" class="btn btn-default hidden visible-xs">
                     <i style="font-size: 25px" class="fa fa-bars"></i>
+                    <i style="font-size: 25px" class="fa fa-close"></i>
                 </button>
-            @endif
-
-            <button type="button" class="navbar-toggle collapsed hidden-xs" data-toggle="collapse" data-target="#app-navbar-collapse">
-                <span class="sr-only">Toggle Navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            {{--@endif--}}
             <a class="navbar-brand" href="{{ url('/') }}">
                 <img class="hidden-x" src="{{asset('images/drimhomzlogo.png')}}" alt="">
                 <span id="logo">{{ config('app.name', 'Drimhomz') }}</span>
@@ -32,13 +26,6 @@
                         $notifications = Auth::user()->notifications;
                         $unread_count = Auth::user()->unreadNotifications->count();
                     ?>
-
-                    <a href="{{ url('/notifications') }}" class="layout center-center" onclic="openNotifications()" style="position: relative;">
-                        <span style="line-height: 1; padding: 3px 8px; padding-bottom: 5px; border-radius: 12px; display: inline-block; align-self: flex-start ;background-color: #ffa500; position: absolute; top: 12px; right:2px; font-size: 14px; color: #000">{{$unread_count}}</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M11.5 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6.5-6v-5.5c0-3.07-2.13-5.64-5-6.32V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5v.68c-2.87.68-5 3.25-5 6.32V16l-2 2v1h17v-1l-2-2z"/></svg>
-                    </a>
-
-                    @include('notifications.wrapper')
 
                     <?php
                         $profileUrl = "/user/".Auth::user()->id;
@@ -97,12 +84,8 @@
                 @if ($isadmin)
                     <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                 @endif
-                
-                @if (Auth::guest())
-                    <li><a href="{{ url('/') }}">Home</a></li>
-                @else
-                    <li><a href="{{ url('/home') }}">Home</a></li>
-                @endif
+
+                <li><a href="{{ url('/') }}">Home</a></li>
 
                 <!-- <li><a href="about">About</a></li> -->
                 <li><a href="{{ url('/shop') }}">Shop</a></li>
@@ -173,3 +156,9 @@
         </div>
     </div>
 </nav>
+
+<script>
+    function toggleMenu(){
+        document.body.classList.toggle('open-menu');
+    }
+</script>

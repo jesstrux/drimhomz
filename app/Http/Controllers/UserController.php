@@ -77,9 +77,17 @@ class UserController extends Controller
         return view('user.setup', compact('user'));
     }
 
-    function showprofile($id, $page = "projects"){
-        $user = User::with('projects', 'following', 'houses', 'followers')->find($id);
+    function showprofile($id, $page = null){
+//        $user = User::with('projects', 'following', 'houses', 'followers')->find($id);
+        $user = User::find($id);
 
+        if($page == null){
+            if($user->role == "expert" || $user->role == "realtor" || $user->role == "seller")
+                $page = "articles";
+            else
+                $page = "projects";
+        }
+        
         if(!Auth::guest()){
             $authuser = Auth::user();
             $myProfile = $authuser->id == $user->id;
@@ -290,15 +298,20 @@ class UserController extends Controller
         $user = User::find(Auth::user()->id);
         // $path = Storage::put('dps', $request->file('dp'), 'public');
         // $path = $request->file('dp')->store('uploads/dps');
-        $extension = $request->file('dp')->getClientOriginalExtension();
-        $photoName = Auth::user()->id.'_'.time().'.'.$extension;
-        $destination = public_path()."/images/uploads/user_dps/";
-        $request->file('dp')->move($destination, $photoName);
-        $oldDp  = $destination.$user->dp;
-      if(file_exists($oldDp)&&$user->dp!='drimhomzDefaultDp.png')
-          unlink($oldDp);
-        $user->dp = $photoName;
 
+        if($request->file('dp') != null){
+            $extension = $request->file('dp')->getClientOriginalExtension();
+            $photoName = Auth::user()->id.'_'.time().'.'.$extension;
+            $destination = public_path()."/images/uploads/user_dps/";
+            $request->file('dp')->move($destination, $photoName);
+            $oldDp  = $destination.$user->dp;
+
+            if(file_exists($oldDp))
+                unlink($oldDp);
+            $user->dp = $photoName;
+        }else{
+            $user->dp = "def.png";
+        }
         
         if($user->save()){
             return "success";

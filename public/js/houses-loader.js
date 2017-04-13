@@ -197,7 +197,7 @@ first_load = true;
       html +=     '<h3>'+house.title+'</h3>';
       html +=     '<a class="user-link hidden-xs hidden-sm" href="/user/'+house.owner.id+'" data-user-id="'+house.owner.id+'">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
       html +=     '<a class="hidden visible-xs visible-sm" onclick="showUserBottomSheet('+house.owner.id+')">'+house.owner.fname + ' ' + house.owner.lname + '</a>'
-      html +=     '<span class="social-stuff">'+likes_text+' &nbsp; | &nbsp; '+comments_text+'</span>'
+      html +=     '<span class="social-stuff">'+likes_text+'&nbsp;|&nbsp;'+comments_text+'</span>'
       html +=   '</div>';
       html +=  '</li>';
     }

@@ -32,9 +32,15 @@
     </a>
 @else
 	@if(is_null($project_count))
-		<div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">
-			{{$user->fname}} hasn't added any dreams yet.
-		</div>
+        @if(!$myProfile)
+            <div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">
+                {{$user->fname}} has not written any projects yet.
+            </div>
+        @else
+            <div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">
+                You have no projects.
+            </div>
+        @endif
 	@endif
 @endif
 

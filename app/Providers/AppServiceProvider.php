@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
             'house_url' => $storage_url . "houses/",
             'banner_url' => $storage_url . "banners/",
             'office_url' => $storage_url . "offices/",
+            'shop_url' => $storage_url . "shops/",
             'home_url' => $storage_url . "homz/",
             'plot_url' => $storage_url . "plots/",
             'rental_url' => $storage_url . "rentals/",
