@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\Notifications\UserFollowed;
 use Auth;
 use Carbon\Carbon;
 
@@ -55,14 +56,13 @@ class UserController extends Controller
          $verification_code = request('verification_code');
 
         $verified = User::where('verification_code','=',$verification_code)->where('verified','=','0')->where('id','=',Auth::user()->id)->exists();
-
+        $user = Auth::user();
         if($verified){
             User::where('verification_code','=',$verification_code)->where('verified','=','0')->where('id','=',Auth::user()->id)->update(['verified'=>'1']);
             request()->session()->flash('verification_status', 'Phone Number Successfully Verified');
             request()->session()->flash('verification_type', 'success');
             return view('user.setup', compact('user'));
         }else{
-            $user = Auth::user();
 
             request()->session()->flash('verification_status', 'Phone Number already Verified!');
             request()->session()->flash('verification_type', 'info');
@@ -138,7 +138,11 @@ class UserController extends Controller
                 'followed_id' => $id
             ];
 
-            if(Follows::create($follow)){
+	        $new_follow = Follows::create($follow);
+            if($new_follow){
+                if(Auth::user()->id != $new_follow->followed_id)
+                    User::find($new_follow->followed_id)->notify(new UserFollowed($new_follow->user));
+
                 return response()->json([
                     'success' => 'true'
                 ]);

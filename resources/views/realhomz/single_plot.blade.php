@@ -63,28 +63,25 @@
 						<p style="font-size: 1.4em; margin-top: 6px;margin-bottom: 25px;">
 							<strong style="color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">Size:</strong> &nbsp; <span style="etter-spacing: 0.1em">{{number_format( $real->size / 100, 0 )}} square meters</span><br>
 
-							<strong style="display: inline-block; margin-top: 18px;color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">Topography:</strong> &nbsp; <span style="etter-spacing: 0.1em">{{$real->topographical_nature}}</span><br>
+							<strong style="display: inline-block; margin-top: 18px;color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">Topography:</strong>&nbsp;
+							@if($real->topographical_nature && strlen($real->topographical_nature) > 0)
+								<span style="etter-spacing: 0.1em">{{$real->topographical_nature}}</span><br>
+							@else
+								<span style="etter-spacing: 0.1em">Unknown</span><br>
+							@endif
 
 							<strong style="display: inline-block; margin-top: 18px;color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">Town:</strong> &nbsp;
 								@if($real->town && strlen($real->town) > 0)
 									<span style="etter-spacing: 0.1em">{{$real->town}}</span><br>
 								@else
-									@if($my_home)
-										<span style="etter-spacing: 0.1em"><a href="javascript:void(0);">Add Town</a></span><br>
-									@else
-										<span style="etter-spacing: 0.1em">Unknown</span><br>
-									@endif
+									<span style="etter-spacing: 0.1em">Unknown</span><br>
 								@endif
 
 							<strong style="display: inline-block; margin-top: 18px;color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">Street:</strong> &nbsp;
 							@if($real->street && strlen($real->street) > 0)
 								<span style="etter-spacing: 0.1em">{{$real->street}}</span><br>
 							@else
-								@if($my_home)
-									<span style="etter-spacing: 0.1em"><a href="javascript:void(0);">Add Street</a></span><br>
-								@else
-									<span style="etter-spacing: 0.1em">Unknown</span><br>
-								@endif
+								<span style="etter-spacing: 0.1em">Unknown</span><br>
 							@endif
 						</p>
 					</div>

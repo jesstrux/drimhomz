@@ -182,7 +182,7 @@ class HousesController extends Controller
             $image_sizes->height = $img->height();
 
 
-            $img->size(rand (400, 800), null, function ($constraint) {
+            $img->resize(rand (400, 800), null, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($thumb_path);
 

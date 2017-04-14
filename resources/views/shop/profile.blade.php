@@ -368,4 +368,19 @@
 			</div>
 		</div>
 	</main>
+
+    <script src="{{asset('js/jquery.rateyo.min.js')}}"></script>
+
+    @include('rating.rate_it')
+
+    <script>
+	    function ratingSet(formdata){
+		    var shop = "<?php echo $shop->id; ?>";
+		    formdata.append("shop_id", shop);
+//		    showLoading();
+		    console.log(formdata.getAll("shop_id"));
+		    console.log(formdata.getAll("rating"));
+		    console.log(formdata.getAll("comment"));
+	    }
+    </script>
 @endsection

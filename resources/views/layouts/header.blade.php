@@ -23,11 +23,6 @@
                     @endif
 
                     <?php
-                        $notifications = Auth::user()->notifications;
-                        $unread_count = Auth::user()->unreadNotifications->count();
-                    ?>
-
-                    <?php
                         $profileUrl = "/user/".Auth::user()->id;
                     ?>
                     @if(!isset($is_my_profile))
@@ -67,10 +62,6 @@
                     </button>
                 </li>
                 @if(!Auth::guest())
-                    <?php
-                    $notifications = Auth::user()->notifications;
-                    $unread_count = Auth::user()->unreadNotifications->count();
-                    ?>
                     @include('notifications.wrapper')
                 @endif
                 <?php

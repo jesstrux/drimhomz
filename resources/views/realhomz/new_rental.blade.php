@@ -54,6 +54,21 @@ if(!Auth::guest()){
                 <label>Price</label>
                 <input autocomplete="off" id="newRentalPrice" name="price" type="number" placeholder="price of the rental" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
+	            <label>Street</label>
+	            <input autocomplete="off" id="newHomeStreet" name="street" type="text" placeholder="rental Street" style="font-size: 1.5em; margin-bottom: 40px;" >
+
+	            <label>Town</label>
+	            <input autocomplete="off" id="newHomeTown" name="town" type="text" placeholder="rental Town" style="font-size: 1.5em; margin-bottom: 40px;">
+
+	            <label>Type</label>
+	            <select name="type" style="font-size: 1.5em; margin-bottom: 40px;" onchange="setCount(this.value)">
+		            <option value="0">Bungalow</option>
+		            <option value="1">Storey(Ghorofa)</option>
+	            </select>
+
+	            <label class="hidden" id="newHomeFloorsLabel">Number of floors</label>
+	            <input class="hidden" autocomplete="off" id="newHomeFloorsInput" name="floor_count" type="number" placeholder="Number of floors" min="1" style="font-size: 1.5em; margin-bottom: 40px;" value="1">
+
                 <label>Description</label>
                 <textarea id="newRentalDesc" placeholder="Short description about rental" name="description" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
 
@@ -131,6 +146,22 @@ if(!Auth::guest()){
             $('.save-new-rental').removeAttr("disabled");
         }else{
             $('.save-new-rental').attr("disabled", "disabled");
+        }
+    }
+
+    function setCount(val){
+        var label = $("#newHomeFloorsLabel");
+        var input = $("#newHomeFloorsInput");
+
+        console.log(val);
+        if(val == 1){
+            label.removeClass("hidden");
+            input.removeClass("hidden");
+
+            input.val(1);
+        }else{
+            label.addClass("hidden");
+            input.addClass("hidden");
         }
     }
 </script>

@@ -2181,6 +2181,10 @@ a.with-icon sup{
 	margin: 10px 0;
 }
 
+.dh-notif .layout div ~ div{
+	align-self: flex-start;
+}
+
 .dh-notif .flex{
 	overflow: hidden;
 	position: relative;

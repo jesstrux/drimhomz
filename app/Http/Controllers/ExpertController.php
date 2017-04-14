@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\ExpertRating;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -18,11 +17,10 @@ class ExpertController extends Controller
         $rating = [
             'rating' => $request->input("rating"),
             'comment' => $request->input("comment"),
-            'user_id' => $request->input("user_id"),
-            'expert_id' => $request->input("expert_id")
+            'user_id' => $request->input("user_id")
         ];
 
-        if(ExpertRating::create($rating)){
+        if(User::find($request->input("expert_id"))->create($rating)){
             return response()->json([
                 "success" => true,
                 "msg" => "Successfully rated expert."

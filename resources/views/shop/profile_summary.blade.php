@@ -36,6 +36,7 @@
 	<div id="userDetails" class="text-center" style="padding-top: 0;">
 		<div id="shopImage" style="background-image: url({{asset($shop_url . $shop->image_url)}})">
 		</div>
+
 		<h3 style="padding: 10px 20px;">{{$shop->name}}</h3>
 		@if($myShop)
 			{{--<br>--}}
@@ -46,6 +47,11 @@
 			{{--<a href="/setupAccount" class="btn btn-default">--}}
 				{{--delete shop--}}
 			{{--</a>--}}
+		@else
+
+			@if(Auth::guest() || !$shop->rated(Auth::user()->id))
+				<button class="btn btn-primary" onclick="openRateIt(event, 'Shop', {{$shop->id}})">RATE SHOP</button>
+			@endif
 		@endif
 		<!-- <hr> -->
 	</div>

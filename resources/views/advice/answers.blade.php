@@ -1,4 +1,4 @@
-<div class="col-lg-12 answers card inset">
+<div id="answers{{$question->id}}" class="col-lg-12 answers card inset">
 	<div class="show-more" style="padding: 20px 0; text-align: center; border-botto: 1px solid #ddd">
 		<?php
 			$no_answers = $answers->count() < 1 ? true : false;
@@ -50,6 +50,8 @@
 	    @endforeach
 	</div>
     <div class="my-answer item answer">
+
+
         @if(Auth::check() && $user)
         	<div class="avatar">
             	<img src="{{$user_url . $user->dp}}" width="40" alt="" />

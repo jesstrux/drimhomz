@@ -17,4 +17,22 @@ class Shop extends Model
     public function products(){
         return $this->hasMany('App\Product');
     }
+
+    public function ratings(){
+        return $this->morphMany('App\Rating', 'ratable');
+    }
+
+    public function rating(){
+        $ratings = $this->ratings;
+        if($ratings->count() > 0){
+            return $ratings->avg("rating");
+        }else{
+            return 0.000;
+        }
+    }
+
+	public function rated($uid){
+		return $this->ratings()->where(
+			'user_id', $uid)->exists();
+	}
 }

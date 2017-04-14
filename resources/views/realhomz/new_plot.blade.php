@@ -63,11 +63,18 @@ if(!Auth::guest()){
                 <label>Block</label>
                 <input autocomplete="off" id="newPlotBlock" name="block" type="text" placeholder="Block where the plot is" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
+                <label>Street</label>
+                <input autocomplete="off" id="newHomeStreet" name="street" type="text" placeholder="Plot Street" style="font-size: 1.5em; margin-bottom: 40px;" >
+
+                <label>Town</label>
+                <input autocomplete="off" id="newHomeTown" name="town" type="text" placeholder="Plot Town" style="font-size: 1.5em; margin-bottom: 40px;">
+
                 <label>Description</label>
                 <textarea id="newPlotDesc" placeholder="Short description about plot" name="description" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
 
                 <label>Topographical Nature: </label>
-                <select name="topogaphical_nature" id="newPlotNature">
+
+                <select name="topographical_nature" id="newPlotNature" onchange="setSubmit()">
                     <option value="Valley">Valley(Bondeni)</option>
                     <option value="Level ground">Level ground(Tambarare)</option>
                     <option value="Hill land">Hill Land</option>
@@ -111,35 +118,37 @@ if(!Auth::guest()){
         // formdata.append("_token", $(_token).val());
 
         $.ajax({
-                    type:'POST',
-                    url: "/createPlot",
-                    data: formdata,
-                    dataType:'json',
-                    async:false,
-                    processData: false,
-                    contentType: false
-                })
-                .done(function(response){
-                    if(response.success){
-                        console.log("Success! from new plot, ", response);
-                        closeNewPlot();
-                        showLoading();
-                        window.location.href = base_url + "/realhomz/plots/" + response.plot.id + "/new";
-                    }else{
-                        console.log("Success! not", response);
-                        $('.save-new-plot').removeAttr("disabled");
-                        showToast(response.msg);
-                    }
-                })
-                .fail(function(response){
-                    console.log("Error!, ", response);
-                    $('.save-new-plot').removeAttr("disabled");
-                    showToast("Unknown Error occured");
-                })
-                .always(function(){
-                    console.log("Action done");
-                    hideLoading();
-                });
+
+            type:'POST',
+            url: "/createPlot",
+            data: formdata,
+            dataType:'json',
+            async:false,
+            processData: false,
+            contentType: false
+        })
+        .done(function(response){
+            if(response.success){
+                console.log("Success! from new plot, ", response);
+	            showToast("success", response.msg);
+	            showLoading();
+	            window.location.href = base_url + "/realhomz/plot/" + response.plot.id + "/new";
+	            closeNewPlot();
+            }else{
+                console.log("Success! not", response);
+                $('.save-new-plot').removeAttr("disabled");
+                showToast("error", response.msg);
+            }
+        })
+        .fail(function(response){
+            console.log("Error!, ", response);
+            $('.save-new-plot').removeAttr("disabled");
+            showToast("error", "Unknown Error occured");
+        })
+        .always(function(){
+            console.log("Action done");
+            hideLoading();
+        });
     }
 
     function setSubmit(){

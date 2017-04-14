@@ -30,21 +30,18 @@
     @else
 @endif
 
-@if(!Auth::guest() && Auth::user()->id != $user->id
-                    && !$user->rated(Auth::user()->id))
-    <button class="a-fab lg" onclick="openRateExpert()" style="position: fixed; right: 20px; bottom: 20px;">
-        <i class="fa fa-plus"></i>
-    </button>
-@endif
-
 <script src="{{asset('js/jquery.rateyo.min.js')}}"></script>
 
 @if(!Auth::guest() && Auth::user()->id != $user->id
                     && !$user->rated(Auth::user()->id))
-    <?php
-    $expert = $user;
-    ?>
-    @include('expert.rate_expert')
+    <button class="a-fab lg" onclick="openRateIt(event, 'Expert', {{$user->id}})" style="position: fixed; right: 20px; bottom: 20px;">
+        <i class="fa fa-plus"></i>
+    </button>
+@endif
+
+@if(!Auth::guest() && Auth::user()->id != $user->id
+                    && !$user->rated(Auth::user()->id))
+    @include('rating.rate_it')
 @endif
 
 <script>

@@ -61,19 +61,19 @@ if(!Auth::guest()){
                 <input autocomplete="off" id="newShopTitle" name="name" type="text" placeholder="eg. Furniture za kisasa" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Type</label>
-                <input autocomplete="off" id="newShopPrice" name="type" type="text" placeholder="type the shop" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
+                <input autocomplete="off" id="newShopPrice" name="type" type="text" placeholder="Shop type " required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Street:</label>
-                <input autocomplete="off" name="street" type="text" placeholder="Street the shop" style="font-size: 1.5em; margin-bottom: 40px;">
+                <input autocomplete="off" name="street" type="text" placeholder="Street " style="font-size: 1.5em; margin-bottom: 40px;">
 
                 <label>Town:</label>
-                <input autocomplete="off" name="town" type="text" placeholder="town the shop" style="font-size: 1.5em; margin-bottom: 40px;">
+                <input autocomplete="off" name="town" type="text" placeholder="Town " style="font-size: 1.5em; margin-bottom: 40px;">
 
                 <label>City/Region:</label>
-                <input autocomplete="off" name="city" type="text" placeholder="City/Region of the shop" style="font-size: 1.5em; margin-bottom: 40px;">
+                <input autocomplete="off" name="city" type="text" placeholder="City/Region " style="font-size: 1.5em; margin-bottom: 40px;">
 
                 <label>Country:</label>
-                <input autocomplete="off" name="country" type="text" placeholder="Country the shop" style="font-size: 1.5em; margin-bottom: 40px;">
+                <input autocomplete="off" name="country" type="text" placeholder="Country " style="font-size: 1.5em; margin-bottom: 40px;">
 
                 <label>Quality Slogan Statement</label>
                 <textarea id="newShopDesc" placeholder="Shop Quality Slogan" name="quality_statement" cols="10" rows="3" required onkeyup="setSubmit()"></textarea>
