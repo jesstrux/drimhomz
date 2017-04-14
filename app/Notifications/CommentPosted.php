@@ -42,7 +42,7 @@ class CommentPosted extends Notification
             'house_color' => $comment->house->placeholder_color,
             'comment_id' => $comment->id,
             'comment' => $comment->content,
-            'link' => "house/".$comment->house->id."/#comment".$comment->id
+            'link' => "/house/".$comment->house->id."/#comment".$comment->id
         ];
     }
 }

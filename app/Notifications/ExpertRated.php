@@ -37,7 +37,7 @@ class ExpertRated extends Notification
             'user_name' => $user->fname ." ". $user->lname,
             'user_dp' => $user->dp,
             'rating' => $rating->rating,
-            'link' => "user/".$rating->ratable_id."/reviews#rating".$rating->id
+            'link' => "/user/".$rating->ratable_id."/reviews#rating".$rating->id
         ];
     }
 }
