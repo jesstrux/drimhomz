@@ -107,11 +107,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Message');
     }
 
-    public function followers(){
+    public function following(){
         return $this->hasMany('App\Follows');
     }
 
-    public function following(){
+    public function followers(){
         return $this->hasMany('App\Follows', 'followed_id');
     }
 

@@ -131,7 +131,7 @@ class UserController extends Controller
         $id = $request->input('id');
         $user = User::find($id);
         $followed = $user->followed($authuser->id) ? true : false;
-        
+
         if(!$followed){
             $follow = [
                 'user_id' => $authuser->id,
@@ -144,21 +144,27 @@ class UserController extends Controller
                     User::find($new_follow->followed_id)->notify(new UserFollowed($new_follow->user));
 
                 return response()->json([
-                    'success' => 'true'
+                    "success" => "true",
+	                "msg" => "Successfully followed user",
+	                "followers_count" => $user->followers->count()
                 ]);
             }else{
                 return response()->json([
-                    'success' => 'true'
+                    "success" => "false",
+                    "msg" => "Couldn't follow user"
                 ]);
             }
         }else{
             if(User::find($id)->unfollow($authuser->id)){
                 return response()->json([
-                    'success' => 'true'
+                    "success" => "true",
+	                "msg" => "Successfully unfollowed user",
+	                "followers_count" => $user->followers->count()
                 ]);
             }else{
                 return response()->json([
-                    'success' => 'false'
+                    "success" => "false",
+	                "msg" => "Couldn't unfollow user"
                 ]);
             }
         }
