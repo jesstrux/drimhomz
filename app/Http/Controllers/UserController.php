@@ -255,10 +255,14 @@ class UserController extends Controller
         $user->dob = strftime("%Y-%m-%d %H:%M:%S", $time);
 
         if($request->input('location') !== null){
+            $long[] = '';
+            $lat[] = '';
             $location_str = $request->input('location');
             preg_match('/(\S{1,20}).\s(\S{1,20})/', $location_str, $location_array, PREG_OFFSET_CAPTURE);
-            $long = $location_array[1];
-            $lat = $location_array[2];
+            if(!empty($location_array)) {
+                $long = $location_array[1];
+                $lat = $location_array[2];
+            }
 
             $location_q = Location::where("user_id", $user->id)->first();
             $location = Location::find($location_q->id);

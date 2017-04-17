@@ -39,7 +39,7 @@ class PostFaved extends Notification
             'user_name' => $user->fname ." ". $user->lname,
             'house_image' => $house->image_url,
             'house_color' => $house->placeholder_color,
-            'link' => "house/".$house->id
+            'link' => "/house/".$house->id
         ];
     }
 }

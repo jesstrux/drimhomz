@@ -51,7 +51,9 @@ if(!Auth::guest()){
 
             <form id="newShop" enctype="multipart/form-data" method="POST" action="/createShop" onsubmit="addNewShop(event)">
                 <h3 class="hidden-xs">New Shop</h3>
+                @if(Auth::check())
                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                @endif
                 {{csrf_field()}}
 
                 <label>Image</label>

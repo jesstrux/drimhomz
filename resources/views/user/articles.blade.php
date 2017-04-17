@@ -13,14 +13,21 @@
 
 @if($articles_count > 0)
         @foreach($articles as $fol)
-        <a href="{{url('/advice/articles/').'/'.$fol->id}}" class="house-card">
+
+       <div class="house-card a-house-item">
+        <a href="{{url('/advice/articles/#question_').$fol->id}}" style="cursor: pointer;" >
             <div class="image" style="background-color: #eee">
-        {{--            <img src="{{asset($user_url . $fol->follower->dp)}}" alt="{{$fol->follower->fname}}'s dp">--}}
+                {{--<img src="{{asset($house_url . $house->image_url)}}" alt="{{$house->title}}">--}}
                 <div class="userview-image" style="background-color: #ddd"></div>
             </div>
-            <div class="content">
-                <h3>{{$fol->title}}</h3>
-            </div>
         </a>
+        <div class="content">
+            <h3>{{$fol->title}}</h3>
+            {{--<span class="social-stuff">--}}
+            {{--<span style="display: inline-block; margin-top: -35px;">&nbsp; | &nbsp;</span> {{$comments_text}}--}}
+            {{--</span>--}}
+        </div>
+           </div>
+
         @endforeach
 @endif

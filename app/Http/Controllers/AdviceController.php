@@ -19,7 +19,7 @@ class AdviceController extends Controller
     		$questions = Question::orderBy('created_at','desc')->with('answers')->get();
     		return view('advice.index', compact('page', 'questions'));
     	}else{
-    		$articles = Article::orderBy('created_at','desc')->with('comments')->get();
+    		 $articles = Article::orderBy('created_at','desc')->with('comments')->get();
     		return view('advice.index', compact('page', 'articles'));
     	}
     }

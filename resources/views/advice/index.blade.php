@@ -290,7 +290,7 @@
 	</div>
 	<br>
 	<div class="real-content">
-		@include('advice.new_'.substr($page, 0, strlen($page) - 1))
+		@include('advice.new-'.substr($page, 0, strlen($page) - 1))
 	</div>
 	<br>
 

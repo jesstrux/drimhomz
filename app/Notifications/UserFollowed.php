@@ -33,7 +33,7 @@ class UserFollowed extends Notification
             'user_id' => $user->id,
             'user_dp' => $user->dp,
             'user_name' => $user->fname ." ". $user->lname,
-            'link' => 'user/'.$user->id
+            'link' => '/user/'.$user->id
         ];
     }
 }

@@ -6,7 +6,7 @@
 <li class="dropdown hidden-xs" style="background-color: transparent">
     <a href="javascript:void(0);" class="with-icon" data-toggle="dropdown">
         <i class="fa fa-bell"></i>
-        <sup class="badge style-danger">{{$unread_count}}</sup>
+        <sup class="badge style-danger">@if($unread_count>1){{$unread_count}}@endif</sup>
     </a>
 
     <ul class="dropdown-menu" role="menu" style="width: 400px !important; max-height: 300px !important; overflow-y:auto;">

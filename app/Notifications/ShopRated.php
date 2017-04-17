@@ -38,7 +38,7 @@ class ShopRated extends Notification
             'user_dp' => $user->dp,
             'rating' => $rating->rating,
             'shop_image' => $rating->ratable->image_url,
-            'link' => "shop/".$rating->ratable_id."/reviews#rating".$rating->id
+            'link' => "/shop/".$rating->ratable_id."/reviews#rating".$rating->id
         ];
     }
 }
