@@ -32,7 +32,7 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
         $user = Auth::user();
 //         ->full_name();
 
-	    return App\User::find(1)->notifications;
+	    return App\Home::find(31)->image();
      }
      else{
          echo "Hello guest";

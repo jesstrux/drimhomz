@@ -1,6 +1,7 @@
 <?php
 
 use App\Project;
+use App\ProjectPersonel;
 use Illuminate\Database\Seeder;
 
 class ProjectsTableSeeder extends Seeder
@@ -21,7 +22,17 @@ class ProjectsTableSeeder extends Seeder
 	            'title' => $faker->sentence($faker->numberBetween(2, 4))
 	        ];
 
-	        Project::create($project);
+	        $new_project = Project::create($project);
+
+            if($new_project){
+                $user  = [
+                    'project_id'=> $new_project->id,
+                    'user_id'=> $new_project->user_id,
+                    'position'=> "owner"
+                ];
+
+	            ProjectPersonel::create($user);
+            }
         }
     }
 }

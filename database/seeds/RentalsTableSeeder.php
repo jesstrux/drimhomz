@@ -25,7 +25,17 @@ class RentalsTableSeeder extends Seeder
                 'rental_type' => $rental_types[rand(0, 2)]
             ];
 
-            Rental::create($home);
+            $imageable = Rental::create($home);
+
+            if($imageable){
+                $house_image = [
+                    'url' => "rental" .$i % 4 .".jpg",
+                    'placeholder_color' => $faker->hexColor(),
+                    'caption' => $faker->realText(15)
+                ];
+
+                $imageable->images()->create($house_image);
+            }
         }
     }
 }

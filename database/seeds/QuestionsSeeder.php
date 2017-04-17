@@ -22,7 +22,17 @@ class QuestionsSeeder extends Seeder
 	            'content' => $faker->realText($faker->numberBetween(40, 270))
 	        ];
 
-	        Question::create($project);
+            $imageable = Question::create($project);
+
+            if($imageable){
+                $house_image = [
+                    'url' => "home" .$i % 4 .".jpg",
+                    'placeholder_color' => $faker->hexColor(),
+                    'caption' => $faker->realText(15)
+                ];
+
+                $imageable->images()->create($house_image);
+            }
         }
     }
 }

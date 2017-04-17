@@ -29,7 +29,17 @@ class PlotsTableSeeder extends Seeder
                 'topographical_nature' => $rental_types[rand(0, 5)]
             ];
 
-            Plot::create($home);
+            $imageable = Plot::create($home);
+
+            if($imageable){
+                $house_image = [
+                    'url' => "rental" .$i % 4 .".jpg",
+                    'placeholder_color' => $faker->hexColor(),
+                    'caption' => $faker->realText(15)
+                ];
+
+                $imageable->images()->create($house_image);
+            }
         }
     }
 }

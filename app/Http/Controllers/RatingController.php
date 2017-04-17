@@ -34,16 +34,16 @@ class RatingController extends Controller
 					if(Auth::user()->id != $newly_rated->ratable_id)
 						User::find($newly_rated->ratable->user->id)->notify(new ShopRated($newly_rated, $newly_rated->user));
 			}
-				break;
+			break;
 
 			case "expert" : {
 				$newly_rated = User::find($rated_id)->ratings()->create($rating);
 
 				if($newly_rated)
 					if(Auth::user()->id != $newly_rated->ratable_id)
-						User::find($newly_rated->ratable_id)->notify(new ExpertRated($newly_rated, $newly_rated->user));
+						$newly_rated->ratable->notify(new ExpertRated($newly_rated, $newly_rated->user));
 			}
-				break;
+			break;
 		}
 
 		if($newly_rated){
