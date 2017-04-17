@@ -51,7 +51,9 @@ if(!Auth::guest()){
                 <label>Title</label>
                 <input autocomplete="off" id="newArticleTitle" name="title" type="text" placeholder="eg. Choosing right Experts" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
                 <label>Description</label>
-                <textarea id="newArticleDesc" placeholder="Actual Article" name="content" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
+                <textarea id="newArticleDesc" placeholder="Article Description" name="content" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
+                    <label style="margin-bottom: 8px;">Article image</label>
+                    <input style="margin-bottom: 10px;" onchange="showImage(this)" accept="images/*" name="image_url" type="file" required><br>
 
                 <button disabled class="btn btn-primary save-new-project hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn" type="button" onclick="addNewArticle()">CREATE</button>
             </form>
@@ -74,6 +76,17 @@ if(!Auth::guest()){
         $("#newArticleOuter").addClass("open");
         $("#newArticleTitle").focus();
         $("body").addClass("locked");
+    }
+    function showImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.querySelector('#articleImage').src =  e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 
     function addNewArticle(e){
