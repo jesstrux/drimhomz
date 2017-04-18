@@ -100,8 +100,9 @@ if(!Auth::guest()){
         $("#newRentalTitle").focus();
         $("body").addClass("locked");
 
-	    if(<?php echo isset($cur_real) ? 1 : 0?>){
-		    var cur_real = <?php echo json_encode($cur_real)?>;
+        var cur_real = '<?php echo isset($cur_real) ? json_encode($cur_real) : ""?>';
+
+        if(cur_real && cur_real.isObject){
 		    var new_home = $("#newRental");
 
 		    new_home.find("input, select, textarea").each(function(){

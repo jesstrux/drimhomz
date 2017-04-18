@@ -15,8 +15,10 @@
 			font-size: 1.6em;
 		}
 		.tab-links a{
+			display: inline-block;
 			color: inherit;
 			font-family: inherit;
+			margin-bottom: 10px;
 		}
 		.tab-links a.active{
 			font-weight: bold;
