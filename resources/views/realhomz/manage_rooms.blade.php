@@ -177,7 +177,7 @@ if(!Auth::guest()){
 
             for(var i = 0; i < res.length; i++){
                 var room = res[i];
-                var room_count = '<div class="value-div layout center-center"><input autocomplete="off" name="count[]" type="text" value="1"></div>';
+                var room_count = '<div class="value-div layout center-center"><input autocomplete="off" name="count'+room.id+'" type="text" value="1"></div>';
 
                 var checkbox_html = "<input id='aroom"+room.id+"' name='utility_id[]' value='"+room.id+"' type='checkbox'>";
                 var label_html = '<label for="aroom'+room.id+'" class="type-'+room.type+'"><div class="layout"><svg fill="#333" xmlns="http://www.w3.org/2000/svg" style="widt: 24px;min-width: 24px; margin-right: 8px;" width="24" height="24" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg> <svg fill="#333" xmlns="http://www.w3.org/2000/svg" style="widt: 24px;min-width: 24px; margin-right: 8px;" width="24" height="24" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span class="flex layout center">'+room.name+'</span></div>'+room_count+'</label>';
