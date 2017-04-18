@@ -51,7 +51,7 @@
 	</div>
 </div>
 
-<div id="profileSummary" class="col-sm-12 col-md-4" style="background: #fff; padding: 50px 25px; margin-top: -12px; border-bottom: 1px solid #ddd; margin-bottom: 3px;">
+<div id="profileSummary" class="col-sm-12 col-md-4" style="background: #fff; padding: 50px 25px; margin-top: -12px; border-bottom: 1px solid #ddd; margin-bottom: 13px;">
 
 	<div class="layout center">
 		<div class="layout vertical flex" style="font-size: 2em">
@@ -59,7 +59,7 @@
 		</div>
 	</div>
 	<span id="profession" style="margin-top: 15px; display: block; font-size: 1.2em">
-		Owner: {{$owner}}
+		Owner: {!! $owner !!}
 
 		<p style="margin-top: 10px;">
 			@if($myProject)
