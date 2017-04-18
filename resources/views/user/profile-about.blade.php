@@ -85,36 +85,38 @@
 					    <div>PHONE :</div>
 					    <div>{{$user->phone}}</div>
 				    </div>
-				    <div class="layout">
-					    <div>EMAIL :</div>
-					    <div>
-						    @if($user->email)
-							    {{$user->email}}
-						    @else
-							    Unknown
-						    @endif
+				    @if($myProfile || ($user->role != "admin" && $user->role != "user"))
+					    <div class="layout">
+						    <div>EMAIL :</div>
+						    <div>
+							    @if($user->email)
+								    {{$user->email}}
+							    @else
+								    Unknown
+							    @endif
+						    </div>
 					    </div>
-				    </div>
-				    <div class="layout">
-					    <div>STREET :</div>
-					    <div>
-						    @if($user->street)
-							    {{$user->street}}
-						    @else
-							    Unknown
-						    @endif
+					    <div class="layout">
+						    <div>STREET :</div>
+						    <div>
+							    @if($user->street)
+								    {{$user->street}}
+							    @else
+								    Unknown
+							    @endif
+						    </div>
 					    </div>
-				    </div>
-				    <div class="layout">
-					    <div>TOWN :</div>
-					    <div>
-						    @if($user->town)
-							    {{$user->town}}
-						    @else
-							    Unknown
-						    @endif
+					    <div class="layout">
+						    <div>TOWN :</div>
+						    <div>
+							    @if($user->town)
+								    {{$user->town}}
+							    @else
+								    Unknown
+							    @endif
+						    </div>
 					    </div>
-				    </div>
+				    @endif
 			    </div>
 		    </div>
 	    </div>
