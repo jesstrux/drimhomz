@@ -372,8 +372,8 @@
 		<div class="row">
 			@include('project.profile_summary')
 
-			<div id="projectsList" class="col-sm-12 col-md-7 col-lg-8">
-				<div id="userHouses" style="margin-top: 20px;">
+			<div id="projectsList" class="col-sm-12 col-md-8">
+				<div id="userHouses">
 					@if($errors->any())
 						<div class="alert alert-error alert-dismissible" role="alert">
 						  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

@@ -29,7 +29,7 @@
 		display: none;
 	}
 </style>
-<div id="profileSummaryLg" class="col-sm-12 col-md-5 col-lg-4">
+<div id="profileSummaryLg" class="col-sm-12 col-md-4">
 	<div id="userDetails" class="text-center">
 		<h3 style="padding-top: 20px;">{{$project->title}}</h3>
 		<p style="margin-top: 10px;">{{$project->houses->count()}} Dreams</p>
@@ -51,7 +51,7 @@
 	</div>
 </div>
 
-<div id="profileSummary" class="col-sm-12 col-md-4" style="background: #fff; padding: 50px 25px; text-align: cente;margin-top: -12px; border-bottom: 1px solid #ddd; margin-bottom: 3px;">
+<div id="profileSummary" class="col-sm-12 col-md-4" style="background: #fff; padding: 50px 25px; margin-top: -12px; border-bottom: 1px solid #ddd; margin-bottom: 3px;">
 
 	<div class="layout center">
 		<div class="layout vertical flex" style="font-size: 2em">
