@@ -225,7 +225,7 @@
         }
     </style>
 </head>
-<body class="open-searc" style="backgroun: #eee !important;">
+<body class="open-searc" style="backgroun: #eee !important;" id="body">
 <div id="pageLoader">
     <div style="width: 230px; height: 230px; transform: scale(0.6)">
         <div class="loader"></div>
@@ -273,7 +273,6 @@ if(!Auth::guest()){
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/iziToast.min.js')}}"></script>
 <script>
-
     function showToast(type, msg, time){
         var timeout = 1200;
         if(time)
