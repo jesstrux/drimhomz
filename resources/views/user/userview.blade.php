@@ -551,7 +551,7 @@
 		</div>
 	</main>
 
-	@include('user.profile-picture')
+	@include('user.profile-about')
 	@include('user.become_seller')
 	@include('shop.new-shop')
 

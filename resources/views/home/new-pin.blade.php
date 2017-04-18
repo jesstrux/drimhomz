@@ -23,7 +23,7 @@
                 <div id="projectItems">
                     <div class="hidden-xs">
                         <h5 style="display: inline-block; font-size: 23px; margin-top: 1px;">Choose project</h5>
-                        <button class="cust-modal-button" type="button" onclick="openNewProject()">Create project</button>
+                        <button class="cust-modal-button" type="button" onclick="triggerOpeNewProject()">Create project</button>
                         <hr>
                     </div>
 
@@ -31,7 +31,7 @@
                         <div class="layout center" style="height: 40px;">
                             <h5 class="flex" style="font-size: 20px; margin: 0;">All projects</h5>
 
-                            <button class="btn btn-info" type="button" onclick="openNewProject()">NEW</button>
+                            <button class="btn btn-info" type="button" onclick="triggerOpeNewProject()">NEW</button>
                         </div>
                     </div>
 
@@ -74,6 +74,15 @@
 
 @include('project.new-project')
 <script>
+    function triggerOpeNewProject(){
+	    $("#newPinModal").addClass("invisible-on");
+        openNewProject(true);
+    }
+
+    function newProjectClosed(){
+	    $("#newPinModal").removeClass("invisible-on");
+    }
+
     function projectCreationSuccess(project){
         // showToast("success", "Project created!");
         var new_it = "new" + project.id;
@@ -122,6 +131,7 @@
         if(!was_locked){
             $("body").addClass("locked");
         }
+
         el = $jqel.get(0);
         pin_id = $jqel.attr('data-postid');
 
@@ -193,7 +203,7 @@
     }
 
     function closeNewPin() {
-        drimMode = true;
+        drimMode = false;
         $("#newPinModal").removeClass("open");
 
         if(!was_locked)
