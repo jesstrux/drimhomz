@@ -13,12 +13,17 @@ if(!Auth::guest()){
         padding: 32px 36px;
         padding-top: 8px;border-radius: 6px;
         width: 500px;
+	    max-height: 400px;
+	    overflow: hidden;
+	    overflow-y: auto;
     }
 
     @media only screen and (max-width: 760px) {
         #newPlotOuter .cust-modal-content{
             padding-top: 22px;
             border-radius: 0;
+	        height: 100vh;
+	        max-height: calc(100vh - 20px) !important;
         }
     }
 </style>
@@ -48,7 +53,11 @@ if(!Auth::guest()){
                 <h3 class="hidden-xs">New Plot</h3>
                 <input type="hidden" name="user_id" value="{{$user->id}}">
                 {{csrf_field()}}
-                <label>Title</label>
+	            @if(isset($cur_real))
+		            <input type="hidden" name="real_id" value="{{$real->id}}">
+	            @endif
+
+                <label>Name</label>
                 <input autocomplete="off" id="newPlotTitle" name="name" type="text" placeholder="eg. Bungalow in Kyela" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Price</label>
@@ -58,16 +67,16 @@ if(!Auth::guest()){
                 <input autocomplete="off" id="newPlotSize" name="size" type="number" placeholder="Size of the plot" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Plot Number</label>
-                <input autocomplete="off" id="newPlotNumber" name="plot_number" type="text" placeholder="Plot number of the plot" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
+                <input autocomplete="off" id="newPlotNumber" name="plot_number" type="text" placeholder="Plot number of the plot" style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Block</label>
-                <input autocomplete="off" id="newPlotBlock" name="block" type="text" placeholder="Block where the plot is" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
+                <input autocomplete="off" id="newPlotBlock" name="block" type="text" placeholder="Block where the plot is" style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Street</label>
-                <input autocomplete="off" id="newHomeStreet" name="street" type="text" placeholder="Plot Street" style="font-size: 1.5em; margin-bottom: 40px;" >
+                <input autocomplete="off" id="newHomeStreet" name="street" type="text" placeholder="Plot Street" style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Town</label>
-                <input autocomplete="off" id="newHomeTown" name="town" type="text" placeholder="Plot Town" style="font-size: 1.5em; margin-bottom: 40px;">
+                <input autocomplete="off" id="newHomeTown" name="town" type="text" placeholder="Plot Town" style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Description</label>
                 <textarea id="newPlotDesc" placeholder="Short description about plot" name="description" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
@@ -75,14 +84,14 @@ if(!Auth::guest()){
                 <label>Topographical Nature: </label>
 
                 <select name="topographical_nature" id="newPlotNature" onchange="setSubmit()">
-                    <option value="Valley">Valley(Bondeni)</option>
-                    <option value="Level ground">Level ground(Tambarare)</option>
+                    <option value="Valley(Bondeni)">Valley(Bondeni)</option>
+                    <option value="Level ground(Tambarare)">Level ground(Tambarare)</option>
                     <option value="Hill land">Hill Land</option>
-                    <option value="Shrubs">Shrubs(Vichaka)</option>
-                    <option value="Foresty">Foresty(Msitu)</option>
-                    <option value="Steep land">Steep land(Mteremko)</option>
+                    <option value="Shrubs(Vichaka)">Shrubs(Vichaka)</option>
+                    <option value="Foresty(Msitu)">Foresty(Msitu)</option>
+                    <option value="Steep land(Mteremkoni)">Steep land(Mteremkoni)</option>
                 </select>
-                <button disabled class="btn btn-primary save-new-plot hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn" type="button" onclick="addNewPlot()">CREATE</button>
+                <button disabled class="btn btn-primary save-new-plot hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn" type="submit" onclic="addNewPlot()">CREATE</button>
             </form>
         @else
             <p>Please <a href="{{url('/login/')}}"><strong>login</strong></a> to create a plot</p>
@@ -103,10 +112,25 @@ if(!Auth::guest()){
         $("#newPlotOuter").addClass("open");
         $("#newPlotTitle").focus();
         $("body").addClass("locked");
+
+	    if(<?php echo isset($cur_real) ? 1 : 0?>){
+		    var cur_real = <?php echo json_encode($cur_real)?>;
+		    var new_home = $("#newPlot");
+
+		    new_home.find("input, select, textarea").each(function(){
+			    var my_name = $(this).prop("name");
+			    if(cur_real.hasOwnProperty(my_name)){
+				    $(this).val(cur_real[my_name]);
+			    }
+		    });
+
+		    new_home.find("h3").text("Edit Plot");
+		    new_home.find("button").text("SAVE");
+	    }
     }
 
     function addNewPlot(e){
-        if(e){
+	    if(e){
             e.preventDefault();
         }
 
@@ -118,7 +142,6 @@ if(!Auth::guest()){
         // formdata.append("_token", $(_token).val());
 
         $.ajax({
-
             type:'POST',
             url: "/createPlot",
             data: formdata,
@@ -130,9 +153,26 @@ if(!Auth::guest()){
         .done(function(response){
             if(response.success){
                 console.log("Success! from new plot, ", response);
-	            showToast("success", response.msg);
-	            showLoading();
-	            window.location.href = base_url + "/realhomz/plot/" + response.plot.id + "/new";
+                if(response.plot){
+	                showToast("success", response.msg);
+	                window.location.href = base_url + "/realhomz/plot/" + response.plot.id + "/new";
+                }
+                else{
+                    iziToast.success({
+                        title: 'Save Successfull!',
+                        message: 'Reload to see changes!',
+                        position: 'topRight',
+                        timeout: false,
+                        close:true,
+                        drag:true,
+                        buttons: [
+                            ['<button>RELOAD</button>', function (instance, toast) {
+                                instance.hide({ transitionOut: 'fadeOutUp' }, toast);
+                                window.location.reload();
+                            }]
+                        ]
+                    });
+                }
 	            closeNewPlot();
             }else{
                 console.log("Success! not", response);

@@ -112,8 +112,11 @@
 <?php
 	$image_base_url = $plot_url;
 	$add_pictures_url = "/addPicturesToPlot";
+
+	$cur_real = $real;
 ?>
 @include('realhomz.add_pictures')
+@include('realhomz.new_plot')
 
 <script>
 	var is_new = "<?php echo $is_new ? true : false ; ?>";

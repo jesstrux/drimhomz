@@ -204,8 +204,8 @@ if(!Auth::guest()){
             }
         })
         .fail(function(response){
-            document.write(response.responseText);
-            showToast("error", "Unknown Error occured");
+//            document.write(response.responseText);
+            showToast("error", "Unknown Error occured, Please try again.");
         })
         .always(function(){
             hideLoading();

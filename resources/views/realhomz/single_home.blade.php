@@ -213,10 +213,13 @@
 	$utilities = "home";
 	$remove_room_url = "/removeRoomFromHome";
 	$add_pictures_url = "/addPicturesToHome";
+
+	$cur_real = $real;
 ?>
 
 @include('realhomz.manage_rooms')
 @include('realhomz.add_pictures')
+@include('realhomz.new_home')
 
 <script>
 	var is_new = "<?php echo $is_new ? true : false ; ?>";

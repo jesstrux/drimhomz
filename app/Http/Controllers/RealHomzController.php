@@ -52,16 +52,43 @@ class RealHomzController extends Controller
 //            ]);
 //        }
 
-        $home = [
-            'user_id' => $request->input('user_id'),
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
-            'street' => $request->input('street'),
-            'town' => $request->input('town'),
-            'type' => $request->input('type'),
-            'floor_count' => $request->input('floor_count')
-        ];
+	    if($request->input('real_id') != null){
+		    $new_home = Home::find($request->input('real_id'));
+		    $new_home->user_id = $request->input('user_id');
+            $new_home->name = $request->input('name');
+            $new_home->description = $request->input('description');
+            $new_home->price = $request->input('price');
+            $new_home->street = $request->input('street');
+            $new_home->town = $request->input('town');
+            $new_home->type = $request->input('type');
+            $new_home->floor_count = $request->input('floor_count');
+
+		    if($new_home->save())
+			    return response()->json([
+				    'success' => true,
+				    'msg' => 'Changes saved to home'
+			    ]);
+//			    return back()
+//				    ->with('success','Changes saved to home');
+		    else
+//			    return back()
+//				    ->with('error','Failed to save changes to home');
+			    return response()->json([
+				    'success' => false,
+				    'msg' => 'Failed to save changes to home'
+			    ]);
+	    }
+
+	    $home = [
+		    'user_id' => $request->input('user_id'),
+		    'name' => $request->input('name'),
+		    'description' => $request->input('description'),
+		    'price' => $request->input('price'),
+		    'street' => $request->input('street'),
+		    'town' => $request->input('town'),
+		    'type' => $request->input('type'),
+		    'floor_count' => $request->input('floor_count')
+	    ];
 
         $home_exists = Home::where([
             'user_id' => $request->input('user_id'),
@@ -95,6 +122,34 @@ class RealHomzController extends Controller
 //                'msg' => 'You have to be registered as a realtor and logged in to add a home.'
 //            ]);
 //        }
+
+	    if($request->input('real_id') != null){
+		    $new_home = Rental::find($request->input('real_id'));
+		    $new_home->user_id = $request->input('user_id');
+		    $new_home->name = $request->input('name');
+		    $new_home->description = $request->input('description');
+		    $new_home->price = $request->input('price');
+		    $new_home->rental_type = $request->input('rental_type');
+		    $new_home->street = $request->input('street');
+		    $new_home->town = $request->input('town');
+		    $new_home->type = $request->input('type');
+		    $new_home->floor_count = $request->input('floor_count');
+
+		    if($new_home->save())
+			    return response()->json([
+				    'success' => true,
+				    'msg' => 'Changes saved to rental'
+			    ]);
+//			    return back()
+//				    ->with('success','Changes saved to rental');
+		    else
+//			    return back()
+//				    ->with('error','Failed to save changes to rental');
+			    return response()->json([
+				    'success' => false,
+				    'msg' => 'Failed to save changes to rental'
+			    ]);
+	    }
 
         $home = [
             'user_id' => $request->input('user_id'),
@@ -137,9 +192,38 @@ class RealHomzController extends Controller
 //        if(Auth::guest() || Auth::user()->role != 'realtor'){
 //            return response()->json([
 //                'success' => false,
-//                'msg' => 'You have to be registered as a realtor and logged in to add a home.'
+//                'msg' => 'You have to be registered as a realtor and logged in to add a plot.'
 //            ]);
 //        }
+
+	    if($request->input('real_id') != null){
+		    $new_home = Plot::find($request->input('real_id'));
+		    $new_home->user_id = $request->input('user_id');
+		    $new_home->name = $request->input('name');
+		    $new_home->description = $request->input('description');
+		    $new_home->street = $request->input('street');
+		    $new_home->town = $request->input('town');
+		    $new_home->price = $request->input('price');
+		    $new_home->size = $request->input('size');
+		    $new_home->plot_number = $request->input('plot_number');
+		    $new_home->block = $request->input('block');
+		    $new_home->topographical_nature = $request->input('topographical_nature');
+
+		    if($new_home->save())
+			    return response()->json([
+				    'success' => true,
+				    'msg' => 'Changes saved to plot'
+			    ]);
+//			    return back()
+//				    ->with('success','Changes saved to plot');
+		    else
+//			    return back()
+//				    ->with('error','Failed to save changes to plot');
+			    return response()->json([
+				    'success' => false,
+				    'msg' => 'Failed to save changes to plot'
+			    ]);
+	    }
 
         $home = [
             'user_id' => $request->input('user_id'),
