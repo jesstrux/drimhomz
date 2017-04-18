@@ -220,7 +220,8 @@ class RealHomzController extends Controller
     public function add_rooms(Request $request, $where = null){
         $home_id = $request->input("home_id");
         $utility_ids = $request->get("utility_id");
-        $utility_counts = $request->get("count");
+        $utility_counts = [];
+//        $request->get("count");
 
 //        echo "Utilties: " . count($utility_ids) . " Counts: " . count($utility_counts);
 //        return;
@@ -228,8 +229,10 @@ class RealHomzController extends Controller
         for ($j=0; $j < count($utility_ids); $j++) {
             $utility = [
                 "utility_id" => $utility_ids[$j],
-                "count" => (int) $utility_counts[$j]
+                "count" => (int) $request->get("count".$utility_ids[$j])
             ];
+
+	        $utility_counts[] = $request->get("count".$utility_ids[$j]);
 
             if($where == "home"){
                 $utility["home_id"] = $home_id;
