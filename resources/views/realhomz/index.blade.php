@@ -18,7 +18,7 @@
 			display: inline-block;
 			color: inherit;
 			font-family: inherit;
-			margin-bottom: 10px;
+			margin-bottom: 17px;
 		}
 		.tab-links a.active{
 			font-weight: bold;
