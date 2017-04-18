@@ -105,13 +105,14 @@
 							<strong style="color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">PRICE:</strong> &nbsp;Tshs. <span style="etter-spacing: 0.1em">{{number_format( $real->price, 0 )}}</span>
 						</p>
 						<p style="font-size: 1.3em; line-height: 1.9em; padding-bottom: 10px;">{{$real->description}}</p>
-						<div class="hidden-xs" style="height: 19px;"></div>
 						@if(!$my_home)
 							<p style="font-size: 1.3em; line-height: 1.9em; padding-bottom: 10px;">
 								Realtor contact: <span class="hidden-xs">{{$real->user->phone}}</span>
 								<a class="hidden realtor-phone" href="tel:{{$real->user->phone}}">{{$real->user->phone}}</a>
 							</p>
 							<div class="hidden-xs" style="height: 19px;"></div>
+						@else
+							<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewHome()">Edit Home</button>
 						@endif
 						<hr>
 					</div>

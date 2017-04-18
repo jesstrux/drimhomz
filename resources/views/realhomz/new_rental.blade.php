@@ -100,9 +100,8 @@ if(!Auth::guest()){
         $("#newRentalTitle").focus();
         $("body").addClass("locked");
 
-        var cur_real = '<?php echo isset($cur_real) ? json_encode($cur_real) : ""?>';
-
-        if(cur_real && cur_real.isObject){
+        cur_real = <?php echo isset($cur_real) ? json_encode($cur_real) : "null"?>;
+        if(cur_real && cur_real != "null"){
 		    var new_home = $("#newRental");
 
 		    new_home.find("input, select, textarea").each(function(){
@@ -140,8 +139,8 @@ if(!Auth::guest()){
         })
         .done(function(response){
             if(response.success){
-	            if(response.plot){
-		            showToast("success", response.msg);
+	            if(response.rental){
+		            showToast("success", "Rental succesfully created");
 		            window.location.href = base_url + "/realhomz/rental/" + response.rental.id + "/new";
 	            }
 	            else{

@@ -55,6 +55,8 @@
 								<a class="hidden realtor-phone" href="tel:{{$real->user->phone}}">{{$real->user->phone}}</a>
 							</p>
 							<div class="hidden-xs" style="height: 19px;"></div>
+						@else
+							<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewPlot()">Edit Plot</button>
 						@endif
 						<hr>
 						<div class="hidden-xs" style="height: 1px;"></div>

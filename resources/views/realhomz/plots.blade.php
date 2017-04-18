@@ -86,3 +86,5 @@
         </div>
     </a>
 @endforeach
+
+{{$list->links()}}

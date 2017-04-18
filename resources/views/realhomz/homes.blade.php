@@ -90,3 +90,4 @@
         {{--<br>--}}
     {{--@endif--}}
 @endforeach
+{{$list->links()}}
