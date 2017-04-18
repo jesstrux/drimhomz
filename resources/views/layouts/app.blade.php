@@ -252,7 +252,7 @@
 <div id="userBottomSheet" class="cust-modal hidden visible-xs visible-sm" style="-ms-align-items: flex-end;align-items: flex-end; background-color: rgba(0,0,0,0.5)" onclick="hideUserBottomSheet()">
     <div class="cust-modal-content" style="height: auto; position: absolute; bottom: 0; padding-bottom: 80px; box-shadow: 0 -10px 6px rgba(0,0,0,0.4);">
         <?php $user = Auth::user(); ?>
-        @include('user.profile_bottom_sheet')
+        {{--@include('user.profile_bottom_sheet')--}}
     </div>
 </div>
 
@@ -273,6 +273,8 @@ if(!Auth::guest()){
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/iziToast.min.js')}}"></script>
 <script>
+    function showUserBottomSheet(){return;}
+
     function showToast(type, msg, time){
         var timeout = 1200;
         if(time)

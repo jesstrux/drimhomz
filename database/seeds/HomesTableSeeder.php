@@ -23,7 +23,17 @@ class HomesTableSeeder extends Seeder
                 'price' => $faker->numberBetween(20000000, 400000000)
             ];
 
-            Home::create($home);
+            $imageable = Home::create($home);
+
+            if($imageable){
+                $house_image = [
+                    'url' => "rental" .$i % 4 .".jpg",
+                    'placeholder_color' => $faker->hexColor(),
+                    'caption' => $faker->realText(15)
+                ];
+
+                $imageable->images()->create($house_image);
+            }
         }
     }
 }

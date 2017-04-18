@@ -23,8 +23,29 @@ class Home extends Model
     }
 
     public function images(){
-        return $this->hasMany('App\HomeImage');
+        return $this->morphMany('App\Image', 'imageable');
     }
+
+	public function image(){
+		if($this->images()->count() > 0){
+			return $this->images->first()->url;
+		}else{
+			return "def.png";
+		}
+	}
+
+	public function color(){
+		if($this->images()->count() > 0 && $this->images->first()->placeholder_color){
+			return $this->images->first()->placeholder_color;
+		}else{
+			return "#ddd";
+//                "#" . dechex(rand(0x000000, 0xFFFFFF));
+		}
+	}
+
+//    public function images(){
+//        return $this->hasMany('App\HomeImage');
+//    }
 
     public function utilities(){
         return $this->hasMany('App\HomeUtility');
@@ -56,22 +77,5 @@ class Home extends Model
             ->get();
 
         return $utilities;
-    }
-
-    public function image(){
-        if($this->images()->count() > 0){
-            return $this->images->first()->image_url;
-        }else{
-            return "def.png";
-        }
-    }
-
-    public function color(){
-        if($this->images()->count() > 0){
-            return $this->images->first()->placeholder_color;
-        }else{
-            return "#ddd";
-//                "#" . dechex(rand(0x000000, 0xFFFFFF));
-        }
     }
 }

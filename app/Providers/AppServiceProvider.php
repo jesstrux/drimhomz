@@ -27,9 +27,11 @@ class AppServiceProvider extends ServiceProvider
             'office_url' => $storage_url . "offices/",
             'shop_url' => $storage_url . "shops/",
             'product_url' => $storage_url . "products/",
-            'home_url' => $storage_url . "homz/",
-            'plot_url' => $storage_url . "plots/",
-            'rental_url' => $storage_url . "rentals/",
+            'home_url' => $storage_url . "images/", #"homz/",
+            'plot_url' => $storage_url . "images/", #"plots/",
+            'rental_url' => $storage_url . "images/", #"rentals/",
+            'question_url' => $storage_url . "images/", #"rentals/",
+            'article_url' => $storage_url . "images/", #"rentals/",
         ]);
     }
 

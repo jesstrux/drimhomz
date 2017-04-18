@@ -122,7 +122,7 @@ if(!Auth::guest()){
             </button>
 
             <form id="addRooms" method="POST" action="{{$add_rooms_url}}" onsubmit="saveRooms(event)">
-                <h3 class="hidden-xs" style="margin-left: 26px;">Add Rooms</h3>
+                <h3 class="hidden-xs" style="margin-left: 26px;">Add Features</h3>
                 <input id="homeIdInput" type="hidden" name="home_id" value="{{$real->id}}">
                 {{csrf_field()}}
 

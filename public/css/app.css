@@ -2251,7 +2251,7 @@ a.with-icon sup{
 	padding: 16px;
 	-ms-align-items: center;
 	align-items: center;
-	border-bottom: 1px solid #ddd;
+	/*border-bottom: 1px solid #ddd;*/
 }
 .avatar{
 	width: 40px;

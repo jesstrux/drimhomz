@@ -36,7 +36,7 @@
 				<div class="card">
 					<div class="hidden visible-xs">
 						@if($real->images->count() > 0)
-							<div style="height: 300px; margin-bottom: 20px; background-color: {{$real->color()}}; background-image: url({{$plot_url . $real->images->first()->image_url}}); background-position: center; background-size: cover"></div>
+							<div style="height: 300px; margin-bottom: 20px; background-color: {{$real->color()}}; background-image: url({{$plot_url . $real->image()}}); background-position: center; background-size: cover"></div>
 						@else
 							<div style="height: 300px; margin-bottom: 20px; background-color: {{$real->color()}}; background-image: url({{$plot_url . $real->image()}}); background-position: center; background-size: cover"></div>
 						@endif
@@ -45,7 +45,7 @@
 					<div class="card-body" style="padding: 24px; padding-bottom: 0;">
 						<h3 style="font-size: 2.3em;">{{$real->name}}</h3>
 						<p style="font-size: 1.4em; margin-top: 6px;margin-bottom: 25px;">
-							<strong style="color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">PRICE:</strong> &nbsp;Tshs. <span style="etter-spacing: 0.1em">{{number_format( $real->price / 100, 0 )}}</span>
+							<strong style="color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">PRICE:</strong> &nbsp;Tshs. <span style="etter-spacing: 0.1em">{{number_format( $real->price, 0 )}}</span>
 						</p>
 						<p style="font-size: 1.3em; line-height: 1.9em; padding-bottom: 10px;">{{$real->description}}</p>
 						@if(!$my_home)
@@ -93,7 +93,7 @@
 				<h3 style="padding-top: 0; margin-top: 0; margin-bottom: 20px;">PICTURES</h3>
 				<div style="position: relative;">
 					@if($real->images->count() > 0)
-						<div class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$plot_url . $real->images->first()->image_url}}); background-position: center; background-size: cover"></div>
+						<div class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$plot_url . $real->image()}}); background-position: center; background-size: cover"></div>
 					@else
 						<div id="placeholderPic" class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$plot_url . $real->image()}}); background-position: center; background-size: cover"></div>
 					@endif

@@ -339,7 +339,9 @@ class RealHomzController extends Controller
                 $real_path = 'homz/';
             }
 
-            $destinationPath = public_path('images/uploads/'.$real_path);
+//            $destinationPath = public_path('images/uploads/'.$real_path);
+	        $destinationPath = public_path('images/uploads/images/');
+
             $img = Image::make($image->getRealPath());
             $new_image_name = $home_id.'-'.time().$count.'.'.$image->getClientOriginalExtension();
 
@@ -348,25 +350,33 @@ class RealHomzController extends Controller
 
             $img->save($destinationPath.$new_image_name);
 
-            $house_image = [
-                'image_url' => $new_image_name,
-                'placeholder_color' => $img->limitColors(1)->pickColor(0, 0, 'hex'),
-                'caption' => ""
-            ];
+	        if($img->width() > 600){
+		        $img->resize(600, null, function ($constraint) {
+			        $constraint->aspectRatio();
+		        })->save($destinationPath.'thumbs/'.$new_image_name);
+	        }else{
+		        $img->save($destinationPath.'thumbs/'.$new_image_name);
+	        }
 
             if($where == "home"){
-                $house_image['home_id'] = $home_id;
-                $new_image = HomeImage::create($house_image);
+                $imageable = Home::find($home_id);
             }else if($where == "rental"){
-                $house_image['rental_id'] = $home_id;
-                $new_image = RentalImage::create($house_image);
+                $imageable = Rental::find($home_id);
             }else if($where == "plot"){
-                $house_image['plot_id'] = $home_id;
-                $new_image = PlotImage::create($house_image);
+                $imageable = Plot::find($home_id);
             }else{
-                $house_image['home_id'] = $home_id;
-                $new_image = HomeImage::create($house_image);
+                $imageable = Home::find($home_id);
             }
+
+	        $house_image = [
+		        'url' => $new_image_name,
+		        'placeholder_color' => $img->limitColors(1)->pickColor(0, 0, 'hex'),
+		        'caption' => "",
+		        'width' => $img->width(),
+		        'height' => $img->height()
+	        ];
+
+            $new_image = $imageable->images()->create($house_image);
 
             if(!$new_image){
                 return response()->json([
