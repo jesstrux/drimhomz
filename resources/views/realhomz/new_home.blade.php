@@ -17,15 +17,13 @@ if(!Auth::guest()){
         overflow: hidden;
         overflow-y: auto;
     }
-    #newHomeOuter .cust-modal-content{
-	    padding-top: 22px;
-	    border-radius: 0;
-	    max-height: calc(100vh - 20px) !important;
-	    height: 100vh;
-    }
-
     @media only screen and (max-width: 760px) {
-
+	    #newHomeOuter .cust-modal-content{
+		    padding-top: 22px;
+		    border-radius: 0;
+		    height: 100vh;
+		    max-height: calc(100vh - 20px) !important;
+	    }
     }
 </style>
 <div id="newHomeOuter" class="cust-modal has-trans">
@@ -54,6 +52,10 @@ if(!Auth::guest()){
                 <h3 class="hidden-xs">New Home</h3>
                 <input type="hidden" name="user_id" value="{{$user->id}}">
                 {{csrf_field()}}
+	            @if(isset($cur_real))
+		            <input type="hidden" name="real_id" value="{{$real->id}}">
+	            @endif
+
                 <label>Title</label>
                 <input autocomplete="off" id="newHomeTitle" name="name" type="text" placeholder="eg. Bungalow in Kyela" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
@@ -61,10 +63,10 @@ if(!Auth::guest()){
                 <input autocomplete="off" id="newHomePrice" name="price" type="number" placeholder="price of the home" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Street</label>
-                <input autocomplete="off" id="newHomeStreet" name="street" type="text" placeholder="home Street" style="font-size: 1.5em; margin-bottom: 40px;" >
+                <input autocomplete="off" id="newHomeStreet" name="street" type="text" placeholder="home Street" style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Town</label>
-                <input autocomplete="off" id="newHomeTown" name="town" type="text" placeholder="home Town" style="font-size: 1.5em; margin-bottom: 40px;">
+                <input autocomplete="off" id="newHomeTown" name="town" type="text" placeholder="home Town" style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
 	            <label>Type</label>
 	            <select name="type" style="font-size: 1.5em; margin-bottom: 40px;" onchange="setCount(this.value)">
@@ -78,7 +80,7 @@ if(!Auth::guest()){
                 <label>Description</label>
                 <textarea id="newHomeDesc" placeholder="Short description about home" name="description" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
 
-                <button disabled class="btn btn-primary save-new-project hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn" type="button" onclick="addNewHome()">CREATE</button>
+                <button disabled class="btn btn-primary save-new-project hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn" type="submit" onclic="addNewHome()">CREATE</button>
             </form>
         @else
             <p>Please <a href="{{url('/login/')}}"><strong>login</strong></a> to create a project</p>
@@ -99,11 +101,26 @@ if(!Auth::guest()){
         $("#newHomeOuter").addClass("open");
         $("#newHomeTitle").focus();
         $("body").addClass("locked");
+
+        var cur_real = '<?php echo isset($cur_real) ? json_encode($cur_real) : ""?>';
+
+        if(cur_real && cur_real.isObject){
+	        var new_home = $("#newHome");
+
+	        new_home.find("input, select, textarea").each(function(){
+		        var my_name = $(this).prop("name");
+		        if(cur_real.hasOwnProperty(my_name)){
+			        $(this).val(cur_real[my_name]);
+		        }
+	        });
+
+	        new_home.find("h3").text("Edit Home");
+        }
     }
 
     function addNewHome(e){
         if(e){
-            e.preventDefault();
+	        e.preventDefault();
         }
 
         showLoading();
@@ -111,6 +128,9 @@ if(!Auth::guest()){
         setSubmit("");
 
         var formdata = new FormData($("#newHome")[0]);
+//	    if(cur_real && cur_real.id && cur_real.id.length){
+//		     formdata.append("real_id", cur_real.id);
+//	    }
         // formdata.append("_token", $(_token).val());
 
         $.ajax({
@@ -126,8 +146,25 @@ if(!Auth::guest()){
             if(response.success){
                 console.log("Success! from new project, ", response);
                 closeNewHome();
-                showLoading();
-                window.location.href = base_url + "/realhomz/homes/" + response.home.id + "/new";
+
+	            if(response.home)
+		            window.location.href = base_url + "/realhomz/homes/" + response.home.id + "/new";
+	            else{
+		            iziToast.success({
+			            title: 'Save Successfull!',
+			            message: 'Reload to see changes!',
+			            position: 'topRight',
+			            timeout: false,
+			            close:true,
+			            drag:true,
+			            buttons: [
+				            ['<button>RELOAD</button>', function (instance, toast) {
+					            instance.hide({ transitionOut: 'fadeOutUp' }, toast);
+					            window.location.reload();
+				            }]
+			            ]
+		            });
+	            }
             }else{
                 console.log("Success! not", response);
                 $('.save-new-project').removeAttr("disabled");
@@ -171,5 +208,7 @@ if(!Auth::guest()){
 		    label.addClass("hidden");
 		    input.addClass("hidden");
 	    }
+
+	    setSubmit();
     }
 </script>

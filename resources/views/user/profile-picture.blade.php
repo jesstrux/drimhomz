@@ -1,8 +1,3 @@
-<?php
-if(!Auth::guest()){
-	$user = Auth::user();
-}
-?>
 <style>
     #newPictureOuter{
         background-image: none;
@@ -33,7 +28,13 @@ if(!Auth::guest()){
                 <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
             </button>
 
-            <h5 class="flex" style="font-size: 23px; margin: 0; margin-left: 8px;">Profile Picture</h5>
+            <h5 class="flex" style="font-size: 23px; margin: 0; margin-left: 8px;">
+                @if(isset($user) && isset($myProfile) && $myProfile)
+                    Profile Picture
+                @else
+                    About {{$user->fname}}
+                @endif
+            </h5>
         </div>
     </div>
 
@@ -46,7 +47,7 @@ if(!Auth::guest()){
             </div>
         </div>
 
-        @if(isset($user))
+        @if(isset($user) && isset($myProfile) && $myProfile)
             <button class="closer hidden-xs" onclick="closeNewPicture()">
                 <svg fill="#aaa" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
             </button>
@@ -68,6 +69,13 @@ if(!Auth::guest()){
                         <button class="btn btn-danger save-new-project" style="margin: 8px 0; display: inline-block; width: auto; min-width: 250px; font-size: 20px;" type="submit">REMOVE PICTURE</button>
                 </form>
             @endif
+        @else
+            <br>
+            <div>
+                <h3>
+                    {{$user->full_name()}}
+                </h3>
+            </div>
         @endif
     </div>
 </div>

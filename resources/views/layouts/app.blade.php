@@ -325,7 +325,7 @@ if(!Auth::guest()){
                         instance.hide({ transitionOut: 'fadeOutUp' }, toast);
                         window.location.href = '/verifyPhoneNumber';
                     }]
-                ],
+                ]
             });
         }
     });
