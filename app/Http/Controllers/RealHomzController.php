@@ -27,17 +27,17 @@ class RealHomzController extends Controller
         $list = null;
         switch($page){
             case "homes": {
-                $list = Home::with('images')->orderBy('created_at', 'desc')->get();
+                $list = Home::with('images')->orderBy('created_at', 'desc')->paginate(10);
                 break;
             }
 
             case "plots": {
-                $list = Plot::with('images')->orderBy('created_at', 'desc')->get();
+                $list = Plot::with('images')->orderBy('created_at', 'desc')->paginate(10);
                 break;
             }
 
             case "rentals": {
-                $list = Rental::with('images')->orderBy('created_at', 'desc')->get();
+                $list = Rental::with('images')->orderBy('created_at', 'desc')->paginate(10);
                 break;
             }
         }

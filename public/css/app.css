@@ -114,6 +114,10 @@
 .stylish{
 	font-family: stylish;
 }
+.invisible-on{
+	opacity: 0 !important;
+	pointer-events: none !important;
+}
 .webui-popover-content{padding:0 !important}
 body{
 	background: #f5f5f5 !important;/*white;*/

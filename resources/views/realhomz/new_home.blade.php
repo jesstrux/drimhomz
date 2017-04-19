@@ -74,8 +74,8 @@ if(!Auth::guest()){
 		            <option value="1">Storey(Ghorofa)</option>
 	            </select>
 
-	            <label class="hidden" id="newHomeFloorsLabel">Number of floors</label>
-	            <input class="hidden" autocomplete="off" id="newHomeFloorsInput" name="floor_count" type="number" placeholder="Number of floors" min="1" style="font-size: 1.5em; margin-bottom: 40px;" value="1">
+	            <label class="hidde" id="newHomeFloorsLabel">Number of floors</label>
+	            <input class="hidde" autocomplete="off" id="newHomeFloorsInput" name="floor_count" type="number" placeholder="Number of floors" min="1" style="font-size: 1.5em; margin-bottom: 40px;" value="1">
 
                 <label>Description</label>
                 <textarea id="newHomeDesc" placeholder="Short description about home" name="description" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
@@ -89,7 +89,7 @@ if(!Auth::guest()){
 </div>
 
 <script>
-    var curTitle;
+    var cur_real, curTitle;
     $("#newProjectTitle").val("");
     function closeNewHome() {
         $("#newHomeOuter").removeClass("open");
@@ -102,14 +102,13 @@ if(!Auth::guest()){
         $("#newHomeTitle").focus();
         $("body").addClass("locked");
 
-        var cur_real = '<?php echo isset($cur_real) ? json_encode($cur_real) : ""?>';
-
-        if(cur_real && cur_real.isObject){
+        cur_real = <?php echo isset($cur_real) ? json_encode($cur_real) : "null"?>;
+        if(cur_real && cur_real != "null"){
 	        var new_home = $("#newHome");
 
 	        new_home.find("input, select, textarea").each(function(){
 		        var my_name = $(this).prop("name");
-		        if(cur_real.hasOwnProperty(my_name)){
+		        if(cur_real.hasOwnProperty(my_name) && cur_real[my_name] != null){
 			        $(this).val(cur_real[my_name]);
 		        }
 	        });
@@ -144,11 +143,10 @@ if(!Auth::guest()){
         })
         .done(function(response){
             if(response.success){
-                console.log("Success! from new project, ", response);
-                closeNewHome();
-
-	            if(response.home)
+	            if(response.home){
+		            showToast("success", "Home succesfully created");
 		            window.location.href = base_url + "/realhomz/homes/" + response.home.id + "/new";
+	            }
 	            else{
 		            iziToast.success({
 			            title: 'Save Successfull!',
@@ -165,6 +163,7 @@ if(!Auth::guest()){
 			            ]
 		            });
 	            }
+	            closeNewHome();
             }else{
                 console.log("Success! not", response);
                 $('.save-new-project').removeAttr("disabled");

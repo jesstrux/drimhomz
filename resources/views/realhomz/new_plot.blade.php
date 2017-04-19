@@ -113,14 +113,13 @@ if(!Auth::guest()){
         $("#newPlotTitle").focus();
         $("body").addClass("locked");
 
-        var cur_real = '<?php echo isset($cur_real) ? json_encode($cur_real) : ""?>';
-
-        if(cur_real && cur_real.isObject){
+        cur_real = <?php echo isset($cur_real) ? json_encode($cur_real) : "null"?>;
+        if(cur_real && cur_real != "null"){
 		    var new_home = $("#newPlot");
 
 		    new_home.find("input, select, textarea").each(function(){
 			    var my_name = $(this).prop("name");
-			    if(cur_real.hasOwnProperty(my_name)){
+			    if(cur_real.hasOwnProperty(my_name) && cur_real[my_name] != null){
 				    $(this).val(cur_real[my_name]);
 			    }
 		    });
@@ -155,7 +154,7 @@ if(!Auth::guest()){
             if(response.success){
                 console.log("Success! from new plot, ", response);
                 if(response.plot){
-	                showToast("success", response.msg);
+	                showToast("success", "Plot succesfully created");
 	                window.location.href = base_url + "/realhomz/plot/" + response.plot.id + "/new";
                 }
                 else{

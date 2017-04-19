@@ -58,18 +58,24 @@
 </div>
 
 <script>
-    var curTitle;
+    var curTitle, nitoe_ripoti;
+
     $("#newProjectTitle").val("");
     function closeNewProject() {
         $("#newProjectOuter").removeClass("open");
         $("body").removeClass("locked");
         $("#newProjectTitle").val("");
+
+        if(nitoe_ripoti)
+            newProjectClosed();
     }
 
-    function openNewProject() {
+    function openNewProject(toaRipoti) {
         $("#newProjectOuter").addClass("open");
         $("#newProjectTitle").focus();
         $("body").addClass("locked");
+        if(toaRipoti)
+            nitoe_ripoti = toaRipoti;
     }
 
     function addNewProject(e){
