@@ -61,6 +61,8 @@ class ProjectsController extends Controller
     }
 
     function edit_project(Request $request){
+
+
         if(Auth::guest()){
             return back()->withErrors(['msg','Please login first']);
         }

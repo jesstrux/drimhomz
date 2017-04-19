@@ -149,7 +149,7 @@ if(!Auth::guest()){
 	            }
 	            else{
 		            iziToast.success({
-			            title: 'Save Successfull!',
+			            title: 'Save Successful!',
 			            message: 'Reload to see changes!',
 			            position: 'topRight',
 			            timeout: false,

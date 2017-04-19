@@ -129,6 +129,8 @@
 <div id="pnewPofilePage">
     <div id="outer" class="container">
         <div id="wrapper" class="layout" style="background-color: #fff; margin-bottom: 40px;">
+
+            @if(!empty($project->user_id) && Auth::user()->id ==$project->user_id)
             <div id="editorForm">
                 <h3>Edit project</h3>
 
@@ -182,7 +184,7 @@
                         <label for="timeStart" class="col-md-4 control-label">Start time</label>
 
                         <div class="col-md-8">
-                            <input id="timeStart" placeholder="Start time" type="date" class="form-control" value="{{date('Y-m-d',strtotime($project->time_start))}}" required>
+                            <input id="timeStart" placeholder="Start time" type="date" class="form-control" name="time_start" value="{{date('Y-m-d',strtotime($project->time_start))}}" required>
                         </div>
                     </div>
 
@@ -203,13 +205,18 @@
                     </div>
 
                     <div id="savebtnWrapper" class="form-group">
-                        <button type="submit" onclic="saveBasicInfo()" class="btn btn-primary">
+                        <button type="submit" onclick="saveBasicInfo()" class="btn btn-primary">
                             &emsp;Save&emsp;
                         </button>
                     </div>
                 </form>
             </div>
         </div>
+        @else
+            <p style="font-size: 1.6em; margin-top: 25px;padding: 0 .4em 0 .4em; color: #777">
+                <strong>Sorry!</strong> You do not have permission to edit this project.
+            </p>
+        @endif
     </div>
 </div>
 

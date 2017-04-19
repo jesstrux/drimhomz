@@ -78,6 +78,7 @@
         }
     }
 </style>
+
 @foreach($list as $real)
     <a href="{{url('realhomz/home/').'/'.$real->id}}" class="big-outer" id="real_{{$real->id}}">
         <div class="expert-wrapper layout">

@@ -1,4 +1,4 @@
-<div id="answers{{$question->id}}" class="col-lg-12 answers card inset">
+<div id="answers{{$article->id}}" class="col-lg-12 answers card inset">
 	<div class="show-more" style="padding: 20px 0; text-align: center; border-botto: 1px solid #ddd">
 		<?php
 			$no_comments = $comments->count() < 1 ? true : false;
@@ -54,10 +54,10 @@
 				<img src="{{$user_url . $user->dp}}" width="40" alt="" />
 				<input type="hidden" value="{{Auth::user()->fname ." " . Auth::user()->lname}}">
 			</div>
-			<form method="POST" class="item-text" id="submitAnswer{{$question->id}}" action="/submitArticleComment" onsubmit="submitAnswer(event, '{{$question->id}}')">
+			<form method="POST" class="item-text" id="submitAnswer{{$article->id}}" action="/submitArticleComment" onsubmit="submitAnswer(event, '{{$article->id}}')">
 				{{csrf_field()}}
 				<input id="userId" name="user_id" type="hidden" value="{{Auth::user()->id}}">
-				<input id="questionId" name="article_id" type="hidden" value="{{$question->id}}">
+				<input id="questionId" name="article_id" type="hidden" value="{{$article->id}}">
 				<textarea name="content" class="form-control autosize answer-value" rows="3" placeholder="Your Answer..." required="true" onkeyup="activateSubmitBtn(event)"></textarea>
 				<button class="btn btn-primary" disabled type="submit">&nbsp;SUBMIT&nbsp;</button>
 			</form>

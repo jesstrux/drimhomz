@@ -251,6 +251,7 @@ class UserController extends Controller
         $user->phone = $request->input('phone');
         $user->gender = $request->input('gender');
         $user->town = $request->input('town');
+        $user->email = $request->input('email');
         $time = strtotime($request->input('dob'));
         $user->dob = strftime("%Y-%m-%d %H:%M:%S", $time);
 

@@ -253,6 +253,20 @@
                                 @endif
                             </div>
                         </div>
+						<div class="setup-field form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+							<label for="phone" class="col-md-4 control-label">Email</label>
+
+							<div class="col-md-8">
+								<input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
+
+
+								@if ($errors->has('phone'))
+									<span class="help-block">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+								@endif
+							</div>
+						</div>
 
 	                    <div class="setup-field form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
 		                    <label for="gender" class="col-md-4 control-label">Gender</label>
@@ -312,7 +326,7 @@
 		                    <label for="gender" class="col-md-4 control-label">Date of birth</label>
 
 		                    <div class="col-md-8">
-		                        <input id="dob" type="date" class="form-control" value="{{date('Y-m-d',strtotime($user->dob))}}" required>
+		                        <input id="dob" type="date" max="1999-12-31" class="form-control" value="{{date('Y-m-d',strtotime($user->dob))}}" required>
 		                        
 		                        <input id="realDob" type="hidden" name="dob" value="{{date('Y-m-d',strtotime($user->dob))}}">
 

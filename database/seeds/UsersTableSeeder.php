@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
             'lname' => 'Wolpert',
         	'phone' => '0717138051',
         	'password' => Hash::make('password'),
+            'email' => 'wolpert@owden.home',
             'dp' => "james.jpeg",
 
         ];
@@ -26,6 +27,7 @@ class UsersTableSeeder extends Seeder
             'fname' => 'Dean',
             'lname' => 'Thomas',
             'phone' => '0717138052',
+            'email' => 'dean@owden.home',
             'password' => Hash::make('password'),
             'dp' => "dean.jpg",
 
@@ -35,6 +37,7 @@ class UsersTableSeeder extends Seeder
             'fname' => 'Anabel',
             'lname' => 'Worsty',
             'phone' => '0717138053',
+            'email' => 'anabel@owden.home',
             'password' => Hash::make('password'),
             'dp' => "anna.jpg",
 
@@ -44,6 +47,7 @@ class UsersTableSeeder extends Seeder
             'fname' => 'Kingsley',
             'lname' => 'ShackleBolt',
             'phone' => '0717138054',
+            'email' => 'kingsley@owden.home',
             'password' => Hash::make('password'),
             'dp' => "kingsley.jpg",
 
@@ -53,6 +57,7 @@ class UsersTableSeeder extends Seeder
             'fname' => 'Walter',
             'lname' => 'Kimaro',
             'phone' => '0717138056',
+            'email' => 'walter@owden.home',
             'password' => Hash::make('password'),
             'dp' => "wallie.jpg",
             'role' => 'admin',

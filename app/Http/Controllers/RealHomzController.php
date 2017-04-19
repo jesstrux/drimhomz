@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -387,7 +388,7 @@ class RealHomzController extends Controller
         else
             return response()->json([
                 "success" => false,
-                "msg" => "Coulnd't remove room."
+                "msg" => "Couldn't remove room."
             ]);
     }
 
@@ -402,18 +403,29 @@ class RealHomzController extends Controller
     }
 
     public function add_pictures(Request $request, $where = null){
-        $home_id = $request->input("home_id");
-        $house_images = $request->file("house_images");
+
+        if($where!="article") {
+            $house_images=[];
+            $house_images[0] = $request->file("house_images");
+            $home_id = $request->input("home_id");
+        }
+        else {
+            $house_images = $request->file("image_url");
+            $home_id = $request->input("article_id");
+        }
+
         if(count($house_images) < 1){
             return response()->json([
                 "success" => false,
-                "msg" => "Please choose atleast one image"
+                "msg" => "Please choose at least one image"
             ]);
         }
 
         $first_image_src = "";
         $count = 0;
+
         foreach ($house_images as $image) {
+
             $count++;
 
             if($where == "home"){
@@ -422,18 +434,21 @@ class RealHomzController extends Controller
                 $real_path = 'rentals/';
             }else if($where == "plot"){
                 $real_path = 'plots/';
-            }else{
+            }else if($where == "homz"){
                 $real_path = 'homz/';
+            }else{
+                $real_path = 'advice/article/';
             }
 
-//            $destinationPath = public_path('images/uploads/'.$real_path);
+            //$destinationPath = public_path('images/uploads/'.$real_path);
 	        $destinationPath = public_path('images/uploads/images/');
 
             $img = Image::make($image->getRealPath());
-            $new_image_name = $home_id.'-'.time().$count.'.'.$image->getClientOriginalExtension();
+             $new_image_name = $home_id.'-'.time().$count.'.'.$image->getClientOriginalExtension();
 
-            if($count == 1)
+            if($count == 1){
                 $first_image_src = $new_image_name;
+            }
 
             $img->save($destinationPath.$new_image_name);
 
@@ -451,11 +466,13 @@ class RealHomzController extends Controller
                 $imageable = Rental::find($home_id);
             }else if($where == "plot"){
                 $imageable = Plot::find($home_id);
+            }else if($where == "article"){
+                $imageable = Article::find($home_id);
             }else{
                 $imageable = Home::find($home_id);
             }
 
-	        $house_image = [
+	         $house_image = [
 		        'url' => $new_image_name,
 		        'placeholder_color' => $img->limitColors(1)->pickColor(0, 0, 'hex'),
 		        'caption' => "",

@@ -48,7 +48,7 @@
                             <label for="fname" class="col-md-4 control-label">First Name</label>
 
                             <div class="col-md-6">
-                                <input id="fname" type="text" class="form-control" name="fname" value="{{ old('fname') }}" required autofocus>
+                                <input id="fname" type="text" class="form-control" style="text-transform: capitalize" name="fname" value="{{ old('fname') }}" required autofocus>
 
                                 @if ($errors->has('fname'))
                                     <span class="help-block">
@@ -62,7 +62,7 @@
                             <label for="lname" class="col-md-4 control-label">Last Name</label>
 
                             <div class="col-md-6">
-                                <input id="lname" type="text" class="form-control" name="lname" value="{{ old('lname') }}" required>
+                                <input id="lname" type="text" style="text-transform: capitalize" class="form-control" name="lname" value="{{ old('lname') }}" required>
 
                                 @if ($errors->has('lname'))
                                     <span class="help-block">

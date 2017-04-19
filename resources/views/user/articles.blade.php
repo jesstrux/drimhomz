@@ -12,13 +12,13 @@
 
 
 @if($articles_count > 0)
-        @foreach($articles as $fol)
 
+        @foreach($articles as $fol)
        <div class="house-card a-house-item">
         <a href="{{url('/advice/articles/#question_').$fol->id}}" style="cursor: pointer;" >
-            <div class="image" style="background-color: #eee">
-                {{--<img src="{{asset($house_url . $house->image_url)}}" alt="{{$house->title}}">--}}
-                <div class="userview-image" style="background-color: #ddd"></div>
+            <div class="image" style="background-color: #999">
+                {{--<img src="{{asset($article_img_url . $images->url)}}" alt="{{$fol->title}}">--}}
+                <div class="userview-image" style="background-color: #eee"></div>
             </div>
         </a>
         <div class="content">

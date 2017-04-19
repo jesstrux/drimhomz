@@ -53,6 +53,8 @@ if(!Auth::guest()){
 
                 <label>content</label>
                 <textarea id="newQuestionDesc" placeholder="Short content about question" name="content" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>
+                <label style="margin-bottom: 8px;">Question image</label>
+                <input style="margin-bottom: 10px;" onchange="showImage(this)" accept="images/*" name="image_url" type="file" required><br>
 
                 <button disabled class="btn btn-primary save-new-question hidden-xs" style="float: right; margin-righ: 8px; margin-bottom: 10px;" id="newProjectBtn" type="button" onclick="addNewQuestion()">CREATE</button>
             </form>

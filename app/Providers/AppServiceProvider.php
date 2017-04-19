@@ -32,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
             'rental_url' => $storage_url . "images/", #"rentals/",
             'question_url' => $storage_url . "images/", #"rentals/",
             'article_url' => $storage_url . "images/", #"rentals/",
+            'question_img_url' => $storage_url . "advice/question/",
+            'article_img_url' => $storage_url . "advice/article/",
         ]);
     }
 
