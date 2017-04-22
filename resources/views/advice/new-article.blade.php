@@ -118,7 +118,7 @@ if(!Auth::guest()){
                         showLoading();
                         window.location.href = base_url + "/advice/articles/";
                     }else{
-                        console.log("Success! not", response);
+                        console.log("Error! not", response.msg);
                         $('.save-new-project').removeAttr("disabled");
                         showToast(response.msg);
                     }

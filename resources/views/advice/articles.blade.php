@@ -22,8 +22,8 @@
 		$my_question = "";
 		if(!Auth::guest() && $article->user->id == Auth::user()->id)
 			$my_question = "my-question";
-	?>
-	<div class="row full-question {{$my_question}}" id="question_{{$article->id}}">
+	?><div id="article_{{$article->id}}" style="margin-bottom: 60px"></div>
+	<div class="row full-question {{$my_question}}" id="article{{$article->id}}">
 		<div class="col-lg-12 card no-pad question">
 		    <div class="item">
 	        	<div class="avatar">

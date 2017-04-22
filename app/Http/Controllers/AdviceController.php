@@ -11,6 +11,7 @@ use App\Article;
 use App\User;
 use Auth;
 use Image;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
@@ -19,10 +20,10 @@ class AdviceController extends Controller
     public function index($page = "questions")
     {
         if ($page == "questions") {
-            $questions = Question::orderBy('created_at', 'desc')->with('answers','images')->get();
+            $questions = Question::orderBy('updated_at', 'desc')->with('answers','images')->get();
             return view('advice.index', compact('page', 'questions'));
         } else {
-            $articles = Article::orderBy('created_at', 'desc')->with('comments','images')->get();
+            $articles = Article::orderBy('updated_at', 'desc')->with('comments','images')->get();
 
             return view('advice.index', compact('page', 'articles'));
         }
@@ -76,10 +77,17 @@ class AdviceController extends Controller
         if ($article_exists) {
             return response()->json([
                 'success' => false,
-                'msg' => 'You already have a question called ' . $request->input('title')
+                'msg' => 'You already have an article called ' . $request->input('title')
             ]);
         }
+        if(!$request->hasFile("image_url"))
 
+            return response()->json([
+                "success" => false,
+                "msg" => "Please choose at least one image"
+            ]);
+
+        $new_article = false;
         if (Auth::user()->role != 'user') {
             $new_article = Article::create(request()->except('_token', 'img_url'));
 

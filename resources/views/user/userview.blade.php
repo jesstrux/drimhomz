@@ -1,5 +1,6 @@
 @if(!Auth::guest() && $myProfile)
-	<?php $is_my_profile = true; ?>
+	<?php
+	$is_my_profile = true; ?>
 @endif
 
 @extends('layouts.app')
@@ -450,7 +451,8 @@
 	    $followers = $user->followers;
 	    $followers_count = count($followers);
 
-		$articles = $user->articles;
+		//$articles = $user->articles;
+	    $articles = $user->articles()->orderBy('updated_at', 'desc')->get();
 		$articles_count = count($articles);
 
 		$shops = $user->shops;
