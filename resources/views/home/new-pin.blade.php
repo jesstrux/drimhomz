@@ -1,7 +1,7 @@
 <div id="newPinModal" class="cust-modal">
-    <button class="closer hidden-xs" onclick="closeNewPin()">
-        <svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
+    {{--<button class="closer hidden-xs" onclick="closeNewPin()">--}}
+        {{--<svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>--}}
+    {{--</button>--}}
 
     <div class="hidden visible-xs cust-modal-toolbar no-shadow">
         <div class="layout center" style="height: 60px">
@@ -14,6 +14,10 @@
     </div>
 
     <div class="cust-modal-content">
+        <button class="close hidden-xs" onclick="closeNewPin()">
+            <svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+
         <div class="row">
             <div id="toPin" class="col col-md-5 col-xs-12" style="border-right: 1px solid #eee; padding-top: 20px; padding-bottom: 20px; margin-top: 60px;">
                 <div id="newPinCard"></div>

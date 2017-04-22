@@ -35,8 +35,6 @@ class AnswerReceived extends Notification
 
         return [
             'user_id' => $user->id,
-            'user_name' => $user->fname ." ". $user->lname,
-            'user_dp' => $user->dp,
             'question_id' => $answer->question->id,
             'answer_id' => $answer->id,
             'answer' => $answer->content,

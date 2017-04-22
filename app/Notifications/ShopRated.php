@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\ShopRating;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,7 +17,7 @@ class ShopRated extends Notification
     private $rating;
     private $user;
 
-    public function __construct(Rating $rating, User $user)
+    public function __construct(ShopRating $rating, User $user)
     {
         $this->rating = $rating;
         $this->user = $user;
@@ -34,11 +35,10 @@ class ShopRated extends Notification
         $user = $this->user;
 
         return [
-            'user_name' => $user->fname ." ". $user->lname,
-            'user_dp' => $user->dp,
-            'rating' => $rating->rating,
-            'shop_image' => $rating->ratable->image_url,
-            'link' => "/shop/".$rating->ratable_id."/reviews#rating".$rating->id
+            'user_id' => $user->id,
+            'rating' => $rating->rating->rating,
+            'shop_image' => $rating->shop->image_url,
+            'link' => "/shop/".$rating->shop_id
         ];
     }
 }

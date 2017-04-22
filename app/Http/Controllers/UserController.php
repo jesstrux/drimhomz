@@ -68,8 +68,6 @@ class UserController extends Controller
             request()->session()->flash('verification_type', 'info');
             return view('user.setup', compact('user'));
         }
-
-
     }
 
     public function setup(){
@@ -234,10 +232,17 @@ class UserController extends Controller
 
         function save_user($user){
             if($user->save()){
-                return "success";
+                return response()->json([
+                    'success' => true,
+                    'picture_url' => $user->dp,
+                    'msg' => "Picture changed!"
+                ]);
             }
             else {
-                return response('error!');
+                return response()->json([
+                    'success' => false,
+                    'msg' => "Couldn't save changes!"
+                ]);
             }
         }
 
@@ -279,7 +284,10 @@ class UserController extends Controller
                 return(save_user($user));
             }
             else {
-                return response("error: Can\'t set location!");
+                return response()->json([
+                    'success' => false,
+                    'msg' => "Couldn't set locaation"
+                ]);
             }
         }else{
             return(save_user($user));
@@ -333,10 +341,16 @@ class UserController extends Controller
         }
         
         if($user->save()){
-            return "success";
+            return response()->json([
+                'success' => true,
+                'picture_url' => $user->dp,
+                'msg' => "Picture changed!"
+            ]);
         }
         else {
-            return response('error!');
+            return response()->json([
+                'success' => false
+            ]);
         }
     }
 }

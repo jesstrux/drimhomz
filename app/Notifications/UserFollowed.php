@@ -31,8 +31,6 @@ class UserFollowed extends Notification
 
         return [
             'user_id' => $user->id,
-            'user_dp' => $user->dp,
-            'user_name' => $user->fname ." ". $user->lname,
             'link' => '/user/'.$user->id
         ];
     }

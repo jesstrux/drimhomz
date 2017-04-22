@@ -32,7 +32,18 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
         $user = Auth::user();
 //         ->full_name();
 
-	    return App\Home::find(31)->image();
+//	    return App\User::find(1)
+//		    ->ratings()
+//		    ->join()
+//		    ->get();
+
+	    return "".DB::table('expert_ratings')
+		    ->join('ratings', function ($join) {
+			    $join->on('ratings.id', '=', 'expert_ratings.rating_id');
+		    })
+		    ->where(['ratings.user_id' => 1, 'expert_ratings.expert_id' => 5])
+		    ->exists();
+//	    ->where('user_id', $uid)->exists();
      }
      else{
          echo "Hello guest";
@@ -97,6 +108,12 @@ Route::get('/getUser/{id}', function ($id) {
 });
 Route::get('/user/{id}', 'UserController@showprofile');
 Route::get('/user/{id}/{page}', 'UserController@showprofile');
+Route::get('/user_dp/{id}', function($id){
+    $user = App\User::find($id);
+    $storage_url = asset("images/uploads/") . "/user_dps/" . $user->dp;
+
+    return '<img class="img-circle dropdown-avatar" src="' .$storage_url. '" alt="'. $user->fname .'\'s image" />';
+});
 Route::get('/userProfilePopup/{user_id}', 'UserController@get_profile_popup');
 Route::post('/followUser', 'UserController@follow_user');
 Route::get('/profile', 'UserController@profile');

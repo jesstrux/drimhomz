@@ -35,8 +35,6 @@ class PostFaved extends Notification
 
         return [
             'user_id' => $user->id,
-            'user_dp' => $user->dp,
-            'user_name' => $user->fname ." ". $user->lname,
             'house_image' => $house->image_url,
             'house_color' => $house->placeholder_color,
             'link' => "/house/".$house->id
