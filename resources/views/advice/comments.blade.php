@@ -64,7 +64,7 @@
         @else
         	<p>
         		<center>
-        			<a href="URL('/login')">
+        			<a href="{{URL('/login')}}">
         				LOGIN
         			</a> TO COMMENT
         		</center>

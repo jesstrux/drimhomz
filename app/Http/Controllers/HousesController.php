@@ -168,7 +168,7 @@ class HousesController extends Controller
             $destinationPath = public_path('images/uploads/houses/');
             $img = Image::make($image->getRealPath());
             $new_image_name = time().'.'.$image->getClientOriginalExtension();
-            $img->save($destinationPath.$new_image_name);
+            $img->save($destinationPath.$new_image_name,20);
 
 //            $path = $image->store('public/uploads/houses');
 //            $exploded_array = explode("/", $path);
@@ -184,7 +184,7 @@ class HousesController extends Controller
 
             $img->resize(rand (400, 800), null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save($thumb_path);
+            })->save($thumb_path,20);
 
             $image_sizes->width_thumb = $img->width();
             $image_sizes->height_thumb = $img->height();
@@ -201,7 +201,7 @@ class HousesController extends Controller
 
         $house = [
             'title' => $request->input('title'),
-            // 'description' => $request->input('description'),
+            'description' => $request->input('description'),
             'image_url' => $more_info['url'],
             'placeholder_color' => $more_info["color"],
 //            'description' => $faker->realText(),

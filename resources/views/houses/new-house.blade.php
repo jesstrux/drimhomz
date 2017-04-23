@@ -132,7 +132,7 @@
 
                 <div id="newHouseWrapper" class="layout">
                     <div id="houseImageContainer">
-                        <img id="houseImage" src="" alt="" style="width: 100%; height: 250px; background-color: #ddd; margin: 15px auto; margin-bottom: 25px; display: inline-block; border: none">
+                        <img id="houseImage" src="" alt="" style="width: 100%; height: 50%; background-color: #ddd; margin: 15px auto; margin-bottom: 25px; display: inline-block; border: none">
                         <label style="margin-bottom: 8px;">Dream image</label>
                         <input style="margin-bottom: 10px;" onchange="showImage(this)" accept="images/*" name="image_url" type="file" required><br>
                     </div>

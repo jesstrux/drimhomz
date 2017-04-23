@@ -16,6 +16,7 @@ use App\Plot;
 use App\PlotImage;
 use App\Utility;
 use Image;
+use Illuminate\Support\Facades\File;
 
 class RealHomzController extends Controller
 {
@@ -405,8 +406,8 @@ class RealHomzController extends Controller
     public function add_pictures(Request $request, $where = null){
 
         if($where!="article") {
-            $house_images=[];
-            $house_images[0] = $request->file("house_images");
+
+            $house_images = $request->file("house_images");
             $home_id = $request->input("home_id");
         }
         else {
@@ -449,7 +450,7 @@ class RealHomzController extends Controller
             if($count == 1){
                 $first_image_src = $new_image_name;
             }
-
+            if(!File::exists($destinationPath.'/thumbs/')) File::makeDirectory($destinationPath.'/thumbs/', 0777,true);
             $img->save($destinationPath.$new_image_name);
 
 	        if($img->width() > 600){

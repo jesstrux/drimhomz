@@ -55,6 +55,7 @@
     #savebtnWrapper .btn{
         float: right;
     }
+    .t
 
     @media only screen and (max-width: 760px) {
         body{
@@ -125,7 +126,6 @@
         }
     }
 </style>
-
 <div id="pnewPofilePage">
     <div id="outer" class="container">
         <div id="wrapper" class="layout" style="background-color: #fff; margin-bottom: 40px;">

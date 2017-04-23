@@ -146,9 +146,9 @@ class AdviceController extends Controller
             if (!File::exists($thumb_path)) File::makeDirectory($thumb_path, 0777, true);
             $img->resize(600, null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save($thumb_path . $new_image_name);
+            })->save($thumb_path . $new_image_name,20);
         } else {
-            $img->save($destinationPath . 'thumbs/' . $new_image_name);
+            $img->save($destinationPath . 'thumbs/' . $new_image_name,20);
         }
 
 

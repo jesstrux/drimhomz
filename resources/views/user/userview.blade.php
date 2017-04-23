@@ -439,10 +439,10 @@
 			$followed = $user->followed(Auth::user()->id);
 		$followed_str = $followed ? "followed" : "follow";
 
-	    $projects = $user->projects;
+	    $projects = $user->projects()->orderBy('updated_at', 'desc')->get();
 	    $project_count = count($projects);
 
-	    $houses = $user->houses;
+	    $houses = $user->houses()->orderBy('updated_at', 'desc')->get();
 	    $house_count = count($houses);
 
 	    $following = $user->following;
@@ -455,7 +455,7 @@
 	    $articles = $user->articles()->orderBy('updated_at', 'desc')->get();
 		$articles_count = count($articles);
 
-		$shops = $user->shops;
+		$shops = $user->shops()->orderBy('updated_at', 'desc')->get();
 		$shops_count = count($shops);
 
 		$reviews = $user->ratings;
