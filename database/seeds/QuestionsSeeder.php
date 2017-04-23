@@ -22,6 +22,7 @@ class QuestionsSeeder extends Seeder
 	            'content' => $faker->realText($faker->numberBetween(40, 270))
 	        ];
 
+            $project['slug'] = str_slug($project['title']);
             $imageable = Question::create($project);
 
             if($imageable){

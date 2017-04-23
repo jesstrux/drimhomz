@@ -33,7 +33,7 @@ class PlotsTableSeeder extends Seeder
 
             if($imageable){
                 $house_image = [
-                    'url' => "rental" .$i % 4 .".jpg",
+                    'url' => "plot" .$i % 4 .".jpg",
                     'placeholder_color' => $faker->hexColor(),
                     'caption' => $faker->realText(15)
                 ];

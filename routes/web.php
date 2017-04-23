@@ -37,13 +37,7 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
 //		    ->join()
 //		    ->get();
 
-	    return "".DB::table('expert_ratings')
-		    ->join('ratings', function ($join) {
-			    $join->on('ratings.id', '=', 'expert_ratings.rating_id');
-		    })
-		    ->where(['ratings.user_id' => 1, 'expert_ratings.expert_id' => 5])
-		    ->exists();
-//	    ->where('user_id', $uid)->exists();
+	    return App\Home::find(31)->images->toJson();
      }
      else{
          echo "Hello guest";
@@ -90,6 +84,7 @@ Route::post('/rateExpert', 'ExpertController@rate_expert');
 
 Route::get('/advice', 'AdviceController@index');
 Route::get('/advice/{page}', 'AdviceController@index');
+Route::get('/advice/{page}/{slug}', 'AdviceController@single');
 Route::post('/createQuestion','AdviceController@create_question');
 Route::post('/createArticle','AdviceController@create_article');
 Route::post('/submitAnswer', 'AdviceController@submit_answer');

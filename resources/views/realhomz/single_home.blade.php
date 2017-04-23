@@ -91,15 +91,12 @@
 		<div class="row">
 			<div id="homeInfo" class="col-md-7" style="position: relative;">
 				<div class="card">
-					<div class="hidden visible-xs">
-						@if($real->images->count() > 0)
-							<div style="height: 300px; margin-bottom: 20px; background-color: {{$real->color()}}; background-image: url({{$home_url . $real->image()}}); background-position: center; background-size: cover"></div>
-						@else
-							<div style="height: 300px; margin-bottom: 20px; background-color: {{$real->color()}}; background-image: url({{$home_url . $real->image()}}); background-position: center; background-size: cover"></div>
-						@endif
+					<div class="hidden visible-xs visible-sm" style="position: relative;">
+						@include('realhomz.real_pictures')
 					</div>
 
-					<div class="card-body" style="padding: 24px; padding-bottom: 0;">
+					<div class="card-body" style="padding: 0 24px; padding-top: 4px;">
+						<div class="hidden-xs hidden-sm" style="height: 11px"></div>
 						<h3 style="font-size: 2.3em;">{{$real->name}}</h3>
 						<p style="font-size: 1.4em; margin-top: 6px;margin-bottom: 25px;">
 							<strong style="color: #ffa500; font-weight: bold;letter-spacing: 0.25em;font-size: 0.7em;">PRICE:</strong> &nbsp;Tshs. <span style="etter-spacing: 0.1em">{{number_format( $real->price, 0 )}}</span>
@@ -188,46 +185,14 @@
 				</div>
 			</div>
 
-			<div class="col-md-5 hidden-xs" style="padding-top: 0;">
+			<div class="col-md-5 hidden-xs hidden-sm" style="padding-top: 0;">
 				<h3 style="padding-top: 0; margin-top: 0; margin-bottom: 20px;">PICTURES</h3>
-				<div style="position: relative;">
-					@if($real->images->count() > 0)
-						<div class="card" style="height: 300px; margin-bottom: 20px; background-color: {{$real->color()}}; background-image: url({{$home_url . $real->image()}}); background-position: center; background-size: cover"></div>
-					@else
-						<div id="placeholderPic" class="card" style="height: 300px; margin-bottom: 20px; background-image: url({{$home_url . $real->image()}}); background-position: center; background-size: cover"></div>
-					@endif
-
-					@if($my_home)
-						<a id="addPicturesBtn" onclick="openAddPictures()" href="javascript:void(0);" class="a-fab lg" style="position: absolute; bottom: -30px; right: 20px;">
-							<svg fill="#fff" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M9 3L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2h-3.17L15 3H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zM12 17l1.25-2.75L16 13l-2.75-1.25L12 9l-1.25 2.75L8 13l2.75 1.25z"/></svg>
-						</a>
-					@endif
-				</div>
+				@include('realhomz.real_pictures')
 			</div>
 		</div>
 	</div>
 </div>
 
-<?php
-	$image_base_url = $home_url;
-	$add_rooms_url = "/addRoomsToHome";
-	$utilities = "home";
-	$remove_room_url = "/removeRoomFromHome";
-	$add_pictures_url = "/addPicturesToHome";
-
-	$cur_real = $real;
-?>
-
 @include('realhomz.manage_rooms')
 @include('realhomz.add_pictures')
 @include('realhomz.new_home')
-
-<script>
-	var is_new = "<?php echo $is_new ? true : false ; ?>";
-	console.log(is_new);
-
-	$(document).ready(function () {
-		if(is_new)
-			showToast("success", "Fill in the remaining info.", 4000, "topCenter");
-	});
-</script>

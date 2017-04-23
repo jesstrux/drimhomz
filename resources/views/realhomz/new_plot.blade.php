@@ -58,7 +58,7 @@ if(!Auth::guest()){
 	            @endif
 
                 <label>Name</label>
-                <input autocomplete="off" id="newPlotTitle" name="name" type="text" placeholder="eg. Bungalow in Kyela" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
+                <input autocomplete="off" id="newPlotTitle" name="name" type="text" placeholder="eg. Farming Plot" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Price</label>
                 <input autocomplete="off" id="newPlotPrice" name="price" type="number" placeholder="price of the plot" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">

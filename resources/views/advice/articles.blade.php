@@ -17,7 +17,6 @@
 </style>
 
 @foreach($articles as $article)
-
 	<?php
 		$my_question = "";
 		if(!Auth::guest() && $article->user->id == Auth::user()->id)
@@ -53,7 +52,15 @@
 				$large_text = strlen($article->content) < 80 ? "large-text" : "";
 			?>
 	        <div class="card-body {{$large_text}}" style="font-size: 1.3em; line-height: 2em;">
-	        	{{$article->content}}
+	        	{{str_limit($article->content, 225)}}
+
+		        {{--<a href="{{url('advice/article/'.$article->slug)}}">--}}
+			        {{--@if(strlen($article->content) > 225)--}}
+				        {{--Read more--}}
+			        {{--@else--}}
+				        {{--View Article--}}
+			        {{--@endif--}}
+		        {{--</a>--}}
 	        </div>
 		</div><!--end .col, .card -->
 

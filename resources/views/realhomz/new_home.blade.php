@@ -74,8 +74,8 @@ if(!Auth::guest()){
 		            <option value="1">Storey(Ghorofa)</option>
 	            </select>
 
-	            <label class="hidde" id="newHomeFloorsLabel">Number of floors</label>
-	            <input class="hidde" autocomplete="off" id="newHomeFloorsInput" name="floor_count" type="number" placeholder="Number of floors" min="1" style="font-size: 1.5em; margin-bottom: 40px;" value="1">
+	            <label class="hidden" id="newHomeFloorsLabel">Number of floors</label>
+	            <input class="hidden" autocomplete="off" id="newHomeFloorsInput" name="floor_count" type="number" placeholder="Number of floors" min="1" style="font-size: 1.5em; margin-bottom: 40px;" value="1">
 
                 <label>Description</label>
                 <textarea id="newHomeDesc" placeholder="Short description about home" name="description" cols="10" rows="5" required onkeyup="setSubmit()"></textarea>

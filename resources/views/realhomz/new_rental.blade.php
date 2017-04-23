@@ -57,7 +57,7 @@ if(!Auth::guest()){
                 @endif
                 {{csrf_field()}}
                 <label>Title</label>
-                <input autocomplete="off" id="newRentalTitle" name="name" type="text" placeholder="eg. Bungalow in Kyela" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
+                <input autocomplete="off" id="newRentalTitle" name="name" type="text" placeholder="eg. Apartment for rent" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">
 
                 <label>Price</label>
                 <input autocomplete="off" id="newRentalPrice" name="price" type="number" placeholder="price of the rental" required style="font-size: 1.5em; margin-bottom: 40px;" onkeyup="setSubmit()">

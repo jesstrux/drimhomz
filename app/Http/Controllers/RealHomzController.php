@@ -403,18 +403,19 @@ class RealHomzController extends Controller
     }
 
     public function add_pictures(Request $request, $where = null){
+	    $uploaded_images = [];
 
         if($where!="article") {
-            $house_images=[];
-            $house_images[0] = $request->file("house_images");
+            $house_images = $request->file("house_images");
             $home_id = $request->input("home_id");
         }
         else {
-            $house_images = $request->file("image_url");
+	        $house_images=[];
+	        $house_images[0] = $request->file("image_url");
             $home_id = $request->input("article_id");
         }
 
-        if(count($house_images) < 1){
+        if(empty($house_images)){
             return response()->json([
                 "success" => false,
                 "msg" => "Please choose at least one image"
@@ -424,41 +425,40 @@ class RealHomzController extends Controller
         $first_image_src = "";
         $count = 0;
 
+//	    $destinationPath = public_path('images/uploads/images/');
+
+        if($where == "home"){
+            $real_path = 'homz/';
+        }else if($where == "rental"){
+            $real_path = 'rentals/';
+        }else if($where == "plot"){
+            $real_path = 'plots/';
+        }else if($where == "homz"){
+            $real_path = 'homz/';
+        }else{
+            $real_path = 'advice/article/';
+        }
+
         foreach ($house_images as $image) {
-
-            $count++;
-
-            if($where == "home"){
-                $real_path = 'homz/';
-            }else if($where == "rental"){
-                $real_path = 'rentals/';
-            }else if($where == "plot"){
-                $real_path = 'plots/';
-            }else if($where == "homz"){
-                $real_path = 'homz/';
-            }else{
-                $real_path = 'advice/article/';
-            }
-
-            //$destinationPath = public_path('images/uploads/'.$real_path);
-	        $destinationPath = public_path('images/uploads/images/');
-
+//	        $image = $image[$count];
+            $destinationPath = public_path('images/uploads/'.$real_path);
+//	        $destinationPath = public_path('images/uploads/rans/');
             $img = Image::make($image->getRealPath());
-             $new_image_name = $home_id.'-'.time().$count.'.'.$image->getClientOriginalExtension();
+            $new_image_name = $home_id.$where.time().$count.'.'.$image->getClientOriginalExtension();
 
-            if($count == 1){
+            if($count == 0){
                 $first_image_src = $new_image_name;
             }
 
             $img->save($destinationPath.$new_image_name);
 
-	        if($img->width() > 600){
-		        $img->resize(600, null, function ($constraint) {
-			        $constraint->aspectRatio();
-		        })->save($destinationPath.'thumbs/'.$new_image_name);
-	        }else{
-		        $img->save($destinationPath.'thumbs/'.$new_image_name);
-	        }
+//	        if($img->width() > 600){
+//		        $img->resize(600, null, function ($constraint) {
+//			        $constraint->aspectRatio();
+//		        })->save($destinationPath.'thumbs/'.$new_image_name);
+//	        }else{
+//		        $img->save($destinationPath.'thumbs/'.$new_image_name);
+//	        }
 
             if($where == "home"){
                 $imageable = Home::find($home_id);
@@ -485,16 +485,20 @@ class RealHomzController extends Controller
             if(!$new_image){
                 return response()->json([
                     "success" => false,
-                    "msg" => "Couldn't uploaded images."
+                    "msg" => "Couldn't upload images."
                 ]);
 
                 break;
             }
+
+	        $uploaded_images[] = $new_image;
+	        $count++;
         }
 
         return response()->json([
             "success" => true,
             "first_image" => $first_image_src,
+	        "images" => $uploaded_images,
             "msg" => "Images successfully uploaded"
         ]);
     }
