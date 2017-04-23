@@ -35,8 +35,6 @@ class CommentPosted extends Notification
 
         return [
             'user_id' => $user->id,
-            'user_name' => $user->fname ." ". $user->lname,
-            'user_dp' => $user->dp,
             'house_id' => $comment->house->id,
             'house_image' => $comment->house->image_url,
             'house_color' => $comment->house->placeholder_color,

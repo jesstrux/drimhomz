@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\ExpertRating;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,7 +17,7 @@ class ExpertRated extends Notification
     private $rating;
     private $user;
 
-    public function __construct(Rating $rating, User $user)
+    public function __construct(ExpertRating $rating, User $user)
     {
         $this->rating = $rating;
         $this->user = $user;
@@ -34,10 +35,9 @@ class ExpertRated extends Notification
         $user = $this->user;
 
         return [
-            'user_name' => $user->fname ." ". $user->lname,
-            'user_dp' => $user->dp,
-            'rating' => $rating->rating,
-            'link' => "/user/".$rating->ratable_id."/reviews#rating".$rating->id
+            'user_id' => $user->id,
+            'rating' => $rating->rating->rating,
+            'link' => "/user/".$rating->expert_id."/reviews#rating".$rating->id
         ];
     }
 }

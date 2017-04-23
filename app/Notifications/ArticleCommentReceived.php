@@ -36,8 +36,6 @@ class ArticleCommentReceived extends Notification
 
         return [
             'user_id' => $user->id,
-            'user_name' => $user->fname ." ". $user->lname,
-            'user_dp' => $user->dp,
             'article_id' => $comment->article->id,
             'comment_id' => $comment->id,
             'comment' => $comment->content,

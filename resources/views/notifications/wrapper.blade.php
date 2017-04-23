@@ -26,13 +26,35 @@
                 <?php
                     $data = $notification->data;
                     $unread = $notification->read() ? "" :  "unread";
+				    $user_dp =  "def.png";
+				    $user_name = "Unknown user";
+
+				    if($data['user_id'] && $data['user_id'] != null){
+					    $user = App\User::find($data['user_id']);
+					    $user_dp =  $user->dp;
+					    $user_name = $user->fname . " " . $user->lname;
+				    }
                 ?>
                 <li class="{{$unread}}">
                     @include('notifications.'.snake_case(class_basename($notification->type)))
                 </li>
             @endforeach
         @else
-            <li><a style="background: transparent !important; color: #555; margin: 8px 0;">You have no notifications.</a></li>
+            <li>
+	            <div class="dh-notif" style="padding: 2px 16px;">
+		            <div class="layout">
+			            <span class="img-circle dropdown-avatar self-center layout center-center" style="margin-top: -5px; padding: 5px; background-color: #e0e0e0 !important">
+				            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></svg>
+			            </span>
+			            <div class="flex layout wrap vertical">
+				            <span style="display: block; white-space: normal">
+				                <strong>Nothing here</strong><br>
+				                You have no notifications yet.
+				            </span>
+			            </div>
+		            </div>
+	            </div>
+            </li>
         @endif
     </ul>
 </li>
@@ -57,9 +79,10 @@
         .done(function(response){
             console.log("Response!, ", response);
             if(response.success){
-                $('.dh-notif').each(function(){
-                    $(this).removeClass('unread');
-                });
+	            //                    $('.unread').each(function(){
+//                        $(this).removeClass('unread');
+//                    });
+	            $(".unread").removeClass('unread');
                 showToast("success", "Notifications cleared!");
             }else{
                 showToast("error", "Couldn't clear notifications!");

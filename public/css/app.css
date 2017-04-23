@@ -1135,7 +1135,8 @@ body.moving-stuff #manageImage #resizeCanvas{
 
 .cust-modal{
     position: fixed;
-    background-color: #333;
+    /*background-color: #333;*/
+	background-color: rgba(0,0,0,0.55);
     top: 0; left: 0;
     width: 100vw; height: 100vh;
     overflow-y: auto;
@@ -1440,10 +1441,11 @@ body.moving-stuff #manageImage #resizeCanvas{
 #preview.open{
     pointer-events: auto;
     overflow-y: auto;
-    background-color: #333;
-    background-image: -webkit-linear-gradient(#222, #333);
-    background-image: -o-linear-gradient(#222, #333);
-    background-image: linear-gradient(#222, #333);
+    /*background-color: #333;*/
+    /*background-image: -webkit-linear-gradient(#222, #333);*/
+    /*background-image: -o-linear-gradient(#222, #333);*/
+    /*background-image: linear-gradient(#222, #333);*/
+	background-color: rgba(0,0,0,0.55) !important;
 }
 
 .closer{
@@ -2172,13 +2174,17 @@ a.with-icon sup{
 
 /*NOTIFICATIONS*/
 .dh-notif{
-	color: #555;
-	background-color: #f6f6f6 !important;
+	text-decoration: none !;
+	color: #555 !important;
+	background-color: #f9f9f9 !important;
 }
 
-.unread .dh-notif{
-	color: #555;
-	background-color: #f0e0e0 !important;
+.unread, .unread .dh-notif{
+	background-color: #f9f9f9 !important;
+}
+
+.unread:hover, .unread .dh-notif:hover{
+	background-color: #f0f0f0 !important;
 }
 
 .dh-notif .layout{

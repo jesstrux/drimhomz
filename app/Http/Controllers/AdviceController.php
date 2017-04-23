@@ -29,22 +29,31 @@ class AdviceController extends Controller
         }
     }
 
+    public function single($page = "question", $slug)
+    {
+        if ($page == "question") {
+            $question = Question::where('slug', $slug)->with('answers','images')->first();
+            return view('advice.single', compact('page', 'question'));
+        } else {
+            $article = Article::where('slug', $slug)->with('answers','images')->first();
+            return view('advice.index', compact('page', 'article'));
+        }
+    }
 
     public function create_question(Request $request)
     {
 
         $question_exists = Question::where([
-            'user_id' => $request->input('user_id'),
             'title' => $request->input('title')])->exists();
-
 
         if ($question_exists) {
             return response()->json([
                 'success' => false,
-                'msg' => 'You already have a question called ' . $request->input('title')
+                'msg' => 'There is already a question titled ' . $request->input('title')
             ]);
         }
 
+	    $request->request->add(['slug' => str_slug($request->input('title'))]);
         $new_question = Question::create(request()->except('_token'));
 
         if ($new_question) {
@@ -71,31 +80,30 @@ class AdviceController extends Controller
     {
 
         $article_exists = Article::where([
-            'user_id' => $request->input('user_id'),
             'title' => $request->input('title')])->exists();
 
-        if ($article_exists) {
+        if ($article_exists)
             return response()->json([
                 'success' => false,
-                'msg' => 'You already have an article called ' . $request->input('title')
+                'msg' => 'There\'s already an article titled ' . $request->input('title')
             ]);
-        }
-        if(!$request->hasFile("image_url"))
 
+        if(!$request->hasFile("image_url"))
             return response()->json([
                 "success" => false,
                 "msg" => "Please choose at least one image"
             ]);
 
-        $new_article = false;
-        if (Auth::user()->role != 'user') {
-            $new_article = Article::create(request()->except('_token', 'img_url'));
+        if (Auth::user()->role == 'user')
+	        return response()->json([
+		        "success" => false,
+		        "msg" => "Sorry, only experts can publish articles."
+	        ]);
 
-        }
-
-
+	    $new_article = false;
+	    $request->request->add(['slug' => str_slug($request->input('title'))]);
+	    $new_article = Article::create(request()->except('_token', 'img_url'));
         if ($new_article) {
-
             $request->request->add(['article_id' => $new_article->id]);
             $picture_status = $this->add_pictures($request, 'article');
 
@@ -117,7 +125,6 @@ class AdviceController extends Controller
 
     public function add_pictures(Request $request, $where = null)
     {
-
         $image = $request->file("image_url");
         if ($where == "article") {
             $advice_id = $request->input("article_id");

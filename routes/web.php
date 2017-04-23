@@ -32,7 +32,12 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
         $user = Auth::user();
 //         ->full_name();
 
-	    return App\Home::find(31)->image();
+//	    return App\User::find(1)
+//		    ->ratings()
+//		    ->join()
+//		    ->get();
+
+	    return App\Home::find(31)->images->toJson();
      }
      else{
          echo "Hello guest";
@@ -79,6 +84,7 @@ Route::post('/rateExpert', 'ExpertController@rate_expert');
 
 Route::get('/advice', 'AdviceController@index');
 Route::get('/advice/{page}', 'AdviceController@index');
+Route::get('/advice/{page}/{slug}', 'AdviceController@single');
 Route::post('/createQuestion','AdviceController@create_question');
 Route::post('/createArticle','AdviceController@create_article');
 Route::post('/submitAnswer', 'AdviceController@submit_answer');
@@ -97,6 +103,12 @@ Route::get('/getUser/{id}', function ($id) {
 });
 Route::get('/user/{id}', 'UserController@showprofile');
 Route::get('/user/{id}/{page}', 'UserController@showprofile');
+Route::get('/user_dp/{id}', function($id){
+    $user = App\User::find($id);
+    $storage_url = asset("images/uploads/") . "/user_dps/" . $user->dp;
+
+    return '<img class="img-circle dropdown-avatar" src="' .$storage_url. '" alt="'. $user->fname .'\'s image" />';
+});
 Route::get('/userProfilePopup/{user_id}', 'UserController@get_profile_popup');
 Route::post('/followUser', 'UserController@follow_user');
 Route::get('/profile', 'UserController@profile');

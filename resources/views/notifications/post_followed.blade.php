@@ -1,8 +1,8 @@
 <a class="dh-notif" href="{{$data['link']}}">
     <div class="layout">
-        <img class="img-circle dropdown-avatar" src="{{$user_url . $data['user_dp']}}" alt="{{$data['user_name']}} image" />
+        <img class="img-circle dropdown-avatar" src="{{$user_url . $user_dp}}" alt="{{$user_name}} image" />
         <div class="flex layout vertical">
-        <span><strong>{{$data['user_name']}}</strong>
+        <span><strong>{{$user_name}}</strong>
             Followed your post
         </span>
             <small>{{$notification->created_at->diffForHumans()}}</small>

@@ -18,7 +18,7 @@
 
     .table-ish{
 	    text-align: left;
-	    font-size: 18px;
+	    font-size: 15px;
 	    padding: 10px 0;
 	    font-family: Verdana, Geneva, sans-serif;
 	    font-weight: 400;
@@ -39,7 +39,7 @@
 	    margin-right: 30px;
 	    width: 35%;
 	    min-width: 35%;
-	    text-align: right;
+	    text-align: center;
 	    font-weight: 300;
     }
 
@@ -66,7 +66,7 @@
 
     <div class="cust-modal-content" style="position: relative; margin-top: -4px; text-align: center; padding-left: 0; padding-right: 0;">
         <div id="dpOuter" style="position: relative; display: inline-block; border-radius: 50%; overflo: hidden;">
-            <img src="{{$user_url . $user->dp}}" alt="{{$user->fname}}'s picture" id="temp-dp" style="width: 170px; height: 170px; border-radius: 50%; background-color: #ddd" onclick="openNewPicture(event)">
+            <img src="{{$user_url . $user->dp}}" alt="{{$user->fname}}'s picture" id="temp-dp" class="a-dp" style="width: 170px; height: 170px; border-radius: 50%; background-color: #ddd" onclick="openNewPicture(event)">
 
             <div class="layout center-center" style="background-color: rgba(5,5,5,0.5); position: absolute; top: 0; left: 0;width: 100%; height: 100%;">
                 <img src="{{asset("images/loading.gif")}}" alt="loading..." style="width: 60px;">
@@ -79,7 +79,7 @@
 		    </h3>
 		    <hr style="border-color: #dedede">
 
-		    <div style="padding: 0 20px;">
+		    <div style="paddin: 0 20px;">
 			    <div class="layout vertical table-ish">
 				    <div class="layout" style="">
 					    <div>PHONE :</div>
@@ -161,71 +161,6 @@
         ], {
             duration: 170,
 	        fill: 'forwards'
-        });
-    }
-
-    function fileChosen(files){
-        if(event.target.files.length){
-            var file = event.target.files[0];
-
-            if(file.type.match(/image.*/)) {
-                console.log('An image has been loaded');
-                var reader = new FileReader();
-                reader.onload = function (readerEvent) {
-                    tempImage = readerEvent.target.result;
-                    $("#temp-dp").attr('src', tempImage);
-
-                    savePicture();
-                };
-                reader.readAsDataURL(file);
-            }
-            else{
-                showToast("error", "Please choose an image!");
-            }
-        }
-    }
-
-    function savePicture(e, remove){
-        if(e){
-            e.preventDefault();
-        }
-
-        if(!remove){
-            var form = $("#newAbout")[0];
-        }else{
-            var form =  $("#removePicture")[0];
-            tempImage = user_base_url + "def.png";
-            $("#temp-dp").attr('src', tempImage);
-        }
-
-        $("#dpOuter").addClass("saving");
-//        return;
-
-        $.ajax({
-            type:'POST',
-            url: "/saveDp",
-            data:new FormData(form),
-            dataType:'json',
-            async:false,
-            processData: false,
-            contentType: false
-        })
-        .done(function(response){
-            console.log("Response!, ", response);
-        })
-        .fail(function(response){
-            console.log("Response!, ", response);
-            if(response.responseText == "success"){
-                showToast("success", "Successfully saved");
-            }
-            else{
-                console.log("Error occured!", response);
-                showToast("error", "An error occured");
-            }
-        })
-        .always(function(){
-            console.log("Action done");
-            $("#dpOuter").removeClass("saving");
         });
     }
 </script>

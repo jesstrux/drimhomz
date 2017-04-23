@@ -17,8 +17,8 @@ class CreateRatingsTable extends Migration
             $table->increments('id');
             $table->integer('rating');
             $table->string('comment')->nullable();
-	        $table->string('ratable_type');
-	        $table->integer('ratable_id');
+//	        $table->string('ratable_type');
+//	        $table->integer('ratable_id');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
             $table->foreign('user_id')

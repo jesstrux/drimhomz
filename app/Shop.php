@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Shop extends Model
 {
@@ -19,7 +20,7 @@ class Shop extends Model
     }
 
     public function ratings(){
-        return $this->morphMany('App\Rating', 'ratable');
+        return $this->hasMany('App\ShopRating');
     }
 
     public function rating(){
@@ -31,8 +32,12 @@ class Shop extends Model
         }
     }
 
-	public function rated($uid){
-		return $this->ratings()->where(
-			'user_id', $uid)->exists();
-	}
+    public function rated($uid){
+        DB::table('shop_ratings')
+            ->join('ratings', function ($join) {
+                $join->on('ratings.id', '=', 'shop_ratings.rating_id');
+            })
+            ->where(['ratings.user_id' => $uid, 'shop_ratings.shop_id' => $this->id])
+            ->exists();
+    }
 }

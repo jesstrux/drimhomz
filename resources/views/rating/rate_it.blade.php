@@ -164,9 +164,14 @@
 			    contentType: false
 		    })
 		    .done(function(response){
+//                document.write(response.responseText);
 			    if(response.success){
 				    showToast("success", response.msg);
-				    rate_btn.classList.add("hidden");
+				    if(rate_btn.localName == "button"){
+					    rate_btn.classList.add("hidden");
+				    }else{
+					    $(rate_btn).parents("button").addClass("hidden");
+				    }
 				    closeRateIt();
 			    }else{
 				    $('.save-rate-expert').removeAttr("disabled");
@@ -176,7 +181,7 @@
 			    }
 		    })
 		    .fail(function(response){
-			    document.write(response.responseText);
+//			    document.write(response.responseText);
 			    $('.save-rate-expert').removeAttr("disabled");
 			    showToast("error", "Unknown Error occured");
 

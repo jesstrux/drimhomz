@@ -47,6 +47,9 @@
         var office_base_url = "<?php echo $office_url?>";
         var user_base_url = "<?php echo $user_url?>";
         var ad_base_url = "<?php echo $banner_url?>";
+        var home_base_url = "<?php echo $home_url?>";
+        var rental_base_url = "<?php echo $rental_url?>";
+        var plot_base_url = "<?php echo $plot_url?>";
         var drimMode = false;
         var commentEditMode = false;
         var user_exists = <?php echo Auth::guest() ? "false" : "true" ?>;

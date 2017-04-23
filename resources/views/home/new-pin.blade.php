@@ -1,7 +1,7 @@
 <div id="newPinModal" class="cust-modal">
-    <button class="closer hidden-xs" onclick="closeNewPin()">
-        <svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
+    {{--<button class="closer hidden-xs" onclick="closeNewPin()">--}}
+        {{--<svg fill="#ddd" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>--}}
+    {{--</button>--}}
 
     <div class="hidden visible-xs cust-modal-toolbar no-shadow">
         <div class="layout center" style="height: 60px">
@@ -13,17 +13,21 @@
         </div>
     </div>
 
-    <div class="cust-modal-content">
+    <div class="cust-modal-content" style="position: relative; border-radius: 5px">
+        <button class="close hidden-xs" onclick="closeNewPin()" style="position: absolute; right: 10px; top: 10px">
+            <svg fill="#000" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+
         <div class="row">
             <div id="toPin" class="col col-md-5 col-xs-12" style="border-right: 1px solid #eee; padding-top: 20px; padding-bottom: 20px; margin-top: 60px;">
                 <div id="newPinCard"></div>
             </div>
 
-            <div id="projectList" class="col col-md-7 col-xs-12">
+            <div id="projectList" class="col col-md-7 col-xs-12" style="margin-top: 20px;">
                 <div id="projectItems">
                     <div class="hidden-xs">
                         <h5 style="display: inline-block; font-size: 23px; margin-top: 1px;">Choose project</h5>
-                        <button class="cust-modal-button" type="button" onclick="triggerOpeNewProject()">Create project</button>
+                        <button class="cust-modal-button" style="border-radius: 4px" type="button" onclick="triggerOpeNewProject()">Create project</button>
                         <hr>
                     </div>
 

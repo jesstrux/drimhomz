@@ -6,6 +6,7 @@ use App\Follows;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -66,7 +67,7 @@ class User extends Authenticatable
 
     //RELATIONS
 	public function ratings(){
-		return $this->morphMany('App\Rating', 'ratable');
+        return $this->hasMany('App\ExpertRating', 'expert_id');
 	}
 
 	public function rating(){
@@ -79,8 +80,12 @@ class User extends Authenticatable
 	}
 
 	public function rated($uid){
-		return $this->ratings()->where(
-			'user_id', $uid)->exists();
+		DB::table('expert_ratings')
+			->join('ratings', function ($join) {
+				$join->on('ratings.id', '=', 'expert_ratings.rating_id');
+			})
+			->where(['ratings.user_id' => $uid, 'expert_ratings.expert_id' => $this->id])
+			->exists();
 	}
 
     public function articles(){

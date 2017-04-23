@@ -90,7 +90,7 @@
 
 	<div class="cust-modal-content" style="position: relative; text-align: center;">
 		<div id="dpOuter" style="position: relative; margin-bottom: 85px; display: inline-block; overflo: hidden;">
-			<img src="{{$user_url . $user->dp}}" alt="{{$user->fname}}'s picture" id="temp-dp">
+			<img src="{{$user_url . $user->dp}}" alt="{{$user->fname}}'s picture" id="temp-dp" class="a-dp">
 
 			<div class="layout center-center" style="background-color: rgba(5,5,5,0.5); position: absolute; top: 0; left: 0;width: 100%; height: 100%;">
 				<img src="{{asset("images/loading.gif")}}" alt="loading..." style="width: 60px;">
@@ -183,7 +183,7 @@
 				var reader = new FileReader();
 				reader.onload = function (readerEvent) {
 					tempImage = readerEvent.target.result;
-					$("#temp-dp").attr('src', tempImage);
+//					$(".a-dp").attr('src', tempImage);
 
 					savePicture();
 				};
@@ -200,15 +200,13 @@
 			e.preventDefault();
 		}
 
-		if(!remove){
-			var form = $("#newPicture")[0];
-		}else{
-			var form =  $("#removePicture")[0];
-			tempImage = user_base_url + "def.png";
-			$("#temp-dp").attr('src', tempImage);
-		}
+		var form = $("#newPicture")[0];
+//		if(remove){
+//			tempImage = user_base_url + "def.png";
+//			$("#temp-dp").attr('src', tempImage);
+//		}
 
-		$("#dpOuter").addClass("saving");
+		$("#newPictureOuter #dpOuter").addClass("saving");
 //        return;
 
 		$.ajax({
@@ -221,21 +219,26 @@
 			contentType: false
 		})
 		.done(function(response){
-			console.log("Response!, ", response);
-		})
-		.fail(function(response){
-			console.log("Response!, ", response);
-			if(response.responseText == "success"){
-				showToast("success", "Successfully saved");
+//			document.write(response.responseText);
+//			console.log("Response!, ", response);
+			if(response.success){
+				var uri = user_base_url + response.picture_url;
+
+				$(".a-dp").attr('src', uri);
+				$(".a-dp-bg").css("background-image", "url("+uri+")");
+				showToast("success", response.msg);
 			}
 			else{
-				console.log("Error occured!", response);
-				showToast("error", "An error occured");
+				showToast("error", response.msg);
 			}
+		})
+		.fail(function(response){
+//			document.write(response.responseText);
+//			console.log("Response!, ", response);
 		})
 		.always(function(){
 			console.log("Action done");
-			$("#dpOuter").removeClass("saving");
+			$("#newPictureOuter #dpOuter").removeClass("saving");
 		});
 	}
 </script>

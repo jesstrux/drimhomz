@@ -18,23 +18,34 @@ if(!Auth::guest()){
     }
 
     #newPicturesGrid{
+	    padding-top: 3px;
         background-color: #eee;
         min-height: 300px;
         max-height: 350px;
         margin-bottom: 20px;
         overflow: hidden;
-        overflow-y: auto;
-        position: relative;
+	    position: relative;
+    }
+
+    #newPicturesGrid.images-set{
+	    overflow-y: auto;
+    }
+
+    #newPicturesGrid .cell{
+	    /*align-self: flex-start;*/
+	    /*width: 100%;*/
+	    width: calc(33.333% - 8px);
+	    background-color: #ddd;
+	    margin: 2px 8px;
     }
 
     #newPicturesGrid img{
-        align-self: flex-start;
+        /*align-self: flex-start;*/
         /*width: 100%;*/
-        width: calc(33.333% - 8px);
+        width: 100%;
         background-color: #ddd;
-        margin: 4px;
+        /*margin: 4px;*/
     }
-
 
     #newPicturesGrid .no-images{
         position: absolute;
@@ -53,7 +64,7 @@ if(!Auth::guest()){
     }
 
     #newPicturesGrid:not(.images-set) #theImages{
-        display: none;
+        display: none !important;
     }
 
     #chooserFab{
@@ -68,7 +79,7 @@ if(!Auth::guest()){
         border-radius: 50%;
         border: none;
         box-shadow: 1px 1px 8px rgba(0,0,0,0.2);
-        background-color: #aaa;
+        background-color: #333;
         position: absolute;
         bottom: 53px;
         left: 25px;
@@ -91,16 +102,24 @@ if(!Auth::guest()){
         }
         #newPicturesGrid{
             background-color: #eee;
-            height: 100vh;
+            height: 100vh !important;
+	        max-height: calc(100vh - 80px);
             margin-bottom: 20px;
+	        padding-top: 6px;
         }
 
-        #newPicturesGrid img{
-            width: 50%;
+        #newPicturesGrid .cell{
+	        margin: 0 4px;
+            width: calc(50% - 8px);
         }
+
+	    #chooserFab{
+		    bottom: auto;
+		    top: 5px;
+	    }
     }
 </style>
-<div id="addPicturesOuter" class="cust-modal has-trans">
+<div id="addPicturesOuter" class="cust-modal has-trans ope">
     <div class="hidden visible-xs cust-modal-toolbar no-shadow" style="z-index: 2">
         <div class="layout center" style="height: 60px">
             <button class="layout center for-mob" style="padding: 0;background: transparent; border: none;" onclick="closeAddPictures()">
@@ -124,7 +143,7 @@ if(!Auth::guest()){
 
             <h3 style="margin-left: 26px; margin-bottom: 13px;" class="hidden-xs">Add Pictures</h3>
 
-            <div id="newPicturesGrid">
+            <div id="newPicturesGrid" class="images-se">
                 <div class="no-images layout vertical center-center">
                     <p style="font-size: 1.23em; margin-bottom: 20px;">No pictures chosen</p>
                     <label class="btn" for="images_chooser">
@@ -132,12 +151,12 @@ if(!Auth::guest()){
                     </label>
                 </div>
 
-                <div class="layout wrap" id="theImages" style="position: absolute; height: 100%; width: 100%;">
+                <div class="layout start wrap" id="theImages" style="position: absolute; height: 100%; width: 100%;">
                 </div>
             </div>
 
             <label id="chooserFab" for="images_chooser">
-                <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+	            <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 3L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2h-3.17L15 3H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zM12 17l1.25-2.75L16 13l-2.75-1.25L12 9l-1.25 2.75L8 13l2.75 1.25z"/></svg>
             </label>
 
             <form id="addPictures" method="POST" action="{{$add_pictures_url}}" onsubmit="savePictures(event)" enctype="multipart/form-data">
@@ -154,11 +173,12 @@ if(!Auth::guest()){
 </div>
 
 <script src="{{asset('js/wookmark.min.js')}}"></script>
+<script src="{{asset('js/imagesLoaded.min.js')}}"></script>
 <script>
     function closeAddPictures() {
         $("#addPicturesOuter").removeClass("open");
         $("body").removeClass("locked");
-        $("#theImages").html("");
+        $("#theImages").html("").css("height", 100+"%");
         $("#newPicturesGrid").removeClass("images-set");
         $("#addPicturesBtn").removeClass("invisible");
         $(".save-pictures-btn").attr("disbaled", "disbaled");
@@ -195,10 +215,7 @@ if(!Auth::guest()){
             if(response.success){
                 closeAddPictures();
                 showToast("success", response.msg);
-
-                if(!<?php echo $real->images->count();?>){
-                    $("#placeholderPic").css("background-image", "url(<?php echo $image_base_url; ?>/"+response.first_image+")");
-                }
+	            ongezaImages(response.images);
             }else{
                 showToast("error", response.msg);
             }
@@ -226,20 +243,17 @@ if(!Auth::guest()){
 
                     reader.onload = function (e) {
                         loaded_files++;
-                        var img = $('<img src="'+e.target.result+'"/>');
+                        var img = $('<div class="cell"><img src="'+e.target.result+'"/></div>');
                         $("#theImages").append(img);
+
+	                    if(loaded_files == files_count){
+		                    arrangeImages();
+	                    }
                     };
 
                     reader.readAsDataURL(input.files[i]);
                 }
             }
-
-            var images_interval = setInterval(function(){
-                if(loaded_files == files_count){
-                    arrangeImages();
-                    clearInterval(images_interval);
-                }
-            }, 30);
         }else{
             $("#newPicturesGrid").removeClass("images-set");
             $('.save-pictures-btn').attr("disabled", "disabled");
@@ -247,12 +261,15 @@ if(!Auth::guest()){
     }
 
     function arrangeImages(){
+	    imagesLoaded("#theImages", function () {
         wookmark = new Wookmark("#theImages", {
             offset: 8,
             align: 'left'
         });
 
         wookmark.initItems();
-        wookmark.layout(true);
+        wookmark.layout(true);});
     }
+
+	arrangeImages();
 </script>

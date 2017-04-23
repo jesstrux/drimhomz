@@ -404,9 +404,9 @@ class RealHomzController extends Controller
     }
 
     public function add_pictures(Request $request, $where = null){
+	    $uploaded_images = [];
 
         if($where!="article") {
-
             $house_images = $request->file("house_images");
             $home_id = $request->input("home_id");
         }
@@ -415,7 +415,7 @@ class RealHomzController extends Controller
             $home_id = $request->input("article_id");
         }
 
-        if(count($house_images) < 1){
+        if(empty($house_images)){
             return response()->json([
                 "success" => false,
                 "msg" => "Please choose at least one image"
@@ -441,8 +441,8 @@ class RealHomzController extends Controller
                 $real_path = 'advice/article/';
             }
 
-            //$destinationPath = public_path('images/uploads/'.$real_path);
-	        $destinationPath = public_path('images/uploads/images/');
+            $destinationPath = public_path('images/uploads/'.$real_path);
+	       // $destinationPath = public_path('images/uploads/images/');
 
             $img = Image::make($image->getRealPath());
              $new_image_name = $home_id.'-'.time().$count.'.'.$image->getClientOriginalExtension();
@@ -451,14 +451,14 @@ class RealHomzController extends Controller
                 $first_image_src = $new_image_name;
             }
             if(!File::exists($destinationPath.'/thumbs/')) File::makeDirectory($destinationPath.'/thumbs/', 0777,true);
-            $img->save($destinationPath.$new_image_name);
+            $img->save($destinationPath.$new_image_name,25);
 
 	        if($img->width() > 600){
 		        $img->resize(600, null, function ($constraint) {
 			        $constraint->aspectRatio();
-		        })->save($destinationPath.'thumbs/'.$new_image_name);
+		        })->save($destinationPath.'thumbs/'.$new_image_name,25);
 	        }else{
-		        $img->save($destinationPath.'thumbs/'.$new_image_name);
+		        $img->save($destinationPath.'thumbs/'.$new_image_name,25);
 	        }
 
             if($where == "home"){
@@ -486,16 +486,20 @@ class RealHomzController extends Controller
             if(!$new_image){
                 return response()->json([
                     "success" => false,
-                    "msg" => "Couldn't uploaded images."
+                    "msg" => "Couldn't upload images."
                 ]);
 
                 break;
             }
+
+	        $uploaded_images[] = $new_image;
+	        $count++;
         }
 
         return response()->json([
             "success" => true,
             "first_image" => $first_image_src,
+	        "images" => $uploaded_images,
             "msg" => "Images successfully uploaded"
         ]);
     }

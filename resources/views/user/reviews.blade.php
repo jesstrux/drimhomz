@@ -20,9 +20,9 @@
                 <p style="margin-top: 10px;">{{$fol->user->fname . ' ' . $fol->user->lname}}</p>
             </div>
             <div class="content">
-                <div class="user-rating" my-rating="{{$fol->rating}}" style="margin: 10px auto;"></div>
+                <div class="user-rating" my-rating="{{$fol->rating->rating}}" style="margin: 10px auto;"></div>
                 <span class="social-stuff">
-                    {{$fol->comment}}
+                    {{$fol->rating->comment}}
                 </span>
             </div>
         </a>

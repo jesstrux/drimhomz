@@ -415,32 +415,30 @@
 			      contentType: false
 			})
 			.done(function(response){
-				console.log("Response!, ", response);
-			})
-			.fail(function(response){
-				console.log("Response!, ", response);
-
-				if(response.responseText == "success"){
+				if(response.success){
+					showToast("success", response.msg);
 					switch(callback){
 						case 1:
-							basicInfoSaved()
+							basicInfoSaved();
 							break;
 						case 2:
-							dpSaved()
+							dpSaved();
 							break;
 						case 3:
-							dpSavedMob()
+							dpSavedMob();
 							break;
 						default:
-							phoneVerified()
+							phoneVerified();
 							break;
-
 					}
 				}
 				else{
-					console.log("Error occured!", response);
-					document.write(response.responseText);
+					showToast("error", response.msg);
+//					document.write(response.responseText);
 				}
+			})
+			.fail(function(response){
+				showToast("error", "An unknown error occured!");
 			})
 			.always(function(){
 				console.log("Action done");
@@ -448,45 +446,45 @@
 		}
 
 		function basicInfoSaved(){
-    		$("#infoSavedAlert").show();
-			setTimeout(function(){
-    			$("#infoSavedAlert").hide();
-    		}, 2000);
+//    		$("#infoSavedAlert").show();
+//			setTimeout(function(){
+//    			$("#infoSavedAlert").hide();
+//    		}, 2000);
     	}
 
     	function basicInfoSavedMob(){
-    		$("#info").fadeOut('slow', function() {
-    			$("#dp").fadeIn("fast");
-    		});
+//    		$("#info").fadeOut('slow', function() {
+//    			$("#dp").fadeIn("fast");
+//    		});
     	}
 
     	function dpSaved(){
     		setTimeout(function(){
     			image.attr("src", tempImage);
     			$("#dp").removeClass('loading-dp');
-    			$("#dpSavedAlert").show();
-
-    			setTimeout(function(){
-	    			$("#dpSavedAlert").hide();
-	    		}, 2000);
+//    			$("#dpSavedAlert").show();
+//
+//    			setTimeout(function(){
+//	    			$("#dpSavedAlert").hide();
+//	    		}, 2000);
     		}, 200);
     	}
 		function phoneVerified(){
-			setTimeout(function(){
-				$("#phoneVerifiedAlert").show();
-
-				setTimeout(function(){
-					$("#phoneVerifiedAlert").hide();
-				}, 2000);
-			}, 200);
+//			setTimeout(function(){
+//				$("#phoneVerifiedAlert").show();
+//
+//				setTimeout(function(){
+//					$("#phoneVerifiedAlert").hide();
+//				}, 2000);
+//			}, 200);
 		}
 
     	function dpSavedMob(){
-    		$("#form").fadeOut('slow', function() {
-    			$("#profile").fadeIn("fast");
-
-    			$("#titleText").hide();
-    		});
+//    		$("#form").fadeOut('slow', function() {
+//    			$("#profile").fadeIn("fast");
+//
+//    			$("#titleText").hide();
+//    		});
     	}
 
   //   	window.onload = function() {

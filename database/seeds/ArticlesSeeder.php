@@ -21,11 +21,12 @@ class ArticlesSeeder extends Seeder
 	            'content' => $faker->realText($faker->numberBetween(240, 570))
 	        ];
 
+            $project['slug'] = str_slug($project['title']);
             $imageable = Article::create($project);
 
             if($imageable){
                 $house_image = [
-                    'url' => "rental" .$i % 4 .".jpg",
+                    'url' => "article" .$i % 4 .".jpg",
                     'placeholder_color' => $faker->hexColor(),
                     'caption' => $faker->realText(15)
                 ];
