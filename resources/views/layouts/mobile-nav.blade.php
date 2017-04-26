@@ -52,18 +52,11 @@
             Notifications
         </a>
     @endif
-    <?php
-    $isadmin = false;
 
-    if(!Auth::guest()){
-        if(Auth::user()->role == "admin")
-            $isadmin = true;
-    }
-    ?>
 
-    @if ($isadmin)
+    @role('admin')
         <a href="{{ url('/dashboard') }}">Dashboard</a>
-    @endif
+    @endrole
 
     <!-- <li><a href="about">About</a></li> -->
     {{--<li><a href="{{ url('/shop') }}">Shop</a></li>--}}

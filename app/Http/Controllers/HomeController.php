@@ -45,7 +45,7 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
-        if(Auth::user()->role == "admin"){
+
             $pages = Page::all();
             $users = User::all();
 
@@ -67,9 +67,6 @@ class HomeController extends Controller
 //            }
 
             return view('home.dashboard', compact('pages', 'users', 'randomAds', 'today'));
-        }else{
 
-            return redirect('home/');
-        }
     }
 }

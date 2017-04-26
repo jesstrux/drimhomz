@@ -9,7 +9,9 @@ class ExpertController extends Controller
 {
     public function index()
     {
-    	$experts = User::where("role", "<>" , "user")->where("role", "<>" , "admin")->get();
+    	$experts = User::join('role_user','role_user.user_id','=','users.id')
+            ->join('roles','roles.id','=','role_user.role_id')
+            ->where('roles.name','expert')->get();
 		return view('expert.index', compact('experts'));
     }
 
@@ -28,7 +30,7 @@ class ExpertController extends Controller
         }else{
             return response()->json([
                 "success" => false,
-                "msg" => "Coulnd't rate expert."
+                "msg" => "Couldn't rate expert."
             ]);
         }
     }

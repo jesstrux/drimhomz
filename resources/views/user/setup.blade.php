@@ -41,9 +41,9 @@
     	}
 
     	#dp #loadingDp{
-    		position: absolute; 
-    		height: 100%; width: 100%; 
-    		background-color: rgba(255,255,255,0.8); 
+    		position: absolute;
+    		height: 100%; width: 100%;
+    		background-color: rgba(255,255,255,0.8);
     		z-index: 9;
     		opacity: 0;
     		pointer-events: none;
@@ -123,7 +123,7 @@
 	    	}
 
 	    	.setup-field label{
-	    		
+
 	    	}
 
 	    	.setup-field .col-md-8{
@@ -338,7 +338,8 @@
 		                    </div>
 		                </div>
                         <div id="savebtnWrapper" class="form-group">
-                            <button type="button" onclick="saveBasicInfo()" class="btn btn-primary">
+
+							<button type="button" onclick="saveBasicInfo()" class="btn btn-primary">
                                 &emsp;Save&emsp;
                             </button>
                         </div>
@@ -373,7 +374,7 @@
     		var date = new Date($("#dob").val());
 			$("#realDob").val($("#dob").val());
 			console.log($("#dob").val());
-			
+
     		persistChanges("setup-account-post", "info", 1);
     	}
 
@@ -383,7 +384,7 @@
 
     	function fileChosen(files){
 			var file = event.target.files[0];
-		    
+
 		    if(file.type.match(/image.*/)) {
 		        console.log('An image has been loaded');
 		        var reader = new FileReader();
@@ -506,7 +507,7 @@
           .bind("geocode:multiple", function(event, results){
             console.log("Multiple: " + results.length + " results found");
           });
-        
+
         // $("#find").click(function(){
         //   $("#location").trigger("geocode");
         // });

@@ -14,7 +14,7 @@ Route::get('/home', 'HomeController@index');
 
 Auth::routes();
 
-Route::get('/dashboard', 'HomeController@dashboard');
+Route::get('/dashboard',['as'=>'dashboard','uses'=>'HomeController@dashboard','middleware' => ['permission:ad-create']]);
 
 Route::get('/notifications', function () {
     if (!Auth::guest()) {
@@ -180,6 +180,37 @@ Route::post('/deleteProject', 'ProjectsController@delete_project')->name('delete
 Route::post('/deleteComment', 'HousesController@delete_comment');
 Route::get('/verifyPhoneNumber', 'UserController@verify_phone_number');
 Route::post('/verifyCode', 'UserController@verify_code');
+
+
+/*User Roles*/
+Route::group(['middleware' => ['auth']], function() {
+
+
+    Route::get('users',['as'=>'users.index','uses'=>'UsersController@index','middleware' => ['permission:user-list|user-create|user-edit|user-delete']]);
+    Route::get('users/create',['as'=>'users.create','uses'=>'UsersController@create','middleware' => ['permission:user-create']]);
+    Route::post('users/create',['as'=>'users.store','uses'=>'UsersController@store','middleware' => ['permission:user-create']]);
+    Route::get('users/{id}',['as'=>'users.show','uses'=>'UsersController@show']);
+    Route::get('users/{id}/edit',['as'=>'users.edit','uses'=>'UsersController@edit','middleware' => ['permission:user-edit']]);
+    Route::patch('users/{id}',['as'=>'users.update','uses'=>'UsersController@update','middleware' => ['permission:user-edit']]);
+    Route::delete('users/{id}',['as'=>'users.destroy','uses'=>'UsersController@destroy','middleware' => ['permission:user-delete']]);
+
+    Route::get('roles',['as'=>'roles.index','uses'=>'RoleController@index','middleware' => ['permission:role-list|role-create|role-edit|role-delete']]);
+    Route::get('roles/create',['as'=>'roles.create','uses'=>'RoleController@create','middleware' => ['permission:role-create']]);
+    Route::post('roles/create',['as'=>'roles.store','uses'=>'RoleController@store','middleware' => ['permission:role-create']]);
+    Route::get('roles/{id}',['as'=>'roles.show','uses'=>'RoleController@show']);
+    Route::get('roles/{id}/edit',['as'=>'roles.edit','uses'=>'RoleController@edit','middleware' => ['permission:role-edit']]);
+    Route::patch('roles/{id}',['as'=>'roles.update','uses'=>'RoleController@update','middleware' => ['permission:role-edit']]);
+    Route::delete('roles/{id}',['as'=>'roles.destroy','uses'=>'RoleController@destroy','middleware' => ['permission:role-delete']]);
+
+    Route::get('adCRUD',['as'=>'adCRUD.index','uses'=>'adCRUDController@index','middleware' => ['permission:ad-list|ad-create|ad-edit|ad-delete']]);
+    Route::get('adCRUD/create',['as'=>'adCRUD.create','uses'=>'adCRUDController@create','middleware' => ['permission:ad-create']]);
+    Route::post('adCRUD/create',['as'=>'adCRUD.store','uses'=>'adCRUDController@store','middleware' => ['permission:ad-create']]);
+    Route::get('adCRUD/{id}',['as'=>'adCRUD.show','uses'=>'adCRUDController@show']);
+    Route::get('adCRUD/{id}/edit',['as'=>'adCRUD.edit','uses'=>'adCRUDController@edit','middleware' => ['permission:ad-edit']]);
+    Route::patch('adCRUD/{id}',['as'=>'adCRUD.update','uses'=>'adCRUDController@update','middleware' => ['permission:ad-edit']]);
+    Route::delete('adCRUD/{id}',['as'=>'adCRUD.destroy','uses'=>'adCRUDController@destroy','middleware' => ['permission:ad-delete']]);
+});
+
 
 
 //This Functions only applies to a specific user who resends verification code for phone number verification

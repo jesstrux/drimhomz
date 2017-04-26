@@ -492,7 +492,7 @@
 
 			<div id="tabsContent" class="col-sm-12 col-md-8 col-lg-8">
 				<div class="tabheads hidden-xs the-tab-heads" style="position: relative;">
-					@if($user->role == "expert" || $user->role == "realtor" || $user->role == "seller")
+					@if($user->hasRole(['expert','realtor','seller']))
 						<nav class="tab-shifters">
 							<a class="{{$page_parent == 'user' ? 'active' : ''}}" href="javascript:void(0);" onclick="shiftTabs('user')">AS USER</a>
 							<a class="{{$page_parent == 'expert' ? 'active' : ''}}" href="javascript:void(0);" onclick="shiftTabs('expert')">AS EXPERT</a>
@@ -513,15 +513,15 @@
 							<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
 						</div>
 						<div class="layout justified for-expert">
-							@if($user->role == "expert" || $user->role == "realtor" || $user->role == "seller")
+							@role(['expert','realtor','seller'])
 								<a href="/user/{{$user->id}}/articles" data-target="articles" class="tabhead {{is_curpage($page, 'articles')}}"><span>{{$articles_count}}</span><span>ARTICLES</span></a>
 
 								<a href="/user/{{$user->id}}/reviews" data-target="reviews" class="tabhead {{is_curpage($page, 'reviews')}}"><span>{{$reviews_count}}</span><span>REVIEWS</span></a>
-							@endif
+							@endrole
 
-							@if($user->role == "seller")
+							@role('seller')
 								<a href="/user/{{$user->id}}/shops" data-target="shops" class="tabhead {{is_curpage($page, 'shops')}}"><span>{{$shops_count}}</span><span>SHOPS</span></a>
-							@endif
+							@endrole
 
 							<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
 						</div>

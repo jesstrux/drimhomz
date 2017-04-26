@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use App\Notifications\UserFollowed;
+use App\Role;
 use Auth;
 use Carbon\Carbon;
 
@@ -84,7 +85,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if($page == null){
-            if($user->role == "expert" || $user->role == "realtor" || $user->role == "seller")
+            if($user->hasRole(['expert','realtor','seller']))
                 $page = "articles";
             else
                 $page = "projects";
@@ -204,10 +205,11 @@ class UserController extends Controller
         }
 
         $user = User::find(Auth::user()->id);
+        $role = Role::where('name','expert')->first();
         $skills_input = $request->get('skill');
         $skills= implode(", ",$skills_input);
         $user->skills = $skills;
-        $user->role = "expert";
+        $user->attachRole($role);
 
         if($user->save()){
             $office = [
@@ -235,7 +237,7 @@ class UserController extends Controller
                 return response()->json([
                     'success' => true,
                     'picture_url' => $user->dp,
-                    'msg' => "Picture changed!"
+                    'msg' => "Profile Updated"
                 ]);
             }
             else {
@@ -259,11 +261,19 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $time = strtotime($request->input('dob'));
         $user->dob = strftime("%Y-%m-%d %H:%M:%S", $time);
-
         if($request->input('location') !== null){
+             return $this->save_location($location_str = $request->input('location'),$user);
+        }else{
+            return(save_user($user));
+        }
+
+    }
+
+    function save_location($location_str,$user){
+
             $long[] = '';
             $lat[] = '';
-            $location_str = $request->input('location');
+
             preg_match('/(\S{1,20}).\s(\S{1,20})/', $location_str, $location_array, PREG_OFFSET_CAPTURE);
             if(!empty($location_array)) {
                 $long = $location_array[1];
@@ -286,12 +296,10 @@ class UserController extends Controller
             else {
                 return response()->json([
                     'success' => false,
-                    'msg' => "Couldn't set locaation"
+                    'msg' => "Couldn't set location"
                 ]);
             }
-        }else{
-            return(save_user($user));
-        }
+
     }
 
     function clear_notifications(Request $request){

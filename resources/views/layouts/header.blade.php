@@ -64,17 +64,11 @@
                 @if(!Auth::guest())
                     @include('notifications.wrapper')
                 @endif
-                <?php
-                    $isadmin = false;
 
-                    if(!Auth::guest()){
-                        if(Auth::user()->role == "admin")
-                            $isadmin = true;
-                    }
-                ?>
-                @if ($isadmin)
+                @role('super')
                     <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-                @endif
+                    <li><a href="{{ route('roles.index') }}">Roles</a></li>
+                @endrole
 
                 <li><a href="{{ url('/') }}">Home</a></li>
 

@@ -7,10 +7,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use EntrustUserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'fname', 'lname', 'phone','email', 'password', 'role', 'gender', 'town', 'dob', 'skills', 'description', 'verification_code', 'verified'
+        'fname', 'lname', 'phone','email', 'password', 'gender', 'town', 'dob', 'skills', 'description', 'verification_code', 'verified'
     ];
 
     public function isOnline()

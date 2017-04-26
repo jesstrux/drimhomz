@@ -85,7 +85,7 @@
 					    <div>PHONE :</div>
 					    <div>{{$user->phone}}</div>
 				    </div>
-				    @if($myProfile || ($user->role != "admin" && $user->role != "user"))
+				    @if($myProfile || (!$user->hasRole('admin') && !$user->hasRole('user')))
 					    <div class="layout">
 						    <div>EMAIL :</div>
 						    <div>

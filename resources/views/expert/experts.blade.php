@@ -62,10 +62,9 @@
 @if($products->count() < 1)
     <div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">There are no experts available.</div>
 @endif
-
 @foreach($products as $product)
     {{--.'/'.$product->office->id--}}
-    <a href="{{url('/user/'.$product->id)}}" class="big-outer" id="product_{{$product->id}}">
+    <a href="{{url('/user/'.$product->user_id)}}" class="big-outer" id="product_{{$product->id}}">
         <div>
             <?php
                 $full_name = $product->fname . " " . $product->lname;
@@ -86,11 +85,17 @@
                     <h3>
                         {{$product->full_name()}}
                     </h3>
-
+                <span style="display: block">
+                        Phone:
+                        <span style="font-weight: bold;">
+                                    <p class="label label-default">{{$product->phone}}</p>
+                        </span>
                     <span style="display: block">
                         Expertise:
                         <span style="font-weight: bold;">
-                            {{$product->role}}
+
+                                    <label class="label label-success">{{$product->skills}}</label>
+
                         </span>
                     </span>
 
@@ -105,7 +110,7 @@
                         &nbsp; | &nbsp;
                         <a hre="{{$answers_link}}">
                             {{$answers_count}} Answers
-                        </a>  
+                        </a>
                     </div>
                 </div>
             </div>

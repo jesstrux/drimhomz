@@ -274,10 +274,10 @@
 	            	</a> &emsp;|&emsp; 
 	            	<a href="{{url('advice/articles')}}" class="{{$articles_active}}">ARTICLES</a>
 	            </h4>
-				@if(Auth::user())
+				@if(Auth::check())
 					@if($page == "questions")
 						<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewQuestion()">Add Question</button>
-					@elseif($page == "articles" && Auth::user() && Auth::user()->role != 'user')
+					@elseif($page == "articles"  && Auth::user()->hasRole('expert'))
 						<button class="round-btn" style="padding: 5px 20px; min-width: 0; margin-bottom: 10px; margin-top: 15px;" onclick="openNewArticle()">Add Article</button>
 					@endif
 				@endif

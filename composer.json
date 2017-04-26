@@ -11,7 +11,9 @@
         "intervention/image": "^2.3",
         "pusher/pusher-php-server": "~2.0",
         "vinkla/pusher": "^2.5",
-        "illuminated/helper-functions": "^1.0"
+        "illuminated/helper-functions": "^1.0",
+        "laravelcollective/html": "~5.0",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

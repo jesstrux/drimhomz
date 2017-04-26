@@ -3,9 +3,11 @@
         <h3>Manage users</h3>
         <p>
             Here are the site users, click the button to manage or add a new one.<br>
-
-            <button class="round-btn" style="padding: 5px 20px; min-width: 0">Manage users</button>
-            <button class="round-btn dark" style="padding: 5px 20px; min-width: 0">New user</button>
+        <div class="center">
+            @permission('user-create')
+            <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
+            @endpermission
+        </div>
         </p>
     </div>
 </section>
@@ -29,7 +31,7 @@
             @foreach($users as $user)
                 <?php 
                     $isMe = $user->id == Auth::user()->id;
-                    $isAdmin = $user->role == "admin" ? "is-admin" : "";
+                    $isAdmin = $user->hasRole('admin') ? "is-admin" : "";
                 ?>
                 @if(!$isMe)
                     <tr>
@@ -44,17 +46,27 @@
                         <td>{{$user->phone}}</td>
                         <td>{{$user->role}}</td>
                         <td>
-                            <form id="addAdmin{{$user->id}}" role="form" method="POST" action="{{ url('make-admin') }}" class="{{$isAdmin}}">
-                                {{ csrf_field() }}
+                            <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
+                            @permission('role-edit')
+                            <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
+                            @endpermission
+                            @permission('role-delete')
+                            {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                            {!! Form::close() !!}
+                            @endpermission
 
-                                <input type="hidden" name="id" value="{{$user->id}}">
-                                
-                                <button type="submit" class="btn dark btn-sm">Remove</button>
+                            {{--<form id="addAdmin{{$user->id}}" role="form" method="POST" action="{{ url('make-admin') }}" class="{{$isAdmin}}">--}}
+                                {{--{{ csrf_field() }}--}}
 
-                                <button type="button" class="remove-admin-btn btn btn-default btn-sm" onclick="toggleAdmin('toggle-admin', {{$user->id}})">Remove Admin</button>
+                                {{--<input type="hidden" name="id" value="{{$user->id}}">--}}
+                                {{----}}
+                                {{--<button type="submit" class="btn dark btn-sm">Remove</button>--}}
 
-                                <button type="button" class="add-admin-btn btn material-blue btn-sm" onclick="toggleAdmin('toggle-admin', {{$user->id}})">Make Admin</button>
-                            </form>
+                                {{--<button type="button" class="remove-admin-btn btn btn-default btn-sm" onclick="toggleAdmin('toggle-admin', {{$user->id}})">Remove Admin</button>--}}
+
+                                {{--<button type="button" class="add-admin-btn btn material-blue btn-sm" onclick="toggleAdmin('toggle-admin', {{$user->id}})">Make Admin</button>--}}
+                            {{--</form>--}}
                         </td>
                     </tr>
                 @endif

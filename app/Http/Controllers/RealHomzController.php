@@ -29,17 +29,17 @@ class RealHomzController extends Controller
         $list = null;
         switch($page){
             case "homes": {
-                $list = Home::with('images')->orderBy('created_at', 'desc')->paginate(10);
+                $list = Home::with('images')->join('users as a','a.id','=','homes.user_id')->select(['a.fname','a.lname','a.phone','homes.id as plot_id','homes.*'])->orderBy('homes.created_at', 'desc')->paginate(10);
                 break;
             }
 
             case "plots": {
-                $list = Plot::with('images')->orderBy('created_at', 'desc')->paginate(10);
+                $list = Plot::with('images')->join('users as a','a.id','=','plots.user_id')->select(['a.fname','a.lname','a.phone','plots.id as plot_id','plots.*'])->orderBy('plots.created_at', 'desc')->paginate(10);
                 break;
             }
 
             case "rentals": {
-                $list = Rental::with('images')->orderBy('created_at', 'desc')->paginate(10);
+                $list = Rental::with('images')->join('users as a','a.id','=','rentals.user_id')->select(['a.fname','a.lname','a.phone','rentals.id as plot_id','rentals.*'])->orderBy('rentals.created_at', 'desc')->paginate(10);
                 break;
             }
         }

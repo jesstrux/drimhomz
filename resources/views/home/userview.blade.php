@@ -49,22 +49,22 @@
 </script>
 
 @if(!Auth::guest())
-    {{--<div id="fab-wrapper">--}}
-        {{--<div class="scrim" onclick="closeFabs()">--}}
+    <div id="fab-wrapper">
+        <div class="scrim" onclick="closeFabs()">
 
-        {{--</div>--}}
-        {{--<div class="layout vertical center" style="position: fixed; right: 20px; bottom: 20px;">--}}
-            {{--<button class="a-fab sm" onclick="openNewHouseClick()">--}}
-                {{--<i class="fa fa-home"></i>--}}
-            {{--</button>--}}
-            {{--<button class="a-fab sm" onclick="openNewProjectClick()">--}}
-                {{--<i class="fa fa-briefcase"></i>--}}
-            {{--</button>--}}
-            {{--<button class="a-fab lg" onclick="toggleFabs()">--}}
-                {{--<i class="fa fa-plus"></i>--}}
-            {{--</button>--}}
-        {{--</div>--}}
-    {{--</div>--}}
+        </div>
+        <div class="layout vertical center" style="position: fixed; right: 20px; bottom: 20px;">
+            <button class="a-fab sm" onclick="openNewHouseClick()">
+                <i class="fa fa-home"></i>
+            </button>
+            <button class="a-fab sm" onclick="openNewProjectClick()">
+                <i class="fa fa-briefcase"></i>
+            </button>
+            <button class="a-fab lg" onclick="toggleFabs()">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
 @endif
 
 <div class="image-grid">

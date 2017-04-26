@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Notifications\ExpertRated;
 use App\Notifications\ShopRated;
+use App\Role;
 use Auth;
 use Image;
 use App\Shop;
@@ -34,10 +35,13 @@ class ShopController extends Controller
 
     public function store(Request $request){
         $shop_owner = User::find($request->input('user_id'));
+        $user_id = $request->input('user_id');
 
-        if($shop_owner->role != "seller"){
-            $shop_owner->role = "seller";
-            $shop_owner->save();
+
+
+        if(!$shop_owner->hasRole('seller')){
+            $seller_role = Role::where('name','seller')->first();
+            $shop_owner->attachRole($seller_role);
         }
 
         function saveThumb(Request $request){
@@ -51,7 +55,7 @@ class ShopController extends Controller
         }
 
         $shop_test = [
-            'user_id' => $request->input('user_id'),
+            'user_id' => $user_id,
             'name' => $request->input('name'),
         ];
 

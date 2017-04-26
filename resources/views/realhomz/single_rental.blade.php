@@ -69,6 +69,9 @@
 		.realtor-phone {
 			display: inline !important;
 		}
+		.realtor-name {
+			display: inline !important;
+		}
 
 		#homeInfo{
 			padding: 0;
@@ -89,6 +92,13 @@
 <div class="container">
 	<div style="max-width: 1100px; margin: 20px auto;">
 		<div class="row">
+			<div class="col-lg-12 margin-tb">
+				<div class="pull-right">
+					<a class="btn btn-primary" href="{{ url('realhomz/rentals') }}"> Back</a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
 			<div id="homeInfo" class="col-md-7" style="position: relative;">
 				<div class="card">
 					<div class="hidden visible-xs visible-sm" style="position: relative;">
@@ -104,8 +114,9 @@
 						<div class="hidden-xs" style="height: 19px;"></div>
 						@if(!$my_home)
 							<p style="font-size: 1.3em; line-height: 1.9em; padding-bottom: 10px;">
-								Realtor contact: <span class="hidden-xs">{{$real->user->phone}}</span>
-								<a class="hidden realtor-phone" href="tel:{{$real->user->phone}}">{{$real->user->phone}}</a>
+								Realtor contact: <span class="hidden-xs"><br>{{$real->user->phone}}</span>
+								<a class="hidden realtor-phone" href="tel:{{$real->user->phone}}">{{$real->user->phone}}</a><br>
+								<a class="realtor-name" href="/user/{{$real->user->id}}">{{$real->user->fname}} {{$real->user->lname}}</a>
 							</p>
 							<div class="hidden-xs" style="height: 19px;"></div>
 						@else
