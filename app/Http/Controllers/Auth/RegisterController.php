@@ -100,6 +100,13 @@ class RegisterController extends Controller
                     'long' => null,
                     'lat' => null
                 ];
+
+                $role = [
+                    'user_id' => $new_user->id,
+                    'long' => null,
+                    'lat' => null
+                ];
+
                 Location::create($location);
                 $message->saveMessage(['body' => $body,'user_id'=>$new_user->id]);
                 //Artisan::call();

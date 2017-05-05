@@ -28,9 +28,14 @@ class GuestController extends Controller
     public function index()
     {
         $random_ads = Advertisement::all();
-//        $random_ads = DB::table('advertisements')->orderBy('created_at', 'desc')->limit(2)->get();
+//        $random_ads = DB::table('advertisements')->orderBy('created_at', 'asc')->limit(2)->get();
         $todayString = Carbon::today();
         $today = $todayString->toFormattedDateString();
-        return view('home', compact('random_ads', 'today'));
+        $houses_list = House::with('project')->orderBy('created_at', 'desc');
+        $houses_json = $houses_list->get();
+        $houses = $houses_list->paginate(15);
+
+        return view('home', compact('houses', 'houses_json', 'random_ads', 'today'));
+//        return view('houses-view', compact('houses'));
     }
 }

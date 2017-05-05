@@ -23,6 +23,19 @@ class HousesController extends Controller
     	return view('houses.index');
     }
 
+    public function houseList(){
+        $houses_list = House::with('project')->orderBy('created_at', 'desc');
+        $houses = $houses_list->paginate(15);
+
+        return response()->json([
+            "success" => true,
+            "houses_html" => view('houses-list', compact('houses'))->render(),
+            "houses" => $houses_list->get(),
+            "has_more" => $houses->hasMorePages(),
+            "next_page_url" => $houses->nextPageUrl()
+        ]);
+    }
+
     public function randomList($page){
         $houses_per_page = 15;
     	$db_values = House::with('project')->orderBy('created_at', 'desc')->get();

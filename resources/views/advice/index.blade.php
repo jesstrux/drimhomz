@@ -151,9 +151,17 @@
 			align-items: flex-start;
 		}
 
-		.answers .item .avatar{
-			margin-right: 8px;
-		}
+		/*.answers .item .avatar{*/
+			/*position: relative;*/
+			/*!*margin-right: 8px;*!*/
+		/*}*/
+
+		/*.answers .item .avatar:after{*/
+			/*content:"wal";*/
+			/*position: absolute;*/
+			/*right: 0;*/
+			/*top: 0;*/
+		/*}*/
 
 		.answers .item .secondary, .answers .item-text p{
 			color: #717171;
@@ -285,7 +293,7 @@
 	    </div>
 	</section>
 
-	<div class="container" style="max-width: 800px; margin-top: 10px;">
+	<div class="container" style="max-width: 800px; margin-top: -50px;">
 		@include('advice.'.$page)
 	</div>
 	<br>

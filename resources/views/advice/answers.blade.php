@@ -28,25 +28,31 @@
 					$my_answer = "my-response";
 			?>
 
-			<div id="answer{{$answer->id}}" class="item answer {{$my_answer}}">
-	        	<div class="avatar">
-	            	<img src="{{$user_url . $answer->user->dp}}" width="40" alt="" />
-	          	</div>
+			<div id="answer{{$answer->id}}" class="item answer {{$my_answer}}" style="border-bottom: none;">
+				<div class="avatar" style="margin-right: 0;">
+					<img src="{{$user_url . $answer->user->dp}}" width="40" alt="" />
+				</div>
 				<div class="item-text">
 					<h3>{{$answer->user->full_name()}}
-						<form style="display: inline-block" method="POST" id="removeAnswer{{$answer->id}}" action="/removeAnswer" onsubmit="removeAnswer(event, '{{$answer->id}}')">
-							{{csrf_field()}}
-							<input id="questionId" name="id" type="hidden" value="{{$answer->id}}">
-							<button class="btn" type="submit">
-								<i class="fa fa-trash"></i>
-							</button>
-						</form>
-							<span class="secondary" style="float: right;">{{$answer->created_at->diffForHumans()}}</span></h3>
-					<p>
+						<span style="display: block; margin-top: 2px;margin-bottom: 8px; font-size: 0.9em; color: #999">
+						{{$answer->created_at->diffForHumans()}}
+					</span>
+					</h3>
+					<p style="margin-top: 0; font-size: 1em">
 						{{$answer->content}}
 					</p>
 				</div>
-	        </div>
+
+				<span class="secondary" styl="float: right">
+					<form style="display: inline-block" method="POST" id="removeAnswer{{$answer->id}}" action="/removeComment" onsubmit="removeAnswer(event, '{{$answer->id}}')">
+						{{csrf_field()}}
+						<input name="id" type="hidden" value="{{$answer->id}}">
+						<button class="btn" type="submit">
+							<i class="fa fa-trash"></i>
+						</button>
+					</form>
+				</span>
+			</div>
 	    @endforeach
 	</div>
     <div class="my-answer item answer">
@@ -115,7 +121,20 @@
 				showToast("success", "Comment sent");
 				var answer = response.answer;
 
-				var new_answer = '<div id="answer'+answer.id+'" class="item my-response answer"> <div class="avatar"> <img src="'+dp_src+'" width="40" alt="" /> </div> <div class="item-text"> <h3>'+user_name+'<form style="display: inline-block" method="POST" id="removeAnswer'+answer.id+'" action="/removeAnswer" onsubmit="removeAnswer(event, '+answer.id+')">'+_token+'<input name="id" type="hidden" value="'+answer.id+'"> <button class="btn" type="submit"> <i class="fa fa-trash"></i> </button> </form><span class="secondary" style="float: right;">now</span></h3> <p> '+answer.content+' </p> </div></div>';
+//				var new_answer = '<div id="answer'+answer.id+'" class="item my-response answer"> <div class="avatar"> <img src="'+dp_src+'" width="40" alt="" /> </div> <div class="item-text"> <h3>'+user_name+'<form style="display: inline-block" method="POST" id="removeAnswer'+answer.id+'" action="/removeAnswer" onsubmit="removeAnswer(event, '+answer.id+')">'+_token+'<input name="id" type="hidden" value="'+answer.id+'"> <button class="btn" type="submit"> <i class="fa fa-trash"></i> </button> </form><span class="secondary" style="float: right;">now</span></h3> <p> '+answer.content+' </p> </div></div>';
+                var new_answer =
+                    '<div id="answer'+answer.id+'" class="item answer my-response" style="border-bottom: none;"> ' +
+                    '<div class="avatar" style="margin-right: 0;"> <img src="'+dp_src+'" width="40" alt="" /> </div> ' +
+                    '<div class="item-text"> ' +
+                    '<h3>'+user_name+'' +
+                    '<span style="display: block; margin-top: 2px;margin-bottom: 8px; font-size: 0.9em; color: #999">now</span></h3>'+
+                    ' <p style="margin-top: 0; font-size: 1em"> '+answer.content+' </p> </div>' +
+                    '<span class="secondary" style="float: right;">' +
+                    '<form style="display: inline-block" method="POST" id="removeAnswer'+answer.id+'" action="/removeAnswer" onsubmit="removeAnswer(event, '+answer.id+')">' +
+                    ''+_token+'<input name="id" type="hidden" value="'+answer.id+'"> ' +
+                    '<button class="btn" type="submit"> <i class="fa fa-trash"></i> </button> </form>' +
+                    '</span>' +
+                    '</div>';
 				$("#answers"+id).find(".other-answers").append($(new_answer));
 			}else{
 				showToast("error", response.msg);

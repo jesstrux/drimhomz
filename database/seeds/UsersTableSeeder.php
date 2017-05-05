@@ -59,8 +59,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '0717138056',
             'email' => 'walter@owden.home',
             'password' => Hash::make('password'),
-            'dp' => "wallie.png",
-            'role' => 'admin',
+            'dp' => "wallie.png"
 
         ];
 

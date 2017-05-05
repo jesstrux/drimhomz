@@ -10,22 +10,10 @@
     @endif
 @endif
 
+<div id="usersSubsList" class="layout wrap" style="margin-bottom: 10px;">
+    @include('user.articles-list')
+</div>
 
-@if($articles_count > 0)
-        @foreach($articles as $article)
-       <div class="house-card a-house-item">
-        <a href="{{url('/advice/articles/#article_').$article->id}}" style="cursor: pointer;" >
-            <div class="image" style="background-color: #999">
-                <img src="{{asset($article_img_url . $article->image())}}" alt="{{$article->title}}">
-            </div>
-        </a>
-        <div class="content">
-            <h3>{{$article->title}}</h3>
-            {{--<span class="social-stuff">--}}
-            {{--<span style="display: inline-block; margin-top: -35px;">&nbsp; | &nbsp;</span> {{$comments_text}}--}}
-            {{--</span>--}}
-        </div>
-           </div>
-
-        @endforeach
+@if($following_count > $per_page)
+    <button id="userMoreBtn" class="btn btn-default btn-block" style="padding: 10px 0;" onclick="getMore()">LOAD MORE</button>
 @endif

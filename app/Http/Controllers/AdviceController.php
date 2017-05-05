@@ -20,10 +20,10 @@ class AdviceController extends Controller
     public function index($page = "questions")
     {
         if ($page == "questions") {
-            $questions = Question::orderBy('updated_at', 'desc')->with('answers','images')->get();
+            $questions = Question::orderBy('updated_at', 'desc')->with('answers','images')->paginate(10);
             return view('advice.index', compact('page', 'questions'));
         } else {
-            $articles = Article::orderBy('updated_at', 'desc')->with('comments','images')->get();
+            $articles = Article::orderBy('updated_at', 'desc')->with('comments','images')->paginate(10);
 
             return view('advice.index', compact('page', 'articles'));
         }

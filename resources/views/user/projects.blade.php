@@ -44,23 +44,13 @@
 	@endif
 @endif
 
-@foreach($projects as $project)
-    <?php
-        $house_count = $project->houses()->count();
-        $trailingS = $house_count == 1 ? "" : "s";
-        $houses_text = $house_count > 0 ? $project->houses()->count() : "No";
-        $houses_text .= " house" . $trailingS;
-    ?>
+<div id="usersSubsList" class="layout wrap" style="margin-bottom: 10px;">
+    @include('user.projects-list')
+</div>
 
-    <a href="{{url('/project/').'/'.$project->id}}" class="house-card">
-        <div class="image" style="pointer-events: auto;">
-            {!! $project->cover() !!}
-        </div>
-        <div class="content">
-            <h3 style="line-height: 30px;margin: 0; margin-top: 4px;">{{$project->title}}</h3>
-        </div>
-    </a>
-@endforeach
+@if($project_count > $per_page)
+    <button id="userMoreBtn" class="btn btn-default btn-block" style="padding: 10px 0;" onclick="getMore()">LOAD MORE</button>
+@endif
 
 @include('project.new-project')
 
@@ -68,14 +58,14 @@
     function projectCreationSuccess(project){
         showToast("success", "Project created!");
 
-        var proj_html = `<a href="/project/`+project.id+`" class="house-card">
-            <div class="image" style="pointer-events: auto;">
-                `+project.cover+`
-            </div>
-            <div class="content">
-                <h3 style="line-height: 30px;margin: 0; margin-top: 4px;">`+project.title+`</h3>
-            </div>
-        </a>`;
+        var proj_html = '<a href="/project/'+project.id+'" class="house-card"> ' +
+            '<div class="image" style="pointer-events: auto;">' +
+                ''+project.cover+' ' +
+            '</div> ' +
+            '<div class="content"> ' +
+                '<h3 style="line-height: 30px;margin: 0; margin-top: 4px;">'+project.title+'</h3> ' +
+            '</div> ' +
+        '</a>';
 
         var new_project = $(proj_html);
         $("#createProjectBtn").after(new_project);

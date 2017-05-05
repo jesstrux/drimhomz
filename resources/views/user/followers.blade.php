@@ -10,13 +10,10 @@
     @endif
 @endif
 
-@foreach($followers as $fol)
-    <a href="{{url('/user/').'/'.$fol->follower->id}}" class="house-card">
-        <div class="image" style="background-color: #eee">
-            <img src="{{asset($user_url . $fol->follower->dp)}}" alt="{{$fol->follower->fname}}'s dp">
-        </div>
-        <div class="content">
-            <h3>{{$fol->follower->full_name()}}</h3>
-        </div>
-    </a>
-@endforeach
+<div id="usersSubsList" class="layout wrap" style="margin-bottom: 10px;">
+    @include('user.followers-list')
+</div>
+
+@if($following_count > $per_page)
+    <button id="userMoreBtn" class="btn btn-default btn-block" style="padding: 10px 0;" onclick="getMore()">LOAD MORE</button>
+@endif

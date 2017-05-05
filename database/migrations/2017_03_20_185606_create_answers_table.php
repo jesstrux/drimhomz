@@ -17,6 +17,7 @@ class CreateAnswersTable extends Migration
             $table->increments('id');
             $table->string('content');
             $table->integer('question_id')->unsigned();
+            $table->boolean('accepted')->default(false);
             $table->integer('user_id')->unsigned();
             $table->timestamps();
             $table->foreign('user_id')

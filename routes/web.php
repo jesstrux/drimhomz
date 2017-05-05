@@ -28,6 +28,15 @@ Route::get('/notifications', function () {
 Route::post('/clearNotifications', 'UserController@clear_notifications');
 
 Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
+
+    $admin = App\Role::where('name', 'admin')->first();
+    $perms = App\Permission::get();
+    $role = App\Role::where('name','admin')->first();
+    $role->attachPermissions($perms);
+//    $admin->attachPermissions($createPermission);
+//    dd($admin);
+    return $role;
+
     if (!Auth::guest()) {
         $user = Auth::user();
 //         ->full_name();
@@ -37,7 +46,7 @@ Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
 //		    ->join()
 //		    ->get();
 
-	    return App\Home::find(31)->images->toJson();
+//	    return App\Home::find(31)->images->toJson();
      }
      else{
          echo "Hello guest";
@@ -112,6 +121,7 @@ Route::get('/user_dp/{id}', function($id){
 Route::get('/userProfilePopup/{user_id}', 'UserController@get_profile_popup');
 Route::post('/followUser', 'UserController@follow_user');
 Route::get('/profile', 'UserController@profile');
+Route::get('/userSubs/{user_id}/{page}', 'UserController@get_subs');
 
 Route::post('/becomeExpert', 'UserController@become_expert');
 
@@ -152,6 +162,8 @@ Route::post('/addPicturesToRental', 'RealHomzController@add_pictures_to_rental')
 Route::post('/addPicturesToPlot', 'RealHomzController@add_pictures_to_plot');
 
 Route::get('/randomHouses/{page}', 'HousesController@randomList');
+
+Route::get('/randomFeaturedHouses', 'HousesController@houseList');
 
 Route::post('/registerUser', 'HousesController@reg');
 

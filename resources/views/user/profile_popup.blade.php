@@ -1,4 +1,4 @@
-<a id="profilePopup" href="user/{{$user->id}}">
+<a id="profilePopup" href="{{url('/user/' . $user->id)}}">
 <?php
 	$followed_str = $followed ? "followed" : "follow";
 	$is_followed = $followed;

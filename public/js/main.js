@@ -85,12 +85,16 @@ $(document).ready(function(){
     });
 
     $(document).on("click", '.a-house-item', function(e){
+        var localName = e.target.localName;
+        if(localName == "a" || localName == "button" || e.target.classList.contains("drimmer"))
+            return;
+
         if(!$(this).data("house"))
             return;
 
         var house = $(this).data("house");
         is_cur_house = house_details.id == house.id;
-        
+
         if(!is_cur_house){
             house_details = house;
             house_details.owner = $(this).data("user");
@@ -113,27 +117,28 @@ $(document).ready(function(){
             openNewPin($parent);
     });
 
-    $(document).on("click", '.dh-card.grid-item.a-house', function(e){
+    $(document).on("clicks", '.dh-card.grid-item.a-house', function(e){
         var localName = e.target.localName;
         if(localName == "a" || localName == "button" || e.target.classList.contains("drimmer"))
-          return;
-        console.log(localName);
+            return;
 
         if(cur_popup){
-          cur_popup.remove();
-          getPopup(e);
+            cur_popup.remove();
+            getPopup(e);
         }
 
         var index_moi = $(this).index();
-        if(random_ads && random_ads.length){
-            index_moi -= index_moi < 4 ? 1 : 2;
-        }
+        // if(random_ads && random_ads.length){
+        //     index_moi -= index_moi < 4 ? 1 : 2;
+        // }
 
         is_cur_house = cur_house == index_moi;
 
         if(!is_cur_house){
             cur_house = index_moi;
             house_details = featured_houses[cur_house];
+            // console.log(cur_house, featured_houses);
+            // return;
             setPreview(e);
         }
 
@@ -142,19 +147,19 @@ $(document).ready(function(){
 
     function loadComments(house) {
         $.ajax({
-          url: "/comments/" + house,
-          type: 'GET',
-          dataType: 'json'
+            url: "/comments/" + house,
+            type: 'GET',
+            dataType: 'json'
         })
-        .done(function(data) {
-          onLoadComments(data);
-        })
-        .fail(function(error) {
-          console.log(error);
-        })
-        .always(function() {
-          console.log("Comments loaded!");
-        });
+            .done(function(data) {
+                onLoadComments(data);
+            })
+            .fail(function(error) {
+                console.log(error);
+            })
+            .always(function() {
+                console.log("Comments loaded!");
+            });
     };
 
     function onLoadComments(data) {
@@ -165,16 +170,16 @@ $(document).ready(function(){
             $('#commentsList').addClass('no-comments');
 
         for (; i < length; i++) {
-          var comment = $(comment_template(data[i]));
-          if(user_exists && data[i].user_id == cur_user.id){
-            comment.addClass('my-comment');
-          }
-          if(user_exists && house_details.owner.id == cur_user.id){
-              comment.addClass('my-house');
-          }
+            var comment = $(comment_template(data[i]));
+            if(user_exists && data[i].user_id == cur_user.id){
+                comment.addClass('my-comment');
+            }
+            if(user_exists && house_details.owner.id == cur_user.id){
+                comment.addClass('my-house');
+            }
 
-          comment.find("form").prepend(_token);
-          $('#commentsList').append(comment);
+            comment.find("form").prepend(_token);
+            $('#commentsList').append(comment);
         }
     }
 
@@ -182,32 +187,32 @@ $(document).ready(function(){
         $preview = $(".--js-house-preview");
 
         if($preview.hasClass('open')){
-          $preview.removeClass('open');
-          $('body').removeClass('locked');
+            $preview.removeClass('open');
+            $('body').removeClass('locked');
         }
     });
 
     $(document).on("mouseenter", ".user-linker", function(e){
         hovering = true;
         setTimeout(function(){
-          if(hovering){
-            if(cur_popup){
-              cur_popup.remove();
-              getPopup(e);
-            }else{
-              getPopup(e);
+            if(hovering){
+                if(cur_popup){
+                    cur_popup.remove();
+                    getPopup(e);
+                }else{
+                    getPopup(e);
+                }
+                hovering = false;
             }
-            hovering = false;
-          }
         }, 1500);
     });
 
     $(document).on("mouseleave", ".user-linker", function(e){
         setTimeout(function(){
-          if(cur_popup){
-            cur_popup.remove();
-            hovering = false;
-          }
+            if(cur_popup){
+                cur_popup.remove();
+                hovering = false;
+            }
         }, 1500)
     });
 
@@ -226,9 +231,9 @@ $(document).ready(function(){
         $('.previewHouseId').val(house_details.id);
 
         if(house_details.faved)
-          $('#previewReactions').addClass("faved");
+            $('#previewReactions').addClass("faved");
         else
-          $('#previewReactions').removeClass("faved");
+            $('#previewReactions').removeClass("faved");
 
         $('#commentsList').find(".a-comment").remove();
         // $('.--js-house-preview .dh-card').scrollTop(0);
@@ -240,7 +245,7 @@ $(document).ready(function(){
         var previewBox = previewCard.getBoundingClientRect();
         var el = e.currentTarget;
         var elBox = el.getBoundingClientRect();
-        
+
         var translateX = (elBox.left + (elBox.width / 2)) - (previewBox.left + (previewBox.width / 2));
         var translateY = (elBox.top + (elBox.height / 2)) - (previewBox.top + (previewBox.height / 2));
         var translate = 'translate(' + translateX + 'px,' + translateY + 'px)';
@@ -251,7 +256,7 @@ $(document).ready(function(){
         var scale = 'scale(' + scaleX + ',' + scaleY + ')';
         var transform = scale + " " + translate;
         previewCard.style.transformOrigin = previewCard.style.webkitTransformOrigin = "50% 50%";
-        
+
         var animation = previewCard.animate([
             {opacity: 0, transform: translate + "scale(0)"},
             {opacity: 1.0, transform: "none"}
@@ -260,22 +265,22 @@ $(document).ready(function(){
         });
 
         if(!is_cur_house){
-            
+
         }
 
         setTimeout(function(){
-          previewCard.style.transform = previewCard.style.webkitTransform = "none";
-          preview.classList.add("open");
-          $('body').addClass('locked');
+            previewCard.style.transform = previewCard.style.webkitTransform = "none";
+            preview.classList.add("open");
+            $('body').addClass('locked');
 
             if (!is_cur_house) {
                 setTimeout(function(){
                     if(house_details.comment_count < 1){
-                      $('#commentsList').addClass('no-comments');
+                        $('#commentsList').addClass('no-comments');
                     }else{
-                      $('#commentsList').removeClass('no-comments');
-                      $('#previewComments').addClass('loading');
-                      loadComments(house_details.id);
+                        $('#commentsList').removeClass('no-comments');
+                        $('#previewComments').addClass('loading');
+                        loadComments(house_details.id);
                     }
                 },150);
             }

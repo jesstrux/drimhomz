@@ -1,5 +1,5 @@
-<div id="answers{{$article->id}}" class="col-lg-12 answers card inset">
-	<div class="show-more" style="padding: 20px 0; text-align: center; border-botto: 1px solid #ddd">
+<div id="answers{{$article->id}}" class="col-lg-12 answers" style="background: transparent; box-shadow: none;">
+	<div class="show-more" style="padding: 20px 0; padding-top: 0; text-align: center; border-botto: 1px solid #ddd">
 		<?php
 			$no_comments = $comments->count() < 1 ? true : false;
 			$btn_style = "";
@@ -20,35 +20,41 @@
 		@endif
 	</div>
 
-	<div class="other-answers">
+	<div class="other-answers" style="padding: 0 16px;">
 		@foreach($comments as $answer)
 			<?php
 				$my_answer = "";
 				if(!Auth::guest() && $answer->user->id == Auth::user()->id)
 					$my_answer = "my-response";
 			?>
-			<div id="answer{{$answer->id}}" class="item answer {{$my_answer}}">
-	        	<div class="avatar">
+			<div id="answer{{$answer->id}}" class="item answer {{$my_answer}}" style="border-bottom: none;">
+	        	<div class="avatar" style="margin-right: 0;">
 	            	<img src="{{$user_url . $answer->user->dp}}" width="40" alt="" />
 	          	</div>
 				<div class="item-text">
 					<h3>{{$answer->user->full_name()}}
-						<form style="display: inline-block" method="POST" id="removeAnswer{{$answer->id}}" action="/removeComment" onsubmit="removeAnswer(event, '{{$answer->id}}')">
-							{{csrf_field()}}
-							<input name="id" type="hidden" value="{{$answer->id}}">
-							<button class="btn" type="submit">
-								<i class="fa fa-trash"></i>
-							</button>
-						</form>
-						<span class="secondary" style="float: right">{{$answer->created_at->diffForHumans()}}</span></h3>
-					<p>
+						<span style="display: block; margin-top: 2px;margin-bottom: 8px; font-size: 0.9em; color: #999">
+							{{$answer->created_at->diffForHumans()}}
+						</span>
+					</h3>
+					<p style="margin-top: 0; font-size: 1em">
 						{{$answer->content}}
 					</p>
 				</div>
+
+				<span class="secondary" styl="float: right">
+					<form style="display: inline-block" method="POST" id="removeAnswer{{$answer->id}}" action="/removeComment" onsubmit="removeAnswer(event, '{{$answer->id}}')">
+						{{csrf_field()}}
+							<input name="id" type="hidden" value="{{$answer->id}}">
+						<button class="btn" type="submit">
+							<i class="fa fa-trash"></i>
+						</button>
+					</form>
+				</span>
 	        </div>
 	    @endforeach
 	</div>
-    <div class="my-answer item answer">
+    <div class="my-answer item answer" style="border-bottom: none;">
         @if(Auth::check() && $user)
 			<div class="avatar">
 				<img src="{{$user_url . $user->dp}}" width="40" alt="" />
@@ -58,7 +64,7 @@
 				{{csrf_field()}}
 				<input id="userId" name="user_id" type="hidden" value="{{Auth::user()->id}}">
 				<input id="questionId" name="article_id" type="hidden" value="{{$article->id}}">
-				<textarea name="content" class="form-control autosize answer-value" rows="3" placeholder="Your Answer..." required="true" onkeyup="activateSubmitBtn(event)"></textarea>
+				<textarea name="content" class="form-control autosize answer-value" rows="3" placeholder="Your comment..." required="true" onkeyup="activateSubmitBtn(event)"></textarea>
 				<button class="btn btn-primary" disabled type="submit">&nbsp;SUBMIT&nbsp;</button>
 			</form>
         @else
@@ -111,7 +117,19 @@
 			if(response.success){
 				showToast("success", "Comment sent");
 				var answer = response.answer;
-				var new_answer = '<div id="answer'+answer.id+'" class="item answer my-response"> <div class="avatar"> <img src="'+dp_src+'" width="40" alt="" /> </div> <div class="item-text"> <h3>'+user_name+'<form style="display: inline-block" method="POST" id="removeAnswer'+answer.id+'" action="/removeComment" onsubmit="removeAnswer(event, '+answer.id+')">'+_token+'<input name="id" type="hidden" value="'+answer.id+'"> <button class="btn" type="submit"> <i class="fa fa-trash"></i> </button> </form><span class="secondary" style="float: right;">now</span></h3> <p> '+answer.content+' </p> </div></div>';
+				var new_answer =
+				'<div id="answer'+answer.id+'" class="item answer my-response" style="border-bottom: none;"> ' +
+					'<div class="avatar" style="margin-right: 0;"> <img src="'+dp_src+'" width="40" alt="" /> </div> ' +
+					'<div class="item-text"> ' +
+					'<h3>'+user_name+'' +
+					'<span style="display: block; margin-top: 2px;margin-bottom: 8px; font-size: 0.9em; color: #999">now</span></h3>'+
+					' <p style="margin-top: 0; font-size: 1em"> '+answer.content+' </p> </div>' +
+                	'<span class="secondary" style="float: right;">' +
+						'<form style="display: inline-block" method="POST" id="removeAnswer'+answer.id+'" action="/removeComment" onsubmit="removeAnswer(event, '+answer.id+')">' +
+						''+_token+'<input name="id" type="hidden" value="'+answer.id+'"> ' +
+						'<button class="btn" type="submit"> <i class="fa fa-trash"></i> </button> </form>' +
+					'</span>' +
+				'</div>';
 				$("#answers"+id).find(".other-answers").append($(new_answer));
 				console.log(answer, $(new_answer));
 			}else{

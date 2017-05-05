@@ -24,15 +24,11 @@
     @endif
 @endif
 
-@if($shops_count > 0)
-    @foreach($shops as $fol)
-        <a href="{{url('/shop/').'/'.$fol->id}}" class="house-card">
-            <div class="image" style="background-color: #eee; border: 1px solid #eee">
-                <img src="{{asset($shop_url . $fol->image_url)}}" alt="{{$fol->name}}'s dp">
-            </div>
-            <div class="content">
-                <h3>{{$fol->name}}</h3>
-            </div>
-        </a>
-    @endforeach
+
+<div id="usersSubsList" class="layout wrap" style="margin-bottom: 10px;">
+    @include('user.shops-list')
+</div>
+
+@if($following_count > $per_page)
+    <button id="userMoreBtn" class="btn btn-default btn-block" style="padding: 10px 0;" onclick="getMore()">LOAD MORE</button>
 @endif

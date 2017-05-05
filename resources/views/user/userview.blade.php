@@ -434,32 +434,33 @@
     </script>
 
     <?php
+		$per_page = 12;
 		$followed = false;
 		if(!Auth::guest() && !$myProfile)
 			$followed = $user->followed(Auth::user()->id);
 		$followed_str = $followed ? "followed" : "follow";
 
-	    $projects = $user->projects()->orderBy('updated_at', 'desc')->get();
-	    $project_count = count($projects);
+	    $projects = $user->projects()->orderBy('updated_at', 'desc')->paginate($per_page);
+	    $project_count = $user->projects->count();
 
-	    $houses = $user->houses()->orderBy('updated_at', 'desc')->get();
-	    $house_count = count($houses);
+	    $houses = $user->houses()->orderBy('updated_at', 'desc')->paginate($per_page);
+	    $house_count = $user->houses->count();
 
-	    $following = $user->following;
-	    $following_count = count($following);
+	    $following = $user->following()->orderBy('created_at', 'desc')->paginate($per_page);
+	    $following_count = $user->following->count();
 
-	    $followers = $user->followers;
-	    $followers_count = count($followers);
+	    $followers = $user->followers()->orderBy('created_at', 'desc')->paginate($per_page);
+	    $followers_count = $user->followers->count();
 
 		//$articles = $user->articles;
-	    $articles = $user->articles()->orderBy('updated_at', 'desc')->get();
-		$articles_count = count($articles);
+	    $articles = $user->articles()->orderBy('updated_at', 'desc')->paginate($per_page);
+		$articles_count = $user->articles->count();
 
-		$shops = $user->shops()->orderBy('updated_at', 'desc')->get();
-		$shops_count = count($shops);
+		$shops = $user->shops()->orderBy('updated_at', 'desc')->paginate($per_page);
+		$shops_count = $user->shops->count();
 
-		$reviews = $user->ratings;
-		$reviews_count = count($reviews);
+		$reviews = $user->ratings()->orderBy('updated_at', 'desc')->paginate($per_page);
+		$reviews_count = $user->ratings->count();
 
 	    if(!isset($page))
 	    	$page = "houses";
@@ -476,7 +477,21 @@
 			"shops" => "expert",
 		];
 
-		$page_parent = $page_parent_map[$page];
+    	$page_parent = $page_parent_map[$page];
+
+    	$list = $projects;
+
+    	$page_list_map = [
+			"projects" => $projects,
+			"houses" => $houses,
+			"following" => $following,
+			"followers" => $followers,
+			"articles" => $articles,
+			"reviews" => $reviews,
+			"shops" => $shops,
+		];
+
+    	$list = $page_list_map[$page];
 
 	    $curpage = 'user.' . $page;
 
@@ -495,7 +510,9 @@
 					@if($user->hasRole(['expert','realtor','seller']))
 						<nav class="tab-shifters">
 							<a class="{{$page_parent == 'user' ? 'active' : ''}}" href="javascript:void(0);" onclick="shiftTabs('user')">AS USER</a>
-							<a class="{{$page_parent == 'expert' ? 'active' : ''}}" href="javascript:void(0);" onclick="shiftTabs('expert')">AS EXPERT</a>
+							<a class="{{$page_parent == 'expert' ? 'active' : ''}}" href="javascript:void(0);" onclick="shiftTabs('expert')">
+								AS EXPERT
+							</a>
 						</nav>
 
 					@else
@@ -513,15 +530,15 @@
 							<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
 						</div>
 						<div class="layout justified for-expert">
-							@role(['expert','realtor','seller'])
+							@if($user->hasRole(['expert','realtor','seller']))
 								<a href="/user/{{$user->id}}/articles" data-target="articles" class="tabhead {{is_curpage($page, 'articles')}}"><span>{{$articles_count}}</span><span>ARTICLES</span></a>
 
 								<a href="/user/{{$user->id}}/reviews" data-target="reviews" class="tabhead {{is_curpage($page, 'reviews')}}"><span>{{$reviews_count}}</span><span>REVIEWS</span></a>
-							@endrole
+							@endif
 
-							@role('seller')
+							@if($user->hasRole('seller'))
 								<a href="/user/{{$user->id}}/shops" data-target="shops" class="tabhead {{is_curpage($page, 'shops')}}"><span>{{$shops_count}}</span><span>SHOPS</span></a>
-							@endrole
+							@endif
 
 							<a href="/user/{{$user->id}}/followers" data-target="followers" class="tabhead {{is_curpage($page, 'followers')}}"><span class="follower_count">{{$followers_count}}</span><span>FOLLOWERS</span></a>
 						</div>
@@ -561,14 +578,14 @@
 		function shopCreationSuccess(project){
 			showToast("success", "Project created!");
 
-			var proj_html = `<a href="/shop/`+project.id+`" class="house-card">
-					<div class="image" style="pointer-events: auto;">
-					<img src="`+ shop_base_url + `/def.png"/>
-					</div>
-					<div class="content">
-					<h3 style="line-height: 30px;margin: 0; margin-top: 4px;">`+project.name+`</h3>
-			</div>
-			</a>`;
+			var proj_html = '<a href="/shop/'+project.id+'" class="house-card">' +
+				'<div class="image" style="pointer-events: auto;">' +
+					'<img src="'+ shop_base_url + '/def.png"/> ' +
+				'</div> ' +
+				'<div class="content"> ' +
+					'<h3 style="line-height: 30px;margin: 0; margin-top: 4px;">'+project.name+'</h3>' +
+				'</div>' +
+				'</a>';
 
 			var new_project = $(proj_html);
 			$("#createShopBtn").after(new_project);
@@ -600,5 +617,36 @@
 			active.removeClass("active");
 			inactive.addClass("active");
 		}
+
+        var ORG_URL = "/userSubs/<?php echo $user->id?>/<?php echo $page?>?page=2";
+
+        function getMore(){
+            if(ORG_URL !== null){
+                $.ajax({
+                    url: ORG_URL,
+                    type: 'GET',
+                    dataType: 'json'
+                })
+				.done(function(response) {
+					var list = response.list;
+					ORG_URL = response.next_page_url;
+					console.log(response);
+
+					if(list && list.length){
+						$("#usersSubsList").append(response.list);
+					}
+					var list_name = "<?php echo $page?>";
+					if(!response.has_more){
+						$("#userMoreBtn").attr("disabled", "disabled").text("NO MORE " + list_name.toUpperCase());
+					}
+				})
+				.fail(function(error) {
+					console.log(error);
+				})
+				.always(function() {
+					hideLoading();
+				});
+            }
+        }
 	</script>
 @endsection

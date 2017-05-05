@@ -63,4 +63,7 @@
     <a href="{{ url('/expert') }}">Expert</a>
     <a href="{{ url('/advice') }}">Advice</a>
     <a href="{{ url('/realhomz') }}">Realhomz</a>
+    <a href="{{ url('/notifications') }}">Nofications&nbsp;
+        <span class="badge style-danger">@if(Auth::user() && Auth::user()->unreadNotifications->count() > 0){{Auth::user()->unreadNotifications->count()}}@endif</span>
+    </a>
 </aside>

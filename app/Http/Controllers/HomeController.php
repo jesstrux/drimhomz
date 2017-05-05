@@ -34,8 +34,21 @@ class HomeController extends Controller
 //        $random_ads = DB::table('advertisements')->orderBy('created_at', 'asc')->limit(2)->get();
         $todayString = Carbon::today();
         $today = $todayString->toFormattedDateString();
+        $houses_list = House::with('project')->orderBy('created_at', 'desc');
+        $houses_json = $houses_list->get();
+        $houses = $houses_list->paginate(15);
 
-        return view('home', compact('random_ads', 'today'));
+        return view('home', compact('houses', 'houses_json', 'random_ads', 'today'));
+
+
+        $random_ads = Advertisement::all();
+//        $random_ads = DB::table('advertisements')->orderBy('created_at', 'asc')->limit(2)->get();
+        $todayString = Carbon::today();
+        $today = $todayString->toFormattedDateString();
+        $houses = House::with('project')->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('home', compact('random_ads', 'today', 'houses'));
+//        return view('houses-view', compact('houses'));
     }
 
     /**
@@ -45,7 +58,7 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
-
+        if(Auth::user()->role == "admin"){
             $pages = Page::all();
             $users = User::all();
 
@@ -67,6 +80,9 @@ class HomeController extends Controller
 //            }
 
             return view('home.dashboard', compact('pages', 'users', 'randomAds', 'today'));
+        }else{
 
+            return redirect('home/');
+        }
     }
 }

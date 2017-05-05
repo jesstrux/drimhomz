@@ -5,10 +5,16 @@
         body{
             background-color: #fff !important;
         }
+
+        @media only screen and (max-width: 760px) {
+            .nots-title{
+                padding: 0 20px;
+            }
+        }
     </style>
     <div style="background-color: transparent">
         <ul style="list-style-type: none; width: 100%; max-width: 600px; padding: 8px 0; margin: auto;">
-            <li class="layout center" style="height: 30px; margin-bottom: 10px;">
+            <li class="layout center nots-title" style="height: 30px; margin-bottom: 10px;">
                 Notifications
 
                 @if($unread_count > 0)

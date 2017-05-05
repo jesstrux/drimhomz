@@ -101,9 +101,56 @@ class UserController extends Controller
         return view('user.userview', compact('page', 'user', 'myProfile'));
     }
 
+    function get_subs($user_id, $page){
+        $per_page = 12;
+        $user = User::find($user_id);
+        if($page == "projects"){
+            $projects = $user->projects()->orderBy('updated_at', 'desc')->paginate($per_page);
+
+            return response()->json([
+                "success" => true,
+                "list" => view('user.'.$page.'-list', compact('projects'))->render(),
+                "has_more" => $projects->hasMorePages(),
+                "next_page_url" => $projects->nextPageUrl()
+            ]);
+        }else if($page == "houses"){
+            $houses = $user->houses()->orderBy('updated_at', 'desc')->paginate($per_page);
+
+            return response()->json([
+                "success" => true,
+                "list" => view('user.'.$page.'-list', compact('houses'))->render(),
+                "has_more" => $houses->hasMorePages(),
+                "next_page_url" => $houses->nextPageUrl()
+            ]);
+
+        }else if($page == "following"){
+            $list = $user->following()->orderBy('updated_at', 'desc')->paginate($per_page);
+        }else if($page == "followers"){
+            $list = $user->followers()->orderBy('updated_at', 'desc')->paginate($per_page);
+        }else if($page == "articles"){
+            $list = $user->articles()->orderBy('updated_at', 'desc')->paginate($per_page);
+        }else if($page == "reviews"){
+            $list = $user->ratings()->orderBy('updated_at', 'desc')->paginate($per_page);
+        }else if($page == "shops"){
+            $list = $user->shops()->orderBy('updated_at', 'desc')->paginate($per_page);
+        }
+        else{
+            return response()->json([
+                "success" => false
+            ]);
+        }
+
+        return response()->json([
+            "success" => true,
+            "list" => view('user.'.$page.'-list', compact('list'))->render(),
+            "has_more" => $list->hasMorePages(),
+            "next_page_url" => $list->nextPageUrl()
+        ]);
+    }
+
     function get_profile_popup($user_id){
         $myProfile = false;
-        $followed = 0;
+        $followed = false;
 
         $user = User::find($user_id);
         if(!Auth::guest()){

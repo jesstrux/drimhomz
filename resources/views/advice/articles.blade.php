@@ -8,10 +8,27 @@
 		min-height: 110px;
 		width: 150px;
 	}
+
+	.article-thumb{
+		display: inline-block;
+		margin-right: 16px;width: 200px;
+		shape-outside: inset(100px 100px 100px 100px 10px);
+		float: left;
+	}
+
 	@media only screen and (max-width: 760px) {
 		.expert-image{
 			min-height: 40px;
 			width: 70px;
+		}
+
+		.article-thumb{
+			width: 120px;
+			/*float: right;*/
+		}
+
+		.full-question{
+			margin-top: -25px;
 		}
 	}
 </style>
@@ -24,47 +41,33 @@
 	?><div id="article_{{$article->id}}" style="margin-bottom: 60px"></div>
 	<div class="row full-question {{$my_question}}" id="article{{$article->id}}">
 		<div class="col-lg-12 card no-pad question">
-		    <div class="item">
-	        	<div class="avatar">
-	            	<img src="{{$user_url . $article->user->dp}}" width="40" alt="" />
-	          	</div>
-
-				<div class="house-card a-house-item">
-					<div style="cursor: pointer;">
-						<div class="image" style="background-color: #999">
-
-							<div class="userview-image" style="background-image: url({{$article_img_url .'thumbs/'. $article->image()}})"></div>
-						</div>
-					</div>
-				</div>
-				<div class="item-text">
-					<h3 class="question-title">{{$article->title}}</h3>
-					<p style="margin-top: 3px;">
-						<em>by {{$article->user->full_name()}}</em>
-					</p>
-				</div>
-				<span class="secondary">
-					{{$article->created_at->diffForHumans()}}
-				</span>
-	        </div>
-
+			<h3 class="question-title" style="padding: 0 30px; padding-top: 34px;">{{$article->title}}</h3>
 	        <?php
 				$large_text = strlen($article->content) < 80 ? "large-text" : "";
 			?>
-	        <div class="card-body {{$large_text}}" style="font-size: 1.3em; line-height: 2em;">
-	        	{{str_limit($article->content, 225)}}
-
-		        {{--<a href="{{url('advice/article/'.$article->slug)}}">--}}
-			        {{--@if(strlen($article->content) > 225)--}}
-				        {{--Read more--}}
-			        {{--@else--}}
-				        {{--View Article--}}
-			        {{--@endif--}}
-		        {{--</a>--}}
+	        <div class="card-body {{$large_text}}" style="padding:20px 30px; padding-bottom: 15px; font-size: 1.3em; line-height: 2em;">
+				<img src="{{$article_img_url . $article->image()}}" alt="" class="article-thumb">
+				{{str_limit($article->content, 225)}}
+				<span style="font-size: 13px; font-family: Verdana, Geneva, sans-serif; display: block">
+					By:
+					<a href="{{url("/user/" . $article->user->id)}}" class="user-link" data-user-id="{{$article->user->id}}" style="font-weight: bold">
+						{{$article->user->full_name()}}
+					</a>,
+					<span style="color: #888">
+						{{$article->created_at->diffForHumans()}}
+					</span>
+				</span>
 	        </div>
-		</div><!--end .col, .card -->
 
-		<?php $comments = $article -> comments ?>
-		@include('advice.comments')
+			<div style="padding: 10px 24px;">
+				<hr>
+				<h4 style="margin-top: 35px;">Comments:</h4>
+			</div>
+
+            <?php $comments = $article -> comments ?>
+			@include('advice.comments')
+		</div>
 	</div><!--end .row -->
 @endforeach
+
+{{$articles->links()}}
