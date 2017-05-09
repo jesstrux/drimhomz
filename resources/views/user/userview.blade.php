@@ -276,7 +276,7 @@
 			}
 		}
 
-		#userHouses .tab-pane > div{
+		#userHouses .tab-pane > #usersSubsList{
             list-style: none;
             display: block;
             display: -webkit-flex;
