@@ -65,10 +65,10 @@
                     @include('notifications.wrapper')
                 @endif
 
-                @role('super')
+                @permission('role-create')
                     <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ route('roles.index') }}">Roles</a></li>
-                @endrole
+                @endpermission
 
                 <li><a href="{{ url('/') }}">Home</a></li>
 
