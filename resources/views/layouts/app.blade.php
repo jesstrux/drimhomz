@@ -301,11 +301,6 @@ if(!Auth::guest()){
     }
 
     $(document).ready(function(){
-        $(document).on("click", '.tangazo', function(e){
-            e.preventDefault();
-            var ad = $(this).index() == 0 ? cur_idx_left : cur_idx_right;
-            openAd(random_ads[ad]);
-        });
         var curr_url = window.location.href;
         var route_name = curr_url.substr(curr_url.lastIndexOf('/') + 1);
         <?php if(Auth::check()){?>

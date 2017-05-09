@@ -85,6 +85,7 @@
 {{--<script src="{{asset('js/houses-loader.js')}}"></script>--}}
 
 <script>
+    var cur_idx_left = 0,cur_idx_right = 1;
     showLoading();
 
     (function ($) {
@@ -101,7 +102,6 @@
             $noMoreMessage = $('#noMoreMessage'),
             $window = $(window),
             $document = $(document),
-            cur_idx_left = 0,cur_idx_right = 1,
 //            featured_houses = featured_houses ||  [],
             first_load = true;
 
@@ -110,10 +110,18 @@
             featured_houses = <?php echo json_encode($houses_json); ?>;
             console.log(more_options);
             applyLayout();
+            activateAds();
             if(more_options.has_more){
                 $document.on('scroll', onScroll);
                 apiURL = "/randomFeaturedHouses?page=" + more_options.next_page;
             }
+
+            $(document).on("click", '.tangazo', function(e){
+                e.preventDefault();
+                var ad = $(this).index() == 0 ? cur_idx_left : cur_idx_right;
+                openAd(random_ads[ad]);
+//                console.log(ad);
+            });
         });
 
         /**

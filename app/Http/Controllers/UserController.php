@@ -100,7 +100,6 @@ class UserController extends Controller
 
         return view('user.userview', compact('page', 'user', 'myProfile'));
     }
-
     function get_subs($user_id, $page){
         $per_page = 12;
         $user = User::find($user_id);

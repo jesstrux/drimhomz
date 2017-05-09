@@ -34,8 +34,9 @@ class GuestController extends Controller
         $houses_list = House::with('project')->orderBy('created_at', 'desc');
         $houses_json = $houses_list->get();
         $houses = $houses_list->paginate(15);
+        $home_page = true;
 
-        return view('home', compact('houses', 'houses_json', 'random_ads', 'today'));
+        return view('home', compact('houses', 'houses_json', 'home_page', 'random_ads', 'today'));
 //        return view('houses-view', compact('houses'));
     }
 }
