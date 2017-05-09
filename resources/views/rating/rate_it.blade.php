@@ -164,6 +164,7 @@
 			    contentType: false
 		    })
 		    .done(function(response){
+		        console.log(response);
 //                document.write(response.responseText);
 			    if(response.success){
 				    showToast("success", response.msg);

@@ -29,13 +29,8 @@ Route::post('/clearNotifications', 'UserController@clear_notifications');
 
 Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
 
-    $admin = App\Role::where('name', 'admin')->first();
-    $perms = App\Permission::get();
-    $role = App\Role::where('name','admin')->first();
-    $role->attachPermissions($perms);
-//    $admin->attachPermissions($createPermission);
-//    dd($admin);
-    return $role;
+    $user = App\User::find(1);
+    return $user->followers;
 
     if (!Auth::guest()) {
         $user = Auth::user();
