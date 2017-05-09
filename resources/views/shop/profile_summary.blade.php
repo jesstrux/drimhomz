@@ -50,10 +50,16 @@
 		</div>
 
 		<h3 style="padding: 10px 20px;">{{$shop->name}}</h3>
-		<span class="real-description hidden-xs"><label>Quality Statement: </label>
+		<span class="real-description hidden-xs"><label>Quality Statement: </label></span>
 			<span class="real-description hidden-xs">
          {{$shop->quality_statement}}
     </span>
+		<span style="display: block">
+                      	<label>Service Statement:</label>
+                        <span class="real-description hidden-xs">
+                           {{$shop->service_statement}}
+                        </span>
+                    </span>
 
 		<div class="expert-info layout vertical">
 			<p style="padding: 2px 20px;"><span style="color: #ffa500; font-weight: bold;">Country:</span> <strong>{{$shop->country}}</strong></p>
@@ -75,7 +81,7 @@
 			{{--</a>--}}
 		@else
 
-			@if(Auth::guest() || !$shop->rated(Auth::user()->id))
+			@if(Auth::check()&&!$shop->rated(Auth::user()->id))
 				<button class="btn btn-primary" onclick="openRateIt(event, 'Shop', {{$shop->id}})">RATE SHOP</button>
 			@endif
 		@endif

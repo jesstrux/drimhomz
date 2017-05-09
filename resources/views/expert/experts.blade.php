@@ -98,7 +98,6 @@
 
                         </span>
                     </span>
-
                     <div class="layout center">
                         <span style="color: #000 !important; letter-spacing: 3px; margin-right: 5px;">{{number_format($product->rating(), 1, '.', '')}}</span>
                         <svg fill="#888" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
