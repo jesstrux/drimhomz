@@ -10,7 +10,7 @@
         	<h3 style="font-size: 1.5em; margin: 0; text-align: center;line-height: 70px">New product</h3>
         </div>
     </a>
-@elseif(!$myShop && is_null($house_count))
+@elseif(!$myShop && $houses->count() < 1)
 	<div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">
 		This shop has no products yet.
 	</div>
@@ -18,8 +18,8 @@
 
 @foreach($houses as $house)
     <div style="cursor: pointer;" class="house-card">
-        <div class="image" style="background-color: #eee">
-            <img src="{{$product_url . $house->image_url}}" alt="{{$house->name}}">
+        <div class="imag" style="background-color: #eee; position: relative; height: 200px;overflow: hidden;border-radius: 5px;">
+            <img style="pointer-events:none; height: auto !important; width: 100% !important;" src="{{$product_url . $house->image_url}}" alt="{{$house->name}}">
         </div>
         <div class="content">
             <h3>{{$house->name}}</h3>
