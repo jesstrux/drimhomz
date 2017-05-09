@@ -29,8 +29,18 @@ Route::post('/clearNotifications', 'UserController@clear_notifications');
 
 Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
 
-    $user = App\User::find(1);
-    return $user->followers;
+    $shop = App\Shop::find(31);
+    $my_shop = false;
+
+    if(!Auth::guest())
+        $my_shop = $shop->user->id == Auth::user()->id;
+
+    echo $shop->rated(5) && $my_shop;
+
+//    return json_encode([
+//        "imeretiwa" => $shop->rated(5),
+//        "my-shop" => $my_shop
+//    ]);
 
     if (!Auth::guest()) {
         $user = Auth::user();

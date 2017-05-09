@@ -10,7 +10,7 @@
         	<h3 style="font-size: 1.5em; margin: 0; text-align: center;line-height: 70px">New product</h3>
         </div>
     </a>
-@elseif(!$myShop && is_null($house_count))
+@elseif(!$myShop && $houses->count() < 1)
 	<div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">
 		This shop has no products yet.
 	</div>

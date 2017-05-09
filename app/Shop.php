@@ -33,7 +33,7 @@ class Shop extends Model
     }
 
     public function rated($uid){
-        DB::table('shop_ratings')
+        return DB::table('shop_ratings')
             ->join('ratings', function ($join) {
                 $join->on('ratings.id', '=', 'shop_ratings.rating_id');
             })

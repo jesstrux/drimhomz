@@ -82,7 +82,7 @@ class User extends Authenticatable
 	}
 
 	public function rated($uid){
-		DB::table('expert_ratings')
+		return DB::table('expert_ratings')
 			->join('ratings', function ($join) {
 				$join->on('ratings.id', '=', 'expert_ratings.rating_id');
 			})
