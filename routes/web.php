@@ -14,7 +14,7 @@ Route::get('/home', 'HomeController@index');
 
 Auth::routes();
 
-Route::get('/dashboard',['as'=>'dashboard','uses'=>'HomeController@dashboard','middleware' => ['permission:ad-create']]);
+Route::get('/dashboard',['as'=>'dashboard','uses'=>'HomeController@dashboard','middleware' => ['permission:role-create']]);
 
 Route::get('/notifications', function () {
     if (!Auth::guest()) {

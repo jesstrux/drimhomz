@@ -64,6 +64,7 @@
 	<div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">There are no shops available.</div>
 @endif
 
+
 @foreach($products as $product)
 	<a href="{{url('/shop/'.$product->id)}}" class="big-outer" id="shop_{{$product->id}}">
 		<div>
@@ -82,9 +83,22 @@
 					</h3>
 
                     <span style="display: block">
-                        Seller:
+                      	<span style="color: #2ab27b; font-weight: bold;"> Seller:</span>
                         <span style="font-weight: bold;">
                             {{$full_name}} - {{$product->user->phone}}
+                        </span>
+                    </span>
+					<span style="display: block">
+                      	<span style="color: #ffa500; font-weight: bold;"> Country:</span>
+                        <span style="font-weight: bold;">
+                            {{$product->country}}
+                        </span>
+                    </span>
+					<span style="display: block">
+
+						<span style="color: #ffa500; font-weight: bold;"> City:</span>
+                        <span style="font-weight: bold;">
+                            {{$product->city}}
                         </span>
                     </span>
 				</div>

@@ -305,9 +305,9 @@ class PermissionTableSeeder extends Seeder
                 'description' => 'Delete Skill'
             ],
         ];
-        foreach ($permission as $key => $value) {
-            Permission::create($value);
-        }
+//        foreach ($permission as $key => $value) {
+//            Permission::create($value);
+//        }
 
         $permissions = Permission::get();
         $role = Role::where('name','admin')->first();

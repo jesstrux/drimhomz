@@ -30,6 +30,18 @@
 		background-position:top center; background-size: cover;
 		border-bottom: 1px solid #dddddd;
 	}
+	.expert-info{
+		padding: 0 15px;
+		margin-left: 5px;
+		width: 100%;
+	}
+
+	.expert-info h3{
+		color: #333;
+		font-size: 2.1rem;
+		margin: 0; margin-bottom: 10px;
+	}
+
 </style>
 
 <div id="profileSummaryLg" class="col-sm-12 col-md-4">
@@ -38,6 +50,26 @@
 		</div>
 
 		<h3 style="padding: 10px 20px;">{{$shop->name}}</h3>
+		<span class="real-description hidden-xs"><label>Quality Statement: </label></span>
+			<span class="real-description hidden-xs">
+         {{$shop->quality_statement}}
+    </span>
+		<span style="display: block">
+                      	<label>Service Statement:</label>
+                        <span class="real-description hidden-xs">
+                           {{$shop->service_statement}}
+                        </span>
+                    </span>
+
+		<div class="expert-info layout vertical">
+			<p style="padding: 2px 20px;"><span style="color: #ffa500; font-weight: bold;">Country:</span> <strong>{{$shop->country}}</strong></p>
+			<span class="real-description hidden-xs"><br>
+       <b>Town:</b> {{$shop->town}}
+    </span>
+				<p><span style="color: #ffa500; font-weight: bold;">By:</span> <strong> {{$shop->user->full_name()}}</strong></p></span>
+		</div>
+
+
 		@if($myShop)
 			{{--<br>--}}
 			{{--<a href="/setupAccount" class="btn btn-default">--}}
@@ -49,7 +81,7 @@
 			{{--</a>--}}
 		@else
 
-			@if(Auth::guest() || !$shop->rated(Auth::user()->id))
+			@if(Auth::check()&&!$shop->rated(Auth::user()->id))
 				<button class="btn btn-primary" onclick="openRateIt(event, 'Shop', {{$shop->id}})">RATE SHOP</button>
 			@endif
 		@endif
