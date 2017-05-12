@@ -1,4 +1,5 @@
-<a class="dh-notif" href="{{$data['link']}}">
+<a class="dh-notif" href="{{url('clearOneNotification/'.$notification->id)}}">
+    {{--{{$data['link']}}--}}
     <div class="layout">
         <img class="img-circle dropdown-avatar" src="{{$user_url . $user_dp}}" alt="{{$user_name}} image" />
         <div class="flex layout wrap vertical">

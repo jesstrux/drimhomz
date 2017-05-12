@@ -1,3 +1,16 @@
+<style>
+    .notif-wrapper .dh-notif:hover{
+        background: #f1f1f1 !important;
+    }
+
+    .unread .dh-notif{
+        background: #eee !important;
+    }
+
+    .unread .dh-notif:hover{
+        background: #e0e0e0 !important;
+    }
+</style>
 <?php
 	$notifications = Auth::user()->notifications;
 	$unread_count = Auth::user()->unreadNotifications->count();
@@ -35,7 +48,7 @@
 					    $user_name = $user->fname . " " . $user->lname;
 				    }
                 ?>
-                <li class="{{$unread}}">
+                <li class="notif-wrapper {{$unread}}">
                     @include('notifications.'.snake_case(class_basename($notification->type)))
                 </li>
             @endforeach

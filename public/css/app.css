@@ -2174,17 +2174,18 @@ a.with-icon sup{
 
 /*NOTIFICATIONS*/
 .dh-notif{
-	text-decoration: none !;
-	color: #555 !important;
-	background-color: #f9f9f9 !important;
+	text-decoration: none !important;
+	/*color: #555 !important;*/
+	/*background-color: #f9f9f9 !important;*/
 }
 
 .unread, .unread .dh-notif{
-	background-color: #f9f9f9 !important;
+	/*background-color: #999 !important;*/
+	/*#f9f9f9 !important;*/
 }
 
 .unread:hover, .unread .dh-notif:hover{
-	background-color: #f0f0f0 !important;
+	/*background-color: #f0f0f0 !important;*/
 }
 
 .dh-notif .layout{

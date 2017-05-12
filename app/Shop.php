@@ -24,9 +24,13 @@ class Shop extends Model
     }
 
     public function rating(){
-        $ratings = $this->ratings;
-        if($ratings->count() > 0){
-            return $ratings->avg("rating");
+        if(count($this->ratings()->get()) > 0){
+            return DB::table('shop_ratings')
+                ->join('ratings', function ($join) {
+                    $join->on('ratings.id', '=', 'shop_ratings.rating_id');
+                })
+                ->where('shop_ratings.shop_id', $this->id)
+                ->avg("rating");
         }else{
             return 0.000;
         }

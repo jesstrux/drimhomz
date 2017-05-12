@@ -17,6 +17,7 @@ use App\Location;
 // use App\Follower;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -83,6 +84,9 @@ class UserController extends Controller
     function showprofile($id, $page = null){
 //        $user = User::with('projects', 'following', 'houses', 'followers')->find($id);
         $user = User::find($id);
+
+        if(!$user)
+            return Redirect::back();
 
         if($page == null){
             if($user->hasRole(['expert','realtor','seller']))

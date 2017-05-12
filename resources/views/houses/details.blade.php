@@ -51,7 +51,12 @@
 
                 @if($house->comments->count() > 0)
                     @foreach($house->comments as $comment)
-                        <div id="comment{{$comment->id}}" class="a-comment item flex">
+                        <?php
+                            $myComment = "";
+                            if(!Auth::guest() && ($comment->user->id == Auth::user()->id))
+                                $myComment = "my-comment";
+                        ?>
+                        <div id="comment{{$comment->id}}" class="a-comment item flex {{$myComment}}">
                             <div class="avatar">
                                 <img src="{{$user_url . $comment->user->dp}}" alt="{{$comment->user->fname}}'s dp">
                             </div>
@@ -62,21 +67,28 @@
                                 </div>
                                 <p>{{$comment->content}}</p>
                             </div>
-                            <form id="deleteComment{{$comment->id}}" action="{{url('/deleteComment')}}" method="POST">
-                                <input id="commentId" type="hidden" value="{{$comment->id}}" name="id">
-                                <button type="button" onclick="deleteComment({{$comment->id}})">
-                                    delete
-                                </button>
-                            </form>
+
+                            <div class="form-things layout">
+                                <a type="button" class="comment-editor" style="cursor: pointer" onclick="editComment({{$comment->id}})">
+                                    <i class="fa fa-pencil" title="edit"></i>
+                                </a>
+                                <form id="deleteComment{{$comment->id}}" action="{{url('/deleteComment')}}" method="POST">
+                                    {{csrf_field()}}
+                                    <input id="commentId" type="hidden" value="{{$comment->id}}" name="id">
+                                    <a type="button" style="cursor: pointer" onclick="deleteComment({{$comment->id}})">
+                                        <i class="fa fa-trash" title="Delete"></i>
+                                    </a>
+                                </form>
+                            </div>
                         </div>
                     @endforeach
                 @endif
             </div>
             
             @if (Auth::check())
-                <form id="submitComment" action="{{ url('/submitComment') }}" method="POST">
+                <form id="submitComment" action="{{ url('/submitComment') }}" method="POST" onsubmit="submitComment()">
                     {{ csrf_field() }}
-                    <input id="previewHouseId" class="previewHouseId" type="hidden" name="house_id">
+                    <input id="previewHouseId" class="previewHouseId" type="hidden" name="house_id" value="{{$house->id}}">
 
                     <div class="item flex">
                         <div class="avatar">
@@ -90,7 +102,7 @@
                         <textarea class="item-text flex" placeholder="Your comment" name="content" rows="5"></textarea>
                     </div>
 
-                    <button type="button" disabled onclick="submitComment()" style="float: right; margin-top: -10px; display: inline-block;" class="btn btn-primary">Submit</button>
+                    <button type="submit" disabled style="float: right; margin-top: -10px; display: inline-block;" class="btn btn-primary">Submit</button>
                 </form>
             @else
                 <div class="empty-message"><a href="/login">Login</a> to comment</div>

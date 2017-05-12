@@ -73,12 +73,16 @@ class User extends Authenticatable
 	}
 
 	public function rating(){
-		$ratings = $this->ratings;
-		if($ratings->count() > 0){
-			return $ratings->avg("rating");
-		}else{
-			return 0.000;
-		}
+        if(count($this->ratings()->get()) > 0){
+            return DB::table('expert_ratings')
+                ->join('ratings', function ($join) {
+                    $join->on('ratings.id', '=', 'expert_ratings.rating_id');
+                })
+                ->where('expert_ratings.expert_id', $this->id)
+                ->avg("rating");
+        }else{
+            return 0.000;
+        }
 	}
 
 	public function rated($uid){

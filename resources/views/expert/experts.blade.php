@@ -59,12 +59,13 @@
         text-decoration: none !important;
     }
 </style>
+
 @if($products->count() < 1)
     <div style="padding: 20px; background-color: #f0f0f0; text-align: center; margin: 10px auto;">There are no experts available.</div>
 @endif
 @foreach($products as $product)
     {{--.'/'.$product->office->id--}}
-    <a href="{{url('/user/'.$product->user_id)}}" class="big-outer" id="product_{{$product->id}}">
+    <a href="{{url('/user/'.$product->id)}}" class="big-outer" id="product_{{$product->id}}">
         <div>
             <?php
                 $full_name = $product->fname . " " . $product->lname;
@@ -99,9 +100,13 @@
                         </span>
                     </span>
 
-                    <div class="layout center">
-                        <span style="color: #000 !important; letter-spacing: 3px; margin-right: 5px;">{{number_format($product->rating(), 1, '.', '')}}</span>
-                        <svg fill="#888" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <div class="layout center" style="padding-top: 10px;">
+                        @if($product->ratings->count() < 1)
+                            This expert has no ratings yet.
+                        @else
+                            <span style="color: #000 !important; letter-spacing: 3px; margin-right: 5px;">{{number_format($product->rating(), 1, '.', '')}}</span>
+                            <svg fill="#888" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        @endif
                     </div>
                     <div class="expert-activity hidden">
                         <a hre="{{$articles_link}}">

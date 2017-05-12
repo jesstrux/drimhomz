@@ -206,6 +206,9 @@
         console.log(formdata.getAll("content"));
 //        return;
 
+        if(e)
+            e.preventDefault();
+
         $.ajax({
               type:'POST',
               url: "/submitComment",

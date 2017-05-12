@@ -26,21 +26,12 @@ Route::get('/notifications', function () {
 });
 
 Route::post('/clearNotifications', 'UserController@clear_notifications');
+Route::get('/clearOneNotification/{id}', 'NotificationController@clear_one_notification');
 
 Route::get('/testUrl/{house_id}/{content}', function ($house_id, $content) {
-
-    $shop = App\Shop::find(31);
-    $my_shop = false;
-
-    if(!Auth::guest())
-        $my_shop = $shop->user->id == Auth::user()->id;
-
-    echo $shop->rated(5) && $my_shop;
-
-//    return json_encode([
-//        "imeretiwa" => $shop->rated(5),
-//        "my-shop" => $my_shop
-//    ]);
+    $user = App\User::find(1);
+    $rating = $user->ratings();
+    return $rating->get();
 
     if (!Auth::guest()) {
         $user = Auth::user();
