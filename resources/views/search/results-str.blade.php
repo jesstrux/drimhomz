@@ -93,7 +93,7 @@
 			<?php
 				$item = new stdClass();
 				$item->link = url("/shop/$shop->id");
-				$item->img = $res_url . "/shops/thumbs/" . $shop->image_url;
+            	$item->img = $shop_url . $shop->image_url;
 				$item->title = $shop->name;
 				$item->sub_title = $shop->user->fname ." ". $shop->user->lname;
 			?>
@@ -117,7 +117,7 @@
 			<?php
 				$item = new stdClass();
 				$item->link = url("/product/$product->id");
-				$item->img = $res_url . "/products/thumbs/" . $product->image_url;
+				$item->img = $product_url . $product->image_url;
 				$item->title = $product->name;
 				$item->sub_title = $product->shop->name;
 			?>
@@ -130,5 +130,79 @@
 	@if($products->count() > 3)
 		<?php $rem = $products->count() - 3 ?>
 		<a href="{{url('search/'.$q.'/products')}}">View {{$rem}} more products</a>
+	@endif
+@endif
+
+
+@if($homes->count() > 0)
+	<h5 class="a-divider">Homes</h5>
+	@foreach($homes as $home)
+		@if($loop->iteration <= 3)
+            <?php
+				$item = new stdClass();
+				$item->link = url("/realhomz/home/$home->id");
+				$item->img = $home_url . $home->image();
+				$item->title = $home->name;
+				$item->sub_title = "Tshs." . number_format( $home->price , 0 );
+            ?>
+			@include('search.search_item')
+		@else
+            <?php break; ?>
+		@endif
+	@endforeach
+
+	@if($homes->count() > 3)
+        <?php $rem = $homes->count() - 3 ?>
+		<a href="{{url('search/'.$q.'/homes')}}">View {{$rem}} more homes</a>
+	@endif
+@endif
+
+
+
+@if($rentals->count() > 0)
+	<h5 class="a-divider">Rentals</h5>
+	@foreach($rentals as $home)
+		@if($loop->iteration <= 3)
+            <?php
+            $item = new stdClass();
+            $item->link = url("/realhomz/rental/$home->id");
+            $item->img = $rental_url . $home->image();
+            $item->title = $home->name;
+            $item->sub_title = "Tshs." . number_format( $home->price , 0 );
+            ?>
+			@include('search.search_item')
+		@else
+            <?php break; ?>
+		@endif
+	@endforeach
+
+	@if($rentals->count() > 3)
+        <?php $rem = $rentals->count() - 3 ?>
+		<a href="{{url('search/'.$q.'/rentals')}}">View {{$rem}} more rentals</a>
+	@endif
+@endif
+
+
+
+@if($plots->count() > 0)
+	<h5 class="a-divider">Plots</h5>
+	@foreach($plots as $home)
+		@if($loop->iteration <= 3)
+            <?php
+            $item = new stdClass();
+            $item->link = url("/realhomz/plot/$home->id");
+            $item->img = $plot_url . $home->image();
+            $item->title = $home->name;
+            $item->sub_title = "Tshs." . number_format( $home->price , 0 );
+            ?>
+			@include('search.search_item')
+		@else
+            <?php break; ?>
+		@endif
+	@endforeach
+
+	@if($plots->count() > 3)
+        <?php $rem = $plots->count() - 3 ?>
+		<a href="{{url('search/'.$q.'/plots')}}">View {{$rem}} more plots</a>
 	@endif
 @endif

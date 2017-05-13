@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Home;
+use App\Plot;
+use App\Rental;
 use App\User;
 use App\Project;
 use App\House;
@@ -36,13 +39,19 @@ class SearchController extends Controller
 
     	// $articles = Article::where('title', 'LIKE', '%'.$q.'%')->orWhere('content', 'LIKE', '%'.$q.'%')->get();
 
-    	$result_count = $users->count() + $projects->count() + $houses->count() + $shops->count() + $products->count();
+        $homes = Home::where('name', 'LIKE', '%'.$q.'%')->orWhere('description', 'LIKE', '%'.$q.'%')->get();
+
+        $rentals = Rental::where('name', 'LIKE', '%'.$q.'%')->orWhere('description', 'LIKE', '%'.$q.'%')->get();
+
+        $plots = Plot::where('name', 'LIKE', '%'.$q.'%')->orWhere('description', 'LIKE', '%'.$q.'%')->get();
+
+        $result_count = $users->count() + $projects->count() + $houses->count() + $shops->count() + $products->count() + $homes->count() + $rentals->count() + $plots->count();
     	 // + $questions->count() + $articles->count();
 
     	if($qwasnull){
-            return view('search.results', compact('q', 'result_count', 'users', 'projects', 'houses', 'shops', 'products'));
+            return view('search.results', compact('q', 'result_count', 'users', 'projects', 'houses', 'shops', 'products', 'homes', 'rentals', 'plots'));
         }else{
-            return view('search.results-str', compact('q', 'result_count', 'users', 'projects', 'houses', 'shops', 'products'));
+            return view('search.results-str', compact('q', 'result_count', 'users', 'projects', 'houses', 'shops', 'products', 'homes', 'rentals', 'plots'));
         }
     }
 
@@ -85,6 +94,30 @@ class SearchController extends Controller
             $result_count = $products->count();
 
             return view('search.search-by-category', compact('q', 'category', 'result_count', 'products'));
+        }
+
+        else if($category == "homes"){
+            $homes = Home::where('name', 'LIKE', '%'.$q.'%')->orWhere('description', 'LIKE', '%'.$q.'%')->get();
+
+            $result_count = $homes->count();
+
+            return view('search.search-by-category', compact('q', 'category', 'result_count', 'homes'));
+        }
+
+        else if($category == "rentals"){
+            $rentals = Rental::where('name', 'LIKE', '%'.$q.'%')->orWhere('description', 'LIKE', '%'.$q.'%')->get();
+
+            $result_count = $rentals->count();
+
+            return view('search.search-by-category', compact('q', 'category', 'result_count', 'rentals'));
+        }
+
+        else if($category == "plots"){
+            $plots = Plot::where('name', 'LIKE', '%'.$q.'%')->orWhere('description', 'LIKE', '%'.$q.'%')->get();
+
+            $result_count = $plots->count();
+
+            return view('search.search-by-category', compact('q', 'category', 'result_count', 'plots'));
         }
 
         else{

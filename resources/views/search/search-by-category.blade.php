@@ -148,6 +148,63 @@
 					<p>"No products found"</p>
 				@endif
 			@endif
+
+
+			@if($category == "homes")
+				@if($homes->count() > 0)
+					<h5 class="a-divider">Homes</h5>
+					@foreach($homes as $home)
+                        <?php
+							$item = new stdClass();
+							$item->link = url("/realhomz/home/$home->id");
+							$item->img = $home_url . $home->image();
+							$item->title = $home->name;
+							$item->sub_title = "Tshs." . number_format( $home->price , 0 );
+                        ?>
+						@include('search.search_item')
+					@endforeach
+				@else
+					<p>"No homes found"</p>
+				@endif
+			@endif
+
+
+			@if($category == "rentals")
+				@if($rentals->count() > 0)
+					<h5 class="a-divider">Rentals</h5>
+					@foreach($rentals as $home)
+                        <?php
+                        $item = new stdClass();
+                        $item->link = url("/realhomz/rental/$home->id");
+                        $item->img = $rental_url . $home->image();
+                        $item->title = $home->name;
+                        $item->sub_title = "Tshs." . number_format( $home->price , 0 );
+                        ?>
+						@include('search.search_item')
+					@endforeach
+				@else
+					<p>"No rentals found"</p>
+				@endif
+			@endif
+
+
+			@if($category == "plots")
+				@if($plots->count() > 0)
+					<h5 class="a-divider">Plots</h5>
+					@foreach($plots as $home)
+                        <?php
+                        $item = new stdClass();
+                        $item->link = url("/realhomz/plot/$home->id");
+                        $item->img = $plot_url . $home->image();
+                        $item->title = $home->name;
+                        $item->sub_title = "Tshs." . number_format( $home->price , 0 );
+                        ?>
+						@include('search.search_item')
+					@endforeach
+				@else
+					<p>"No plots found"</p>
+				@endif
+			@endif
 		</div>
 	</div>
 @endsection
