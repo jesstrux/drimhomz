@@ -45,10 +45,11 @@
 </style>
 
 <div id="profileSummaryLg" class="col-sm-12 col-md-4">
-	<div id="userDetails" class="text-center" style="padding-top: 0;">
+	<div id="userDetails" class="text-center" style="padding-top: 0; padding-bottom: 24px;">
 		<div id="shopImage" style="background-image: url({{asset($shop_url . $shop->image_url)}})"></div>
 		<h3 style="padding: 10px 20px;">{{$shop->name}}</h3>
-		<p><span style="color: #ffa500; font-weight: bold;">Seller:</span> <strong> {{$shop->user->full_name()}}</strong></p></span>
+		<p><span style="color: #ffa500; font-weight: bold;">Seller:</span> <strong> {{$shop->user->full_name()}}</strong></p>
+		<p><span>Shop type:</span> <strong> {{$shop->type}}</strong></p>
 
 		@if($myShop)
 			{{--<br>--}}
