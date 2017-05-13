@@ -98,15 +98,51 @@ if(!Auth::guest()){
             background-color: #f5f5f5 !important;
         }
     }
+
+    #featuresTabs a{
+        padding: 0 5px;
+        color: inherit;
+        border-style: solid;
+        border-width: 0;
+        text-decoration: none;
+    }
+
+    #featuresTabs a:not(:last-child){
+        position: relative;
+        margin-right: 12px;
+    }
+
+    #addRoomsOuter:not(.show-rooms):not(.show-others) #featuresTabs a[target="all"]{
+        border-bottom-width: 1px;
+        pointer-events: none;
+    }
+
+    #addRoomsOuter.show-rooms #featuresTabs a[target="rooms"]{
+        border-bottom-width: 1px;
+        pointer-events: none;
+    }
+
+    #addRoomsOuter.show-others #featuresTabs a[target="others"]{
+        border-bottom-width: 1px;
+        pointer-events: none;
+    }
+
+    #addRoomsOuter.show-rooms label:not(.type-room){
+        display: none;
+    }
+
+    #addRoomsOuter.show-others label.type-room{
+        display: none;
+    }
 </style>
-<div id="addRoomsOuter" class="cust-modal has-trans">
+<div id="addRoomsOuter" class="cust-modal has-trans ope">
     <div class="hidden visible-xs cust-modal-toolbar no-shadow" style="z-index: 2">
         <div class="layout center" style="height: 60px">
             <button class="layout center for-mob" style="padding: 0;background: transparent; border: none;" onclick="closeAddRooms()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
             </button>
 
-            <h5 class="flex" style="font-size: 23px; margin: 0; margin-left: 8px;">Add Rooms</h5>
+            <h5 class="flex" style="font-size: 23px; margin: 0; margin-left: 8px;">Add Features</h5>
 
             <button disabled onclick="saveRooms()" class="btn save-new-rooms" style="background:#8bc34a; border-radius: 5px; overflow: hidden;color: #fff; margin-right: 10px;">
                 SAVE
@@ -122,7 +158,13 @@ if(!Auth::guest()){
             </button>
 
             <form id="addRooms" method="POST" action="{{$add_rooms_url}}" onsubmit="saveRooms(event)">
-                <h3 class="hidden-xs" style="margin-left: 26px;">Add Features</h3>
+                <h3 class="hidden-xs" style="margin-left: 26px; margin-bottom: 16px;">Add Features</h3>
+                <p id="featuresTabs" class="layout center" style="margin-left: 21px; margin-top: 0; margin-bottom: 6px;">
+                    <a href="javascript:void(0);" target="all">ALL</a>
+                    <a href="javascript:void(0);" target="rooms">ROOMS</a>
+                    <a href="javascript:void(0);" target="others">OTHER</a>
+                </p>
+
                 <input id="homeIdInput" type="hidden" name="home_id" value="{{$real->id}}">
                 {{csrf_field()}}
 
@@ -152,6 +194,15 @@ if(!Auth::guest()){
                 $(".save-new-rooms").removeAttr("disabled");
             else
                 $(".save-new-rooms").attr("disabled", "disabled");
+        });
+
+
+        $("#featuresTabs a").click(function(){
+            var target = $(this).attr("target");
+            var outer = $("#addRoomsOuter");
+
+            outer.removeClass("show-rooms show-others");
+            outer.addClass("show-"+target);
         });
     });
 

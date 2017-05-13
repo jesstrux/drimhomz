@@ -54,31 +54,68 @@
 			realIt();
 		}
 
-		function realIt(){
+		function realIt(idx){
+		    if(idx){
+                slideTo(idx);
+                real_image_count = idx;
+            }
+
 			real_interval = setInterval(function(){
 				real_image_count = real_image_count < real_images.length - 1 ? real_image_count + 1 : 0;
 				var real_image = real_images[real_image_count];
 				var uri = "<?php echo $image_base_url; ?>" + real_image.url;
-				$(".realPictures .real_pics").css({"background-color": real_image.placeholder_color, "background-image": "url("+uri+")"});
+//				$(".realPictures .real_pics").css({"background-color": real_image.placeholder_color, "background-image": "url("+uri+")"});
+                slideTo(real_image_count);
 			}, 4000);
 		}
 
 		function ongezaImages(images){
 			console.log(images);
+            pauseSlideShow();
 
 			if(images && images.length){
-				if(real_interval != null){
-					clearInterval(real_interval);
-				}
+                $(".realPictures .slideshow-controls").removeClass("hidden");
 
 				for(var i = 0; i < images.length; i++){
-					real_images.push(images[i]);
+				    var image = images[i];
+                    var uri = "<?php echo $image_base_url; ?>" + image.url;
+					real_images.push(image);
+					var new_image = '<div style="background-color: ' + image.placeholder_color + '; background-image: url('+uri+');"></div>'
+                    $(".realPictures .real_pics").append($(new_image));
 				}
-
 				console.log(real_images);
-
 				realIt();
 			}
 		}
+
+		function slideTo(pos){
+            $(".realPictures .real_pics").css({"transform": "translateX(-"+(pos*100)+"%)"});
+		}
+
+		function pauseSlideShow(){
+            if(real_interval != null){
+                clearInterval(real_interval);
+            }
+		}
+
+        function nextSlide(){
+            pauseSlideShow();
+            real_image_count = real_image_count < real_images.length - 1 ? real_image_count + 1 : 0;
+            slideTo(real_image_count);
+
+            setTimeout(function(){
+                realIt(real_image_count);
+			}, 3000);
+        }
+
+        function prevSlide(){
+            pauseSlideShow();
+            real_image_count = real_image_count > 0 ? real_image_count - 1 : real_images.length - 1;
+            slideTo(real_image_count);
+
+            setTimeout(function(){
+                realIt(real_image_count);
+            }, 3000);
+        }
 	</script>
 @endsection

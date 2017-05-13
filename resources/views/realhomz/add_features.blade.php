@@ -46,6 +46,11 @@ if(!Auth::guest()){
 
             <form id="addFeatures" method="POST" action="/addFeatures" onsubmit="saveFeatures(event)">
                 <h3 class="hidden-xs">Add Features</h3>
+                <p class="layout center">
+                    <span>ALL</span> .
+                    <span>ROOMS</span> .
+                    <span>OTHER</span>
+                </p>
                 <input type="hidden" name="home_id" value="{{$real->id}}">
                 {{csrf_field()}}
 
