@@ -9,7 +9,6 @@
     	#profileSummaryLg{
 			display: none;
 		}
-
 		#profileSummary{
 			padding: 0;
 			background-color: #ccc;
@@ -29,7 +28,6 @@
 			height: 230px;
 			margin: 30px 0;
 		}
-		
 		#lgDp #cover #theDp{
 			width: 150px;
 			height: 150px;
@@ -37,11 +35,9 @@
 			border-radius: 50%;
 			margin: auto;
 		}
-
 		#lgDp #theDp img{
 			width: 100%;
 		}
-
 		#lgDp #user{
 			padding: 20px 20px;
 			padding-bottom: 25px;
@@ -75,77 +71,6 @@
 			font-family: serif;
 			letter-spacing: 2px;
 		}
-		#followBtn{
-			display: -webkit-flex;
-			display: -moz-flex;
-			display: -ms-flex;
-			display: -o-flex;
-			display: flex;
-			-ms-align-items: center;
-			align-items: center;
-			justify-content: center;
-			border-radius: 50%;
-			width: 50px;
-			height: 50px;
-			border: 2px solid #EEE9D8;
-			background-color: transparent;
-			position: absolute;
-			right: 16px;
-			bottom: 20px;
-		}
-		#followBtn svg{
-			fill: #EEE9D8;
-		}
-		#followBtn.followed{
-			border:none;
-			background-color: #ffa500;
-		}
-		#followBtn.followed svg{
-			fill: #231e2b;
-			fill: #000;
-		}
-		.tabheads{
-			height: 75px;
-			display: -webkit-flex;
-			display: -moz-flex;
-			display: -ms-flex;
-			display: -o-flex;
-			display: flex;
-			justify-content: space-between;
-			-ms-align-items: center;
-			align-items: center;
-		}
-		.tabheads .tabhead{
-			display: inline-block;
-			min-width: calc(33.333% - 4px);
-			margin: 0 2px;
-			text-align: center;
-		}
-
-		.tabheads .tabhead span{
-			display: block;
-			font-size: 1em;
-		}
-
-		.tabheads .tabhead span:first-child{
-			color: #009688;
-			color: #231E2B;
-			font-size: 1.5em;
-			letter-spacing: 3px;
-		}
-
-		#tabsContent{
-			/*background-color: #231E2B;*/
-		}
-
-		.tabheads .tabhead.active span{
-			color: #ffa500;
-		}
-
-		.tabheads .tabhead.active span:first-child{
-			/*font-weight: bold;*/
-		}
-
 		@media all and (min-width: 768px) {
 			main{
 				padding: 20px 50px !important;
@@ -223,118 +148,13 @@
 			#profileSummaryLg #profilePic img{
 				height: 100%;
 			}
-
-			#tabsContent{
-				background-color: transparent;
-			}
-
-			#tabsContent .tabheads{
-				/*padding: 20px 0;*/
-				background-color: #fff;
-				box-shadow: 0 0 3px rgba(0,0,0,0.16);
-				border-radius: 3px;
-				height: 70px;
-			}
-
-			#tabsContent .tabheads .tabhead{
-				display: inline-block;
-				min-width: calc(25% - 4px);
-				margin: 0 2px;
-				text-align: center;
-				color: inherit;
-			}
 		}
-
 		@media all and (min-width: 1200px) {
 			#userDetails{
 				margin: 0 20px;
 			}
 		}
 
-		#userHouses .tab-pane{
-            list-style: none;
-            display: block;
-            display: -webkit-flex;
-            display: -moz-flex;
-            display: -ms-flex;
-            display: -o-flex;
-            display: flex;
-            -webkit-flex-wrap: wrap;
-            -moz-flex-wrap: wrap;
-            -ms-flex-wrap: wrap;
-            -o-flex-wrap: wrap;
-            flex-wrap: wrap;
-            position: relative;
-            padding: 0;
-            margin: 0;
-        }
-        
-        #userHouses .tab-pane .house-card, .new-button{
-            width: calc(50% - 10px);
-            display: inline-block;
-            margin: 0 5px;
-            margin-bottom: 15px; 
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 0 1px rgba(0,0,0,0.35);
-            padding: 8px;
-        }
-
-        #userHouses .tab-pane .house-card .content h3{
-        	font-size: 1.2em;
-        	margin-bottom: 5px;
-        	margin-top: 15px;
-        	white-space: nowrap;
-        	overflow: hidden;
-        	-ms-text-overflow: ellipsis;
-        	text-overflow: ellipsis;
-        }
-
-        #userHouses .tab-pane .house-card .content .social-stuff{
-        	font-size: 0.9em;
-        	display: inline-block;
-        	width: 100%;
-        	white-space: nowrap;
-        	overflow: hidden;
-        	-ms-text-overflow: ellipsis;
-        	text-overflow: ellipsis;
-        }
-
-        #userHouses .tab-pane .house-card .content .social-stuff span{
-        	font-size: 0.8em;
-        }
-
-        #userHouses .tab-pane .house-card .image, .new-button .image{
-        	height: 150px; overflow: hidden;
-            border-radius: 5px;
-            background-color: #f4f4f4;
-        }
-
-        #userHouses .tab-pane .house-card .image img{
-            height: 100%;
-            min-width: 100%;
-        }
-
-        @media all and (min-width: 900px) {
-            #userHouses .tab-pane .new-button, #userHouses .tab-pane .house-card{
-                width: calc(33.333% - 10px);
-                padding: 16px;
-            }
-
-            #userHouses .tab-pane .house-card .image, .new-button .image{
-	        	height: 200px; overflow: hidden;
-	            border-radius: 5px;
-	            background-color: #f4f4f4;
-	        }
-        }
-
-        .house-card p{
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            -ms-text-overflow: ellipsis;
-            text-overflow: ellipsis;
-        }
     </style>
 
     <?php
@@ -346,33 +166,13 @@
 			@include('shop.profile_summary')
 
 			<div class="col-sm-12 col-md-8">
-				<div id="userHouses">
-					@if($errors->any())
-						<div class="alert alert-error alert-dismissible" role="alert">
-						  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						  <strong>Error!</strong>{{$errors->first()}}
-						</div>
-					@endif
-
-					@if (\Session::has('success'))
-					    <div class="alert alert-success alert-dismissible" role="alert">
-						  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						  <strong>Success!</strong> {!! \Session::get('success') !!}
-						</div>
-					@endif
-
-					<div role="tabpanel" class="tab-pane fade in active" id="shopProducts">
-						@include('shop.products')
-					</div>
-				</div>
+				@include('shop.sections')
 			</div>
 		</div>
 	</main>
 
     <script src="{{asset('js/jquery.rateyo.min.js')}}"></script>
-
     @include('rating.rate_it')
-
     <script>
 	    function ratingSet(formdata){
 		    var shop = "<?php echo $shop->id; ?>";

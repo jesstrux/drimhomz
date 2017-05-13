@@ -46,29 +46,9 @@
 
 <div id="profileSummaryLg" class="col-sm-12 col-md-4">
 	<div id="userDetails" class="text-center" style="padding-top: 0;">
-		<div id="shopImage" style="background-image: url({{asset($shop_url . $shop->image_url)}})">
-		</div>
-
+		<div id="shopImage" style="background-image: url({{asset($shop_url . $shop->image_url)}})"></div>
 		<h3 style="padding: 10px 20px;">{{$shop->name}}</h3>
-		<span class="real-description hidden-xs"><label>Quality Statement: </label></span>
-			<span class="real-description hidden-xs">
-         {{$shop->quality_statement}}
-    </span>
-		<span style="display: block">
-                      	<label>Service Statement:</label>
-                        <span class="real-description hidden-xs">
-                           {{$shop->service_statement}}
-                        </span>
-                    </span>
-
-		<div class="expert-info layout vertical">
-			<p style="padding: 2px 20px;"><span style="color: #ffa500; font-weight: bold;">Country:</span> <strong>{{$shop->country}}</strong></p>
-			<span class="real-description hidden-xs"><br>
-       <b>Town:</b> {{$shop->town}}
-    </span>
-				<p><span style="color: #ffa500; font-weight: bold;">By:</span> <strong> {{$shop->user->full_name()}}</strong></p></span>
-		</div>
-
+		<p><span style="color: #ffa500; font-weight: bold;">Seller:</span> <strong> {{$shop->user->full_name()}}</strong></p></span>
 
 		@if($myShop)
 			{{--<br>--}}
@@ -90,13 +70,12 @@
 </div>
 
 <div id="profileSummary" class="col-sm-12 col-md-4">
-	<div class="layout" style="padding: 20px; padding-top: 30px; min-height: 180px; background: #fff; margin-top: -15px; border-bottom: 1px solid #dddddd; margin-bottom: 16px;">
+	<div class="layout" style="padding: 20px; padding-top: 30px; min-height: 150px; background: #fff; margin-top: -15px; border-bottom: 1px solid #dddddd; margin-bottom: 16px;">
 		<div style="width: 120px; min-height: 75px; background: #dddddd; border: 1px solid #dddddd; min-width: 120px; margin-right: 20px; align-self: flex-start;">
 			<img src="{{asset($shop_url . $shop->image_url)}}" alt="" width="100%">
 		</div>
 		<div class="flex">
 			<span id="name" style="font-size: 1.6em;">{{$shop->name}}</span>
-			<p>{{$shop->products->count()}} products available</p>
 			<p>
 				<strong>Location:</strong>
 
