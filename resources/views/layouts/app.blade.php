@@ -340,5 +340,7 @@ if(!Auth::guest()){
     //     console.log(notification.type);
     // });
 </script>
+
+@yield('scripts')
 </body>
 </html>

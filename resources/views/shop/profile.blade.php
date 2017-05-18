@@ -182,5 +182,19 @@
 		    console.log(formdata.getAll("rating"));
 		    console.log(formdata.getAll("comment"));
 	    }
+
+
+        $(".user-rating").each(function(){
+            var rating = $(this).attr('my-rating');
+
+            $(this).rateYo({
+                readOnly: true,
+                maxValue: 5,
+                numStars: 5,
+                halfStar: true,
+                starWidth: "20px",
+                rating: rating
+            });
+        });
     </script>
 @endsection

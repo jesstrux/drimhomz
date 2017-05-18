@@ -62,6 +62,9 @@
         position: relative;
         padding: 0;
         margin: 0;
+        min-width: 100%;
+        width: 100%;
+        max-width: 100%;
     }
 
     .section .house-card, .section .new-button{

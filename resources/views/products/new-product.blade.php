@@ -125,14 +125,7 @@ if(!Auth::guest()){
                 console.log("Success! from new product, ", response);
                 showToast("success", "Product created!");
 
-                var proj_html = `<div style="cursor: pointer;" class="house-card">
-                    <div class="image">
-                        <img src="`+ product_base_url + product.image_url + `"/>
-                    </div>
-                     <div class="content">
-                        <h3 style="line-height: 30px;margin: 0; margin-top: 4px;">`+product.name+`</h3>
-                    </div>
-                </div>`;
+                var proj_html = '<div style="cursor: pointer;" class="house-card"> <div class="image"> <img src="'+ product_base_url + product.image_url + '"/> </div> <div class="content"> <h3 style="line-height: 30px;margin: 0; margin-top: 4px;">'+product.name+'</h3> </div> </div>';
 
                 var new_project = $(proj_html);
                 $("#createProductBtn").after(new_project);
